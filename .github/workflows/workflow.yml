@@ -32,10 +32,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: npm ci
-      - run: cd /packages/storybook
-      - run: npm ci
-      - run: npm run build-storybook
+      - name: Build core
+        working-directory: ./packages/core
+        run: npm ci && npm run build
+      - name: Build storybook
+        working-directory: ./packages/storybook
+        run: npm ci && npm run build-storybook
       - name: Setup Pages
+        working-directory: ./packages/storybook
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
