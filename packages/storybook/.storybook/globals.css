@@ -1,0 +1,8 @@
+.source-code.hidden {
+    display: none;
+}
+
+.stencil-props h1,
+.stencil-props table + hr {
+    display: none;
+}

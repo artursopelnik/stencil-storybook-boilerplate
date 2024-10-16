@@ -1,0 +1,61 @@
+import StencilMd from '@stencil-storybook-boilerplate/core/src/components/my-component/readme.md?raw'
+import { Markdown } from '@storybook/blocks'
+import {
+  Meta,
+  Title,
+  Canvas,
+  Source
+} from '@storybook/blocks'
+import * as MyComponentStories from './my-component.stories'
+
+<Meta of={MyComponentStories} />
+
+<Title />
+
+The `my-component` is used to provide a way to greet a user with their first, middle and last name.
+
+The component displays only the first and last name by default, but can optionally be extended with a middle name `middle`.
+
+## Table of Contents
+
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={MyComponentStories.Default} sourceState="none" meta={MyComponentStories} withToolbar={false} additionalActions={[
+    {
+        title: 'Show code',
+        onClick: () => document.querySelector('.source-code').classList.toggle('hidden'),
+    },
+    {
+        title: 'Show story',
+        onClick: () => window.open('/?path=/story/components-mycomponent--default'),
+    }
+]} />
+
+<div className="source-code hidden">
+    #### Vanilla JS
+
+    <Source language="html" dark={true} code={`<my-component first="John" middle="" last="Doe"></my-component>`}></Source>
+
+    #### Angular
+
+    <Source language="typescript" dark={true} code={`<my-component [first]="John" [middle]="" [last]="Doe"></my-component>`}></Source>
+
+    #### React
+
+    <Source language="tsx" dark={true} code={`<MyComponent first="John" middle="" last="Doe" />`}></Source>
+
+    #### Vue
+
+    <Source language="tsx" dark={true} code={`<MyComponent :first="'John'" :middle="" :last="'Doe'" />`}></Source>
+</div>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

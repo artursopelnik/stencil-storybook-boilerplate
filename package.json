@@ -1,0 +1,19 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@types/node": "^20.16.11"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.8",
+    "typescript": "^5.6.3",
+    "npm-check-updates": "^17.1.3"
+  },
+  "scripts": {
+    "update": "npx npm-check-updates",
+    "zip": "cd .. && tar -a -c -f stencil-storybook-boilerplate.zip --exclude \"node_modules\" stencil-storybook-boilerplate"
+  }
+}

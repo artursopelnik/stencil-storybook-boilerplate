@@ -1,0 +1,37 @@
+{
+  "name": "@stencil-storybook-boilerplate/react",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "directories": {
+    "dist": "dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artursopelnik/stencil-storybook-boilerplate.git"
+  },
+  "scripts": {
+    "build": "npm run tsc",
+    "tsc": "tsc -p . --outDir ./dist",
+    "update": "npx npm-check-updates"
+  },
+  "bugs": {
+    "url": "https://github.com/artursopelnik/stencil-storybook-boilerplate/issues"
+  },
+  "dependencies": {
+    "@stencil-storybook-boilerplate/core": "*",
+    "@stencil/react-output-target": "^0.7.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "license": "MIT"
+}
