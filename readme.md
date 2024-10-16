@@ -18,6 +18,9 @@ Alternatively, Storybook can also be reinstalled with `npx storybook@latest init
 
 ## 🚀 Setup
 
-- Choose compatible node version `nvm use`
-- Install dependencies `npm install`
-- Go to the Storybook package with `cd /packages/storybook` and use `npm run storybook.run` if you ONLY want to monitor the stories for changes in Storybook. If you also want to watch for changes in the web component itself, use `npm run storybook` instead.
+1. Select the compatible Node version: `nvm use`
+2. Install dependencies: `npm install`
+3. Navigate to the core package: `cd /packages/core` and build it with: `npm run build`
+4. Go to the Storybook package: `cd /packages/storybook`
+    - Use `npm run storybook.run` to monitor only the stories for changes in Storybook.
+    - Use `npm run storybook` to also watch for changes in the web component itself.
