@@ -4,7 +4,7 @@ name: Build & Deploy to GitHub Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [main]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -39,7 +39,6 @@ jobs:
         working-directory: ./packages/storybook
         run: npm ci && npm run build-storybook
       - name: Setup Pages
-        working-directory: ./packages/storybook
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
