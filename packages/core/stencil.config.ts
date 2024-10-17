@@ -25,6 +25,11 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
+    {
+      type: 'www',
+      dir: '../storybook/www',
+      serviceWorker: null, // disable service workers
+    },
     angularOutputTarget({
       componentCorePackage: '@stencil-storybook-boilerplate/core',
       outputType: 'component',

@@ -17,8 +17,10 @@ const config: StorybookConfig = {
     getAbsolutePath("@chromatic-com/storybook"),
   ],
   framework: {
-    name: getAbsolutePath("@storybook/web-components-vite")
+    name: getAbsolutePath("@storybook/web-components-vite"),
+    options: {}
   },
+  staticDirs: ['../public', { from: '../www', to: '/www' }],
   async viteFinal(config) {
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {

@@ -10,6 +10,7 @@
     "storybook.run": "storybook dev -p 6006",
     "storybook": "concurrently \"(cd ../core/ && npm start)\" \"npm run storybook.run\"",
     "build-storybook": "storybook build",
+    "preview-storybook": "npx http-server storybook-static",
     "update": "npx npm-check-updates"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "lit": "^3.2.1"
   },
   "devDependencies": {
+    "http-server": "^14.1.1",
     "@chromatic-com/storybook": "^2.0.2",
     "@storybook/addon-essentials": "^8.3.5",
     "@storybook/addon-links": "^8.3.5",
