@@ -2,6 +2,8 @@ import type { StorybookConfig } from "@storybook/web-components-vite";
 
 import { join, dirname } from "path";
 
+const { BASE_PATH } = process.env
+
 /**
  * This function is used to resolve the absolute path of a package.
  * It is needed in projects that use Yarn PnP or are set up within a monorepo.
@@ -20,9 +22,9 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/web-components-vite"),
     options: {}
   },
-  staticDirs: ['../public', { from: '../www', to: '/www' }],
+  staticDirs: ['../public', { from: '../www', to: `${BASE_PATH && BASE_PATH}/www` }],
   async viteFinal(config) {
-    config.base = process.env.BASE_PATH || config.base
+    config.base = BASE_PATH || config.base
 
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {
