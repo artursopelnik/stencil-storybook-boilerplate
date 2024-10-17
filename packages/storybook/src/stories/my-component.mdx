@@ -41,7 +41,7 @@ The component displays only the first and last name by default, but can optional
             const parts = splitted.filter(part => part.length > 0)
             const subdir = parts.length > 0 ? parts[0] : null
 
-            window.open(`${isSubdirectory ? subdir : '/'}?path=/story/components-mycomponent--default`)
+            window.open(`${isSubdirectory && '/' + subdir }/?path=/story/components-mycomponent--default`)
         }
     }
 ]} />
