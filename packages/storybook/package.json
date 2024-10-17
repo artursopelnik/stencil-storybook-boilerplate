@@ -10,6 +10,7 @@
     "storybook.run": "storybook dev -p 6006",
     "storybook": "concurrently \"(cd ../core/ && npm start)\" \"npm run storybook.run\"",
     "build-storybook": "storybook build",
+    "build-storybook-ci": "BASE_PATH=/stencil-storybook-boilerplate/ storybook build",
     "preview-storybook": "npx http-server storybook-static",
     "update": "npx npm-check-updates"
   },

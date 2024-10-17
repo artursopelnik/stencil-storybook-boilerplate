@@ -22,9 +22,10 @@ const config: StorybookConfig = {
   },
   staticDirs: ['../public', { from: '../www', to: '/www' }],
   async viteFinal(config) {
+    config.base = process.env.BASE_PATH || config.base
+
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {
-      base: '',
       build: {
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
