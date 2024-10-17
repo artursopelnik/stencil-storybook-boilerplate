@@ -22,7 +22,11 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/web-components-vite"),
     options: {}
   },
-  staticDirs: ['../public', { from: '../www', to: `${BASE_PATH && BASE_PATH}/www` }],
+  previewHead: (head) => `${head}
+    <script type="module" src="${BASE_PATH && BASE_PATH}www/build/stencil-storybook-boilerplate.esm.js"></script>
+    <script nomodule src="${BASE_PATH && BASE_PATH}www/build/stencil-storybook-boilerplate.js"></script>
+  `,
+  staticDirs: ['../public', { from: '../www', to: '/www' }],
   async viteFinal(config) {
     config.base = BASE_PATH || config.base
 
