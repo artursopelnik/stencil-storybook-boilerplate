@@ -24,6 +24,7 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {
+      base: '',
       build: {
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
