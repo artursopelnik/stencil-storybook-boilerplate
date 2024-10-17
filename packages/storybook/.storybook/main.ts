@@ -23,8 +23,8 @@ const config: StorybookConfig = {
     options: {}
   },
   previewHead: (head) => `${head}
-    <script type="module" src="${BASE_PATH && BASE_PATH}www/build/stencil-storybook-boilerplate.esm.js"></script>
-    <script nomodule src="${BASE_PATH && BASE_PATH}www/build/stencil-storybook-boilerplate.js"></script>
+    <script type="module" src="${BASE_PATH ? BASE_PATH : '/'}www/build/stencil-storybook-boilerplate.esm.js"></script>
+    <script nomodule src="${BASE_PATH ? BASE_PATH : '/'}www/build/stencil-storybook-boilerplate.js"></script>
   `,
   staticDirs: ['../public', { from: '../www', to: '/www' }],
   async viteFinal(config) {

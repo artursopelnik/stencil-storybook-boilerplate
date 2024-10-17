@@ -34,7 +34,15 @@ The component displays only the first and last name by default, but can optional
     },
     {
         title: 'Show story',
-        onClick: () => window.open('/?path=/story/components-mycomponent--default'),
+        onClick: () => {
+            const pathname = window.location.pathname
+            const splitted = pathname.split('/')
+            const isSubdirectory = splitted.filter(Boolean).length > 1
+            const parts = splitted.filter(part => part.length > 0)
+            const subdir = parts.length > 0 ? parts[0] : null
+
+            window.open(`${isSubdirectory ? subdir : '/'}?path=/story/components-mycomponent--default`)
+        }
     }
 ]} />
 
