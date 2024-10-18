@@ -7,6 +7,7 @@ import {
   Source
 } from '@storybook/blocks'
 import * as MyComponentStories from './my-component.stories'
+import { hrefTo } from '@storybook/addon-links'
 
 <Meta of={MyComponentStories} />
 
@@ -33,16 +34,8 @@ The component displays only the first and last name by default, but can optional
         onClick: () => document.querySelector('.source-code').classList.toggle('hidden'),
     },
     {
-        title: 'Show story',
-        onClick: () => {
-            const pathname = window.location.pathname
-            const splitted = pathname.split('/')
-            const isSubdirectory = splitted.filter(Boolean).length > 1
-            const parts = splitted.filter(part => part.length > 0)
-            const subdir = parts.length > 0 ? parts[0] : null
-
-            window.open(`${isSubdirectory && '/' + subdir }/?path=/story/components-mycomponent--default`)
-        }
+      title: 'Show story',
+      onClick: () => hrefTo('components-mycomponent', 'default').then((href) => window.open(href))
     }
 ]} />
 
