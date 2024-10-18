@@ -1,6 +1,6 @@
 # stencil-storybook-boilerplate
 
-*A boilerplate template for creating fast and robust design systems for React, Remix, Next.js, Vue, Angular or Vanilla JS Application ✨ with Stencil and Storybook.*
+*A boilerplate template for creating fast and robust design systems for React, Remix, Next.js, Vue, Angular or Vanilla JS Application ✨ with [Stencil](https://github.com/ionic-team/stencil), [Storybook](https://github.com/storybookjs/storybook), [Vite](https://github.com/vitejs/vite) and [TypeScript](https://github.com/microsoft/TypeScript).*
 
 Monorepo setup with *Lerna* according to the documentation
 at: [stenciljs.com/output-targets](https://stenciljs.com/docs/output-targets)
@@ -16,11 +16,34 @@ Alternatively, Storybook can also be reinstalled with `npx storybook@latest init
 - Node.js 20
 - Git
 
-## 🚀 Setup
+## 🚀 Getting Started
 
-1. Select the compatible Node version: `nvm use`
-2. Install dependencies: `npm install`
-3. Navigate to the core package: `cd /packages/core` and build it with: `npm run build`
+To start using this boilerplate, clone this repo to a new directory:
+
+```bash
+git clone https://github.com/artursopelnik/stencil-storybook-boilerplate.git
+```
+
+## 👩‍💻 Usage
+
+1. Install dependencies: `npm install`
+2. Navigate to the stencil core package: `cd /packages/core` and build it with: `npm run build`. To generate a new component, run: 
+```bash
+npm run generate <sub-folder>
+```
 4. Go to the Storybook package: `cd /packages/storybook`
     - Use `npm run storybook.run` to monitor only the stories for changes in Storybook.
     - Use `npm run storybook` to also watch for changes in the web component itself.
+  
+## 👏 Contributing
+- :octocat: [Pull requests](https://github.com/artursopelnik/stencil-storybook-boilerplate/pulls) and 🌟 stars are always welcome.
+- For major changes, please open an [issue](https://github.com/artursopelnik/stencil-storybook-boilerplate/issues) first to discuss what you would like to change.
+- Please make sure to update tests as appropriate.
+
+## 📩 Contact
+📧 artur.sopelnik93@gmail.com
+
+💼 Linkedin [@artursopelnik](https://www.linkedin.com/in/artur-sopelnik-b93656110/)
+
+## License
+MIT &copy; [Artur Sopelnik](https://github.com/artursopelnik/)
