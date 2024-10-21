@@ -1,9 +1,11 @@
-# stencil-storybook-boilerplate
+# [stencil-storybook-boilerplate](https://artursopelnik.github.io/stencil-storybook-boilerplate/)
 
-*A boilerplate template for creating fast and robust design systems for React, Remix, Next.js, Vue, Angular or Vanilla JS Application ✨ with [Stencil](https://github.com/ionic-team/stencil), [Storybook](https://github.com/storybookjs/storybook), [Vite](https://github.com/vitejs/vite) and [TypeScript](https://github.com/microsoft/TypeScript).*
+[![Build & Deploy to GitHub Pages](https://github.com/artursopelnik/stencil-storybook-boilerplate/actions/workflows/workflow.yml/badge.svg)](https://github.com/artursopelnik/stencil-storybook-boilerplate/actions/workflows/workflow.yml)
+[![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/artursopelnik/stencil-storybook-boilerplate/blob/main/LICENSE.txt)
 
-Monorepo setup with *Lerna* according to the documentation
-at: [stenciljs.com/output-targets](https://stenciljs.com/docs/output-targets)
+A boilerplate template for creating fast and robust design systems for React, Remix, Next.js, Vue, Angular or Vanilla JS Application ✨ with [Stencil](https://github.com/ionic-team/stencil), [Storybook](https://github.com/storybookjs/storybook), [Vite](https://github.com/vitejs/vite) and [TypeScript](https://github.com/microsoft/TypeScript). 
+
+Monorepo setup with *Lerna* according to the documentation at: [stenciljs.com/output-targets](https://stenciljs.com/docs/output-targets)
 
 For Storybook, we use the most commonly used integration for web components with Lit, Vite and TypeScript, so you
 already have a basic implementation of buttons, headers etc. Lit is not required and therefore basically
