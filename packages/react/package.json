@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@stencil-storybook-boilerplate/core": "*",
-    "@stencil/react-output-target": "^0.7.1",
+    "@stencil/react-output-target": "^0.7.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

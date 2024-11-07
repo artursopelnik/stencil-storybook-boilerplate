@@ -20,7 +20,8 @@
   },
   "scripts": {
     "build": "npm run tsc",
-    "tsc": "tsc -p . --outDir ./dist"
+    "tsc": "tsc -p . --outDir ./dist",
+    "update": "npx npm-check-updates"
   },
   "dependencies": {
     "@stencil-storybook-boilerplate/core": "*"

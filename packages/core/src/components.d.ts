@@ -37,7 +37,7 @@ declare namespace LocalJSX {
         /**
           * The first name
          */
-        "first"?: string;
+        "first": string;
         /**
           * The last name
          */
