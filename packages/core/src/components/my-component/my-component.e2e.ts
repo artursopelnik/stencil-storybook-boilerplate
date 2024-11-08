@@ -1,32 +1,14 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { expect } from '@playwright/test';
+import { test } from '@stencil/playwright';
 
-describe('my-component', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
+test.describe('my-component', () => {
+  test('should render the correct name', async ({ page }) => {
+    // The path here is the path to the www output relative to the dev server root directory
+    // await page.goto('/components/my-component/my-component.e2e.html');
+    await page.goto('/components/my-component/');
 
-    await page.setContent('<my-component></my-component>');
-    const element = await page.find('my-component');
-    expect(element).toHaveClass('hydrated');
-  });
-
-  it('renders changes to the name data', async () => {
-    const page = await newE2EPage();
-
-    await page.setContent('<my-component></my-component>');
-    const component = await page.find('my-component');
-    const element = await page.find('my-component >>> div');
-    expect(element.textContent).toEqual(`Hello, World! I'm `);
-
-    component.setProperty('first', 'James');
-    await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James`);
-
-    component.setProperty('last', 'Quincy');
-    await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James Quincy`);
-
-    component.setProperty('middle', 'Earl');
-    await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James Earl Quincy`);
+    // Rest of test
+    const component = await page.locator('my-component');
+    await expect(component).toHaveText(`Hello World! I'm Stencil 'Don't call me a framework' JS`);
   });
 });

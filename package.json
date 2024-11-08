@@ -13,6 +13,7 @@
     "npm-check-updates": "^17.1.10"
   },
   "scripts": {
+    "test": "npx lerna run test",
     "update": "npx npm-check-updates",
     "zip": "cd .. && tar -a -c -f stencil-storybook-boilerplate.zip --exclude \"node_modules\" stencil-storybook-boilerplate"
   }

@@ -17,6 +17,7 @@ type MyComponentEvents = NonNullable<unknown>;
 export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
     react: React,
     events: {} as MyComponentEvents,
     defineCustomElement: defineMyComponent
