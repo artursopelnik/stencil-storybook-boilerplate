@@ -22,7 +22,7 @@
   "scripts": {
     "build": "npm run tsc",
     "tsc": "tsc -p . --outDir ./dist",
-    "update": "npx npm-check-updates"
+    "update": "npx npm-check-updates -u"
   },
   "bugs": {
     "url": "https://github.com/artursopelnik/stencil-storybook-boilerplate/issues"

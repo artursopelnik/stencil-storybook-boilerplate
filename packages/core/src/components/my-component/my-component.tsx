@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import {Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
@@ -7,6 +7,11 @@ import { format } from '../../utils/utils';
   shadow: true,
 })
 export class MyComponent {
+  /**
+   * The number of times the button has been clicked.
+   */
+  @Prop() count: number = 0
+
   /**
    * The first name
    */
@@ -22,11 +27,26 @@ export class MyComponent {
    */
   @Prop() last: string;
 
+  /**
+   * Emitted when button is clicked. */
+  @Event({ bubbles: false }) public onButtonClick: EventEmitter
+
+  private _onClick(): void {
+    this.onButtonClick.emit()
+
+    this.count++
+  }
+
   private getText(): string {
     return format(this.first, this.middle, this.last);
   }
 
   render() {
-    return <div>Hello World! I'm {this.getText()}</div>;
+    return (
+      <Host>
+        <div>Hello World! I'm {this.getText()}</div><br />
+        <div><button onClick={this._onClick.bind(this)}>count is {this.count}</button></div>
+      </Host>
+    )
   }
 }

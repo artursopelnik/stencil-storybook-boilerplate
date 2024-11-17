@@ -12,26 +12,25 @@
     "build-storybook": "storybook build",
     "build-storybook-ci": "BASE_PATH=/stencil-storybook-boilerplate/ storybook build",
     "preview-storybook": "npx http-server storybook-static",
-    "update": "npx npm-check-updates"
+    "update": "npx npm-check-updates -u"
   },
   "dependencies": {
     "@stencil-storybook-boilerplate/core": "*",
     "lit": "^3.2.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.4.2",
-    "@storybook/addon-links": "^8.4.2",
-    "@storybook/blocks": "^8.4.2",
-    "@storybook/builder-vite": "^8.4.2",
-    "@storybook/test": "^8.4.2",
-    "@storybook/web-components": "^8.4.2",
-    "@storybook/web-components-vite": "^8.4.2",
+    "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-links": "^8.4.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/test": "^8.4.5",
+    "@storybook/web-components": "^8.4.5",
+    "@storybook/web-components-vite": "^8.4.5",
     "concurrently": "^9.1.0",
     "http-server": "^14.1.1",
-    "storybook": "^8.4.2",
-    "vite": "^5.4.10"
+    "storybook": "^8.4.5",
+    "vite": "^5.4.11"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.24.4"
+    "@rollup/rollup-linux-x64-gnu": "4.27.3"
   }
 }

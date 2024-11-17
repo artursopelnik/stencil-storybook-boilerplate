@@ -7,11 +7,19 @@
 
 ## Properties
 
-| Property             | Attribute | Description     | Type     | Default     |
-| -------------------- | --------- | --------------- | -------- | ----------- |
-| `first` _(required)_ | `first`   | The first name  | `string` | `undefined` |
-| `last`               | `last`    | The last name   | `string` | `undefined` |
-| `middle`             | `middle`  | The middle name | `string` | `undefined` |
+| Property             | Attribute | Description                                      | Type     | Default     |
+| -------------------- | --------- | ------------------------------------------------ | -------- | ----------- |
+| `count`              | `count`   | The number of times the button has been clicked. | `number` | `0`         |
+| `first` _(required)_ | `first`   | The first name                                   | `string` | `undefined` |
+| `last`               | `last`    | The last name                                    | `string` | `undefined` |
+| `middle`             | `middle`  | The middle name                                  | `string` | `undefined` |
+
+
+## Events
+
+| Event           | Description                     | Type               |
+| --------------- | ------------------------------- | ------------------ |
+| `onButtonClick` | Emitted when button is clicked. | `CustomEvent<any>` |
 
 
 ----------------------------------------------

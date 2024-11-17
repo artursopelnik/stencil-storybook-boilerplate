@@ -27,11 +27,11 @@
     "test.spec": "stencil test --spec",
     "test.e2e": "playwright test",
     "generate": "stencil generate",
-    "update": "npx npm-check-updates",
+    "update": "npx npm-check-updates -u",
     "preview": "npx http-server www"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.49.0",
     "@stencil/angular-output-target": "^0.10.0",
     "@stencil/core": "^4.22.2",
     "@stencil/playwright": "^0.2.1",
