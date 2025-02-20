@@ -13,6 +13,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
   'first',
   'middle',
   'last',
-  'onButtonClick'
+  'buttonClick'
+], [
+  'buttonClick'
 ]);
 

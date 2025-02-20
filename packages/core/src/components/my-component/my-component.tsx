@@ -1,4 +1,4 @@
-import {Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
+import { Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
@@ -29,10 +29,10 @@ export class MyComponent {
 
   /**
    * Emitted when button is clicked. */
-  @Event({ bubbles: false }) public onButtonClick: EventEmitter
+  @Event({ bubbles: false }) public buttonClick: EventEmitter
 
   private _onClick(): void {
-    this.onButtonClick.emit()
+    this.buttonClick.emit()
 
     this.count++
   }

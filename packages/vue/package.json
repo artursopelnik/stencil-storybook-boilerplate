@@ -1,33 +1,23 @@
 {
   "name": "@stencil-storybook-boilerplate/vue",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "directories": {
-    "dist": "dist"
-  },
   "files": [
+    "lib",
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/artursopelnik/stencil-storybook-boilerplate.git"
-  },
   "scripts": {
     "build": "npm run tsc",
-    "tsc": "tsc -p . --outDir ./dist",
-    "update": "npx npm-check-updates -u"
+    "tsc": "tsc -p . --outDir ./dist"
   },
   "dependencies": {
     "@stencil-storybook-boilerplate/core": "*"
   },
   "devDependencies": {
-    "vue": "^3.5.13"
+    "@stencil/vue-output-target": "^0.9.4",
+    "vue": "^3.5.13",
+    "typescript": "^5.7.3"
   },
   "license": "MIT"
 }

@@ -26,3 +26,4 @@ export const Default = {
   render: ({ first, middle, last, onClick }) =>
       html`<my-component first=${first} middle=${middle} last=${last} @click=${onClick}></my-component>`
 } satisfies StoryObj<MyComponent>
+

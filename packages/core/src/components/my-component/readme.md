@@ -17,9 +17,9 @@
 
 ## Events
 
-| Event           | Description                     | Type               |
-| --------------- | ------------------------------- | ------------------ |
-| `onButtonClick` | Emitted when button is clicked. | `CustomEvent<any>` |
+| Event         | Description                     | Type               |
+| ------------- | ------------------------------- | ------------------ |
+| `buttonClick` | Emitted when button is clicked. | `CustomEvent<any>` |
 
 
 ----------------------------------------------

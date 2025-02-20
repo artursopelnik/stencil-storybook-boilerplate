@@ -31,7 +31,7 @@ export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     interface HTMLMyComponentElementEventMap {
-        "onButtonClick": any;
+        "buttonClick": any;
     }
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
         addEventListener<K extends keyof HTMLMyComponentElementEventMap>(type: K, listener: (this: HTMLMyComponentElement, ev: MyComponentCustomEvent<HTMLMyComponentElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -72,7 +72,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when button is clicked.
          */
-        "onOnButtonClick"?: (event: MyComponentCustomEvent<any>) => void;
+        "onButtonClick"?: (event: MyComponentCustomEvent<any>) => void;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;

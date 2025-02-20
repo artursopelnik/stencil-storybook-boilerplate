@@ -1,51 +1,79 @@
-# [stencil-storybook-boilerplate](https://artursopelnik.github.io/stencil-storybook-boilerplate/)
+# [Stencil Storybook Boilerplate](https://artursopelnik.github.io/stencil-storybook-boilerplate/)
 
 [![Build & Deploy to GitHub Pages](https://github.com/artursopelnik/stencil-storybook-boilerplate/actions/workflows/workflow.yml/badge.svg)](https://github.com/artursopelnik/stencil-storybook-boilerplate/actions/workflows/workflow.yml)
 [![LICENSE](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/artursopelnik/stencil-storybook-boilerplate/blob/main/LICENSE.txt)
 
-A boilerplate template for creating fast and robust design systems for React, Remix, Next.js, Vue, Angular or Vanilla JS Application ✨ with [Stencil](https://github.com/ionic-team/stencil), [Storybook](https://github.com/storybookjs/storybook), [Vite](https://github.com/vitejs/vite) and [TypeScript](https://github.com/microsoft/TypeScript). 
+A modern boilerplate for building fast and robust design systems for [React](https://reactjs.org/), [Remix](https://remix.run/), [Next.js](https://nextjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/) or Vanilla JS applications ✨ using:
 
-Monorepo setup with *Lerna* according to the documentation at: [stenciljs.com/output-targets](https://stenciljs.com/docs/output-targets)
+- [Stencil](https://github.com/ionic-team/stencil)
+- [Storybook](https://github.com/storybookjs/storybook)
+- [Vite](https://github.com/vitejs/vite)
+- [TypeScript](https://github.com/microsoft/TypeScript)
 
-For Storybook, we use the most commonly used integration for web components with Lit, Vite and TypeScript, so you
-already have a basic implementation of buttons, headers etc. Lit is not required and therefore basically
-optional. When writing stories for web components built with Stencil, you don't have to use it, but you can, if you
-want, perform more advanced operations using the HTML tag for example.
-Alternatively, Storybook can also be reinstalled with `npx storybook@latest init` with another integration-template.
+This monorepo is structured using [Lerna](https://lerna.js.org/).
+
+## 📖 Features
+- **Optimized for Web Components**: Works seamlessly across frameworks
+- **Storybook Integration**: Built-in support for documenting and testing UI components
+- **Vite-Powered**: Lightning-fast development experience
+- **SSR-Ready with Next.js**: Unlike Lit, Stencil fully supports SSR with Next.js App Router
+- **Flexible**: Optional [Lit](https://lit.dev/) integration for advanced component handling
+
+## 🤔 Why Stencil over Lit?
+Stencil is the **only** Web Components framework that fully supports **SSR with Next.js App Router**. While Lit is better integrated with Storybook and Vite, it falls short due to:
+
+❌ Limited SSR support (only for the outdated Next.js Page Router)  
+❌ Buggy and experimental React integration  
+
+✅ **Why Stencil Wins:**
+- Full SSR support with Next.js App Router
+- JSX support
+- Optimized for modern Micro Frontends
+- Cleaner Design System integration
+
+---
 
 ## 💡 Requirements
-
-- Node.js 20
-- Git
+- [Node.js](https://nodejs.org/) 20+
+- [Git](https://git-scm.com/)
 
 ## 🚀 Getting Started
-
-To start using this boilerplate, clone this repo to a new directory:
-
+Clone this repository:
 ```bash
 git clone https://github.com/artursopelnik/stencil-storybook-boilerplate.git
+cd stencil-storybook-boilerplate
 ```
 
 ## 👩‍💻 Usage
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Navigate to the Stencil core package and build it:
+   ```bash
+   cd packages/core
+   npm run build
+   ```
+3. To generate a new component:
+   ```bash
+   npm run generate <sub-folder>
+   ```
+4. Go to the Storybook package:
+   ```bash
+   cd packages/storybook
+   ```
+   - Run **`npm run storybook.run`** to monitor only the Storybook stories.
+   - Run **`npm run storybook`** to also watch changes in the web components.
 
-1. Install dependencies: `npm install`
-2. Navigate to the stencil core package: `cd /packages/core` and build it with: `npm run build`. To generate a new component, run: 
-```bash
-npm run generate <sub-folder>
-```
-4. Go to the Storybook package: `cd /packages/storybook`
-    - Use `npm run storybook.run` to monitor only the stories for changes in Storybook.
-    - Use `npm run storybook` to also watch for changes in the web component itself.
-  
-## 👏 Contributing
-- :octocat: [Pull requests](https://github.com/artursopelnik/stencil-storybook-boilerplate/pulls) and 🌟 stars are always welcome.
-- For major changes, please open an [issue](https://github.com/artursopelnik/stencil-storybook-boilerplate/issues) first to discuss what you would like to change.
-- Please make sure to update tests as appropriate.
+## 🙌 Contributing
+We welcome contributions! 🚀
+- [Pull requests](https://github.com/artursopelnik/stencil-storybook-boilerplate/pulls) and ⭐ stars are always appreciated.
+- For major changes, please open an [issue](https://github.com/artursopelnik/stencil-storybook-boilerplate/issues) first.
+- Ensure tests are updated accordingly.
 
 ## 📩 Contact
-📧 artur.sopelnik93@gmail.com
+📧 Email: [artur.sopelnik93@gmail.com](mailto:artur.sopelnik93@gmail.com)  
+💼 LinkedIn: [@artursopelnik](https://www.linkedin.com/in/artur-sopelnik-b93656110/)
 
-💼 Linkedin [@artursopelnik](https://www.linkedin.com/in/artur-sopelnik-b93656110/)
-
-## License
+## 📜 License
 MIT &copy; [Artur Sopelnik](https://github.com/artursopelnik/)

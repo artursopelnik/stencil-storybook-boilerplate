@@ -1,0 +1,6 @@
+{
+  "format": "group",
+  "root": true,
+  "upgrade": true,
+  "workspaces": true
+}

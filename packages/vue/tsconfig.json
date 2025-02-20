@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "lib": ["dom", "es2020"],
-    "module": "es2015",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "es2017",
     "skipLibCheck": true
   },

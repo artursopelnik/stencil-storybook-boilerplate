@@ -18,11 +18,11 @@ import { Components } from '@stencil-storybook-boilerplate/core';
   inputs: ['count', 'first', 'last', 'middle'],
 })
 export class MyComponent {
-  protected el: HTMLElement;
+  protected el: HTMLMyComponentElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['onButtonClick']);
+    proxyOutputs(this, this.el, ['buttonClick']);
   }
 }
 
@@ -31,7 +31,7 @@ export declare interface MyComponent extends Components.MyComponent {
   /**
    * Emitted when button is clicked.
    */
-  onButtonClick: EventEmitter<CustomEvent<any>>;
+  buttonClick: EventEmitter<CustomEvent<any>>;
 }
 
 
