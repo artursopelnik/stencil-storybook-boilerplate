@@ -14,7 +14,7 @@ This monorepo is structured using [Lerna](https://lerna.js.org/).
 
 ## 📖 Features
 - **Optimized for Web Components**: Works seamlessly across frameworks
-- **Storybook Integration**: Built-in support for documenting and testing UI components with Hot Module Replacement (HMR)
+- **Storybook Integration**: Support for documenting and testing UI components with Hot Module Replacement
 - **Vite-Powered**: Lightning-fast development experience
 - **SSR-Ready with Next.js**: Unlike Lit, Stencil fully supports SSR with Next.js App Router
 - **Flexible**: Optional [Lit](https://lit.dev/) integration for advanced component handling in Storybook
