@@ -14,10 +14,10 @@ This monorepo is structured using [Lerna](https://lerna.js.org/).
 
 ## 📖 Features
 - **Optimized for Web Components**: Works seamlessly across frameworks
-- **Storybook Integration**: Built-in support for documenting and testing UI components
+- **Storybook Integration**: Built-in support for documenting and testing UI components with Hot Module Replacement (HMR)
 - **Vite-Powered**: Lightning-fast development experience
 - **SSR-Ready with Next.js**: Unlike Lit, Stencil fully supports SSR with Next.js App Router
-- **Flexible**: Optional [Lit](https://lit.dev/) integration for advanced component handling
+- **Flexible**: Optional [Lit](https://lit.dev/) integration for advanced component handling in Storybook
 
 ## 🤔 Why Stencil over Lit?
 Stencil is the **only** Web Components framework that fully supports **SSR with Next.js App Router**. While Lit is better integrated with Storybook and Vite, it falls short due to:
