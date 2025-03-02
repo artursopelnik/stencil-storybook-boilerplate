@@ -28,7 +28,8 @@
     "concurrently": "^9.1.2",
     "http-server": "^14.1.1",
     "storybook": "^8.5.8",
-    "vite": "^6.1.1"
+    "vite": "^6.1.1",
+    "vite-plugin-live-reload": "^3.0.4"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.34.8"
