@@ -5,13 +5,13 @@
     "packages/*"
   ],
   "dependencies": {
-    "@types/node": "^22.13.4"
+    "@types/node": "^22.13.8"
   },
   "devDependencies": {
     "lerna": "^8.2.0",
-    "typescript": "^5.7.3",
-    "npm-check-updates": "^17.1.14",
-    "prettier": "^3.5.1"
+    "typescript": "^5.8.2",
+    "npm-check-updates": "^17.1.15",
+    "prettier": "^3.5.3"
   },
   "scripts": {
     "update": "npx npm-check-updates -u",

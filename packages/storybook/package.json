@@ -19,19 +19,19 @@
     "lit": "^3.2.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.5.8",
-    "@storybook/addon-links": "^8.5.8",
-    "@storybook/blocks": "^8.5.8",
-    "@storybook/test": "^8.5.8",
-    "@storybook/web-components": "^8.5.8",
-    "@storybook/web-components-vite": "^8.5.8",
+    "@storybook/addon-essentials": "^8.6.3",
+    "@storybook/addon-links": "^8.6.3",
+    "@storybook/blocks": "^8.6.3",
+    "@storybook/test": "^8.6.3",
+    "@storybook/web-components": "^8.6.3",
+    "@storybook/web-components-vite": "^8.6.3",
     "concurrently": "^9.1.2",
     "http-server": "^14.1.1",
-    "storybook": "^8.5.8",
-    "vite": "^6.1.1",
+    "storybook": "^8.6.3",
+    "vite": "^6.2.0",
     "vite-plugin-live-reload": "^3.0.4"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.34.8"
+    "@rollup/rollup-linux-x64-gnu": "4.34.9"
   }
 }
