@@ -35,7 +35,12 @@ const config: StorybookConfig = {
     config.base = BASE_PATH || config.base
 
     const { mergeConfig } = await import('vite');
+    const { liveReload } = await import('vite-plugin-live-reload');
+
     return mergeConfig(config, {
+      plugins: [
+        liveReload('../core/www/build/stencil-storybook-boilerplate.esm.js'),
+      ],
       build: {
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
