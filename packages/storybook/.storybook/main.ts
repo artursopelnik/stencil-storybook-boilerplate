@@ -41,7 +41,7 @@ const config: StorybookConfig = {
 
     return mergeConfig(config, {
       plugins: [
-        liveReload('../core/www/build/stencil-storybook-boilerplate.esm.js'),
+        liveReload(['www/build/stencil-storybook-boilerplate.esm.js', 'www/build/stencil-storybook-boilerplate.js']),
       ],
       build: {
         chunkSizeWarningLimit: 1000,

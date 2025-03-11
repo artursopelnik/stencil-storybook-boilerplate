@@ -21,7 +21,7 @@ export default defineConfig({
         resolve(__dirname, './src/themes/light.css'),
       ],
       formats: ['es'],
-      name: 'KfWDesignSystem'
+      name: 'DesignSystem'
     },
   },
 })
