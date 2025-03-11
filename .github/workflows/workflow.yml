@@ -32,6 +32,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - run: npm ci
+      - name: Build tokens
+        working-directory: ./packages/design-tokens
+        run: npm ci && npm run build
       - name: Build core
         working-directory: ./packages/core
         run: npm ci && npm run build
