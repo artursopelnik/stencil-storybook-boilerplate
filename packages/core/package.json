@@ -1,6 +1,7 @@
 {
   "name": "@stencil-storybook-boilerplate/core",
   "private": true,
+  "type": "module",
   "version": "0.0.1",
   "description": "Stencil Component Starter",
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
@@ -22,10 +23,9 @@
   ],
   "scripts": {
     "start": "concurrently 'npm run start:css' 'npm run start:js'",
-
     "build": "npm run build:css && npm run build:js",
-    "build:css": "vite build --config vite-style.config.ts",
-    "start:css": "vite build --config vite-style.config.ts --watch",
+    "build:css": "vite build --config vite-style.config.js",
+    "start:css": "vite build --config vite-style.config.js --watch",
     "build:js": "stencil build --docs",
     "start:js": "stencil build --docs --watch",
     "test": "npm run test.spec && npm run test.e2e",
