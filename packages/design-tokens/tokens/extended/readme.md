@@ -1,6 +1,6 @@
 # Style-Dictionary Extended Design Tokens
 
-Das Skript `build.ts` generiert Design Tokens (JSON-Dateien) basierend auf Ihrer Referenz und dem zu extendenden Objekt.
+Das Skript `build.js` generiert Design Tokens (JSON-Dateien) basierend auf Ihrer Referenz und dem zu extendenden Objekt.
 Es nutzt die lodash-Bibliothek zum Mergen der Daten und json5, um JSON5-Dateien zu lesen und zu schreiben.
 Durch die Verwendung von Extends wird die Light-Version als Ausgangspunkt festgelegt, da sich abweichende Themes wie "dark" nur minimal ändern.
 
