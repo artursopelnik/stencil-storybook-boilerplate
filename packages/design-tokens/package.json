@@ -1,0 +1,23 @@
+{
+  "name": "@stencil-storybook-boilerplate/design-tokens",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "main": "sd.config.js",
+  "scripts": {
+    "start": "concurrently 'npm run watch' 'npm run watch:extended'",
+    "watch": "tsx watch --exclude './tokens/gen-*.**' --include './tokens/*.**' sd.config.js",
+    "watch:extended": "tsx watch --include './tokens/extended/tokens/*.**' ./tokens/extended/build.js",
+    "build": "npm run build:extended && node sd.config.js",
+    "build:extended": "node ./tokens/extended/build.js"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.3",
+    "concurrently": "^9.1.2",
+    "lodash": "^4.17.21",
+    "json5": "^2.2.3",
+    "tsx": "^4.19.3"
+  },
+  "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
+  "license": "MIT"
+}

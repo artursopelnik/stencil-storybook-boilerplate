@@ -1,0 +1,6 @@
+@import "@stencil-storybook-boilerplate/design-tokens/dist/css/variables.light.css";
+
+body {
+  background-color: var(--ssb-global-color-white);
+  color: var(--ssb-global-color-black);
+}

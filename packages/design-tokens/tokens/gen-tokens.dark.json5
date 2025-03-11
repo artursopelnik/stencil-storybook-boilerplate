@@ -1,0 +1,53 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ * By /Users/.../IdeaProjects/stencil-storybook-boilerplate/packages/design-tokens/tokens/extended/tokens/tokens.dark.json
+ */
+
+{
+  "global / color": {
+    black: {
+      $type: "color",
+      $value: "#000000",
+      $description: "Black",
+    },
+    white: {
+      $type: "color",
+      $value: "#ffffff",
+      $description: "White",
+    },
+    blue: {
+      $type: "color",
+      $value: "#646cff",
+      $description: "Blue",
+    },
+    gray: {
+      "400": {
+        $type: "color",
+        $value: "#f9f9f9",
+        $description: "Gray",
+      },
+      "500": {
+        $type: "color",
+        $value: "#1a1a1a",
+        $description: "Gray",
+      },
+    },
+  },
+  "alias / color": {
+    primary: {
+      $type: "color",
+      $value: "{global / color.gray.500}",
+      $description: "Gray",
+    },
+    "hover-primary": {
+      $type: "color",
+      $value: "{global / color.blue}",
+      $description: "Gray",
+    },
+    "text-on-primary": {
+      $type: "color",
+      $value: "{global / color.white}",
+      $description: "Gray",
+    },
+  },
+}

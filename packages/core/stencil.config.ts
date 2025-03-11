@@ -2,14 +2,16 @@ import { Config } from '@stencil/core';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { angularOutputTarget } from '@stencil/angular-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
-import { sass } from '@stencil/sass';
-
+import postcss from 'rollup-plugin-postcss';
 export const config: Config = {
   namespace: 'stencil-storybook-boilerplate',
-  plugins: [sass()],
   outputTargets: [
     {
       type: 'dist',
+      copy: [
+        { src: 'themes/vite-generated/light.css', dest: 'themes/light.css' },
+        { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' }
+      ],
       esmLoaderPath: '../loader',
     },
     {
@@ -45,7 +47,13 @@ export const config: Config = {
       proxiesFile: '../vue/lib/stencil-generated/components.ts',
     }),
   ],
-  testing: {
-    browserHeadless: "new",
-  },
+  plugins: [
+    postcss({
+      extract: true,
+      minimize: true
+    })
+  ],
+  watchIgnoredRegex: [
+    /src\/themes\/[^\/]+\.css$/
+  ]
 };

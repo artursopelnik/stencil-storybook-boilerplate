@@ -21,8 +21,13 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build --docs",
-    "start": "stencil build --docs --watch",
+    "start": "concurrently 'npm run start:css' 'npm run start:js'",
+
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "vite build --config vite-style.config.ts",
+    "start:css": "vite build --config vite-style.config.ts --watch",
+    "build:js": "stencil build --docs",
+    "start:js": "stencil build --docs --watch",
     "test": "npm run test.spec && npm run test.e2e",
     "test.spec": "stencil test --spec",
     "test.e2e": "playwright test",
@@ -31,17 +36,21 @@
     "preview": "npx http-server www"
   },
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
+    "concurrently": "^9.1.2",
+    "vite": "^6.2.1",
+    "@playwright/test": "^1.51.0",
     "@stencil/angular-output-target": "^0.10.2",
-    "@stencil/core": "4.27.1",
+    "@stencil/core": "^4.27.2",
     "@stencil/playwright": "^0.2.1",
     "@stencil/react-output-target": "^0.8.2",
-    "@stencil/sass": "3.0.12",
-    "@stencil/vue-output-target": "^0.9.5",
+    "@stencil/sass": "3.1.9",
+    "@stencil/utils": "^0.0.5",
+    "@stencil/vue-output-target": "^0.9.6",
     "@types/jest": "^29.5.14",
     "http-server": "^14.1.1",
     "jest": "^29.7.0",
-    "jest-cli": "^29.7.0"
+    "jest-cli": "^29.7.0",
+    "rollup-plugin-postcss": "^4.0.2"
   },
   "license": "MIT"
 }

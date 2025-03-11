@@ -5,10 +5,10 @@
     "packages/*"
   ],
   "dependencies": {
-    "@types/node": "^22.13.8"
+    "@types/node": "^22.13.10"
   },
   "devDependencies": {
-    "lerna": "^8.2.0",
+    "lerna": "^8.2.1",
     "typescript": "^5.8.2",
     "npm-check-updates": "^17.1.15",
     "prettier": "^3.5.3"
