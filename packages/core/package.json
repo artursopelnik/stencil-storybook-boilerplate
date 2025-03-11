@@ -23,11 +23,11 @@
   ],
   "scripts": {
     "start": "concurrently 'npm run start:css' 'npm run start:js'",
+    "start:css": "vite build --config vite-style.config.js --watch",
+    "start:js": "stencil build --docs --watch",
     "build": "npm run build:css && npm run build:js",
     "build:css": "vite build --config vite-style.config.js",
-    "start:css": "vite build --config vite-style.config.js --watch",
     "build:js": "stencil build --docs",
-    "start:js": "stencil build --docs --watch",
     "test": "npm run test.spec && npm run test.e2e",
     "test.spec": "stencil test --spec",
     "test.e2e": "playwright test",

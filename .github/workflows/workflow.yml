@@ -37,7 +37,7 @@ jobs:
         run: npm ci && npm run build
       - name: Build core
         working-directory: ./packages/core
-        run: npm ci && npm run build
+        run: npm ci && npm run build:js
       - name: Build storybook
         working-directory: ./packages/storybook
         run: npm ci && npm run build-storybook-ci
