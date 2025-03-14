@@ -11,7 +11,7 @@ A modern boilerplate for building fast and robust design systems for [React](htt
 - [TypeScript](https://github.com/microsoft/TypeScript)
 - [Style Dictionary](https://github.com/amzn/style-dictionary)
 
-This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://github.com/artursopelnik/how-to-use-storybook-with-stencil-in-2025). 
+This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://www.designsystemscollective.com/how-to-use-storybook-with-stencil-in-2025-and-why-lit-isnt-the-best-choice-81fb5c2d521e). 
 
 ## 📖 Features
 - **Optimized for Web Components**: Works seamlessly across frameworks
