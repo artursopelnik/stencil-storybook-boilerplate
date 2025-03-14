@@ -15,9 +15,10 @@ This monorepo is structured using [Lerna](https://lerna.js.org/).
 
 ## 📖 Features
 - **Optimized for Web Components**: Works seamlessly across frameworks
-- **Storybook Integration**: Supports documenting and testing UI components with dark mode and Hot Module Replacement
+- **Storybook Integration**: Supports documenting and testing UI components, complete with dark mode support and Hot Module Replacement (HMR)
 - **Vite-Powered**: Lightning-fast development experience
-- **SSR-Ready with Next.js**: Unlike Lit, Stencil fully supports SSR with Next.js App Router
+- **SSR-Ready with Next.js**: Fully supports Server-Side Rendering (SSR) with the Next.js App Router, unlike Lit
+- **Fully Typed Arguments**: Leverages TypeScript for enhanced type safety
 - **Design Tokens Support**: Enables consistent theming with customizable design tokens
 
 ## 🤔 Why Stencil over Lit?
