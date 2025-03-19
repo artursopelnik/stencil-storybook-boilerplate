@@ -6,13 +6,15 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SelectedAriaAttributes } from "./types";
+import { ARIA } from "./utils";
 export { SelectedAriaAttributes } from "./types";
+export { ARIA } from "./utils";
 export namespace Components {
     interface MyComponent {
         /**
           * aria
          */
-        "aria"?: SelectedAriaAttributes<'aria-label' | 'aria-disabled'>;
+        "aria"?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
         /**
           * The number of times the button has been clicked.
          */
@@ -62,7 +64,7 @@ declare namespace LocalJSX {
         /**
           * aria
          */
-        "aria"?: SelectedAriaAttributes<'aria-label' | 'aria-disabled'>;
+        "aria"?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
         /**
           * The number of times the button has been clicked.
          */

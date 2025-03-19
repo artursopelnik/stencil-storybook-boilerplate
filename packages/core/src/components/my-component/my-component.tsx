@@ -1,5 +1,5 @@
 import { Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
-import { format, getAriaAttributes } from '../../utils';
+import {ARIA, format, getAriaAttributes } from '../../utils';
 import { SelectedAriaAttributes } from '../../types';
 
 @Component({
@@ -31,7 +31,8 @@ export class MyComponent {
   /**
    * aria
    */
-  @Prop() aria?: SelectedAriaAttributes<'aria-label' | 'aria-disabled'>;
+
+  @Prop() aria?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
 
   /**
    * Emitted when button is clicked. */
@@ -50,11 +51,11 @@ export class MyComponent {
   render() {
     return (
       <Host>
-        <div {...getAriaAttributes(this.aria)}>
+        <div>
           <div>Hello World! I'm {this.getText()}</div>
           <br />
           <div>
-            <button onClick={this._onClick.bind(this)}>count is {this.count}</button>
+            <button {...getAriaAttributes(this.aria)} onClick={this._onClick.bind(this)}>count is {this.count}</button>
           </div>
         </div>
       </Host>
