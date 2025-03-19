@@ -55,20 +55,21 @@ export enum ARIA {
   AriaValuemin = 'aria-valuemin',
   AriaValuenow = 'aria-valuenow',
   AriaValuetext = 'aria-valuetext',
-  Role = 'role'
+  Role = 'role',
 }
 
-const isValidAriaKey = (key: string): key is keyof typeof ARIA =>
-  Object.values(ARIA).includes(key as ARIA)
+const isValidAriaKey = (key: string): key is keyof typeof ARIA => Object.values(ARIA).includes(key as ARIA);
 
 const isValidAriaValue = (val: unknown): val is string | number | boolean => ['string', 'number', 'boolean'].includes(typeof val);
 
 export const parseAndGetAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
-  rawAttributes ? Object.fromEntries(
-    Object.entries(parseJSONAttribute(rawAttributes))
-      .map(([key, val]) => [key, typeof val === 'boolean' ? `${val}` : val])
-      .filter(([, val]) => val !== undefined)
-  ) : undefined;
+  rawAttributes
+    ? Object.fromEntries(
+        Object.entries(parseJSONAttribute(rawAttributes))
+          .map(([key, val]) => [key, typeof val === 'boolean' ? `${val}` : val])
+          .filter(([, val]) => val !== undefined),
+      )
+    : undefined;
 
 export const validateAriaAttributes = (attributes: Record<string, string | number | boolean>): boolean =>
   Object.entries(attributes).every(([key, val]) => {
@@ -79,7 +80,7 @@ export const validateAriaAttributes = (attributes: Record<string, string | numbe
 
 export const getAriaAttributes = <T extends keyof AriaAttributes>(aria: SelectedAriaAttributes<T>): AriaAttributes => {
   if (typeof aria !== 'object' || aria === null) {
-    console.error("Invalid ARIA attributes: Expected an object");
+    console.error('Invalid ARIA attributes: Expected an object');
     return {};
   }
 

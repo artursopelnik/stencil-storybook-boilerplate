@@ -1,4 +1,4 @@
-import {html, nothing} from "lit"
+import { html, nothing } from "lit"
 import type { Meta, StoryObj } from "@storybook/web-components"
 
 // @ts-ignore because Intellij does not understand imports within Lerna monorepos
@@ -11,8 +11,8 @@ const meta = {
     middle: "",
     last: "Doe",
     aria: {
-      "aria-label": "Some label"
-    }
+      "aria-label": "Some label",
+    },
   },
   argTypes: {
     first: {
@@ -28,7 +28,7 @@ export default meta
 export const Default = {
   render: ({ first, middle, last, aria, onClick }) =>
     html`<my-component
-      .aria="${aria  || nothing}"
+      .aria="${aria || nothing}"
       first=${first}
       middle=${middle || nothing}
       last=${last}

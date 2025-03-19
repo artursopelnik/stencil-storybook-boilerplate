@@ -1,5 +1,5 @@
-import { Booleanish } from "./booleanish";
-import { ARIA } from "../utils";
+import { Booleanish } from './booleanish';
+import { ARIA } from '../utils';
 
 export type AriaAttributes = {
   [ARIA.AriaActiveDescendant]?: string;
@@ -129,4 +129,3 @@ type AriaRole =
   | 'tree'
   | 'treegrid'
   | 'treeitem';
-
