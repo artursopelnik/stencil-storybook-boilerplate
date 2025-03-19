@@ -25,6 +25,7 @@
     "start": "concurrently 'npm run start:css' 'npm run start:js'",
     "start:css": "vite build --config vite-style.config.js --watch",
     "start:js": "stencil build --docs --watch",
+    "start:preview": "concurrently 'npm run preview' 'npm run start:js'",
     "build": "npm run build:css && npm run build:js",
     "build:css": "vite build --config vite-style.config.js",
     "build:js": "stencil build --docs",

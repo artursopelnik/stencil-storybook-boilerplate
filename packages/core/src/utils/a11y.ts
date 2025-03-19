@@ -62,15 +62,6 @@ const isValidAriaKey = (key: string): key is keyof typeof ARIA => Object.values(
 
 const isValidAriaValue = (val: unknown): val is string | number | boolean => ['string', 'number', 'boolean'].includes(typeof val);
 
-export const parseAndGetAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
-  rawAttributes
-    ? Object.fromEntries(
-        Object.entries(parseJSONAttribute(rawAttributes))
-          .map(([key, val]) => [key, typeof val === 'boolean' ? `${val}` : val])
-          .filter(([, val]) => val !== undefined),
-      )
-    : undefined;
-
 export const validateAriaAttributes = (attributes: Record<string, string | number | boolean>): boolean =>
   Object.entries(attributes).every(([key, val]) => {
     const valid = isValidAriaKey(key) && isValidAriaValue(val);
@@ -78,7 +69,18 @@ export const validateAriaAttributes = (attributes: Record<string, string | numbe
     return valid;
   });
 
-export const getAriaAttributes = <T extends keyof AriaAttributes>(aria: SelectedAriaAttributes<T>): AriaAttributes => {
+export const parseAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
+  rawAttributes
+    ? Object.fromEntries(
+      Object.entries(parseJSONAttribute(rawAttributes)).map(([key, val]) => [
+        key,
+        typeof val === 'boolean' ? `${val}` : val,
+      ]))
+    : undefined;
+
+export const getAriaAttributes = <T extends keyof AriaAttributes>(selectedAria: SelectedAriaAttributes<T>): AriaAttributes => {
+  const aria = parseAriaAttributes(selectedAria)
+
   if (typeof aria !== 'object' || aria === null) {
     console.error('Invalid ARIA attributes: Expected an object');
     return {};
