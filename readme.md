@@ -21,6 +21,7 @@ This monorepo is structured using [Lerna](https://lerna.js.org/). For more detai
 - **SSR-Ready with Next.js**: Fully supports Server-Side Rendering (SSR) with the Next.js App Router, unlike Lit
 - **Fully Typed Arguments**: Leverages TypeScript for enhanced type safety
 - **Design Tokens Support**: Enables consistent theming with customizable design tokens
+- **Accessibility-Focused**: Pass and validate aria properties to ensure inclusivity and better usability.
 
 ## 🤔 Why Stencil over Lit?
 
