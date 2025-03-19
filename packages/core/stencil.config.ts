@@ -10,7 +10,7 @@ export const config: Config = {
       type: 'dist',
       copy: [
         { src: 'themes/vite-generated/light.css', dest: 'themes/light.css' },
-        { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' }
+        { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' },
       ],
       esmLoaderPath: '../loader',
     },
@@ -26,7 +26,7 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
-      copy: [{ src: '**/*.html' }, { src: '**/*.css' }]
+      copy: [{ src: '**/*.html' }, { src: '**/*.css' }],
     },
     {
       type: 'www',
@@ -40,7 +40,7 @@ export const config: Config = {
       directivesArrayFile: '../angular/projects/component-library/src/lib/stencil-generated/index.ts',
     }),
     reactOutputTarget({
-      outDir: '../react/lib/components/stencil-generated/'
+      outDir: '../react/lib/components/stencil-generated/',
     }),
     vueOutputTarget({
       componentCorePackage: '@stencil-storybook-boilerplate/core',
@@ -50,10 +50,8 @@ export const config: Config = {
   plugins: [
     postcss({
       extract: true,
-      minimize: true
-    })
+      minimize: true,
+    }),
   ],
-  watchIgnoredRegex: [
-    /src\/themes\/[^\/]+\.css$/
-  ]
+  watchIgnoredRegex: [/src\/themes\/[^\/]+\.css$/],
 };

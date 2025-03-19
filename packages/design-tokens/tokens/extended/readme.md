@@ -14,4 +14,4 @@ Durch die Verwendung von Extends wird die Light-Version als Ausgangspunkt festge
 1. Wählen Sie die kompatible Node-Version: `nvm use`
 2. Dependencies installieren: `npm install`
 3. Projekt bauen `npm run build`
-    - (optional) Projekt bauen mit watch `npm run start`
+   - (optional) Projekt bauen mit watch `npm run start`

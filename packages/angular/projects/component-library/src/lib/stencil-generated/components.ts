@@ -8,14 +8,14 @@ import { Components } from '@stencil-storybook-boilerplate/core';
 
 
 @ProxyCmp({
-  inputs: ['count', 'first', 'last', 'middle']
+  inputs: ['aria', 'count', 'first', 'last', 'middle']
 })
 @Component({
   selector: 'my-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['count', 'first', 'last', 'middle'],
+  inputs: ['aria', 'count', 'first', 'last', 'middle'],
 })
 export class MyComponent {
   protected el: HTMLMyComponentElement;

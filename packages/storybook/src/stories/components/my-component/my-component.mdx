@@ -1,13 +1,8 @@
-import StencilMd from '@stencil-storybook-boilerplate/core/src/components/my-component/readme.md?raw'
-import { Markdown } from '@storybook/blocks'
-import {
-  Meta,
-  Title,
-  Canvas,
-  Source
-} from '@storybook/blocks'
-import * as MyComponentStories from './my-component.stories'
-import { hrefTo } from '@storybook/addon-links'
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/my-component/readme.md?raw"
+import { Markdown } from "@storybook/blocks"
+import { Meta, Title, Canvas, Source } from "@storybook/blocks"
+import * as MyComponentStories from "./my-component.stories"
+import { hrefTo } from "@storybook/addon-links"
 
 <Meta of={MyComponentStories} />
 
@@ -28,16 +23,26 @@ The component displays only the first and last name by default, but can optional
 
 ### Default
 
-<Canvas of={MyComponentStories.Default} sourceState="none" meta={MyComponentStories} withToolbar={false} additionalActions={[
+<Canvas
+  of={MyComponentStories.Default}
+  sourceState="none"
+  meta={MyComponentStories}
+  withToolbar={false}
+  additionalActions={[
     {
-        title: 'Show code',
-        onClick: () => document.querySelector('.source-code').classList.toggle('hidden'),
+      title: "Show code",
+      onClick: () =>
+        document.querySelector(".source-code").classList.toggle("hidden"),
     },
     {
-      title: 'Show story',
-      onClick: () => hrefTo('components-mycomponent', 'default').then((href) => window.open(href))
-    }
-]} />
+      title: "Show story",
+      onClick: () =>
+        hrefTo("components-mycomponent", "default").then((href) =>
+          window.open(href),
+        ),
+    },
+  ]}
+/>
 
 <div className="source-code hidden">
     #### Vanilla JS
@@ -55,6 +60,7 @@ The component displays only the first and last name by default, but can optional
     #### Vue
 
     <Source language="tsx" dark={true} code={`<MyComponent :first="'John'" :middle="" :last="'Doe'" />`}></Source>
+
 </div>
 
 <div className="stencil-props">

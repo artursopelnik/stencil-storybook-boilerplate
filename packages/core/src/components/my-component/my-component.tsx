@@ -1,5 +1,6 @@
 import { Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { format, getAriaAttributes } from '../../utils';
+import { SelectedAriaAttributes } from '../../types';
 
 @Component({
   tag: 'my-component',
@@ -10,7 +11,7 @@ export class MyComponent {
   /**
    * The number of times the button has been clicked.
    */
-  @Prop() count: number = 0
+  @Prop() count: number = 0;
 
   /**
    * The first name
@@ -28,13 +29,18 @@ export class MyComponent {
   @Prop() last: string;
 
   /**
+   * aria
+   */
+  @Prop() aria?: SelectedAriaAttributes<'aria-label' | 'aria-disabled'>;
+
+  /**
    * Emitted when button is clicked. */
-  @Event({ bubbles: false }) public buttonClick: EventEmitter
+  @Event({ bubbles: false }) public buttonClick: EventEmitter;
 
   private _onClick(): void {
-    this.buttonClick.emit()
+    this.buttonClick.emit();
 
-    this.count++
+    this.count++;
   }
 
   private getText(): string {
@@ -44,9 +50,14 @@ export class MyComponent {
   render() {
     return (
       <Host>
-        <div>Hello World! I'm {this.getText()}</div><br />
-        <div><button onClick={this._onClick.bind(this)}>count is {this.count}</button></div>
+        <div {...getAriaAttributes(this.aria)}>
+          <div>Hello World! I'm {this.getText()}</div>
+          <br />
+          <div>
+            <button onClick={this._onClick.bind(this)}>count is {this.count}</button>
+          </div>
+        </div>
       </Host>
-    )
+    );
   }
 }

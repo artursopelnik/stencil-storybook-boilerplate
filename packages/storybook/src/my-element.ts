@@ -1,7 +1,7 @@
-import { LitElement, css, html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import litLogo from './assets/lit.svg'
-import viteLogo from '/vite.svg'
+import { LitElement, css, html } from "lit"
+import { customElement, property } from "lit/decorators.js"
+import litLogo from "./assets/lit.svg"
+import viteLogo from "/vite.svg"
 
 /**
  * An example element.
@@ -9,13 +9,13 @@ import viteLogo from '/vite.svg'
  * @slot - This element has a slot
  * @csspart button - The button
  */
-@customElement('my-element')
+@customElement("my-element")
 export class MyElement extends LitElement {
   /**
    * Copy for the read the docs hint.
    */
   @property()
-  docsHint = 'Click on the Vite and Lit logos to learn more'
+  docsHint = "Click on the Vite and Lit logos to learn more"
 
   /**
    * The number of times the button has been clicked.
@@ -122,6 +122,6 @@ export class MyElement extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-element': MyElement
+    "my-element": MyElement
   }
 }

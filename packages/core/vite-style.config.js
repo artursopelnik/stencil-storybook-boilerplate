@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   build: {
@@ -9,19 +9,16 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       output: {
-        assetFileNames: (assetInfo) => {
-          return `${assetInfo.names.join(', ')}`
+        assetFileNames: assetInfo => {
+          return `${assetInfo.names.join(', ')}`;
         },
       },
     },
     copyPublicDir: true,
     lib: {
-      entry: [
-        resolve(__dirname, './src/themes/dark.css'),
-        resolve(__dirname, './src/themes/light.css'),
-      ],
+      entry: [resolve(__dirname, './src/themes/dark.css'), resolve(__dirname, './src/themes/light.css')],
       formats: ['es'],
-      name: 'DesignSystem'
+      name: 'DesignSystem',
     },
   },
-})
+});
