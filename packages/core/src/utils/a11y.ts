@@ -62,14 +62,7 @@ const isValidAriaKey = (key: string): key is keyof typeof ARIA => Object.values(
 
 const isValidAriaValue = (val: unknown): val is string | number | boolean => ['string', 'number', 'boolean'].includes(typeof val);
 
-export const validateAriaAttributes = (attributes: Record<string, string | number | boolean>): boolean =>
-  Object.entries(attributes).every(([key, val]) => {
-    const valid = isValidAriaKey(key) && isValidAriaValue(val);
-    if (!valid) console.error(`Invalid ARIA attribute or value: ${key} = ${val}`);
-    return valid;
-  });
-
-export const parseAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
+const parseAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
   rawAttributes
     ? Object.fromEntries(
       Object.entries(parseJSONAttribute(rawAttributes)).map(([key, val]) => [
@@ -81,7 +74,7 @@ export const parseAriaAttributes = (rawAttributes: AriaAttributes | string): Ari
 export const getAriaAttributes = <T extends keyof AriaAttributes>(selectedAria: SelectedAriaAttributes<T>): AriaAttributes => {
   const aria = parseAriaAttributes(selectedAria)
 
-  if (typeof aria !== 'object' || aria === null) {
+  if (!aria || typeof aria !== 'object') {
     console.error('Invalid ARIA attributes: Expected an object');
     return {};
   }
