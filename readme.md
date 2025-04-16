@@ -70,6 +70,12 @@ cd stencil-storybook-boilerplate
    - Run **`npm run storybook.run`** to monitor only the Storybook stories.
    - Run **`npm run storybook`** to also watch changes in the web components.
 
+4. Optional to generate a new component:
+   ```bash
+   cd packages/core
+   npm run generate <sub-folder>
+   ```
+
 ## 🙌 Contributing
 
 We welcome contributions! 🚀
