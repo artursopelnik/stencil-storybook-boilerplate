@@ -12,7 +12,7 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
-type MyComponentEvents = { onButtonClick: EventName<CustomEvent<any>> };
+export type MyComponentEvents = { onButtonClick: EventName<CustomEvent<any>> };
 
 export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',

@@ -59,16 +59,11 @@ cd stencil-storybook-boilerplate
    ```bash
    npm install
    ```
-2. Navigate to the Stencil core package and build it:
+2. Build packages
    ```bash
-   cd packages/core
    npm run build
    ```
-3. To generate a new component:
-   ```bash
-   npm run generate <sub-folder>
-   ```
-4. Go to the Storybook package:
+3. Go to the Storybook package:
    ```bash
    cd packages/storybook
    ```

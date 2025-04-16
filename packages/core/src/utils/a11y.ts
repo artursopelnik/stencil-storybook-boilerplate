@@ -63,16 +63,10 @@ const isValidAriaKey = (key: string): key is keyof typeof ARIA => Object.values(
 const isValidAriaValue = (val: unknown): val is string | number | boolean => ['string', 'number', 'boolean'].includes(typeof val);
 
 const parseAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
-  rawAttributes
-    ? Object.fromEntries(
-      Object.entries(parseJSONAttribute(rawAttributes)).map(([key, val]) => [
-        key,
-        typeof val === 'boolean' ? `${val}` : val,
-      ]))
-    : undefined;
+  rawAttributes ? Object.fromEntries(Object.entries(parseJSONAttribute(rawAttributes)).map(([key, val]) => [key, typeof val === 'boolean' ? `${val}` : val])) : undefined;
 
 export const getAriaAttributes = <T extends keyof AriaAttributes>(selectedAria: SelectedAriaAttributes<T>): AriaAttributes => {
-  const aria = parseAriaAttributes(selectedAria)
+  const aria = parseAriaAttributes(selectedAria);
 
   if (!aria || typeof aria !== 'object') {
     console.error('Invalid ARIA attributes: Expected an object');
