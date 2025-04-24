@@ -19,7 +19,7 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1em;
+  font-size: var(--ssb-button-medium-font-size);
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
@@ -27,12 +27,12 @@ button {
 }
 
 button {
-  background-color: var(--ssb-alias-color-primary);
-  color: var(--ssb-alias-color-text-on-primary);
+  background-color: var(--ssb-color-primary);
+  color: var(--ssb-color-text-on-primary);
 }
 
 button:hover {
-  background-color: var(--ssb-alias-color-hover-primary);
+  background-color: var(--ssb-color-primary-hover);
   border-color: #646cff;
-  color: var(--ssb-global-color-white);
+  color: var(--ssb-color-text-on-primary-hover);
 }

@@ -4,50 +4,172 @@
  */
 
 {
-  "global / color": {
-    black: {
-      $type: "color",
-      $value: "#000000",
-      $description: "Black",
-    },
-    white: {
-      $type: "color",
-      $value: "#ffffff",
-      $description: "White",
-    },
-    blue: {
-      $type: "color",
-      $value: "#646cff",
-      $description: "Blue",
-    },
-    gray: {
-      "400": {
-        $type: "color",
-        $value: "#f9f9f9",
-        $description: "Gray",
+  global: {
+    color: {
+      black: {
+        value: "#000000",
+        type: "color",
       },
-      "500": {
-        $type: "color",
-        $value: "#1a1a1a",
-        $description: "Gray",
+      white: {
+        value: "#ffffff",
+        type: "color",
+      },
+      gray: {
+        "100": {
+          value: "#f9f9f9",
+          type: "color",
+        },
+        "200": {
+          value: "#edf2f7",
+          type: "color",
+        },
+        "300": {
+          value: "#e2e8f0",
+          type: "color",
+        },
+        "400": {
+          value: "#cbd5e0",
+          type: "color",
+        },
+        "500": {
+          value: "#a0aec0",
+          type: "color",
+        },
+        "600": {
+          value: "#718096",
+          type: "color",
+        },
+        "700": {
+          value: "#4a5568",
+          type: "color",
+        },
+        "800": {
+          value: "#2d3748",
+          type: "color",
+        },
+        "900": {
+          value: "#1a202c",
+          type: "color",
+        },
+      },
+      purple: {
+        "100": {
+          value: "#faf5ff",
+          type: "color",
+        },
+        "200": {
+          value: "#e9d8fd",
+          type: "color",
+        },
+        "300": {
+          value: "#d6bcfa",
+          type: "color",
+        },
+        "400": {
+          value: "#b794f4",
+          type: "color",
+        },
+        "500": {
+          value: "#805ad5",
+          type: "color",
+        },
+        "600": {
+          value: "#646cff",
+          type: "color",
+        },
+        "700": {
+          value: "#553c9a",
+          type: "color",
+        },
+        "800": {
+          value: "#44337a",
+          type: "color",
+        },
+        "900": {
+          value: "#322659",
+          type: "color",
+        },
+      },
+    },
+    spacing: {
+      "0": {
+        value: "0px",
+        type: "dimension",
+      },
+      "1": {
+        value: "4px",
+        type: "dimension",
+      },
+      "2": {
+        value: "8px",
+        type: "dimension",
+      },
+      "3": {
+        value: "12px",
+        type: "dimension",
+      },
+      "4": {
+        value: "16px",
+        type: "dimension",
+      },
+      "5": {
+        value: "20px",
+        type: "dimension",
+      },
+      "6": {
+        value: "24px",
+        type: "dimension",
+      },
+      "7": {
+        value: "28px",
+        type: "dimension",
+      },
+      "8": {
+        value: "32px",
+        type: "dimension",
+      },
+      max: {
+        value: "9999px",
+        type: "dimension",
       },
     },
   },
-  "alias / color": {
-    primary: {
-      $type: "color",
-      $value: "{global / color.gray.500}",
-      $description: "Gray",
+  alias: {
+    color: {
+      primary: {
+        type: "color",
+        value: "{global.color.gray.700}",
+      },
+      "text-on-primary": {
+        type: "color",
+        value: "{global.color.white}",
+      },
+      "primary-hover": {
+        type: "color",
+        value: "{global.color.purple.600}",
+      },
+      "text-on-primary-hover": {
+        type: "color",
+        value: "{global.color.white}",
+      },
+      "body-background": {
+        type: "color",
+        value: "{global.color.black}",
+      },
+      "body-text": {
+        type: "color",
+        value: "{global.color.white}",
+      },
     },
-    "hover-primary": {
-      $type: "color",
-      $value: "{global / color.blue}",
-      $description: "Gray",
-    },
-    "text-on-primary": {
-      $type: "color",
-      $value: "{global / color.white}",
-      $description: "Gray",
+  },
+  component: {
+    button: {
+      medium: {
+        "font-size": {
+          type: "dimension",
+          value: "{global.spacing.4}",
+        },
+      },
     },
   },
 }

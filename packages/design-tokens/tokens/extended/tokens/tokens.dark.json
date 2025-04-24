@@ -1,19 +1,22 @@
 {
-  "alias / color": {
-    "primary": {
-      "$type": "color",
-      "$value": "{global / color.gray.500}",
-      "$description": "Gray"
-    },
-    "hover-primary": {
-      "$type": "color",
-      "$value": "{global / color.blue}",
-      "$description": "Gray"
-    },
-    "text-on-primary": {
-      "$type": "color",
-      "$value": "{global / color.white}",
-      "$description": "Gray"
+  "alias": {
+    "color": {
+      "primary": {
+        "type": "color",
+        "value": "{global.color.gray.700}"
+      },
+      "text-on-primary": {
+        "type": "color",
+        "value": "{global.color.white}"
+      },
+      "body-background": {
+        "type": "color",
+        "value": "{global.color.black}"
+      },
+      "body-text": {
+        "type": "color",
+        "value": "{global.color.white}"
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import StyleDictionary from "style-dictionary"
+import { outputReferencesFilter } from "style-dictionary/utils"
 import {
   formats,
   logBrokenReferenceLevels,
@@ -43,6 +44,24 @@ StyleDictionary.registerTransform({
   },
 })
 
+StyleDictionary.registerTransform({
+  name: "name/kebab-no-alias-no-component",
+  type: transformTypes.name,
+  transform: function (token) {
+    const path = token.path.filter((p) => p !== "alias" && p !== "component")
+    return [PREFIX, ...path].join("-")
+  },
+})
+
+StyleDictionary.registerTransformGroup({
+  name: "custom/css-extended",
+  transforms: [
+    ...StyleDictionary.hooks.transformGroups.css,
+    "size/pxToRem",
+    "name/kebab-no-alias-no-component",
+  ],
+})
+
 const createStyleDictionaryConfig = (theme) => {
   const isLight = theme === "light"
   const src = isLight ? `!(*.${THEMES.join("|*.")})` : `*.${theme}`
@@ -52,16 +71,18 @@ const createStyleDictionaryConfig = (theme) => {
     source: [`tokens/${src}.{json,json5}`],
     platforms: {
       css: {
-        transformGroup: transformGroups.css,
+        transformGroup: "custom/css-extended",
         prefix: PREFIX,
         buildPath: "dist/css/",
         files: [
           {
             destination: `variables.${theme}.css`,
             format: formats.cssVariables,
+            // filter only the tokens that are not inside the global object
+            filter: (token) => token.path[0] !== "global",
             options: {
               selector: `.${PREFIX}--theme-${theme} { color-scheme: ${theme}; }\n\n:root, :host, .${PREFIX}--theme-${theme}`,
-              outputReferences: true,
+              outputReferences: outputReferencesFilter,
             },
           },
         ],
