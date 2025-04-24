@@ -57,7 +57,7 @@ StyleDictionary.registerTransformGroup({
   name: "custom/css-extended",
   transforms: [
     ...StyleDictionary.hooks.transformGroups.css,
-    "size/pxToRem",
+    sizePxToRem,
     "name/kebab-no-alias-no-component",
   ],
 })
