@@ -5,13 +5,13 @@
 
 ## Properties
 
-| Property             | Attribute | Description                                      | Type                              | Default     |
-| -------------------- | --------- | ------------------------------------------------ | --------------------------------- | ----------- |
-| `aria`               | `aria`    | The aria property                                | `{ 'aria-label': "Mein Label"; }` | `undefined` |
-| `count`              | `count`   | The number of times the button has been clicked. | `number`                          | `0`         |
-| `first` _(required)_ | `first`   | The first name                                   | `string`                          | `undefined` |
-| `last`               | `last`    | The last name                                    | `string`                          | `undefined` |
-| `middle`             | `middle`  | The middle name                                  | `string`                          | `undefined` |
+| Property             | Attribute | Description                                      | Type                                        | Default     |
+| -------------------- | --------- | ------------------------------------------------ | ------------------------------------------- | ----------- |
+| `aria`               | `aria`    | The aria property                                | `string \| { 'aria-label': "Mein Label"; }` | `undefined` |
+| `count`              | `count`   | The number of times the button has been clicked. | `number`                                    | `0`         |
+| `first` _(required)_ | `first`   | The first name                                   | `string`                                    | `undefined` |
+| `last`               | `last`    | The last name                                    | `string`                                    | `undefined` |
+| `middle`             | `middle`  | The middle name                                  | `string`                                    | `undefined` |
 
 
 ## Events

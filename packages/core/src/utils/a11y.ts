@@ -8,10 +8,10 @@ const isValidAriaValue = (val: unknown): val is string | boolean => ['string', '
 const parseAriaAttributes = (rawAttributes: AriaAttributes | string): AriaAttributes | undefined =>
   rawAttributes ? Object.fromEntries(Object.entries(parseJSONAttribute(rawAttributes)).map(([key, val]) => [key, typeof val === 'boolean' ? `${val}` : val])) : undefined;
 
-export const getAriaAttributes = (selectedAria: AriaAttributes): AriaAttributes => {
+export const getAriaAttributes = (selectedAria: AriaAttributes | string): AriaAttributes => {
   const aria = parseAriaAttributes(selectedAria);
 
-  if (!aria || typeof aria !== 'object') {
+  if (typeof aria !== 'object') {
     console.error('Invalid ARIA attributes: Expected an object');
     return {};
   }

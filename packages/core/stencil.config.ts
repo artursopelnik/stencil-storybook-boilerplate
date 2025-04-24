@@ -26,7 +26,7 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
-      copy: [{ src: '**/*.html' }, { src: '**/*.css' }],
+      copy: [{ src: '**/*.html' }, { src: 'themes/vite-generated/light.css', dest: 'themes/light.css' }, { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' }],
     },
     {
       type: 'www',

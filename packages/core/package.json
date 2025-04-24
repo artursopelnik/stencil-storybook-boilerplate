@@ -41,7 +41,7 @@
     "vite": "^6.3.3",
     "@playwright/test": "^1.52.0",
     "@stencil/angular-output-target": "^0.10.2",
-    "@stencil/core": "^4.29.3",
+    "@stencil/core": "^4.30.0",
     "@stencil/playwright": "^0.2.1",
     "@stencil/react-output-target": "^1.0.2",
     "@stencil/sass": "3.2.1",
