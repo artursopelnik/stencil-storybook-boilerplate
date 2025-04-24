@@ -10,7 +10,7 @@
   "devDependencies": {
     "lerna": "^8.2.2",
     "typescript": "^5.8.3",
-    "npm-check-updates": "^17.1.18",
+    "npm-check-updates": "^18.0.1",
     "prettier": "^3.5.3"
   },
   "scripts": {

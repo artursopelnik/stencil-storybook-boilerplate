@@ -30,7 +30,7 @@
     "http-server": "^14.1.1",
     "storybook": "^8.6.12",
     "storybook-dark-mode": "^4.0.2",
-    "vite": "^6.3.0",
+    "vite": "^6.3.3",
     "vite-plugin-live-reload": "^3.0.4"
   },
   "optionalDependencies": {

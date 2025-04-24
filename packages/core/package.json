@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
-    "vite": "^6.3.0",
-    "@playwright/test": "^1.51.1",
+    "vite": "^6.3.3",
+    "@playwright/test": "^1.52.0",
     "@stencil/angular-output-target": "^0.10.2",
     "@stencil/core": "^4.29.3",
     "@stencil/playwright": "^0.2.1",

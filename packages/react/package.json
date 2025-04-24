@@ -16,11 +16,11 @@
     "@stencil-storybook-boilerplate/core": "^0.0.1"
   },
   "devDependencies": {
-    "@stencil/react-output-target": "^0.8.2",
-    "@types/react": "^19.0.11",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.8.2"
+    "@stencil/react-output-target": "^1.0.2",
+    "@types/react": "^19.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
   },
   "keywords": [],
   "description": "",
