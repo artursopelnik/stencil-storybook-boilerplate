@@ -1,6 +1,6 @@
 import { Component, Prop, h, Host, EventEmitter, Event } from '@stencil/core';
-import { ARIA, format, getAriaAttributes } from '../../utils';
-import { SelectedAriaAttributes } from '../../types';
+import { format, getAriaAttributes } from '../../utils';
+import { AriaAttributes } from '../../types';
 
 @Component({
   tag: 'my-component',
@@ -29,10 +29,10 @@ export class MyComponent {
   @Prop() last: string;
 
   /**
-   * aria
+   * The aria property
    */
 
-  @Prop() aria?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
+  @Prop() aria?: AriaAttributes;
 
   /**
    * Emitted when button is clicked. */

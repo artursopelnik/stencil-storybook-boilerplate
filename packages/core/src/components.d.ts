@@ -5,16 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { SelectedAriaAttributes } from "./types";
-import { ARIA } from "./utils";
-export { SelectedAriaAttributes } from "./types";
-export { ARIA } from "./utils";
+import { AriaAttributes } from "./types";
+export { AriaAttributes } from "./types";
 export namespace Components {
     interface MyComponent {
         /**
-          * aria
+          * The aria property
          */
-        "aria"?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
+        "aria"?: AriaAttributes;
         /**
           * The number of times the button has been clicked.
          */
@@ -62,9 +60,9 @@ declare global {
 declare namespace LocalJSX {
     interface MyComponent {
         /**
-          * aria
+          * The aria property
          */
-        "aria"?: SelectedAriaAttributes<ARIA.AriaDisabled | ARIA.AriaLabel>;
+        "aria"?: AriaAttributes;
         /**
           * The number of times the button has been clicked.
          */

@@ -64,9 +64,11 @@ cd stencil-storybook-boilerplate
    npm run build
    ```
 3. Go to the Storybook package:
+
    ```bash
    cd packages/storybook
    ```
+
    - Run **`npm run storybook.run`** to monitor only the Storybook stories.
    - Run **`npm run storybook`** to also watch changes in the web components.
 
