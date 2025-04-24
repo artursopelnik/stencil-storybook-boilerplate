@@ -5,5 +5,5 @@ export type AriaAttributes = {
   role?: string;
 };
 
-// Workaround to accepts a json string or just json
-export type SelectedAriaAttributes<T extends AriaAttributeType> = T | string;
+// Workaround to accepts a json or just json string
+export type SelectedAriaAttributes<T> = T | string;

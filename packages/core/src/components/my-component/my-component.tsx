@@ -53,8 +53,6 @@ export class MyComponent {
   }
 
   render() {
-    console.log(this.aria);
-
     return (
       <Host>
         <div>
