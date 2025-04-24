@@ -1,3 +1,8 @@
+body {
+  background-color: var(--ssb-color-body-background);
+  color: var(--ssb-color-body-text);
+}
+
 .source-code.hidden {
   display: none;
 }

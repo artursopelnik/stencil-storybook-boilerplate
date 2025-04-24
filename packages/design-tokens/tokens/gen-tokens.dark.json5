@@ -154,11 +154,11 @@
       },
       "body-background": {
         type: "color",
-        value: "{global.color.black}",
+        value: "{global.color.white}",
       },
       "body-text": {
         type: "color",
-        value: "{global.color.white}",
+        value: "{global.color.black}",
       },
     },
   },

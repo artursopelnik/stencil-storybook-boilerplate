@@ -8,14 +8,6 @@
       "text-on-primary": {
         "type": "color",
         "value": "{global.color.white}"
-      },
-      "body-background": {
-        "type": "color",
-        "value": "{global.color.black}"
-      },
-      "body-text": {
-        "type": "color",
-        "value": "{global.color.white}"
       }
     }
   }
