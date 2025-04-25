@@ -13,6 +13,16 @@ A modern boilerplate for building fast and robust design systems for [React](htt
 
 This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://www.designsystemscollective.com/how-to-use-storybook-with-stencil-in-2025-and-why-lit-isnt-the-best-choice-81fb5c2d521e).
 
+## 📢 Announcement (as of April 2025)
+
+**It's happening! 🎉**
+
+Storybook has officially confirmed a **native Stencil integration**, with contributions already coming from the Stencil core team.  
+
+👉 storybookjs/storybook#31205
+
+We're closely following the progress and will switch to the native setup (no more www-workaround or Vite-Reloads!) as soon as it's stable.
+
 ## 📖 Features
 
 - **Optimized for Web Components**: Works seamlessly across frameworks
