@@ -91,45 +91,69 @@
         },
       },
     },
-    spacing: {
+    size: {
       "0": {
         value: "0px",
         type: "dimension",
       },
-      "1": {
+      "4": {
         value: "4px",
         type: "dimension",
       },
-      "2": {
+      "8": {
         value: "8px",
         type: "dimension",
       },
-      "3": {
+      "12": {
         value: "12px",
         type: "dimension",
       },
-      "4": {
+      "16": {
         value: "16px",
         type: "dimension",
       },
-      "5": {
+      "20": {
         value: "20px",
         type: "dimension",
       },
-      "6": {
+      "24": {
         value: "24px",
         type: "dimension",
       },
-      "7": {
+      "28": {
         value: "28px",
         type: "dimension",
       },
-      "8": {
+      "32": {
         value: "32px",
         type: "dimension",
       },
-      max: {
-        value: "9999px",
+      "36": {
+        value: "36px",
+        type: "dimension",
+      },
+      "40": {
+        value: "40px",
+        type: "dimension",
+      },
+      "48": {
+        value: "48px",
+        type: "dimension",
+      },
+      "52": {
+        value: "52px",
+        type: "dimension",
+      },
+      "56": {
+        value: "56px",
+        type: "dimension",
+      },
+      "60": {
+        value: "60px",
+        type: "dimension",
+      },
+      "64": {
+        value: "64px",
         type: "dimension",
       },
     },
@@ -161,13 +185,43 @@
         value: "{global.color.black}",
       },
     },
+    spacing: {
+      static: {
+        small: {
+          type: "dimension",
+          value: "{global.size.8}",
+        },
+        medium: {
+          type: "dimension",
+          value: "{global.size.16}",
+        },
+        large: {
+          type: "dimension",
+          value: "{global.size.32}",
+        },
+      },
+      fluid: {
+        small: {
+          type: "dimension",
+          value: "clamp({global.size.8}, {global.size.4} + 1vw, {global.size.16})",
+        },
+        medium: {
+          type: "dimension",
+          value: "clamp({global.size.16}, {global.size.12} + 1.25vw, {global.size.28})",
+        },
+        large: {
+          type: "dimension",
+          value: "clamp({global.size.32}, {global.size.20} + 2vw, {global.size.40})",
+        },
+      },
+    },
   },
   component: {
     button: {
       medium: {
         "font-size": {
           type: "dimension",
-          value: "{global.spacing.4}",
+          value: "{global.size.16}",
         },
       },
     },

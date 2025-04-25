@@ -4,7 +4,6 @@ import {
   formats,
   logBrokenReferenceLevels,
   logVerbosityLevels,
-  logWarningLevels,
   transformGroups,
   transforms,
   transformTypes,
@@ -14,7 +13,7 @@ const THEMES = ["light", "dark"]
 const PREFIX = "ssb"
 const CONFIG = {
   log: {
-    warnings: logWarningLevels.warn,
+    warnings: "disabled",
     verbosity: logVerbosityLevels.verbose,
     errors: {
       brokenReferences: logBrokenReferenceLevels.throw,
