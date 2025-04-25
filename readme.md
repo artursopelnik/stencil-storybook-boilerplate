@@ -21,7 +21,11 @@ Storybook has officially confirmed a **native Stencil integration**, with contri
 
 👉 storybookjs/storybook#31205
 
-We're closely following the progress and will switch to the native setup (no more www-workaround or Vite-Reloads!) as soon as it's stable.
+👉 https://stencil-docs-git-cb-storybook-ionic1.vercel.app/docs/next/storybook
+
+👉 https://www.npmjs.com/package/@stencil/storybook-plugin
+
+We're closely following the progress and will switch to the native setup as soon as it's stable.
 
 ## 📖 Features
 
