@@ -17,7 +17,7 @@ This monorepo is structured using [Lerna](https://lerna.js.org/). For more detai
 
 **It's happening! 🎉**
 
-Storybook has officially confirmed a **native Stencil integration**, with contributions already coming from the Stencil core team.  
+Storybook has officially confirmed a **native Stencil integration**, with contributions already coming from the Stencil core team.
 
 👉 storybookjs/storybook#31205
 

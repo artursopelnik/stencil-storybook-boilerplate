@@ -84,8 +84,9 @@ const createStyleDictionaryConfig = (theme) => {
               // For convenience, the light theme is scoped to :root and will be activated by default when imported.
               selector: (() => {
                 const SELECTOR = isLight
-                  ? `:root, :host, .${PREFIX}--theme-${theme}`
-                  : `:host, .${PREFIX}--theme-${theme}`
+                  ? `:root, :host, .${PREFIX}-theme--${theme}`
+                  : `:host, .${PREFIX}-theme--${theme}`
+
                 return `${SELECTOR} { color-scheme: ${theme}; }\n\n${SELECTOR}`
               })(),
               outputReferences: outputReferencesFilter,
