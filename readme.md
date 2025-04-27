@@ -28,14 +28,16 @@ Storybook has officially confirmed a **native Stencil integration**, with contri
 We're closely following the progress and will switch to the native setup as soon as it's stable.
 
 ## 📖 Features
+Optimized for Web Components: Seamlessly integrates across frameworks.
+
 
 - **Optimized for Web Components**: Works seamlessly across frameworks
-- **Storybook Integration**: Supports documenting and testing UI components, complete with dark mode support and Hot Module Replacement (HMR)
-- **Vite-Powered**: Lightning-fast development experience
-- **SSR-Ready with Next.js**: Fully supports Server-Side Rendering (SSR) with the Next.js App Router, unlike Lit
-- **Fully Typed Arguments**: Leverages TypeScript for enhanced type safety
-- **Design Tokens Support**: Enables consistent theming with customizable design tokens
-- **Accessibility-Focused**: Define and validate ARIA attributes through a single aria prop—accepting either a JSON string or object to improve inclusivity and usability.
+- **Storybook Integration**: Documents and tests UI components with dark mode support and Hot Module Replacement (HMR).
+- **Vite-Powered**: Provides a lightning-fast development experience.
+- **SSR-Ready with Next.js**: Full support for Server-Side Rendering (SSR) with Next.js App Router , unlike Lit.
+- **Fully Typed Arguments**: Enhanced type safety with TypeScript.
+- **Design Tokens Support**: Enables consistent theming with customizable tokens.
+- **Accessibility-Focused**: Define and validate ARIA attributes through a single `aria` prop, as [Porsche and the Stencil Core do](https://github.com/stenciljs/core/issues/5033#issuecomment-2828695662), accepting both JSON strings and objects to improve inclusivity and usability.
 
 ## 🤔 Why Stencil over Lit?
 
