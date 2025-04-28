@@ -1,13 +1,12 @@
 {
   "alias": {
     "color": {
+      "$type": "color",
       "primary": {
-        "type": "color",
-        "value": "{global.color.gray.700}"
+        "$value": "{global.color.gray.700}"
       },
       "text-on-primary": {
-        "type": "color",
-        "value": "{global.color.white}"
+        "$value": "{global.color.white}"
       }
     }
   }

@@ -19,7 +19,8 @@
   },
   "files": [
     "dist/",
-    "loader/"
+    "loader/",
+    "hydrate/"
   ],
   "scripts": {
     "start": "concurrently 'npm run start:css' 'npm run start:js'",
@@ -38,10 +39,10 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
-    "vite": "^6.3.3",
+    "vite": "^6.3.5",
     "@playwright/test": "^1.52.0",
     "@stencil/angular-output-target": "^0.10.2",
-    "@stencil/core": "^4.30.0",
+    "@stencil/core": "^4.31.0",
     "@stencil/playwright": "^0.2.1",
     "@stencil/react-output-target": "^1.0.2",
     "@stencil/sass": "3.2.1",

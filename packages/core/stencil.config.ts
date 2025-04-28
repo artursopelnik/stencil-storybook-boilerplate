@@ -39,13 +39,19 @@ export const config: Config = {
       directivesProxyFile: '../angular/projects/component-library/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../angular/projects/component-library/src/lib/stencil-generated/index.ts',
     }),
-    reactOutputTarget({
-      outDir: '../react/lib/components/stencil-generated/',
-    }),
     vueOutputTarget({
       componentCorePackage: '@stencil-storybook-boilerplate/core',
       proxiesFile: '../vue/lib/stencil-generated/components.ts',
     }),
+    reactOutputTarget({
+      outDir: '../react/lib/components/stencil-generated/',
+      hydrateModule: '@stencil-storybook-boilerplate/core/hydrate',
+      esModules: true,
+    }),
+    {
+      type: 'dist-hydrate-script',
+      dir: './hydrate',
+    },
   ],
   plugins: [
     postcss({

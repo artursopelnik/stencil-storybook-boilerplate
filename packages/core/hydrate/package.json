@@ -1,0 +1,12 @@
+{
+  "name": "@stencil-storybook-boilerplate/core/hydrate",
+  "description": "StencilStorybookBoilerplate component hydration app.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.mjs"
+    }
+  }
+}

@@ -16,7 +16,7 @@
     "concurrently": "^9.1.2",
     "lodash": "^4.17.21",
     "json5": "^2.2.3",
-    "tsx": "^4.19.3"
+    "tsx": "^4.19.4"
   },
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT"

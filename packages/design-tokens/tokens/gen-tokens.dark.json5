@@ -6,212 +6,169 @@
 {
   global: {
     color: {
+      $type: "color",
       black: {
-        value: "#000000",
-        type: "color",
+        $value: "#000000",
       },
       white: {
-        value: "#ffffff",
-        type: "color",
+        $value: "#ffffff",
       },
       gray: {
         "100": {
-          value: "#f9f9f9",
-          type: "color",
+          $value: "#f9f9f9",
         },
         "200": {
-          value: "#edf2f7",
-          type: "color",
+          $value: "#edf2f7",
         },
         "300": {
-          value: "#e2e8f0",
-          type: "color",
+          $value: "#e2e8f0",
         },
         "400": {
-          value: "#cbd5e0",
-          type: "color",
+          $value: "#cbd5e0",
         },
         "500": {
-          value: "#a0aec0",
-          type: "color",
+          $value: "#a0aec0",
         },
         "600": {
-          value: "#718096",
-          type: "color",
+          $value: "#718096",
         },
         "700": {
-          value: "#4a5568",
-          type: "color",
+          $value: "#4a5568",
         },
         "800": {
-          value: "#2d3748",
-          type: "color",
+          $value: "#2d3748",
         },
         "900": {
-          value: "#1a202c",
-          type: "color",
+          $value: "#1a202c",
         },
       },
       purple: {
         "100": {
-          value: "#faf5ff",
-          type: "color",
+          $value: "#faf5ff",
         },
         "200": {
-          value: "#e9d8fd",
-          type: "color",
+          $value: "#e9d8fd",
         },
         "300": {
-          value: "#d6bcfa",
-          type: "color",
+          $value: "#d6bcfa",
         },
         "400": {
-          value: "#b794f4",
-          type: "color",
+          $value: "#b794f4",
         },
         "500": {
-          value: "#805ad5",
-          type: "color",
+          $value: "#805ad5",
         },
         "600": {
-          value: "#646cff",
-          type: "color",
+          $value: "#646cff",
         },
         "700": {
-          value: "#553c9a",
-          type: "color",
+          $value: "#553c9a",
         },
         "800": {
-          value: "#44337a",
-          type: "color",
+          $value: "#44337a",
         },
         "900": {
-          value: "#322659",
-          type: "color",
+          $value: "#322659",
         },
       },
     },
     size: {
-      "0": {
-        value: "0px",
-        type: "dimension",
+      "2": {
+        $value: "2px",
+        disablePxToRem: true,
       },
       "4": {
-        value: "4px",
-        type: "dimension",
+        $value: "4px",
       },
       "8": {
-        value: "8px",
-        type: "dimension",
+        $value: "8px",
       },
       "12": {
-        value: "12px",
-        type: "dimension",
+        $value: "12px",
       },
       "16": {
-        value: "16px",
-        type: "dimension",
+        $value: "16px",
       },
       "20": {
-        value: "20px",
-        type: "dimension",
+        $value: "20px",
       },
       "24": {
-        value: "24px",
-        type: "dimension",
+        $value: "24px",
       },
       "28": {
-        value: "28px",
-        type: "dimension",
+        $value: "28px",
       },
       "32": {
-        value: "32px",
-        type: "dimension",
+        $value: "32px",
       },
       "36": {
-        value: "36px",
-        type: "dimension",
+        $value: "36px",
       },
       "40": {
-        value: "40px",
-        type: "dimension",
+        $value: "40px",
       },
       "48": {
-        value: "48px",
-        type: "dimension",
+        $value: "48px",
       },
       "52": {
-        value: "52px",
-        type: "dimension",
+        $value: "52px",
       },
       "56": {
-        value: "56px",
-        type: "dimension",
+        $value: "56px",
       },
       "60": {
-        value: "60px",
-        type: "dimension",
+        $value: "60px",
       },
       "64": {
-        value: "64px",
-        type: "dimension",
+        $value: "64px",
       },
+      $type: "dimension",
     },
   },
   alias: {
     color: {
+      $type: "color",
       primary: {
-        type: "color",
-        value: "{global.color.gray.700}",
+        $value: "{global.color.gray.700}",
       },
       "text-on-primary": {
-        type: "color",
-        value: "{global.color.white}",
+        $value: "{global.color.white}",
       },
       "primary-hover": {
-        type: "color",
-        value: "{global.color.purple.600}",
+        $value: "{global.color.purple.600}",
       },
       "text-on-primary-hover": {
-        type: "color",
-        value: "{global.color.white}",
+        $value: "{global.color.white}",
       },
       "body-background": {
-        type: "color",
-        value: "{global.color.white}",
+        $value: "{global.color.white}",
       },
       "body-text": {
-        type: "color",
-        value: "{global.color.black}",
+        $value: "{global.color.black}",
       },
     },
     spacing: {
+      $type: "dimension",
       static: {
         small: {
-          type: "dimension",
-          value: "{global.size.8}",
+          $value: "{global.size.8}",
         },
         medium: {
-          type: "dimension",
-          value: "{global.size.16}",
+          $value: "{global.size.16}",
         },
         large: {
-          type: "dimension",
-          value: "{global.size.32}",
+          $value: "{global.size.32}",
         },
       },
       fluid: {
         small: {
-          type: "dimension",
-          value: "clamp({global.size.8}, {global.size.4} + 1vw, {global.size.16})",
+          $value: "clamp({global.size.8}, {global.size.4} + 1vw, {global.size.16})",
         },
         medium: {
-          type: "dimension",
-          value: "clamp({global.size.16}, {global.size.12} + 1.25vw, {global.size.28})",
+          $value: "clamp({global.size.16}, {global.size.12} + 1.25vw, {global.size.28})",
         },
         large: {
-          type: "dimension",
-          value: "clamp({global.size.32}, {global.size.20} + 2vw, {global.size.40})",
+          $value: "clamp({global.size.32}, {global.size.20} + 2vw, {global.size.40})",
         },
       },
     },
@@ -220,8 +177,12 @@
     button: {
       medium: {
         "font-size": {
-          type: "dimension",
-          value: "{global.size.16}",
+          $type: "dimension",
+          $value: "{global.size.16}",
+        },
+        "border-width": {
+          $type: "dimension",
+          $value: "{global.size.2}",
         },
       },
     },

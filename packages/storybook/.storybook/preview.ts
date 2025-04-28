@@ -19,6 +19,16 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    docs: {
+      toc: {
+        title: (async () => {
+          const headingSelector = "h2, h3"
+          const showTitle = document.querySelector(headingSelector) !== null
+          return showTitle ? "On this page" : ""
+        })(),
+        headingSelector: "h2, h3",
+      },
+    },
   },
 }
 

@@ -1,7 +1,10 @@
 /packages/react/lib
 /packages/vue/lib
 /packages/angular/projects/component-library
+/packages/core/hydrate
 /packages/core/src/themes/vite-generated
 /packages/core/**/readme.md
 /packages/core/**/readme.md
 /packages/core/src/components.d.ts
+
+
