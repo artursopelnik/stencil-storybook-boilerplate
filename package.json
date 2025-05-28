@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@types/node": "^22.15.17"
+    "@types/node": "^22.15.23"
   },
   "devDependencies": {
     "lerna": "^8.2.2",
