@@ -1,17 +1,18 @@
 # Style-Dictionary Extended Design Tokens
 
-Das Skript `build.js` generiert Design Tokens (JSON-Dateien) basierend auf Ihrer Referenz und dem zu extendenden Objekt.
-Es nutzt die lodash-Bibliothek zum Mergen der Daten und json5, um JSON5-Dateien zu lesen und zu schreiben.
-Durch die Verwendung von Extends wird die Light-Version als Ausgangspunkt festgelegt, da sich abweichende Themes wie "dark" nur minimal ändern.
+The script `build.js` generates design tokens (JSON files) based on your reference and the object to be extended.
+It uses the lodash library to merge data and json5 to read and write (optionaly) JSON5 files.
+By using extends, the light version is set as the base since differing themes like "dark" only change minimally.
 
-## 💡 Systemvoraussetzungen
+## 💡 System Requirements
 
-- Node.js 22
-- Git
+* Node.js 22
+* Git
 
 ## 🚀 Setup
 
-1. Wählen Sie die kompatible Node-Version: `nvm use`
-2. Dependencies installieren: `npm install`
-3. Projekt bauen `npm run build`
-   - (optional) Projekt bauen mit watch `npm run start`
+1. Select the compatible Node version: `nvm use`
+2. Install dependencies: `npm install`
+3. Build the project: `npm run build`
+
+* (optional) Build the project with watch mode: `npm run start`
