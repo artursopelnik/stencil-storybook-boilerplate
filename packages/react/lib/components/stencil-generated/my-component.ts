@@ -17,7 +17,7 @@ export type MyComponentEvents = { onButtonClick: EventName<CustomEvent<any>> };
 export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
-    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: { onButtonClick: 'buttonClick' } as MyComponentEvents,
     defineCustomElement: defineMyComponent

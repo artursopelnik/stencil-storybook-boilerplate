@@ -15,6 +15,7 @@ export namespace Components {
         "aria"?: SelectedAriaAttributes<MyComponentAriaAttribute>;
         /**
           * The number of times the button has been clicked.
+          * @default 0
          */
         "count": number;
         /**
@@ -65,6 +66,7 @@ declare namespace LocalJSX {
         "aria"?: SelectedAriaAttributes<MyComponentAriaAttribute>;
         /**
           * The number of times the button has been clicked.
+          * @default 0
          */
         "count"?: number;
         /**

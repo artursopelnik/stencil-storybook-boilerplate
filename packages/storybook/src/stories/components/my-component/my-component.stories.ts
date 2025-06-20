@@ -1,7 +1,7 @@
 import { html, nothing } from "lit"
-import type { Meta, StoryObj } from "@storybook/web-components"
+import type { Meta, StoryObj } from "@storybook/web-components-vite"
 
-// @ts-ignore because Intellij does not understand imports within Lerna monorepos
+// @ts-expect-error because Intellij does not understand imports within Lerna monorepos
 import type { MyComponent } from "@stencil-storybook-boilerplate/core/src/components/my-component/my-component"
 
 const meta = {

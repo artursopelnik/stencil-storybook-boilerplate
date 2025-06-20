@@ -15,8 +15,8 @@
     "@stencil-storybook-boilerplate/core": "*"
   },
   "devDependencies": {
-    "@stencil/vue-output-target": "^0.10.7",
-    "vue": "^3.5.15",
+    "@stencil/vue-output-target": "^0.10.8",
+    "vue": "^3.5.17",
     "typescript": "^5.8.3"
   },
   "license": "MIT"

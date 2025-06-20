@@ -5,18 +5,24 @@
     "packages/*"
   ],
   "dependencies": {
-    "@types/node": "^22.15.23"
+    "@types/node": "^24.0.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@eslint/json": "^0.12.0",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
     "lerna": "^8.2.2",
-    "typescript": "^5.8.3",
     "npm-check-updates": "^18.0.1",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1"
   },
   "scripts": {
     "build": "npm run build:tokens && npx lerna run build",
     "build:tokens": "npx lerna run build --scope='@stencil-storybook-boilerplate/design-tokens'",
     "update": "npx npm-check-updates -u",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "lint": "npx eslint .  --fix"
   }
 }

@@ -16,6 +16,7 @@ import { Components } from '@stencil-storybook-boilerplate/core';
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['aria', 'count', 'first', 'last', 'middle'],
+  standalone: false
 })
 export class MyComponent {
   protected el: HTMLMyComponentElement;

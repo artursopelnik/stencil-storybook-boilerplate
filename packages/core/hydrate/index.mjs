@@ -32,6 +32,7 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
   var CharacterData = $stencilWindow.CharacterData;
   var CSS = $stencilWindow.CSS;
   var CustomEvent = $stencilWindow.CustomEvent;
+  var CSSStyleSheet = $stencilWindow.CSSStyleSheet;
   var Document = $stencilWindow.Document;
   var ShadowRoot = $stencilWindow.ShadowRoot;
   var DocumentFragment = $stencilWindow.DocumentFragment;
@@ -127,7 +128,7 @@ const NAMESPACE = 'stencil-storybook-boilerplate';
 const BUILD = /* stencil-storybook-boilerplate */ { hydratedSelectorName: "hydrated", slotRelocation: true, updatable: true, watchCallback: false };
 
 /*
- Stencil Hydrate Platform v4.31.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.35.1 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -328,6 +329,9 @@ function deserializeProperty(value) {
   }
   return RemoteValue.fromLocalValue(JSON.parse(atob(value.slice(SERIALIZED_PREFIX.length))));
 }
+function createShadowRoot(cmpMeta) {
+  this.attachShadow({ mode: "open" });
+}
 
 // src/runtime/runtime-constants.ts
 var CONTENT_REF_ID = "r";
@@ -452,7 +456,7 @@ function patchSlotNode(node) {
     const slotName = this["s-sn"];
     if (opts == null ? void 0 : opts.flatten) {
       console.error(`
-          Flattening is not supported for Stencil non-shadow slots. 
+          Flattening is not supported for Stencil non-shadow slots.
           You can use \`.childNodes\` to nested slot fallback content.
           If you have a particular use case, please open an issue on the Stencil repo.
         `);
@@ -584,15 +588,17 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
   vnode.$elm$ = hostElm;
   const members = Object.entries(((_a = hostRef.$cmpMeta$) == null ? void 0 : _a.$members$) || {});
   members.forEach(([memberName, [memberFlags, metaAttributeName]]) => {
-    var _a2;
+    var _b;
     if (!(memberFlags & 31 /* Prop */)) {
       return;
     }
     const attributeName = metaAttributeName || memberName;
     const attrVal = hostElm.getAttribute(attributeName);
     if (attrVal !== null) {
-      const attrPropVal = parsePropertyValue(attrVal, memberFlags);
-      (_a2 = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _a2.set(memberName, attrPropVal);
+      const attrPropVal = parsePropertyValue(
+        attrVal,
+        memberFlags);
+      (_b = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _b.set(memberName, attrPropVal);
     }
   });
   if (win.document && (!plt.$orgLocNodes$ || !plt.$orgLocNodes$.size)) {
@@ -689,7 +695,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
         shadowRoot.appendChild(shadowRootNodes[rnIdex]);
       }
       Array.from(hostElm.childNodes).forEach((node) => {
-        if (typeof node["s-sn"] !== "string") {
+        if (typeof node["s-en"] !== "string" && typeof node["s-sn"] !== "string") {
           if (node.nodeType === 1 /* ElementNode */ && node.slot && node.hidden) {
             node.removeAttribute("hidden");
           } else if (node.nodeType === 8 /* CommentNode */ || node.nodeType === 3 /* TextNode */ && !node.wholeText.trim()) {
@@ -914,7 +920,7 @@ function addSlot(slotName, slotId, childVNode, node, parentVNode, childRenderNod
     if (parentNodeId && parentNodeId !== childVNode.$hostId$) {
       parentVNode.$elm$.insertBefore(slot, parentVNode.$elm$.children[0]);
     } else {
-      node.parentNode.insertBefore(childVNode.$elm$, node);
+      node.parentNode.insertBefore(slot, node);
     }
     addSlottedNodes(slottedNodes, slotId, slotName, node, childVNode.$hostId$);
     node.remove();
@@ -929,8 +935,8 @@ function addSlot(slotName, slotId, childVNode, node, parentVNode, childRenderNod
     if (shouldMove) {
       parentVNode.$elm$.insertBefore(slot, parentVNode.$elm$.children[0]);
     }
-    childRenderNodes.push(childVNode);
   }
+  childRenderNodes.push(childVNode);
   slotNodes.push(childVNode);
   if (!parentVNode.$children$) {
     parentVNode.$children$ = [];
@@ -969,6 +975,12 @@ var findCorrespondingNode = (node, type) => {
 var safeSelector = (selector) => {
   const placeholders = [];
   let index = 0;
+  selector = selector.replace(/(\[\s*part~=\s*("[^"]*"|'[^']*')\s*\])/g, (_, keep) => {
+    const replaceBy = `__part-${index}__`;
+    placeholders.push(keep);
+    index++;
+    return replaceBy;
+  });
   selector = selector.replace(/(\[[^\]]*\])/g, (_, keep) => {
     const replaceBy = `__ph-${index}__`;
     placeholders.push(keep);
@@ -988,6 +1000,7 @@ var safeSelector = (selector) => {
   return ss;
 };
 var restoreSafeSelector = (placeholders, content) => {
+  content = content.replace(/__part-(\d+)__/g, (_, index) => placeholders[+index]);
   return content.replace(/__ph-(\d+)__/g, (_, index) => placeholders[+index]);
 };
 var _polyfillHost = "-shadowcsshost";
@@ -1000,6 +1013,7 @@ var _cssColonSlottedRe = new RegExp("(" + _polyfillSlotted + _parenSuffix, "gim"
 var _polyfillHostNoCombinator = _polyfillHost + "-no-combinator";
 var _polyfillHostNoCombinatorRe = /-shadowcsshost-no-combinator([^\s]*)/;
 var _shadowDOMSelectorsRe = [/::shadow/g, /::content/g];
+var _safePartRe = /__part-(\d+)__/g;
 var _selectorReSuffix = "([>\\s~+[.,{:][\\s\\S]*)?$";
 var _polyfillHostRe = /-shadowcsshost/gim;
 var createSupportsRuleRe = (selector) => {
@@ -1214,7 +1228,7 @@ var applyStrictSelectorScope = (selector, scopeSelector2, hostSelector) => {
   let scopedSelector = "";
   let startIndex = 0;
   let res;
-  const sep = /( |>|\+|~(?!=))\s*/g;
+  const sep = /( |>|\+|~(?!=))(?=(?:[^()]*\([^()]*\))*[^()]*$)\s*/g;
   const hasHost = selector.indexOf(_polyfillHostNoCombinator) > -1;
   let shouldScope = !hasHost;
   while ((res = sep.exec(selector)) !== null) {
@@ -1226,7 +1240,7 @@ var applyStrictSelectorScope = (selector, scopeSelector2, hostSelector) => {
     startIndex = sep.lastIndex;
   }
   const part = selector.substring(startIndex);
-  shouldScope = shouldScope || part.indexOf(_polyfillHostNoCombinator) > -1;
+  shouldScope = !part.match(_safePartRe) && (shouldScope || part.indexOf(_polyfillHostNoCombinator) > -1);
   scopedSelector += shouldScope ? _scopeSelectorPart(part) : part;
   return restoreSafeSelector(safeContent.placeholders, scopedSelector);
 };
@@ -1283,6 +1297,36 @@ var scopeCssText = (cssText, scopeId2, hostScopeId, slotScopeId, commentOriginal
 var replaceShadowCssHost = (cssText, hostScopeId) => {
   return cssText.replace(/-shadowcsshost-no-combinator/g, `.${hostScopeId}`);
 };
+var expandPartSelectors = (cssText) => {
+  const partSelectorRe = /([^\s,{][^,{]*?)::part\(\s*([^)]+?)\s*\)((?:[:.][^,{]*)*)/g;
+  return processRules(cssText, (rule) => {
+    if (rule.selector[0] === "@") {
+      return rule;
+    }
+    const selectors = rule.selector.split(",").map((sel) => {
+      const out = [sel.trim()];
+      let m;
+      while ((m = partSelectorRe.exec(sel)) !== null) {
+        const before = m[1].trimEnd();
+        const partNames = m[2].trim().split(/\s+/);
+        const after = m[3] || "";
+        const partAttr = partNames.flatMap((p) => {
+          if (!rule.selector.includes(`[part~="${p}"]`)) {
+            return [`[part~="${p}"]`];
+          }
+          return [];
+        }).join("");
+        const expanded = `${before} ${partAttr}${after}`;
+        if (!!partAttr && expanded !== sel.trim()) {
+          out.push(expanded);
+        }
+      }
+      return out.join(", ");
+    });
+    rule.selector = selectors.join(", ");
+    return rule;
+  });
+};
 var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
   const hostScopeId = scopeId2 + "-h";
   const slotScopeId = scopeId2 + "-s";
@@ -1318,9 +1362,10 @@ var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
     const regex = new RegExp(escapeRegExpSpecialCharacters(slottedSelector.orgSelector), "g");
     cssText = cssText.replace(regex, slottedSelector.updatedSelector);
   });
+  cssText = expandPartSelectors(cssText);
   return cssText;
 };
-var parsePropertyValue = (propValue, propType) => {
+var parsePropertyValue = (propValue, propType, isFormAssociated) => {
   if (typeof propValue === "string" && (propValue.startsWith("{") && propValue.endsWith("}") || propValue.startsWith("[") && propValue.endsWith("]"))) {
     try {
       propValue = JSON.parse(propValue);
@@ -1392,7 +1437,7 @@ var addStyle = (styleContainerNode, cmpMeta, mode) => {
         if (styleContainerNode.host && (styleElm = styleContainerNode.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`))) {
           styleElm.innerHTML = style;
         } else {
-          styleElm = document.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`) || win.document.createElement("style");
+          styleElm = win.document.createElement("style");
           styleElm.innerHTML = style;
           const nonce = (_a = plt.$nonce$) != null ? _a : queryNonceMetaTagContent(win.document);
           if (nonce != null) {
@@ -2255,7 +2300,9 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
   const oldVal = hostRef.$instanceValues$.get(propName);
   const flags = hostRef.$flags$;
   const instance = hostRef.$lazyInstance$ ;
-  newVal = parsePropertyValue(newVal, cmpMeta.$members$[propName][0]);
+  newVal = parsePropertyValue(
+    newVal,
+    cmpMeta.$members$[propName][0]);
   const areBothNaN = Number.isNaN(oldVal) && Number.isNaN(newVal);
   const didValueChange = newVal !== oldVal && !areBothNaN;
   if ((!(flags & 8 /* isConstructingInstance */) || oldVal === void 0) && didValueChange) {
@@ -2311,7 +2358,11 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
               } else if (!ref.$instanceValues$.get(memberName) && currentValue) {
                 ref.$instanceValues$.set(memberName, currentValue);
               }
-              origSetter.apply(this, [parsePropertyValue(newValue, memberFlags)]);
+              origSetter.apply(this, [
+                parsePropertyValue(
+                  newValue,
+                  memberFlags)
+              ]);
               newValue = memberFlags & 32 /* State */ ? this[memberName] : ref.$hostElement$[memberName];
               setValue(this, memberName, newValue, cmpMeta);
               return;
@@ -2379,8 +2430,12 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
       const scopeId2 = getScopeId(cmpMeta);
       if (!styles.has(scopeId2)) {
         const endRegisterStyles = createTime("registerStyles", cmpMeta.$tagName$);
-        if (cmpMeta.$flags$ & 128 /* shadowNeedsScopedCss */) {
-          style = scopeCss(style, scopeId2);
+        {
+          if (cmpMeta.$flags$ & 128 /* shadowNeedsScopedCss */) {
+            style = scopeCss(style, scopeId2);
+          } else if (needsScopedSSR()) {
+            style = expandPartSelectors(style);
+          }
         }
         registerStyle(scopeId2, style);
         endRegisterStyles();
@@ -2620,6 +2675,8 @@ var hAsync = (nodeName, vnodeData, ...children) => {
   }
   return h(nodeName, vnodeData);
 };
+
+// src/hydrate/platform/proxy-host-element.ts
 function proxyHostElement(elm, cstr) {
   const cmpMeta = cstr.cmpMeta;
   if (typeof elm.componentOnReady !== "function") {
@@ -2629,9 +2686,7 @@ function proxyHostElement(elm, cstr) {
     elm.forceUpdate = forceUpdate2;
   }
   if (!elm.shadowRoot && !!(cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */) && !(cmpMeta.$flags$ & 128 /* shadowNeedsScopedCss */)) {
-    {
-      elm.attachShadow({ mode: "open" });
-    }
+    createShadowRoot.call(elm, cmpMeta);
   }
   if (cmpMeta.$members$ != null) {
     const hostRef = getHostRef(elm);
@@ -2718,6 +2773,7 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
   const orgDocumentCreateElement = win2.document.createElement;
   const orgDocumentCreateElementNS = win2.document.createElementNS;
   const resolved2 = Promise.resolve();
+  setScopedSSR(opts);
   let tmrId;
   let ranCompleted = false;
   function hydratedComplete() {
@@ -3065,6 +3121,11 @@ var registerHost = (elm, cmpMeta) => {
   return hostRef;
 };
 var styles = /* @__PURE__ */ new Map();
+var setScopedSSR = (opts) => {
+  scopedSSR = opts.serializeShadowRoot !== false && opts.serializeShadowRoot !== "declarative-shadow-dom";
+};
+var needsScopedSSR = () => scopedSSR;
+var scopedSSR = false;
 
 function format(first, middle, last) {
     return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
@@ -3244,7 +3305,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.31.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.35.1 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -3258,6 +3319,7 @@ var ORG_LOCATION_ID = "o";
 var SLOT_NODE_ID = "s";
 var TEXT_NODE_ID = "t";
 var HYDRATE_ID = "s-id";
+var HYDRATED_STYLE_ID = "sty-id";
 var STENCIL_DOC_DATA = "_stencilDocData";
 var XLINK_NS = "http://www.w3.org/1999/xlink";
 
@@ -3968,8 +4030,21 @@ function triggerEventListener(elm, ev) {
   } else if (elm.parentElement == null && elm.tagName === "HTML") {
     triggerEventListener(elm.ownerDocument, ev);
   } else {
-    triggerEventListener(elm.parentElement, ev);
+    const nextTarget = getNextEventTarget(elm, ev);
+    triggerEventListener(nextTarget, ev);
   }
+}
+function getNextEventTarget(elm, ev) {
+  if (elm.parentElement) {
+    return elm.parentElement;
+  }
+  if (elm.host && ev.composed) {
+    return elm.host;
+  }
+  if (ev.composed && elm.parentNode && elm.parentNode.host) {
+    return elm.parentNode.host;
+  }
+  return null;
 }
 function dispatchEvent(currentTarget, ev) {
   ev.target = currentTarget;
@@ -14129,6 +14204,15 @@ var MockNode2 = class {
   set textContent(value) {
     this._nodeValue = String(value);
   }
+  addEventListener(type, handler) {
+    addEventListener(this, type, handler);
+  }
+  removeEventListener(type, handler) {
+    removeEventListener(this, type, handler);
+  }
+  dispatchEvent(ev) {
+    return dispatchEvent(this, ev);
+  }
 };
 MockNode2.ELEMENT_NODE = 1;
 MockNode2.TEXT_NODE = 3;
@@ -14944,6 +15028,12 @@ var MockDocumentFragment = class _MockDocumentFragment extends MockHTMLElement {
   getElementById(id) {
     return getElementById(this, id);
   }
+  get adoptedStyleSheets() {
+    return [];
+  }
+  set adoptedStyleSheets(_adoptedStyleSheets) {
+    throw new Error("Unimplemented");
+  }
   cloneNode(deep) {
     const cloned = new _MockDocumentFragment(null);
     if (deep) {
@@ -14992,7 +15082,9 @@ var MockCSSStyleSheet = class {
   deleteRule(index) {
     if (index >= 0 && index < this.cssRules.length) {
       this.cssRules.splice(index, 1);
-      updateStyleTextNode(this.ownerNode);
+      if (this.ownerNode) {
+        updateStyleTextNode(this.ownerNode);
+      }
     }
   }
   insertRule(rule, index = 0) {
@@ -15008,8 +15100,22 @@ var MockCSSStyleSheet = class {
     const cssRule = new MockCSSRule(this);
     cssRule.cssText = rule;
     this.cssRules.splice(index, 0, cssRule);
-    updateStyleTextNode(this.ownerNode);
+    if (this.ownerNode) {
+      updateStyleTextNode(this.ownerNode);
+    }
     return index;
+  }
+  replaceSync(cssText) {
+    this.cssRules = [];
+    const rules = cssText.split("}").map((rule) => rule.trim()).filter(Boolean).map((rule) => rule + "}");
+    for (const rule of rules) {
+      const cssRule = new MockCSSRule(this);
+      cssRule.cssText = rule;
+      this.cssRules.push(cssRule);
+    }
+    if (this.ownerNode) {
+      updateStyleTextNode(this.ownerNode);
+    }
   }
 };
 function getStyleElementText(styleElm) {
@@ -16049,9 +16155,11 @@ var WINDOW_PROPS = [
   "NodeList",
   "FocusEvent",
   "KeyboardEvent",
-  "MouseEvent"
+  "MouseEvent",
+  "CSSStyleSheet"
 ];
 var GLOBAL_CONSTRUCTORS = [
+  ["CSSStyleSheet", MockCSSStyleSheet],
   ["CustomEvent", MockCustomEvent],
   ["DocumentFragment", MockDocumentFragment],
   ["DOMParser", MockDOMParser],
@@ -16258,12 +16366,6 @@ var MockResizeObserver = class {
 var MockShadowRoot = class extends MockDocumentFragment {
   get activeElement() {
     return null;
-  }
-  set adoptedStyleSheets(_adoptedStyleSheets) {
-    throw new Error("Unimplemented");
-  }
-  get adoptedStyleSheets() {
-    return [];
   }
   get cloneable() {
     return false;
@@ -19033,6 +19135,7 @@ function renderToString(html, options, asStream) {
 }
 function hydrateDocument(doc, options, asStream) {
   const opts = normalizeHydrateOptions(options);
+  opts.serializeShadowRoot = typeof opts.serializeShadowRoot === "undefined" ? "declarative-shadow-dom" : opts.serializeShadowRoot;
   let win2 = null;
   const results = generateHydrateResults(opts);
   if (hasError(results.diagnostics)) {
@@ -19136,6 +19239,16 @@ function finalizeHydrate(win2, doc, opts, results) {
     results.title = doc.title;
     if (opts.removeScripts) {
       removeScripts(doc.documentElement);
+    }
+    const styles2 = doc.querySelectorAll("head style");
+    if (styles2.length > 0) {
+      results.styles.push(
+        ...Array.from(styles2).map((style) => ({
+          href: style.getAttribute("href"),
+          id: style.getAttribute(HYDRATED_STYLE_ID),
+          content: style.textContent
+        }))
+      );
     }
     try {
       updateCanonicalLink(doc, opts.canonicalUrl);

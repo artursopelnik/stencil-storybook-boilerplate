@@ -6,8 +6,8 @@ By using extends, the light version is set as the base since differing themes li
 
 ## 💡 System Requirements
 
-* Node.js 22
-* Git
+- Node.js 22
+- Git
 
 ## 🚀 Setup
 
@@ -15,4 +15,4 @@ By using extends, the light version is set as the base since differing themes li
 2. Install dependencies: `npm install`
 3. Build the project: `npm run build`
 
-* (optional) Build the project with watch mode: `npm run start`
+- (optional) Build the project with watch mode: `npm run start`

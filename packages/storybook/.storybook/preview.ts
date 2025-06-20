@@ -2,7 +2,7 @@ import "@stencil-storybook-boilerplate/core/dist/stencil-storybook-boilerplate/t
 import "@stencil-storybook-boilerplate/core/dist/stencil-storybook-boilerplate/themes/dark.css"
 import "./globals.css"
 
-import type { Preview } from "@storybook/web-components"
+import type { Preview } from "@storybook/web-components-vite"
 
 const preview: Preview = {
   parameters: {

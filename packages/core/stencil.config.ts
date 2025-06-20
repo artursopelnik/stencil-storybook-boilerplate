@@ -3,6 +3,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 import { angularOutputTarget } from '@stencil/angular-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
 import postcss from 'rollup-plugin-postcss';
+
 export const config: Config = {
   namespace: 'stencil-storybook-boilerplate',
   outputTargets: [
@@ -26,7 +27,14 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
-      copy: [{ src: '**/*.html' }, { src: 'themes/vite-generated/light.css', dest: 'themes/light.css' }, { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' }],
+      copy: [
+        { src: '**/*.html' },
+        {
+          src: 'themes/vite-generated/light.css',
+          dest: 'themes/light.css',
+        },
+        { src: 'themes/vite-generated/dark.css', dest: 'themes/dark.css' },
+      ],
     },
     {
       type: 'www',
@@ -59,5 +67,6 @@ export const config: Config = {
       minimize: true,
     }),
   ],
+  //eslint-disable-next-line
   watchIgnoredRegex: [/src\/themes\/[^\/]+\.css$/],
 };

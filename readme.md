@@ -5,8 +5,8 @@
 
 A modern boilerplate for building fast and robust design systems for [React](https://reactjs.org/), [Remix](https://remix.run/), [Next.js](https://nextjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/) or Vanilla JS applications ✨ using:
 
-- [Stencil](https://github.com/ionic-team/stencil)
-- [Storybook](https://github.com/storybookjs/storybook)
+- [Stencil 4](https://github.com/ionic-team/stencil)
+- [Storybook 9](https://github.com/storybookjs/storybook)
 - [Vite](https://github.com/vitejs/vite)
 - [TypeScript](https://github.com/microsoft/TypeScript)
 - [Style Dictionary](https://github.com/amzn/style-dictionary)
@@ -72,9 +72,17 @@ cd stencil-storybook-boilerplate
 ## 👩‍💻 Usage
 
 1. Install dependencies:
+
    ```bash
    npm install
    ```
+
+   > **Note:** If you have issues with `npm install`, try using `--legacy-peer-deps` sb dark-mode use still @storybook/types version 8.
+
+   ```bash
+
+   ```
+
 2. Build packages
    ```bash
    npm run build
