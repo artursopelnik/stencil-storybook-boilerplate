@@ -21,7 +21,7 @@ const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("storybook-dark-mode"),
+    getAbsolutePath("@vueless/storybook-dark-mode"),
     getAbsolutePath("@storybook/addon-docs"),
   ],
   framework: {

@@ -77,12 +77,6 @@ cd stencil-storybook-boilerplate
    npm install
    ```
 
-   > **Note:** If you have issues with `npm install`, try using `--legacy-peer-deps` sb dark-mode use still @storybook/types version 8.
-
-   ```bash
-
-   ```
-
 2. Build packages
    ```bash
    npm run build
