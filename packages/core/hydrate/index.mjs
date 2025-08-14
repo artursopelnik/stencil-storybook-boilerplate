@@ -128,7 +128,7 @@ const NAMESPACE = 'stencil-storybook-boilerplate';
 const BUILD = /* stencil-storybook-boilerplate */ { hydratedSelectorName: "hydrated", slotRelocation: true, updatable: true, watchCallback: false };
 
 /*
- Stencil Hydrate Platform v4.35.1 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.36.2 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -329,8 +329,23 @@ function deserializeProperty(value) {
   }
   return RemoteValue.fromLocalValue(JSON.parse(atob(value.slice(SERIALIZED_PREFIX.length))));
 }
+
+// src/utils/style.ts
+function createStyleSheetIfNeededAndSupported(styles2) {
+  return void 0;
+}
+
+// src/utils/shadow-root.ts
+var globalStyleSheet;
 function createShadowRoot(cmpMeta) {
-  this.attachShadow({ mode: "open" });
+  var _a;
+  const shadowRoot = this.attachShadow({ mode: "open" });
+  if (globalStyleSheet === void 0) globalStyleSheet = (_a = createStyleSheetIfNeededAndSupported()) != null ? _a : null;
+  if (globalStyleSheet) {
+    {
+      shadowRoot.adoptedStyleSheets = [...shadowRoot.adoptedStyleSheets, globalStyleSheet];
+    }
+  }
 }
 
 // src/runtime/runtime-constants.ts
@@ -500,6 +515,94 @@ var uniqueTime = (key, measureText) => {
     };
   }
 };
+var rootAppliedStyles = /* @__PURE__ */ new WeakMap();
+var registerStyle = (scopeId2, cssText, allowCS) => {
+  let style = styles.get(scopeId2);
+  {
+    style = cssText;
+  }
+  styles.set(scopeId2, style);
+};
+var addStyle = (styleContainerNode, cmpMeta, mode) => {
+  var _a;
+  const scopeId2 = getScopeId(cmpMeta);
+  const style = styles.get(scopeId2);
+  if (!win.document) {
+    return scopeId2;
+  }
+  styleContainerNode = styleContainerNode.nodeType === 11 /* DocumentFragment */ ? styleContainerNode : win.document;
+  if (style) {
+    if (typeof style === "string") {
+      styleContainerNode = styleContainerNode.head || styleContainerNode;
+      let appliedStyles = rootAppliedStyles.get(styleContainerNode);
+      let styleElm;
+      if (!appliedStyles) {
+        rootAppliedStyles.set(styleContainerNode, appliedStyles = /* @__PURE__ */ new Set());
+      }
+      if (!appliedStyles.has(scopeId2)) {
+        if (styleContainerNode.host && (styleElm = styleContainerNode.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`))) {
+          styleElm.innerHTML = style;
+        } else {
+          styleElm = win.document.createElement("style");
+          styleElm.innerHTML = style;
+          const nonce = (_a = plt.$nonce$) != null ? _a : queryNonceMetaTagContent(win.document);
+          if (nonce != null) {
+            styleElm.setAttribute("nonce", nonce);
+          }
+          if ((cmpMeta.$flags$ & 2 /* scopedCssEncapsulation */ || cmpMeta.$flags$ & 128 /* shadowNeedsScopedCss */)) {
+            styleElm.setAttribute(HYDRATED_STYLE_ID, scopeId2);
+          }
+          if (!(cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */)) {
+            if (styleContainerNode.nodeName === "HEAD") {
+              const preconnectLinks = styleContainerNode.querySelectorAll("link[rel=preconnect]");
+              const referenceNode2 = preconnectLinks.length > 0 ? preconnectLinks[preconnectLinks.length - 1].nextSibling : styleContainerNode.querySelector("style");
+              styleContainerNode.insertBefore(
+                styleElm,
+                (referenceNode2 == null ? void 0 : referenceNode2.parentNode) === styleContainerNode ? referenceNode2 : null
+              );
+            } else if ("host" in styleContainerNode) {
+              {
+                const existingStyleContainer = styleContainerNode.querySelector("style");
+                if (existingStyleContainer) {
+                  existingStyleContainer.innerHTML = style + existingStyleContainer.innerHTML;
+                } else {
+                  styleContainerNode.prepend(styleElm);
+                }
+              }
+            } else {
+              styleContainerNode.append(styleElm);
+            }
+          }
+          if (cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */) {
+            styleContainerNode.insertBefore(styleElm, null);
+          }
+        }
+        if (cmpMeta.$flags$ & 4 /* hasSlotRelocation */) {
+          styleElm.innerHTML += SLOT_FB_CSS;
+        }
+        if (appliedStyles) {
+          appliedStyles.add(scopeId2);
+        }
+      }
+    }
+  }
+  return scopeId2;
+};
+var attachStyles = (hostRef) => {
+  const cmpMeta = hostRef.$cmpMeta$;
+  const elm = hostRef.$hostElement$;
+  const flags = cmpMeta.$flags$;
+  const endAttachStyles = createTime("attachStyles", cmpMeta.$tagName$);
+  const scopeId2 = addStyle(
+    elm.shadowRoot ? elm.shadowRoot : elm.getRootNode(),
+    cmpMeta);
+  if (flags & 10 /* needsScopedEncapsulation */) {
+    elm["s-sc"] = scopeId2;
+    elm.classList.add(scopeId2 + "-h");
+  }
+  endAttachStyles();
+};
+var getScopeId = (cmp, mode) => "sc-" + (cmp.$tagName$);
 var h = (nodeName, vnodeData, ...children) => {
   let child = null;
   let key = null;
@@ -577,7 +680,7 @@ var isHost = (node) => node && node.$tag$ === Host;
 
 // src/runtime/client-hydrate.ts
 var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
-  var _a;
+  var _a, _b, _c;
   const endHydrate = createTime("hydrateClient", tagName);
   const shadowRoot = hostElm.shadowRoot;
   const childRenderNodes = [];
@@ -588,7 +691,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
   vnode.$elm$ = hostElm;
   const members = Object.entries(((_a = hostRef.$cmpMeta$) == null ? void 0 : _a.$members$) || {});
   members.forEach(([memberName, [memberFlags, metaAttributeName]]) => {
-    var _b;
+    var _b2;
     if (!(memberFlags & 31 /* Prop */)) {
       return;
     }
@@ -598,7 +701,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
       const attrPropVal = parsePropertyValue(
         attrVal,
         memberFlags);
-      (_b = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _b.set(memberName, attrPropVal);
+      (_b2 = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _b2.set(memberName, attrPropVal);
     }
   });
   if (win.document && (!plt.$orgLocNodes$ || !plt.$orgLocNodes$.size)) {
@@ -629,6 +732,16 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
       if (childRenderNode.$tag$ === "slot") {
         node["s-cr"] = hostElm["s-cr"];
       }
+    } else if (((_b = childRenderNode.$tag$) == null ? void 0 : _b.toString().includes("-")) && childRenderNode.$tag$ !== "slot-fb" && !childRenderNode.$elm$.shadowRoot) {
+      const cmpMeta = getHostRef(childRenderNode.$elm$);
+      if (cmpMeta) {
+        const scopeId3 = getScopeId(
+          cmpMeta.$cmpMeta$);
+        const styleSheet = win.document.querySelector(`style[sty-id="${scopeId3}"]`);
+        if (styleSheet) {
+          hostElm.shadowRoot.append(styleSheet.cloneNode(true));
+        }
+      }
     }
     if (childRenderNode.$tag$ === "slot") {
       childRenderNode.$name$ = childRenderNode.$elm$["s-sn"] || childRenderNode.$elm$["name"] || null;
@@ -644,7 +757,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
       }
     }
     if (orgLocationNode && orgLocationNode.isConnected) {
-      if (shadowRoot && orgLocationNode["s-en"] === "") {
+      if (orgLocationNode.parentElement.shadowRoot && orgLocationNode["s-en"] === "") {
         orgLocationNode.parentNode.insertBefore(node, orgLocationNode.nextSibling);
       }
       orgLocationNode.parentNode.removeChild(orgLocationNode);
@@ -652,7 +765,9 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
         node["s-oo"] = parseInt(childRenderNode.$nodeId$);
       }
     }
-    plt.$orgLocNodes$.delete(orgLocationId);
+    if (orgLocationNode && !orgLocationNode["s-id"]) {
+      plt.$orgLocNodes$.delete(orgLocationId);
+    }
   }
   const hosts = [];
   const snLen = slottedNodes.length;
@@ -673,39 +788,46 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
       }
       if (!hosts[slottedItem.hostId]) continue;
       const hostEle = hosts[slottedItem.hostId];
-      if (!hostEle.shadowRoot || !shadowRoot) {
-        slottedItem.slot["s-cr"] = hostEle["s-cr"];
-        if (!slottedItem.slot["s-cr"] && hostEle.shadowRoot) {
-          slottedItem.slot["s-cr"] = hostEle;
-        } else {
-          slottedItem.slot["s-cr"] = (hostEle.__childNodes || hostEle.childNodes)[0];
-        }
-        addSlotRelocateNode(slottedItem.node, slottedItem.slot, false, slottedItem.node["s-oo"]);
-      }
       if (hostEle.shadowRoot && slottedItem.node.parentElement !== hostEle) {
         hostEle.appendChild(slottedItem.node);
       }
+      if (!hostEle.shadowRoot || !shadowRoot) {
+        if (!slottedItem.slot["s-cr"]) {
+          slottedItem.slot["s-cr"] = hostEle["s-cr"];
+          if (!slottedItem.slot["s-cr"] && hostEle.shadowRoot) {
+            slottedItem.slot["s-cr"] = hostEle;
+          } else {
+            slottedItem.slot["s-cr"] = (hostEle.__childNodes || hostEle.childNodes)[0];
+          }
+        }
+        addSlotRelocateNode(slottedItem.node, slottedItem.slot, false, slottedItem.node["s-oo"]);
+        if (((_c = slottedItem.node.parentElement) == null ? void 0 : _c.shadowRoot) && slottedItem.node["getAttribute"] && slottedItem.node.getAttribute("slot")) {
+          slottedItem.node.removeAttribute("slot");
+        }
+      }
     }
   }
-  if (shadowRoot && !shadowRoot.childNodes.length) {
+  if (shadowRoot) {
     let rnIdex = 0;
     const rnLen = shadowRootNodes.length;
     if (rnLen) {
       for (rnIdex; rnIdex < rnLen; rnIdex++) {
-        shadowRoot.appendChild(shadowRootNodes[rnIdex]);
+        const node = shadowRootNodes[rnIdex];
+        if (node) {
+          shadowRoot.appendChild(node);
+        }
       }
       Array.from(hostElm.childNodes).forEach((node) => {
         if (typeof node["s-en"] !== "string" && typeof node["s-sn"] !== "string") {
           if (node.nodeType === 1 /* ElementNode */ && node.slot && node.hidden) {
             node.removeAttribute("hidden");
-          } else if (node.nodeType === 8 /* CommentNode */ || node.nodeType === 3 /* TextNode */ && !node.wholeText.trim()) {
+          } else if (node.nodeType === 8 /* CommentNode */ && !node.nodeValue || node.nodeType === 3 /* TextNode */ && !node.wholeText.trim()) {
             node.parentNode.removeChild(node);
           }
         }
       });
     }
   }
-  plt.$orgLocNodes$.delete(hostElm["s-id"]);
   hostRef.$hostElement$ = hostElm;
   endHydrate();
 };
@@ -859,7 +981,7 @@ var clientHydrate = (parentVNode, childRenderNodes, slotNodes, shadowRootNodes, 
     vnode.$index$ = "0";
     parentVNode.$children$ = [vnode];
   } else {
-    if (node.nodeType === 3 /* TextNode */ && !node.wholeText.trim()) {
+    if (node.nodeType === 3 /* TextNode */ && !node.wholeText.trim() && !node["s-nr"]) {
       node.remove();
     }
   }
@@ -917,10 +1039,10 @@ function addSlot(slotName, slotId, childVNode, node, parentVNode, childRenderNod
     if (childVNode.$name$) {
       childVNode.$elm$.setAttribute("name", slotName);
     }
-    if (parentNodeId && parentNodeId !== childVNode.$hostId$) {
-      parentVNode.$elm$.insertBefore(slot, parentVNode.$elm$.children[0]);
+    if (parentVNode.$elm$.shadowRoot && parentNodeId && parentNodeId !== childVNode.$hostId$) {
+      internalCall(parentVNode.$elm$, "insertBefore")(slot, internalCall(parentVNode.$elm$, "children")[0]);
     } else {
-      node.parentNode.insertBefore(slot, node);
+      internalCall(internalCall(node, "parentNode"), "insertBefore")(slot, node);
     }
     addSlottedNodes(slottedNodes, slotId, slotName, node, childVNode.$hostId$);
     node.remove();
@@ -944,13 +1066,17 @@ function addSlot(slotName, slotId, childVNode, node, parentVNode, childRenderNod
   parentVNode.$children$[childVNode.$index$] = childVNode;
 }
 var addSlottedNodes = (slottedNodes, slotNodeId, slotName, slotNode, hostId) => {
+  var _a, _b;
   let slottedNode = slotNode.nextSibling;
   slottedNodes[slotNodeId] = slottedNodes[slotNodeId] || [];
-  while (slottedNode && ((slottedNode["getAttribute"] && slottedNode.getAttribute("slot") || slottedNode["s-sn"]) === slotName || slotName === "" && !slottedNode["s-sn"] && (slottedNode.nodeType === 8 /* CommentNode */ && slottedNode.nodeValue.indexOf(".") !== 1 || slottedNode.nodeType === 3 /* TextNode */))) {
-    slottedNode["s-sn"] = slotName;
-    slottedNodes[slotNodeId].push({ slot: slotNode, node: slottedNode, hostId });
-    slottedNode = slottedNode.nextSibling;
-  }
+  if (!slottedNode || ((_a = slottedNode.nodeValue) == null ? void 0 : _a.startsWith(SLOT_NODE_ID + "."))) return;
+  do {
+    if (slottedNode && ((slottedNode["getAttribute"] && slottedNode.getAttribute("slot") || slottedNode["s-sn"]) === slotName || slotName === "" && !slottedNode["s-sn"] && (!slottedNode["getAttribute"] || !slottedNode.getAttribute("slot")) && (slottedNode.nodeType === 8 /* CommentNode */ || slottedNode.nodeType === 3 /* TextNode */))) {
+      slottedNode["s-sn"] = slotName;
+      slottedNodes[slotNodeId].push({ slot: slotNode, node: slottedNode, hostId });
+    }
+    slottedNode = slottedNode == null ? void 0 : slottedNode.nextSibling;
+  } while (slottedNode && !((_b = slottedNode.nodeValue) == null ? void 0 : _b.startsWith(SLOT_NODE_ID + ".")));
 };
 var findCorrespondingNode = (node, type) => {
   let sibling = node;
@@ -1366,16 +1492,15 @@ var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
   return cssText;
 };
 var parsePropertyValue = (propValue, propType, isFormAssociated) => {
-  if (typeof propValue === "string" && (propValue.startsWith("{") && propValue.endsWith("}") || propValue.startsWith("[") && propValue.endsWith("]"))) {
-    try {
-      propValue = JSON.parse(propValue);
-      return propValue;
-    } catch (e) {
-    }
-  }
   if (typeof propValue === "string" && propValue.startsWith(SERIALIZED_PREFIX)) {
     propValue = deserializeProperty(propValue);
     return propValue;
+  }
+  if (typeof propValue === "string" && (propType & 16 /* Unknown */ || propType & 8 /* Any */) && (propValue.startsWith("{") && propValue.endsWith("}") || propValue.startsWith("[") && propValue.endsWith("]"))) {
+    try {
+      return JSON.parse(propValue);
+    } catch (e) {
+    }
   }
   if (propValue != null && !isComplexType(propValue)) {
     if (propType & 2 /* Number */) {
@@ -1388,7 +1513,10 @@ var parsePropertyValue = (propValue, propType, isFormAssociated) => {
   }
   return propValue;
 };
-var getElement = (ref) => getHostRef(ref).$hostElement$ ;
+var getElement = (ref) => {
+  var _a;
+  return (_a = getHostRef(ref)) == null ? void 0 : _a.$hostElement$ ;
+};
 
 // src/runtime/event-emitter.ts
 var createEvent = (ref, name, flags) => {
@@ -1409,94 +1537,6 @@ var emitEvent = (elm, name, opts) => {
   elm.dispatchEvent(ev);
   return ev;
 };
-var rootAppliedStyles = /* @__PURE__ */ new WeakMap();
-var registerStyle = (scopeId2, cssText, allowCS) => {
-  let style = styles.get(scopeId2);
-  {
-    style = cssText;
-  }
-  styles.set(scopeId2, style);
-};
-var addStyle = (styleContainerNode, cmpMeta, mode) => {
-  var _a;
-  const scopeId2 = getScopeId(cmpMeta);
-  const style = styles.get(scopeId2);
-  if (!win.document) {
-    return scopeId2;
-  }
-  styleContainerNode = styleContainerNode.nodeType === 11 /* DocumentFragment */ ? styleContainerNode : win.document;
-  if (style) {
-    if (typeof style === "string") {
-      styleContainerNode = styleContainerNode.head || styleContainerNode;
-      let appliedStyles = rootAppliedStyles.get(styleContainerNode);
-      let styleElm;
-      if (!appliedStyles) {
-        rootAppliedStyles.set(styleContainerNode, appliedStyles = /* @__PURE__ */ new Set());
-      }
-      if (!appliedStyles.has(scopeId2)) {
-        if (styleContainerNode.host && (styleElm = styleContainerNode.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`))) {
-          styleElm.innerHTML = style;
-        } else {
-          styleElm = win.document.createElement("style");
-          styleElm.innerHTML = style;
-          const nonce = (_a = plt.$nonce$) != null ? _a : queryNonceMetaTagContent(win.document);
-          if (nonce != null) {
-            styleElm.setAttribute("nonce", nonce);
-          }
-          if ((cmpMeta.$flags$ & 2 /* scopedCssEncapsulation */ || cmpMeta.$flags$ & 128 /* shadowNeedsScopedCss */)) {
-            styleElm.setAttribute(HYDRATED_STYLE_ID, scopeId2);
-          }
-          if (!(cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */)) {
-            if (styleContainerNode.nodeName === "HEAD") {
-              const preconnectLinks = styleContainerNode.querySelectorAll("link[rel=preconnect]");
-              const referenceNode2 = preconnectLinks.length > 0 ? preconnectLinks[preconnectLinks.length - 1].nextSibling : styleContainerNode.querySelector("style");
-              styleContainerNode.insertBefore(
-                styleElm,
-                (referenceNode2 == null ? void 0 : referenceNode2.parentNode) === styleContainerNode ? referenceNode2 : null
-              );
-            } else if ("host" in styleContainerNode) {
-              {
-                const existingStyleContainer = styleContainerNode.querySelector("style");
-                if (existingStyleContainer) {
-                  existingStyleContainer.innerHTML = style + existingStyleContainer.innerHTML;
-                } else {
-                  styleContainerNode.prepend(styleElm);
-                }
-              }
-            } else {
-              styleContainerNode.append(styleElm);
-            }
-          }
-          if (cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */) {
-            styleContainerNode.insertBefore(styleElm, null);
-          }
-        }
-        if (cmpMeta.$flags$ & 4 /* hasSlotRelocation */) {
-          styleElm.innerHTML += SLOT_FB_CSS;
-        }
-        if (appliedStyles) {
-          appliedStyles.add(scopeId2);
-        }
-      }
-    }
-  }
-  return scopeId2;
-};
-var attachStyles = (hostRef) => {
-  const cmpMeta = hostRef.$cmpMeta$;
-  const elm = hostRef.$hostElement$;
-  const flags = cmpMeta.$flags$;
-  const endAttachStyles = createTime("attachStyles", cmpMeta.$tagName$);
-  const scopeId2 = addStyle(
-    elm.shadowRoot ? elm.shadowRoot : elm.getRootNode(),
-    cmpMeta);
-  if (flags & 10 /* needsScopedEncapsulation */) {
-    elm["s-sc"] = scopeId2;
-    elm.classList.add(scopeId2 + "-h");
-  }
-  endAttachStyles();
-};
-var getScopeId = (cmp, mode) => "sc-" + (cmp.$tagName$);
 var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRender) => {
   if (oldValue === newValue) {
     return;
@@ -1507,12 +1547,13 @@ var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRen
     const classList = elm.classList;
     const oldClasses = parseClassList(oldValue);
     let newClasses = parseClassList(newValue);
-    if (elm["s-si"] && initialRender) {
-      newClasses.push(elm["s-si"]);
+    if ((elm["s-si"] || elm["s-sc"]) && initialRender) {
+      const scopeId2 = elm["s-sc"] || elm["s-si"];
+      newClasses.push(scopeId2);
       oldClasses.forEach((c) => {
-        if (c.startsWith(elm["s-si"])) newClasses.push(c);
+        if (c.startsWith(scopeId2)) newClasses.push(c);
       });
-      newClasses = [...new Set(newClasses)];
+      newClasses = [...new Set(newClasses)].filter((c) => c);
       classList.add(...newClasses);
     } else {
       classList.remove(...oldClasses.filter((c) => c && !newClasses.includes(c)));
@@ -1926,6 +1967,8 @@ var patch = (oldVNode, newVNode2, isInitialRender = false) => {
       !isInitialRender && BUILD.updatable && oldChildren !== null
     ) {
       removeVnodes(oldChildren, 0, oldChildren.length - 1);
+    } else if (isInitialRender && BUILD.updatable && oldChildren !== null && newChildren === null) {
+      newVNode2.$children$ = oldChildren;
     }
   } else if ((defaultHolder = elm["s-cr"])) {
     defaultHolder.parentNode.textContent = text;
@@ -2129,6 +2172,12 @@ var scheduleUpdate = (hostRef, isInitialLoad) => {
   }
   attachToAncestor(hostRef, hostRef.$ancestorComponent$);
   const dispatch = () => dispatchHooks(hostRef, isInitialLoad);
+  if (isInitialLoad) {
+    queueMicrotask(() => {
+      dispatch();
+    });
+    return;
+  }
   return writeTask(dispatch) ;
 };
 var dispatchHooks = (hostRef, isInitialLoad) => {
@@ -2256,10 +2305,16 @@ var postUpdateComponent = (hostRef) => {
   }
 };
 var appDidLoad = (who) => {
+  var _a;
   if (BUILD.asyncQueue) {
     plt.$flags$ |= 2 /* appLoaded */;
   }
   nextTick(() => emitEvent(win, "appload", { detail: { namespace: NAMESPACE } }));
+  {
+    if ((_a = plt.$orgLocNodes$) == null ? void 0 : _a.size) {
+      plt.$orgLocNodes$.clear();
+    }
+  }
 };
 var safeCall = (instance, method, arg, elm) => {
   if (instance && instance[method]) {
@@ -2292,6 +2347,9 @@ var serverSideConnected = (elm) => {
 var getValue = (ref, propName) => getHostRef(ref).$instanceValues$.get(propName);
 var setValue = (ref, propName, newVal, cmpMeta) => {
   const hostRef = getHostRef(ref);
+  if (!hostRef) {
+    return;
+  }
   if (!hostRef) {
     throw new Error(
       `Couldn't find host element for "${cmpMeta.$tagName$}" as it is unknown to this Stencil runtime. This usually happens when integrating a 3rd party Stencil component with another Stencil component or application. Please reach out to the maintainers of the 3rd party Stencil component or report this on the Stencil Discord server (https://chat.stenciljs.com) or comment on this similar [GitHub issue](https://github.com/stenciljs/core/issues/5457).`
@@ -2351,6 +2409,9 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
         Object.defineProperty(prototype, memberName, {
           set(newValue) {
             const ref = getHostRef(this);
+            if (!ref) {
+              return;
+            }
             if (origSetter) {
               const currentValue = memberFlags & 32 /* State */ ? this[memberName] : ref.$hostElement$[memberName];
               if (typeof currentValue === "undefined" && ref.$instanceValues$.get(memberName)) {
@@ -2460,6 +2521,9 @@ var fireConnectedCallback = (instance, elm) => {
 var connectedCallback = (elm) => {
   if ((plt.$flags$ & 1 /* isTmpDisconnected */) === 0) {
     const hostRef = getHostRef(elm);
+    if (!hostRef) {
+      return;
+    }
     const cmpMeta = hostRef.$cmpMeta$;
     const endConnected = createTime("connectedCallback", cmpMeta.$tagName$);
     if (!(hostRef.$flags$ & 1 /* hasConnected */)) {
@@ -2730,7 +2794,7 @@ function proxyHostElement(elm, cstr) {
             get: function() {
               var _a2;
               const ref = getHostRef(this);
-              const attrPropVal2 = (_a2 = ref.$instanceValues$) == null ? void 0 : _a2.get(memberName);
+              const attrPropVal2 = (_a2 = ref == null ? void 0 : ref.$instanceValues$) == null ? void 0 : _a2.get(memberName);
               if (origGetter && attrPropVal2 === void 0 && !getValue(this, memberName)) {
                 setValue(this, memberName, origGetter.apply(this), cmpMeta);
               }
@@ -2880,13 +2944,16 @@ async function hydrateComponent(win2, results, tagName, elm, waitingElements) {
     const cmpMeta = Cstr.cmpMeta;
     if (cmpMeta != null) {
       waitingElements.add(elm);
-      getHostRef(this);
+      const hostRef = getHostRef(this);
+      if (!hostRef) {
+        return;
+      }
       try {
         connectedCallback(elm);
         await elm.componentOnReady();
         results.hydratedCount++;
         const ref = getHostRef(elm);
-        const modeName = !ref.$modeName$ ? "$" : ref.$modeName$;
+        const modeName = !(ref == null ? void 0 : ref.$modeName$) ? "$" : ref == null ? void 0 : ref.$modeName$;
         if (!results.components.some((c) => c.tag === tagName && c.mode === modeName)) {
           results.components.push({
             tag: tagName,
@@ -3189,7 +3256,7 @@ class MyComponent {
     }
     static get style() { return myComponentCss; }
     static get cmpMeta() { return {
-        "$flags$": 9,
+        "$flags$": 265,
         "$tagName$": "my-component",
         "$members$": {
             "count": [2],
@@ -3305,7 +3372,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.35.1 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.36.2 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -13686,6 +13753,11 @@ function* streamToHtml(node, opts, output) {
         const mode = ` shadowrootmode="open"`;
         yield mode;
         output.currentLineWidth += mode.length;
+        if (node.delegatesFocus) {
+          const delegatesFocusAttr = " shadowrootdelegatesfocus";
+          yield delegatesFocusAttr;
+          output.currentLineWidth += delegatesFocusAttr.length;
+        }
       }
       const attrsLength = node.attributes.length;
       const attributes = opts.prettyHtml && attrsLength > 1 ? cloneAttributes(node.attributes, true) : node.attributes;
@@ -14251,15 +14323,25 @@ var MockElement = class extends MockNode2 {
     addEventListener(this, type, handler);
   }
   attachShadow(_opts) {
+    var _a2;
     const shadowRoot = this.ownerDocument.createDocumentFragment();
+    shadowRoot.delegatesFocus = (_a2 = _opts.delegatesFocus) != null ? _a2 : false;
     this.shadowRoot = shadowRoot;
     return shadowRoot;
   }
   blur() {
-    dispatchEvent(
-      this,
-      new MockFocusEvent("blur", { relatedTarget: null, bubbles: true, cancelable: true, composed: true })
-    );
+    if (isCurrentlyDispatching(this, "blur")) {
+      return;
+    }
+    markAsDispatching(this, "blur");
+    try {
+      dispatchEvent(
+        this,
+        new MockFocusEvent("blur", { relatedTarget: null, bubbles: true, cancelable: true, composed: true })
+      );
+    } finally {
+      unmarkAsDispatching(this, "blur");
+    }
   }
   get localName() {
     if (!this.nodeName) {
@@ -15000,6 +15082,28 @@ function setTextContent(elm, text) {
   }
   const textNode = new MockTextNode(elm.ownerDocument, text);
   elm.appendChild(textNode);
+}
+var currentlyDispatching = /* @__PURE__ */ new WeakMap();
+function isCurrentlyDispatching(target, eventType) {
+  const dispatchingEvents = currentlyDispatching.get(target);
+  return dispatchingEvents != null && dispatchingEvents.has(eventType);
+}
+function markAsDispatching(target, eventType) {
+  let dispatchingEvents = currentlyDispatching.get(target);
+  if (dispatchingEvents == null) {
+    dispatchingEvents = /* @__PURE__ */ new Set();
+    currentlyDispatching.set(target, dispatchingEvents);
+  }
+  dispatchingEvents.add(eventType);
+}
+function unmarkAsDispatching(target, eventType) {
+  const dispatchingEvents = currentlyDispatching.get(target);
+  if (dispatchingEvents != null) {
+    dispatchingEvents.delete(eventType);
+    if (dispatchingEvents.size === 0) {
+      currentlyDispatching.delete(target);
+    }
+  }
 }
 
 // src/mock-doc/comment-node.ts

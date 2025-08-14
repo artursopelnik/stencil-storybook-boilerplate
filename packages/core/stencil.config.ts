@@ -54,6 +54,7 @@ export const config: Config = {
     reactOutputTarget({
       outDir: '../react/lib/components/stencil-generated/',
       hydrateModule: '@stencil-storybook-boilerplate/core/hydrate',
+      clientModule: '@stencil-storybook-boilerplate/core/client',
       esModules: true,
     }),
     {

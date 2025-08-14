@@ -5,10 +5,12 @@
 
 /* eslint-disable */
 
-import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "@stencil-storybook-boilerplate/core/dist/components/my-component.js";
+// @ts-ignore - ignore potential type issues as the project is importing itself
+import * as clientComponents from '@stencil-storybook-boilerplate/core/client';
+
+import { MyComponent as MyComponentElement } from "@stencil-storybook-boilerplate/core/dist/components/my-component.js";
 import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
-import { createComponent, type HydrateModule, type SerializeShadowRootOptions } from '@stencil/react-output-target/ssr';
-import React from 'react';
+import { createComponent, type HydrateModule, type ReactWebComponent, type SerializeShadowRootOptions } from '@stencil/react-output-target/ssr';
 
 export const serializeShadowRoot: SerializeShadowRootOptions = { default: "declarative-shadow-dom" };
 
@@ -24,10 +26,6 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
         aria: 'aria'
     },
     hydrateModule: import('@stencil-storybook-boilerplate/core/hydrate') as Promise<HydrateModule>,
+    clientModule: clientComponents.MyComponent as ReactWebComponent<MyComponentElement, MyComponentEvents>,
     serializeShadowRoot,
-    elementClass: MyComponentElement,
-    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
-    react: React,
-    events: { onButtonClick: 'buttonClick' } as MyComponentEvents,
-    defineCustomElement: defineMyComponent
 });
