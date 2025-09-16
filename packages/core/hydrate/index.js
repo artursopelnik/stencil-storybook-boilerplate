@@ -130,7 +130,7 @@ const NAMESPACE = 'stencil-storybook-boilerplate';
 const BUILD = /* stencil-storybook-boilerplate */ { hydratedSelectorName: "hydrated", slotRelocation: true, updatable: true, watchCallback: false };
 
 /*
- Stencil Hydrate Platform v4.36.2 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.37.0 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -2483,7 +2483,12 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
     } else {
       Cstr = elm.constructor;
       const cmpTag = elm.localName;
-      customElements.whenDefined(cmpTag).then(() => hostRef.$flags$ |= 128 /* isWatchReady */);
+      const setWatchIsReady = () => hostRef.$flags$ |= 128 /* isWatchReady */;
+      if (!!customElements.get(cmpTag)) {
+        setWatchIsReady();
+      } else {
+        customElements.whenDefined(cmpTag).then(setWatchIsReady);
+      }
     }
     if (Cstr && Cstr.style) {
       let style;
@@ -3170,6 +3175,7 @@ var getHostRef = (ref) => {
   return void 0;
 };
 var registerInstance = (lazyInstance, hostRef) => {
+  if (!hostRef) return void 0;
   lazyInstance.__stencil__getHostRef = () => hostRef;
   hostRef.$lazyInstance$ = lazyInstance;
   return hostRef;
@@ -3374,7 +3380,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.36.2 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.37.0 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -18051,6 +18057,9 @@ var _colonHostContextRe = createSupportsRuleRe(":host-context");
 var setMode = (handler) => modeResolutionChain.push(handler);
 var CAPTURE_EVENT_SUFFIX = "Capture";
 var CAPTURE_EVENT_REGEX = new RegExp(CAPTURE_EVENT_SUFFIX + "$");
+var baseClass = BUILD.lazyLoad ? class {
+} : globalThis.HTMLElement || class {
+};
 
 // src/compiler/html/canonical-link.ts
 var updateCanonicalLink = (doc, href) => {

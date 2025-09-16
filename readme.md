@@ -5,11 +5,11 @@
 
 A modern boilerplate for building fast and robust design systems for [React](https://reactjs.org/), [Remix](https://remix.run/), [Next.js](https://nextjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/) or Vanilla JS applications ✨ using:
 
-- [Stencil 4](https://github.com/ionic-team/stencil)
-- [Storybook 9](https://github.com/storybookjs/storybook)
-- [Vite](https://github.com/vitejs/vite)
-- [TypeScript](https://github.com/microsoft/TypeScript)
-- [Style Dictionary](https://github.com/amzn/style-dictionary)
+- [Stencil v4](https://github.com/ionic-team/stencil)
+- [Storybook v9](https://github.com/storybookjs/storybook)
+- [Style Dictionary v5](https://github.com/amzn/style-dictionary)
+- [Vite v7](https://github.com/vitejs/vite)
+- [TypeScript v5](https://github.com/microsoft/TypeScript)
 
 This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://www.designsystemscollective.com/how-to-use-storybook-with-stencil-in-2025-and-why-lit-isnt-the-best-choice-81fb5c2d521e).
 
