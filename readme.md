@@ -6,7 +6,7 @@
 A modern boilerplate for building fast and robust design systems for [React](https://reactjs.org/), [Remix](https://remix.run/), [Next.js](https://nextjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/) or Vanilla JS applications ✨ using:
 
 - [Stencil v4](https://github.com/ionic-team/stencil)
-- [Storybook v9](https://github.com/storybookjs/storybook)
+- [Storybook v10](https://github.com/storybookjs/storybook)
 - [Style Dictionary v5](https://github.com/amzn/style-dictionary)
 - [Vite v7](https://github.com/vitejs/vite)
 - [TypeScript v5](https://github.com/microsoft/TypeScript)

@@ -28,7 +28,8 @@
     "http-server": "^14.1.1",
     "storybook": "^10.0.8",
     "vite": "^7.2.4",
-    "vite-plugin-live-reload": "^3.0.5"
+    "vite-plugin-live-reload": "^3.0.5",
+    "eslint-plugin-storybook": "10.0.8"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.53.3"

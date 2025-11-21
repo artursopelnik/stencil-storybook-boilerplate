@@ -2,6 +2,11 @@ import type { StorybookConfig } from "@storybook/web-components-vite"
 
 import { join, dirname } from "path"
 
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+
 const { BASE_PATH } = process.env
 
 /**
