@@ -127,10 +127,10 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
 
 
 const NAMESPACE = 'stencil-storybook-boilerplate';
-const BUILD = /* stencil-storybook-boilerplate */ { hydratedSelectorName: "hydrated", slotRelocation: true, updatable: true, watchCallback: false };
+const BUILD = /* stencil-storybook-boilerplate */ { hydratedSelectorName: "hydrated", prop: true, propChangeCallback: false, slotRelocation: true, updatable: true};
 
 /*
- Stencil Hydrate Platform v4.37.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.38.3 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -161,6 +161,40 @@ var NonPrimitiveType = /* @__PURE__ */ ((NonPrimitiveType2) => {
 var TYPE_CONSTANT = "type";
 var VALUE_CONSTANT = "value";
 var SERIALIZED_PREFIX = "serialized:";
+
+// src/utils/es2022-rewire-class-members.ts
+var reWireGetterSetter = (instance, hostRef) => {
+  var _a;
+  const cmpMeta = hostRef.$cmpMeta$;
+  const members = Object.entries((_a = cmpMeta.$members$) != null ? _a : {});
+  members.map(([memberName, [memberFlags]]) => {
+    if ((memberFlags & 31 /* Prop */ || memberFlags & 32 /* State */)) {
+      const ogValue = instance[memberName];
+      const ogDescriptor = getPropertyDescriptor(Object.getPrototypeOf(instance), memberName) || Object.getOwnPropertyDescriptor(instance, memberName);
+      if (ogDescriptor) {
+        Object.defineProperty(instance, memberName, {
+          get() {
+            return ogDescriptor.get.call(this);
+          },
+          set(newValue) {
+            ogDescriptor.set.call(this, newValue);
+          },
+          configurable: true,
+          enumerable: true
+        });
+      }
+      instance[memberName] = hostRef.$instanceValues$.has(memberName) ? hostRef.$instanceValues$.get(memberName) : ogValue;
+    }
+  });
+};
+function getPropertyDescriptor(obj, memberName) {
+  while (obj) {
+    const desc = Object.getOwnPropertyDescriptor(obj, memberName);
+    if (desc == null ? void 0 : desc.get) return desc;
+    obj = Object.getPrototypeOf(obj);
+  }
+  return void 0;
+}
 
 // src/utils/helpers.ts
 var isDef = (v) => v != null && v !== void 0;
@@ -682,7 +716,7 @@ var isHost = (node) => node && node.$tag$ === Host;
 
 // src/runtime/client-hydrate.ts
 var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
-  var _a, _b, _c;
+  var _a, _b;
   const endHydrate = createTime("hydrateClient", tagName);
   const shadowRoot = hostElm.shadowRoot;
   const childRenderNodes = [];
@@ -691,21 +725,6 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
   const shadowRootNodes = shadowRoot ? [] : null;
   const vnode = newVNode(tagName, null);
   vnode.$elm$ = hostElm;
-  const members = Object.entries(((_a = hostRef.$cmpMeta$) == null ? void 0 : _a.$members$) || {});
-  members.forEach(([memberName, [memberFlags, metaAttributeName]]) => {
-    var _b2;
-    if (!(memberFlags & 31 /* Prop */)) {
-      return;
-    }
-    const attributeName = metaAttributeName || memberName;
-    const attrVal = hostElm.getAttribute(attributeName);
-    if (attrVal !== null) {
-      const attrPropVal = parsePropertyValue(
-        attrVal,
-        memberFlags);
-      (_b2 = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _b2.set(memberName, attrPropVal);
-    }
-  });
   if (win.document && (!plt.$orgLocNodes$ || !plt.$orgLocNodes$.size)) {
     initializeDocumentHydrate(win.document.body, plt.$orgLocNodes$ = /* @__PURE__ */ new Map());
   }
@@ -734,7 +753,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
       if (childRenderNode.$tag$ === "slot") {
         node["s-cr"] = hostElm["s-cr"];
       }
-    } else if (((_b = childRenderNode.$tag$) == null ? void 0 : _b.toString().includes("-")) && childRenderNode.$tag$ !== "slot-fb" && !childRenderNode.$elm$.shadowRoot) {
+    } else if (((_a = childRenderNode.$tag$) == null ? void 0 : _a.toString().includes("-")) && childRenderNode.$tag$ !== "slot-fb" && !childRenderNode.$elm$.shadowRoot) {
       const cmpMeta = getHostRef(childRenderNode.$elm$);
       if (cmpMeta) {
         const scopeId3 = getScopeId(
@@ -803,7 +822,7 @@ var initializeClientHydrate = (hostElm, tagName, hostId, hostRef) => {
           }
         }
         addSlotRelocateNode(slottedItem.node, slottedItem.slot, false, slottedItem.node["s-oo"]);
-        if (((_c = slottedItem.node.parentElement) == null ? void 0 : _c.shadowRoot) && slottedItem.node["getAttribute"] && slottedItem.node.getAttribute("slot")) {
+        if (((_b = slottedItem.node.parentElement) == null ? void 0 : _b.shadowRoot) && slottedItem.node["getAttribute"] && slottedItem.node.getAttribute("slot")) {
           slottedItem.node.removeAttribute("slot");
         }
       }
@@ -1498,12 +1517,6 @@ var parsePropertyValue = (propValue, propType, isFormAssociated) => {
     propValue = deserializeProperty(propValue);
     return propValue;
   }
-  if (typeof propValue === "string" && (propType & 16 /* Unknown */ || propType & 8 /* Any */) && (propValue.startsWith("{") && propValue.endsWith("}") || propValue.startsWith("[") && propValue.endsWith("]"))) {
-    try {
-      return JSON.parse(propValue);
-    } catch (e) {
-    }
-  }
   if (propValue != null && !isComplexType(propValue)) {
     if (propType & 2 /* Number */) {
       return typeof propValue === "string" ? parseFloat(propValue) : typeof propValue === "number" ? propValue : NaN;
@@ -2193,6 +2206,11 @@ var dispatchHooks = (hostRef, isInitialLoad) => {
   }
   let maybePromise;
   if (isInitialLoad) {
+    {
+      if (hostRef.$fetchedCbList$.length) {
+        hostRef.$fetchedCbList$.forEach((cb) => cb(elm));
+      }
+    }
     maybePromise = safeCall(instance, "componentWillLoad", void 0, elm);
   } else {
     maybePromise = safeCall(instance, "componentWillUpdate", void 0, elm);
@@ -2384,7 +2402,7 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
 var proxyComponent = (Cstr, cmpMeta, flags) => {
   var _a;
   const prototype = Cstr.prototype;
-  if (cmpMeta.$members$ || BUILD.watchCallback) {
+  if (cmpMeta.$members$ || BUILD.propChangeCallback) {
     const members = Object.entries((_a = cmpMeta.$members$) != null ? _a : {});
     members.map(([memberName, [memberFlags]]) => {
       if ((memberFlags & 31 /* Prop */ || memberFlags & 32 /* State */)) {
@@ -2418,8 +2436,6 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
               const currentValue = memberFlags & 32 /* State */ ? this[memberName] : ref.$hostElement$[memberName];
               if (typeof currentValue === "undefined" && ref.$instanceValues$.get(memberName)) {
                 newValue = ref.$instanceValues$.get(memberName);
-              } else if (!ref.$instanceValues$.get(memberName) && currentValue) {
-                ref.$instanceValues$.set(memberName, currentValue);
               }
               origSetter.apply(this, [
                 parsePropertyValue(
@@ -2483,12 +2499,7 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
     } else {
       Cstr = elm.constructor;
       const cmpTag = elm.localName;
-      const setWatchIsReady = () => hostRef.$flags$ |= 128 /* isWatchReady */;
-      if (!!customElements.get(cmpTag)) {
-        setWatchIsReady();
-      } else {
-        customElements.whenDefined(cmpTag).then(setWatchIsReady);
-      }
+      customElements.whenDefined(cmpTag).then(() => hostRef.$flags$ |= 128 /* isWatchReady */);
     }
     if (Cstr && Cstr.style) {
       let style;
@@ -2750,6 +2761,9 @@ var hAsync = (nodeName, vnodeData, ...children) => {
 // src/hydrate/platform/proxy-host-element.ts
 function proxyHostElement(elm, cstr) {
   const cmpMeta = cstr.cmpMeta;
+  cmpMeta.$watchers$ = cmpMeta.$watchers$ || cstr.watchers;
+  cmpMeta.$deserializers$ = cmpMeta.$deserializers$ || cstr.deserializers;
+  cmpMeta.$serializers$ = cmpMeta.$serializers$ || cstr.serializers;
   if (typeof elm.componentOnReady !== "function") {
     elm.componentOnReady = componentOnReady;
   }
@@ -2763,7 +2777,7 @@ function proxyHostElement(elm, cstr) {
     const hostRef = getHostRef(elm);
     const members = Object.entries(cmpMeta.$members$);
     members.forEach(([memberName, [memberFlags, metaAttributeName]]) => {
-      var _a;
+      var _a, _b;
       if (memberFlags & 31 /* Prop */) {
         const attributeName = metaAttributeName || memberName;
         const attrValue = elm.getAttribute(attributeName);
@@ -2771,7 +2785,13 @@ function proxyHostElement(elm, cstr) {
         let attrPropVal;
         const { get: origGetter, set: origSetter } = Object.getOwnPropertyDescriptor(cstr.prototype, memberName) || {};
         if (attrValue != null) {
-          attrPropVal = parsePropertyValue(attrValue, memberFlags);
+          if ((_a = cmpMeta.$deserializers$) == null ? void 0 : _a[memberName]) {
+            for (const methodName of cmpMeta.$deserializers$[memberName]) {
+              attrPropVal = cstr.prototype[methodName](attrValue, memberName);
+            }
+          } else {
+            attrPropVal = parsePropertyValue(attrValue, memberFlags);
+          }
         }
         if (propValue !== void 0) {
           attrPropVal = propValue;
@@ -2782,7 +2802,7 @@ function proxyHostElement(elm, cstr) {
             origSetter.apply(elm, [attrPropVal]);
             attrPropVal = origGetter ? origGetter.apply(elm) : attrPropVal;
           }
-          (_a = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _a.set(memberName, attrPropVal);
+          (_b = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _b.set(memberName, attrPropVal);
         }
         const getterSetterDescriptor = {
           get: function() {
@@ -2796,21 +2816,18 @@ function proxyHostElement(elm, cstr) {
         };
         Object.defineProperty(elm, memberName, getterSetterDescriptor);
         Object.defineProperty(elm, metaAttributeName, getterSetterDescriptor);
-        if (!cstr.prototype.__stencilAugmented) {
-          Object.defineProperty(cstr.prototype, memberName, {
-            get: function() {
-              var _a2;
-              const ref = getHostRef(this);
-              const attrPropVal2 = (_a2 = ref == null ? void 0 : ref.$instanceValues$) == null ? void 0 : _a2.get(memberName);
-              if (origGetter && attrPropVal2 === void 0 && !getValue(this, memberName)) {
-                setValue(this, memberName, origGetter.apply(this), cmpMeta);
-              }
-              return attrPropVal2 !== void 0 ? attrPropVal2 : origGetter ? origGetter.apply(this) : getValue(this, memberName);
-            },
-            configurable: true,
-            enumerable: true
-          });
-        }
+        hostRef.$fetchedCbList$.push(() => {
+          var _a2;
+          if (!((_a2 = hostRef == null ? void 0 : hostRef.$instanceValues$) == null ? void 0 : _a2.has(memberName))) {
+            setValue(
+              elm,
+              memberName,
+              attrPropVal !== void 0 ? attrPropVal : hostRef.$lazyInstance$[memberName],
+              cmpMeta
+            );
+          }
+          Object.defineProperty(hostRef.$lazyInstance$, memberName, getterSetterDescriptor);
+        });
       } else if (memberFlags & 64 /* Method */) {
         Object.defineProperty(elm, memberName, {
           value(...args) {
@@ -2826,7 +2843,6 @@ function proxyHostElement(elm, cstr) {
         });
       }
     });
-    cstr.prototype.__stencilAugmented = true;
   }
 }
 function componentOnReady() {
@@ -3178,6 +3194,9 @@ var registerInstance = (lazyInstance, hostRef) => {
   if (!hostRef) return void 0;
   lazyInstance.__stencil__getHostRef = () => hostRef;
   hostRef.$lazyInstance$ = lazyInstance;
+  if (hostRef.$cmpMeta$.$flags$ & 512 /* hasModernPropertyDecls */ && (BUILD.prop)) {
+    reWireGetterSetter(lazyInstance, hostRef);
+  }
   return hostRef;
 };
 var registerHost = (elm, cmpMeta) => {
@@ -3186,8 +3205,10 @@ var registerHost = (elm, cmpMeta) => {
     $cmpMeta$: cmpMeta,
     $hostElement$: elm,
     $instanceValues$: /* @__PURE__ */ new Map(),
+    $serializerValues$: /* @__PURE__ */ new Map(),
     $renderCount$: 0
   };
+  hostRef.$fetchedCbList$ = [];
   hostRef.$onInstancePromise$ = new Promise((r) => hostRef.$onInstanceResolve$ = r);
   hostRef.$onReadyPromise$ = new Promise((r) => hostRef.$onReadyResolve$ = r);
   elm["s-p"] = [];
@@ -3332,7 +3353,7 @@ var BUILD = {
   vdomRender: true,
   vdomStyle: true,
   vdomText: true,
-  watchCallback: true,
+  propChangeCallback: true,
   taskQueue: true,
   hotModuleReplacement: false,
   isDebug: false,
@@ -3380,7 +3401,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.37.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.38.3 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -3540,82 +3561,6 @@ var MockAttr = class {
     this._namespaceURI = namespaceURI;
   }
 };
-
-// src/mock-doc/class-list.ts
-var MockClassList = class {
-  constructor(elm) {
-    this.elm = elm;
-  }
-  add(...classNames) {
-    const clsNames = getItems(this.elm);
-    let updated = false;
-    classNames.forEach((className) => {
-      className = String(className);
-      validateClass(className);
-      if (clsNames.includes(className) === false) {
-        clsNames.push(className);
-        updated = true;
-      }
-    });
-    if (updated) {
-      this.elm.setAttributeNS(null, "class", clsNames.join(" "));
-    }
-  }
-  remove(...classNames) {
-    const clsNames = getItems(this.elm);
-    let updated = false;
-    classNames.forEach((className) => {
-      className = String(className);
-      validateClass(className);
-      const index = clsNames.indexOf(className);
-      if (index > -1) {
-        clsNames.splice(index, 1);
-        updated = true;
-      }
-    });
-    if (updated) {
-      this.elm.setAttributeNS(null, "class", clsNames.filter((c) => c.length > 0).join(" "));
-    }
-  }
-  contains(className) {
-    className = String(className);
-    return getItems(this.elm).includes(className);
-  }
-  toggle(className) {
-    className = String(className);
-    if (this.contains(className) === true) {
-      this.remove(className);
-    } else {
-      this.add(className);
-    }
-  }
-  get length() {
-    return getItems(this.elm).length;
-  }
-  item(index) {
-    return getItems(this.elm)[index];
-  }
-  toString() {
-    return getItems(this.elm).join(" ");
-  }
-};
-function validateClass(className) {
-  if (className === "") {
-    throw new Error("The token provided must not be empty.");
-  }
-  if (/\s/.test(className)) {
-    throw new Error(
-      `The token provided ('${className}') contains HTML space characters, which are not valid in tokens.`
-    );
-  }
-}
-function getItems(elm) {
-  const className = elm.getAttribute("class");
-  if (typeof className === "string" && className.length > 0) {
-    return className.trim().split(" ").filter((c) => c.length > 0);
-  }
-  return [];
-}
 
 // src/mock-doc/css-style-declaration.ts
 var MockCSSStyleDeclaration = class {
@@ -14132,6 +14077,81 @@ var STRUCTURE_ELEMENTS = /* @__PURE__ */ new Set([
   "style"
 ]);
 
+// src/mock-doc/token-list.ts
+var MockTokenList = class {
+  constructor(elm, attr) {
+    this.elm = elm;
+    this.attr = attr;
+  }
+  add(...tokens) {
+    const items = getItems(this.elm, this.attr);
+    let updated = false;
+    tokens.forEach((token) => {
+      token = String(token);
+      validateToken(token);
+      if (items.includes(token) === false) {
+        items.push(token);
+        updated = true;
+      }
+    });
+    if (updated) {
+      this.elm.setAttributeNS(null, this.attr, items.join(" "));
+    }
+  }
+  remove(...tokens) {
+    const items = getItems(this.elm, this.attr);
+    let updated = false;
+    tokens.forEach((token) => {
+      token = String(token);
+      validateToken(token);
+      const index = items.indexOf(token);
+      if (index > -1) {
+        items.splice(index, 1);
+        updated = true;
+      }
+    });
+    if (updated) {
+      this.elm.setAttributeNS(null, this.attr, items.filter((c) => c.length > 0).join(" "));
+    }
+  }
+  contains(token) {
+    token = String(token);
+    return getItems(this.elm, this.attr).includes(token);
+  }
+  toggle(token) {
+    token = String(token);
+    if (this.contains(token) === true) {
+      this.remove(token);
+    } else {
+      this.add(token);
+    }
+  }
+  get length() {
+    return getItems(this.elm, this.attr).length;
+  }
+  item(index) {
+    return getItems(this.elm, this.attr)[index];
+  }
+  toString() {
+    return getItems(this.elm, this.attr).join(" ");
+  }
+};
+function validateToken(token) {
+  if (token === "") {
+    throw new Error("The token provided must not be empty.");
+  }
+  if (/\s/.test(token)) {
+    throw new Error(`The token provided ('${token}') contains HTML space characters, which are not valid in tokens.`);
+  }
+}
+function getItems(elm, attr) {
+  const value = elm.getAttribute(attr);
+  if (typeof value === "string" && value.length > 0) {
+    return value.trim().split(" ").filter((c) => c.length > 0);
+  }
+  return [];
+}
+
 // src/mock-doc/node.ts
 var MockNode2 = class {
   constructor(ownerDocument, nodeType, nodeName, nodeValue) {
@@ -14399,7 +14419,10 @@ var MockElement = class extends MockNode2 {
     this.setAttributeNS(null, "class", value);
   }
   get classList() {
-    return new MockClassList(this);
+    return new MockTokenList(this, "class");
+  }
+  get part() {
+    return new MockTokenList(this, "part");
   }
   click() {
     dispatchEvent(this, new MockEvent("click", { bubbles: true, cancelable: true, composed: true }));
@@ -17282,7 +17305,7 @@ var MockDocument = class _MockDocument extends MockHTMLElement {
   }
   set location(val) {
     if (this.defaultView != null) {
-      this.defaultView.location = val;
+      this.defaultView.location.href = val;
     }
   }
   get baseURI() {

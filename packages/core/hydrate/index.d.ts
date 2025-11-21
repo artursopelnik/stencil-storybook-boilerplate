@@ -7,12 +7,14 @@ export declare function createWindowFromHtml(templateHtml: string, uniqueId: str
  * Serialize a value to a string that can be deserialized later.
  * @param {unknown} value - The value to serialize.
  * @returns {string} A string that can be deserialized later.
+ * @deprecated will be removed in v5. Use `@PropSerialize()` decorator instead.
  */
 export declare function serializeProperty(value: unknown): string | number | boolean;
 /**
  * Deserialize a value from a string that was serialized earlier.
  * @param {string} value - The string to deserialize.
  * @returns {unknown} The deserialized value.
+ * @deprecated will be removed in v5. Use `@AttrDeserialize()` decorator instead.
  */
 export declare function deserializeProperty(value: string): any;
 export type ResolutionHandler = (elm: HTMLElement) => string | undefined | null;

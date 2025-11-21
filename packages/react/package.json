@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@stencil/react-output-target": "^1.2.0",
-    "@types/react": "^19.1.13",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "typescript": "^5.9.2"
+    "@types/react": "^19.2.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "keywords": [],
   "description": "",
