@@ -8,7 +8,7 @@ A modern boilerplate for building fast and robust design systems for [React](htt
 - [Stencil v4](https://github.com/ionic-team/stencil)
 - [Storybook v10](https://github.com/storybookjs/storybook)
 - [Style Dictionary v5](https://github.com/amzn/style-dictionary)
-- [Vite v7](https://github.com/vitejs/vite)
+- [Vite v8](https://github.com/vitejs/vite)
 - [TypeScript v5](https://github.com/microsoft/TypeScript)
 
 This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://www.designsystemscollective.com/how-to-use-storybook-with-stencil-in-2025-and-why-lit-isnt-the-best-choice-81fb5c2d521e).
@@ -19,9 +19,7 @@ This monorepo is structured using [Lerna](https://lerna.js.org/). For more detai
 
 Storybook has officially confirmed a **native Stencil integration**, with contributions already coming from the Stencil core team.
 
-👉 https://github.com/storybookjs/storybook/pull/31205
-
-👉 https://stencil-docs-git-cb-storybook-ionic1.vercel.app/docs/next/storybook
+👉 https://github.com/storybookjs/storybook/pull/33737
 
 👉 https://www.npmjs.com/package/@stencil/storybook-plugin
 
