@@ -22,14 +22,14 @@
     "@storybook/addon-a11y": "^10.3.6",
     "@storybook/addon-docs": "^10.3.6",
     "@storybook/addon-links": "^10.3.6",
+    "@storybook/addon-themes": "^10.3.6",
     "@storybook/web-components-vite": "^10.3.6",
-    "@vueless/storybook-dark-mode": "^10.0.8",
     "concurrently": "^9.2.1",
+    "eslint-plugin-storybook": "10.3.6",
     "http-server": "^14.1.1",
     "storybook": "^10.3.6",
     "vite": "^8.0.12",
-    "vite-plugin-live-reload": "^3.1.0",
-    "eslint-plugin-storybook": "10.3.6"
+    "vite-plugin-live-reload": "^3.1.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.60.3"

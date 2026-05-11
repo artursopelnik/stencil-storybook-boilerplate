@@ -6,6 +6,9 @@ import type { MyComponent } from "@stencil-storybook-boilerplate/core/src/compon
 
 const meta = {
   title: "Components/MyComponent",
+  parameters: {
+    layout: "centered",
+  },
   args: {
     first: "John",
     middle: "",

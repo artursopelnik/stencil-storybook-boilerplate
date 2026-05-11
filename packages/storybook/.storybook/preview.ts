@@ -2,16 +2,21 @@ import "@stencil-storybook-boilerplate/core/dist/stencil-storybook-boilerplate/t
 import "@stencil-storybook-boilerplate/core/dist/stencil-storybook-boilerplate/themes/dark.css"
 import "./globals.css"
 
+import { withThemeByClassName } from "@storybook/addon-themes"
 import type { Preview } from "@storybook/web-components-vite"
 
 const preview: Preview = {
+  decorators: [
+    withThemeByClassName({
+      themes: {
+        Light: "ssb-theme--light",
+        Dark: "ssb-theme--dark",
+      },
+      defaultTheme: "Light",
+      parentSelector: "html",
+    }),
+  ],
   parameters: {
-    darkMode: {
-      classTarget: "html",
-      stylePreview: true,
-      darkClass: "ssb-theme--dark",
-      lightClass: "ssb-theme--light",
-    },
     viewMode: "docs",
     controls: {
       matchers: {
@@ -20,12 +25,9 @@ const preview: Preview = {
       },
     },
     docs: {
+      autodocs: "tag",
       toc: {
-        title: (async () => {
-          const headingSelector = "h2, h3"
-          const showTitle = document.querySelector(headingSelector) !== null
-          return showTitle ? "On this page" : ""
-        })(),
+        title: "On this page",
         headingSelector: "h2, h3",
       },
     },
