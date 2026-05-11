@@ -12,11 +12,11 @@
     "build:extended": "node ./tokens/extended/build.js"
   },
   "devDependencies": {
-    "style-dictionary": "^5.1.1",
+    "style-dictionary": "^5.4.0",
     "concurrently": "^9.2.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "json5": "^2.2.3",
-    "tsx": "^4.20.6"
+    "tsx": "^4.21.0"
   },
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT"

@@ -7,14 +7,17 @@
 
 /* eslint-disable */
 
-import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "@stencil-storybook-boilerplate/core/dist/components/my-component.js";
 import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
-export type MyComponentEvents = { onButtonClick: EventName<CustomEvent<any>> };
+import { type MyComponentCustomEvent } from "@stencil-storybook-boilerplate/core";
+import type { Components } from "@stencil-storybook-boilerplate/core/dist/components";
+import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "@stencil-storybook-boilerplate/core/dist/components/my-component.js";
 
-export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
+export type MyComponentEvents = { onButtonClick: EventName<MyComponentCustomEvent<any>> };
+
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents, Components.MyComponent>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.

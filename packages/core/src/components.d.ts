@@ -59,6 +59,8 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
     interface MyComponent {
         /**
           * The aria property
@@ -86,15 +88,24 @@ declare namespace LocalJSX {
          */
         "onButtonClick"?: (event: MyComponentCustomEvent<any>) => void;
     }
+
+    interface MyComponentAttributes {
+        "count": number;
+        "first": string;
+        "middle": string;
+        "last": string;
+        "aria": SelectedAriaAttributes<MyComponentAriaAttribute>;
+    }
+
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "my-component": Omit<MyComponent, keyof MyComponentAttributes> & { [K in keyof MyComponent & keyof MyComponentAttributes]?: MyComponent[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `attr:${K}`]?: MyComponentAttributes[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `prop:${K}`]?: MyComponent[K] } & OneOf<"first", MyComponent["first"], MyComponentAttributes["first"]>;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "my-component": LocalJSX.IntrinsicElements["my-component"] & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
 }

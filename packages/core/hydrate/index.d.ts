@@ -3,6 +3,7 @@
 import { Readable } from 'node:stream';
 
 export declare function createWindowFromHtml(templateHtml: string, uniqueId: string): any;
+export type TagTransformer = (tag: string) => string;
 /**
  * Serialize a value to a string that can be deserialized later.
  * @param {unknown} value - The value to serialize.
@@ -271,5 +272,16 @@ export declare function renderToString(html: string | any, options: SerializeDoc
 export declare function hydrateDocument(doc: any | string, options?: HydrateDocumentOptions): Promise<HydrateResults>;
 export declare function hydrateDocument(doc: any | string, options: HydrateDocumentOptions | undefined, asStream?: boolean): Readable;
 export declare function serializeDocumentToString(doc: Document, opts: HydrateFactoryOptions): string;
+/**
+ * Transforms a tag name using the current tag transformer
+ * @param tag - the tag to transform e.g. `my-tag`
+ * @returns the transformed tag e.g. `new-my-tag`
+ */
+export declare function transformTag<T extends string>(tag: T): T;
+/**
+ * Sets the tag transformer to be used when rendering custom elements
+ * @param transformer the transformer function to use. Must return a string
+ */
+export declare function setTagTransformer(transformer: TagTransformer): void;
 
 export {};

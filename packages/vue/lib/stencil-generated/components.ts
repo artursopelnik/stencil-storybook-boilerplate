@@ -8,6 +8,7 @@ import type { JSX } from '@stencil-storybook-boilerplate/core';
 
 
 
+
 export const MyComponent: StencilVueComponent<JSX.MyComponent> = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', undefined, [
   'count',
   'first',
@@ -18,4 +19,5 @@ export const MyComponent: StencilVueComponent<JSX.MyComponent> = /*@__PURE__*/ d
 ], [
   'buttonClick'
 ]);
+
 
