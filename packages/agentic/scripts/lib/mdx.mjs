@@ -47,10 +47,18 @@ function extractIntro(raw) {
   return lines.join("\n").trim() || undefined
 }
 
-/** Content of a `## <name>` section, up to the next `## ` heading. */
+/** Content of a `## <name>` section, up to the next `## ` heading (JSX lines are skipped). */
 function extractSection(raw, name) {
-  const match = raw.match(
-    new RegExp(`^##\\s+${name}\\s*$([\\s\\S]*?)(?=^##\\s|\\Z)`, "m"),
-  )
-  return match ? match[1].trim() || undefined : undefined
+  const lines = raw.split("\n")
+  const heading = new RegExp(`^##\\s+${name}\\s*$`)
+  const start = lines.findIndex((line) => heading.test(line.trim()))
+  if (start === -1) return undefined
+
+  const section = []
+  for (let i = start + 1; i < lines.length; i++) {
+    if (/^##\s/.test(lines[i])) break
+    if (lines[i].trim().startsWith("<") || lines[i].trim() === "---") continue
+    section.push(lines[i])
+  }
+  return section.join("\n").trim() || undefined
 }

@@ -77,6 +77,10 @@ Ask your agent things like:
 
 The agent will call `list_components` / `get_component` / `get_design_tokens` and generate code against the real API instead of hallucinating props.
 
+### MCP vs. llms.txt — do you even need the server?
+
+Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
+
 ## How this compares to other design systems
 
 Based on [research](docs/research.md) into how other systems approach AI readiness:

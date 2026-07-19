@@ -14,8 +14,19 @@ The component displays only the first and last name by default, but can optional
 
 ## Table of Contents
 
+- [Guidelines](#guidelines)
 - [Examples](#examples)
 - [Properties](#properties)
+
+---
+
+## Guidelines
+
+- **Do** always provide `first` — it is a required property. The greeting is composed from `first`, `middle` and `last`.
+- **Do** give the internal button an accessible name via the `aria` prop, e.g. `aria='{"aria-label":"Increase count"}'` — it accepts a JSON string or an object.
+- **Do** listen to the `buttonClick` event to react to user interaction instead of attaching your own click handlers.
+- **Don't** use `count` as external application state — it is a demo counter owned by the component; set it only to define a starting value.
+- **Don't** hard-code colors or spacing around this component — use the design tokens (CSS custom properties) from `@stencil-storybook-boilerplate/design-tokens` and the `light`/`dark` theme files.
 
 ---
 

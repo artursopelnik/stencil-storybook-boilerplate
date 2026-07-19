@@ -108,6 +108,8 @@ The design system is consumable by AI coding agents. `npm run build` generates (
 
 👉 Setup for Cursor/VS Code/Claude Desktop, architecture and a comparison with how Nord, Carbon, Atlassian and shadcn approach AI readiness: [`packages/agentic`](packages/agentic/readme.md) · [research notes](packages/agentic/docs/research.md) · [AGENTS.md](AGENTS.md)
 
+**Try it yourself**: [`packages/examples`](packages/examples/readme.md) contains two identical consumer apps for an A/B experiment — let an AI agent build the same UI once **with** the MCP server and once **without** (llms.txt/markdown only) and compare correctness, process and hallucinations.
+
 ## 🙌 Contributing
 
 We welcome contributions! 🚀
