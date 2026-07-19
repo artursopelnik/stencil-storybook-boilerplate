@@ -10,6 +10,7 @@
   "es2015": "dist/esm/index.js",
   "es2017": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
+  "customElements": "dist/custom-elements.json",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/core/core.esm.js",

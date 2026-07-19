@@ -41,6 +41,15 @@ jobs:
       - name: Build storybook
         working-directory: ./packages/storybook
         run: npm ci && npm run build-storybook-ci
+      - name: Build AI manifest (agentic)
+        working-directory: ./packages/agentic
+        run: npm run build
+      - name: Publish AI artifacts alongside Storybook
+        run: |
+          mkdir -p packages/storybook/storybook-static/ai
+          cp packages/agentic/dist/llms.txt packages/agentic/dist/llms-full.txt packages/storybook/storybook-static/
+          cp packages/agentic/dist/manifest.json packages/agentic/dist/design-tokens.md packages/storybook/storybook-static/ai/
+          cp -r packages/agentic/dist/components packages/storybook/storybook-static/ai/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
