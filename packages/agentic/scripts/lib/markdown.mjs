@@ -17,6 +17,10 @@ export function componentMarkdown(component) {
   if (component.deprecated)
     lines.push(`> ⚠️ **Deprecated**: ${component.deprecated}`, "")
 
+  if (component.intent) {
+    lines.push("## Intent", "", component.intent, "")
+  }
+
   if (component.examples?.length) {
     lines.push("## Usage")
     for (const example of component.examples) {

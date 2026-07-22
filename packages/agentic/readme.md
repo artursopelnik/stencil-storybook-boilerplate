@@ -35,7 +35,10 @@ A [Model Context Protocol](https://modelcontextprotocol.io) server (stdio) that 
 | `get_examples`         | Usage examples from Storybook stories, optionally filtered by framework |
 | `get_design_tokens`    | Design tokens with resolved values, optionally filtered                 |
 | `search`               | Free-text search across components, props, events and tokens            |
+| `validate_usage`       | **The harness**: checks generated markup/CSS against the manifest       |
 | `get_usage_guidelines` | Install & usage rules (packages, SSR, theming, `aria` prop convention)  |
+
+`validate_usage` is what turns documentation into a harness ("agentic design systems" in the [John Rodrigues](https://johnrodrigues.substack.com/p/agentic-design-systems-part-1) sense — reducing agent drift): it catches unknown components, invented or misspelled attributes (with did-you-mean suggestions), missing required props, invalid `aria` JSON, unknown design tokens and hard-coded colors — and returns the component's don't-rules as reminders. The manifest also carries structured `intent`, `dos` and `donts` fields per component, parsed from the `## Intent` and `## Guidelines` (`**Do**`/`**Don't**` bullets) sections of the Storybook MDX page.
 
 ### Setup
 
@@ -79,7 +82,7 @@ The agent will call `list_components` / `get_component` / `get_design_tokens` an
 
 ### MCP vs. llms.txt — do you even need the server?
 
-Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
+Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). And one capability is MCP-only by nature: `validate_usage` — static files can inform an agent, but they cannot _check_ its output. For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
 
 ## How this compares to other design systems
 

@@ -17,6 +17,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod"
 
+import { validateUsage } from "./validate.mjs"
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DIST_DIR = path.resolve(__dirname, "../dist")
 const MANIFEST_PATH = path.join(DIST_DIR, "manifest.json")
@@ -240,6 +242,30 @@ server.registerTool(
     )
 
     return text({ components, designTokens: tokens.map((t) => t.name) })
+  },
+)
+
+server.registerTool(
+  "validate_usage",
+  {
+    title: "Validate generated markup",
+    description:
+      "Validates HTML markup (and optionally CSS) against the design system manifest: unknown components, invented or misspelled attributes, missing required props, invalid `aria` JSON, unknown design tokens and hard-coded colors. ALWAYS run this on generated UI code before presenting it — fix every error, consider every warning.",
+    inputSchema: {
+      code: z
+        .string()
+        .describe("HTML markup that uses design system components"),
+      css: z
+        .string()
+        .optional()
+        .describe(
+          "Optional CSS to check var(--token) usage against the design tokens",
+        ),
+    },
+  },
+  async ({ code, css }) => {
+    const manifest = loadManifest()
+    return text(validateUsage(manifest, code, { css }))
   },
 )
 

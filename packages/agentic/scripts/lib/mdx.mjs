@@ -18,11 +18,34 @@ export function extractMdxDocs(storiesRootDir, storiesFileRelative) {
   if (!fs.existsSync(mdxPath)) return {}
 
   const raw = fs.readFileSync(mdxPath, "utf8")
+  const guidelines = extractSection(raw, "Guidelines")
 
   return {
     description: extractIntro(raw),
-    guidelines: extractSection(raw, "Guidelines"),
+    intent: extractSection(raw, "Intent"),
+    guidelines,
+    ...splitDosAndDonts(guidelines),
   }
+}
+
+/**
+ * Splits `- **Do** ...` / `- **Don't** ...` guideline bullets into structured
+ * lists, so agents (and the validate_usage tool) get machine-readable rules
+ * instead of a prose blob.
+ */
+function splitDosAndDonts(guidelines) {
+  const dos = []
+  const donts = []
+  if (!guidelines) return { dos, donts }
+
+  for (const line of guidelines.split("\n")) {
+    const bullet = line.trim().match(/^[-*]\s+\*\*(Do|Don'?t)\*\*\s*(.*)$/i)
+    if (!bullet) continue
+    const text = bullet[2].trim()
+    if (bullet[1].toLowerCase() === "do") dos.push(text)
+    else donts.push(text)
+  }
+  return { dos, donts }
 }
 
 /** Text between `<Title />` (or the imports block) and the first heading/JSX block. */

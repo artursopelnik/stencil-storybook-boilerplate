@@ -69,7 +69,10 @@ function main() {
     return {
       ...component,
       description: mdxDocs.description || component.description,
+      intent: mdxDocs.intent,
       guidelines: mdxDocs.guidelines,
+      dos: mdxDocs.dos ?? [],
+      donts: mdxDocs.donts ?? [],
       examples,
       storybook: storyData
         ? {

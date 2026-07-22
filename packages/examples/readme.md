@@ -34,6 +34,7 @@ Give both the **same prompt**, e.g.:
 - **Correctness**: are `first`/`middle`/`last`, the `aria` prop (JSON string!) and token names used exactly right, or does the agent invent props/tokens?
 - **Process**: session A should call `list_components` → `get_component` → `get_design_tokens`; session B should read `../../agentic/dist/llms.txt` and follow the links. Does B actually read the docs, or does it guess?
 - **Guidelines adherence**: both should respect the component guidelines (e.g. not abusing `count` as app state) — A gets them via `get_component`, B via the component markdown.
+- **Drift & self-correction**: session A can (and per its `CLAUDE.md` must) run `validate_usage` on its own output — invented attributes, missing required props, wrong tokens and hard-coded colors get caught and fixed in the loop. Session B has no feedback mechanism: whatever drift happens, stays. This is the core "harness" difference.
 - **Token usage / context**: how much documentation does each approach pull into context?
 
 ## View the result
