@@ -71,6 +71,9 @@ web_modules/
 # Output of 'npm pack'
 *.tgz
 
+# Output of 'npm run package' (ZIP für externe Dienstleister)
+artifacts/
+
 # Yarn Integrity file
 .yarn-integrity
 

@@ -94,6 +94,44 @@ cd stencil-storybook-boilerplate
    npm run generate <sub-folder>
    ```
 
+## 📦 Distribution package for external partners
+
+Create a ZIP containing the built Design-System (web components) and Design-Tokens plus a partner-facing README:
+
+```bash
+npm run package
+```
+
+This builds the tokens and the core package, then writes `artifacts/design-system-paket-v<version>.zip` with the following layout:
+
+```
+├── README.md
+├── Design-System/
+│   ├── dist/
+│   └── loader/
+└── Design-Tokens/
+    └── dist/
+```
+
+Use `npm run package:zip` to re-zip without rebuilding. The README shipped inside the ZIP lives in `scripts/package/README.md`.
+
+### Upload to Confluence (on-prem)
+
+Confluence does not offer FTP access — attachments are uploaded through its REST API instead:
+
+```bash
+npm run package:upload
+```
+
+The script uploads the newest ZIP from `artifacts/` (or a path passed as argument) as an attachment to a Confluence page. If the attachment already exists, a new version is created. Configure it via environment variables or a `.env` file (see `.env.example`):
+
+| Variable                                  | Description                                          |
+| ----------------------------------------- | ---------------------------------------------------- |
+| `CONFLUENCE_BASE_URL`                     | e.g. `https://confluence.example.com`                |
+| `CONFLUENCE_PAGE_ID`                      | ID of the target page                                |
+| `CONFLUENCE_PAT`                          | Personal Access Token (recommended, Confluence 7.9+) |
+| `CONFLUENCE_USER` / `CONFLUENCE_PASSWORD` | Basic-auth alternative to a PAT                      |
+
 ## 🙌 Contributing
 
 We welcome contributions! 🚀
