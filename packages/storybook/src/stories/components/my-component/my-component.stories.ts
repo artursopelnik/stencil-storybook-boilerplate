@@ -31,7 +31,7 @@ export default meta
 export const Default = {
   render: ({ first, middle, last, aria, onClick }) =>
     html`<my-component
-      .aria="${aria || nothing}"
+      aria=${aria ? JSON.stringify(aria) : nothing}
       first=${first}
       middle=${middle || nothing}
       last=${last}
