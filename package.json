@@ -5,18 +5,18 @@
     "packages/*"
   ],
   "dependencies": {
-    "@types/node": "^25.6.2"
+    "@types/node": "^26.1.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9",
-    "@eslint/json": "^1.2.0",
-    "eslint": "^9",
-    "globals": "^17.6.0",
+    "@eslint/js": "^10",
+    "@eslint/json": "^2.0.1",
+    "eslint": "^10",
+    "globals": "^17.7.0",
     "lerna": "^9.0.7",
-    "npm-check-updates": "^22.1.1",
-    "prettier": "^3.8.3",
-    "typescript": "^5",
-    "typescript-eslint": "^8.59.2"
+    "npm-check-updates": "^22.2.9",
+    "prettier": "^3.9.6",
+    "typescript": "^6",
+    "typescript-eslint": "^8.65.0"
   },
   "scripts": {
     "build": "npm run build:tokens && npx lerna run build",
