@@ -9,7 +9,7 @@ A modern boilerplate for building fast and robust design systems for [React](htt
 - [Storybook v10](https://github.com/storybookjs/storybook)
 - [Style Dictionary v5](https://github.com/amzn/style-dictionary)
 - [Vite v8](https://github.com/vitejs/vite)
-- [TypeScript v5](https://github.com/microsoft/TypeScript)
+- [TypeScript v6](https://github.com/microsoft/TypeScript)
 
 This monorepo is structured using [Lerna](https://lerna.js.org/). For more details, check out my [blog post](https://www.designsystemscollective.com/how-to-use-storybook-with-stencil-in-2025-and-why-lit-isnt-the-best-choice-81fb5c2d521e).
 

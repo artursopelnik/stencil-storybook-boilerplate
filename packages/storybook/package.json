@@ -16,22 +16,22 @@
   },
   "dependencies": {
     "@stencil-storybook-boilerplate/core": "*",
-    "lit": "^3.3.2"
+    "lit": "^3.3.3"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^10.3.6",
-    "@storybook/addon-docs": "^10.3.6",
-    "@storybook/addon-links": "^10.3.6",
-    "@storybook/addon-themes": "^10.3.6",
-    "@storybook/web-components-vite": "^10.3.6",
-    "concurrently": "^9.2.1",
-    "eslint-plugin-storybook": "10.3.6",
+    "@storybook/addon-a11y": "^10.5.4",
+    "@storybook/addon-docs": "^10.5.4",
+    "@storybook/addon-links": "^10.5.4",
+    "@storybook/addon-themes": "^10.5.4",
+    "@storybook/web-components-vite": "^10.5.4",
+    "concurrently": "^10.0.4",
+    "eslint-plugin-storybook": "10.5.4",
     "http-server": "^14.1.1",
-    "storybook": "^10.3.6",
-    "vite": "^8.0.12",
+    "storybook": "^10.5.4",
+    "vite": "^8.1.5",
     "vite-plugin-live-reload": "^3.1.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.60.3"
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
   }
 }
