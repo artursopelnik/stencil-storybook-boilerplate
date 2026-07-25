@@ -39,11 +39,11 @@ const config: StorybookConfig = {
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
           output: {
-            manualChunks: {
-              lit: ["lit"],
-              react: ["react"],
-              "react-dom": ["react-dom"],
-              "react/jsx-runtime": ["react/jsx-runtime"],
+            manualChunks(id) {
+              if (id.includes("node_modules/lit")) return "lit"
+              if (id.includes("node_modules/react-dom")) return "react-dom"
+              if (id.includes("node_modules/react/jsx-runtime")) return "react/jsx-runtime"
+              if (id.includes("node_modules/react")) return "react"
             },
           },
         },
