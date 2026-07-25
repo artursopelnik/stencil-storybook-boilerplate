@@ -80,9 +80,21 @@ Ask your agent things like:
 
 The agent will call `list_components` / `get_component` / `get_design_tokens` and generate code against the real API instead of hallucinating props.
 
+### Validation CLI (no MCP required)
+
+The same harness is available as a plain CLI — for agents without MCP support, git hooks and CI:
+
+```bash
+node packages/agentic/src/cli.mjs packages/examples/with-mcp/index.html src/styles.css
+node packages/agentic/src/cli.mjs --stdin < snippet.html
+node packages/agentic/src/cli.mjs --json index.html   # machine-readable report
+```
+
+`.css` files are checked for token usage, everything else as markup. Exit code `1` on errors (warnings alone pass), so it can gate a pipeline.
+
 ### MCP vs. llms.txt — do you even need the server?
 
-Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). And one capability is MCP-only by nature: `validate_usage` — static files can inform an agent, but they cannot _check_ its output. For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
+Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). The one thing static files cannot do — _check_ the agent's output — is covered by `validate_usage`, but that harness also exists MCP-free as the validation CLI above. So the honest answer: the manifest + markdown/llms.txt layers are the load-bearing part; the MCP server is a thin convenience adapter for clients where tool discovery beats file reading (Cursor, Claude Desktop, agents without shell access). For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
 
 ## How this compares to other design systems
 

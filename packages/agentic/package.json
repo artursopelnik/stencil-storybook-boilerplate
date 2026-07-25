@@ -7,12 +7,14 @@
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT",
   "bin": {
-    "design-system-mcp": "src/server.mjs"
+    "design-system-mcp": "src/server.mjs",
+    "design-system-validate": "src/cli.mjs"
   },
   "scripts": {
     "build": "node scripts/generate.mjs",
     "start": "node src/server.mjs",
-    "mcp": "node src/server.mjs"
+    "mcp": "node src/server.mjs",
+    "validate": "node src/cli.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.21.0",

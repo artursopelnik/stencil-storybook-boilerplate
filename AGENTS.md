@@ -13,7 +13,7 @@ This repository is a design system boilerplate (Stencil web components + Storybo
 ## Rules
 
 - Look up exact prop names/types via the manifest or MCP before writing code — do not invent props.
-- Validate generated UI markup with the `validate_usage` MCP tool and fix every reported error. Respect each component's `intent`, `dos` and `donts` from the manifest.
+- Validate generated UI markup with the `validate_usage` MCP tool — or, without MCP, `node packages/agentic/src/cli.mjs <files>` — and fix every reported error. Respect each component's `intent`, `dos` and `donts` from the manifest.
 - In React/Vue/Angular apps prefer the generated framework wrappers (`packages/react`, `packages/vue`, `packages/angular`) over raw custom elements.
 - Use design tokens (CSS custom properties from `packages/design-tokens`) instead of hard-coded colors/sizes; themes are `light.css` / `dark.css`.
 - Set ARIA attributes through the `aria` prop (JSON string or object) where a component exposes it.
