@@ -105,7 +105,23 @@ The design system is consumable by AI coding agents. `npm run build` generates (
 - `packages/agentic/dist/llms.txt` / `llms-full.txt` — [llms.txt](https://llmstxt.org) index & full dump (deployed to [GitHub Pages](https://artursopelnik.github.io/stencil-storybook-boilerplate/llms.txt) alongside Storybook)
 - `packages/core/dist/custom-elements.json` — interoperable [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (Stencil `docs-custom-elements-manifest` output target)
 
-👉 Architecture and a comparison with how Nord, Carbon, Atlassian and shadcn approach AI readiness: [`packages/agentic`](   packages/agentic/readme.md) · [AGENTS.md](AGENTS.md)
+👉 Architecture and a comparison with how Nord, Carbon, Atlassian and shadcn approach AI readiness: [`packages/agentic`](packages/agentic/readme.md) · [AGENTS.md](AGENTS.md)
+
+### Using the design system in a consumer project
+
+No universal "skills directory" exists across AI coding tools — every tool reads its own location. The `SKILL.md` file itself is portable; only the install path differs.
+
+- **Universal (any agent)**: extend `AGENTS.md` in the consumer repo, pointing at the hosted skill + `llms.txt`.
+- **Claude Code** — `.claude/skills/ssds/SKILL.md`:
+  ```bash
+  mkdir -p .claude/skills/ssds
+  curl -o .claude/skills/ssds/SKILL.md \
+    https://raw.githubusercontent.com/artursopelnik/stencil-storybook-boilerplate/main/packages/agentic/skill/SKILL.md
+  ```
+- **Cursor** — `.cursor/rules/ssds.mdc` (same `curl`, different path).
+- **GitHub Copilot** — reference the hosted `SKILL.md` from `.github/copilot-instructions.md`.
+
+Full per-tool snippets, offline vendoring, and rules: [`packages/agentic/skill/SKILL.md`](packages/agentic/skill/SKILL.md).
 
 ## 🙌 Contributing
 

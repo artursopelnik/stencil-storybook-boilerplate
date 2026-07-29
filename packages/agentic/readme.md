@@ -21,6 +21,29 @@ Run `npm run build` at the repo root (or `node scripts/generate.mjs` here, after
 
 Additionally, `packages/core` now emits **`dist/custom-elements.json`** via Stencil's first-party `docs-custom-elements-manifest` output target — the interoperable [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) standard that powers IDE autocomplete and CEM-based AI tooling (referenced via the `customElements` field in `core/package.json`).
 
+## Using this design system in a consumer project
+
+One canonical file, per-tool adapters. Drop the skill into a tool-neutral location, then symlink or reference it from each AI tool's own path.
+
+**Step 1 — canonical location `.agents/skills/ssds/`**:
+
+```bash
+mkdir -p .agents/skills/ssds
+curl -o .agents/skills/ssds/SKILL.md \
+  https://raw.githubusercontent.com/artursopelnik/stencil-storybook-boilerplate/main/packages/agentic/skill/SKILL.md
+```
+
+**Step 2 — wire up your tools** (only the ones you use):
+
+- **Claude Code**: `ln -sf ../../.agents/skills/ssds .claude/skills/ssds`
+- **Cursor**: `ln -sf ../../.agents/skills/ssds/SKILL.md .cursor/rules/ssds.mdc`
+- **Codex / AGENTS.md-aware**: reference `.agents/skills/ssds/SKILL.md` from `AGENTS.md`.
+- **GitHub Copilot**: reference it from `.github/copilot-instructions.md`.
+
+Note: `.agents/skills/` is not auto-discovered by any tool today — it acts as a single source of truth, and each tool-specific path symlinks or points back to it.
+
+Full per-tool snippets, offline vendoring, and verification: [`skill/SKILL.md`](skill/SKILL.md).
+
 ## How this compares to other design systems
 
 Based on how other systems approach AI readiness:
