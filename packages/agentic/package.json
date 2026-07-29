@@ -1,0 +1,62 @@
+{
+  "name": "@stencil-storybook-boilerplate/agentic",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "AI / Agentic Design System Readiness: machine-readable component manifest, per-component markdown, llms.txt, skill and MCP server for the design system",
+  "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/artursopelnik/stencil-storybook-boilerplate/tree/main/packages/agentic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artursopelnik/stencil-storybook-boilerplate.git",
+    "directory": "packages/agentic"
+  },
+  "bugs": {
+    "url": "https://github.com/artursopelnik/stencil-storybook-boilerplate/issues"
+  },
+  "keywords": [
+    "design-system",
+    "stencil",
+    "agentic",
+    "mcp",
+    "llms.txt",
+    "skill",
+    "ai"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "skill/",
+    "src/",
+    "scripts/"
+  ],
+  "exports": {
+    ".": {
+      "default": "./src/server.mjs"
+    },
+    "./skill": "./skill/SKILL.md",
+    "./manifest": "./dist/manifest.json",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "ssds": "src/cli.mjs",
+    "design-system-mcp": "src/server.mjs"
+  },
+  "scripts": {
+    "build": "node scripts/generate.mjs",
+    "start": "node src/cli.mjs",
+    "cli": "node src/cli.mjs",
+    "mcp": "node src/server.mjs",
+    "prepublishOnly": "node -e \"require('node:fs').existsSync('dist/manifest.json') || (console.error('dist/manifest.json missing — run \\\"npm run build\\\" at repo root before publishing'), process.exit(1))\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.21.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@stencil-storybook-boilerplate/core": "*",
+    "typescript": "^5"
+  }
+}

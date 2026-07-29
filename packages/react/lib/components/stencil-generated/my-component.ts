@@ -17,7 +17,7 @@ import { MyComponent as MyComponentElement, defineCustomElement as defineMyCompo
 
 export type MyComponentEvents = { onButtonClick: EventName<MyComponentCustomEvent<any>> };
 
-export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents, Components.MyComponent>({
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent, 'first'> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents, Components.MyComponent, 'first'>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.

@@ -1,0 +1,1 @@
+../../../packages/agentic/skill/SKILL.md

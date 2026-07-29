@@ -25,6 +25,14 @@ export const config: Config = {
       footer: '', // hide "Built with StencilJS"c
     },
     {
+      type: 'docs-json',
+      file: 'dist/docs.json', // machine-readable API docs, consumed by @stencil-storybook-boilerplate/agentic
+    },
+    {
+      type: 'docs-custom-elements-manifest',
+      file: 'dist/custom-elements.json', // interoperable CEM standard (IDE autocomplete, CEM-based AI tooling)
+    },
+    {
       type: 'www',
       serviceWorker: null, // disable service workers
       copy: [

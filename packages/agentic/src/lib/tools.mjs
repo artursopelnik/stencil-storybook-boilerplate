@@ -1,0 +1,248 @@
+/**
+ * Pure business logic shared by the MCP server (src/server.mjs) and the
+ * CLI (src/cli.mjs). Everything here is transport-agnostic — no MCP types,
+ * no stdout writes — so the same code path serves humans (CLI) and agents
+ * (MCP). Astryx-style: one interface, two consumers.
+ */
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
+import { validateUsage } from "../validate.mjs"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+export const DIST_DIR = path.resolve(__dirname, "../../dist")
+export const MANIFEST_PATH = path.join(DIST_DIR, "manifest.json")
+const PACKAGE_JSON_PATH = path.resolve(__dirname, "../../package.json")
+
+let packageMetaCache = null
+function packageMeta() {
+  if (!packageMetaCache) {
+    packageMetaCache = JSON.parse(fs.readFileSync(PACKAGE_JSON_PATH, "utf8"))
+  }
+  return packageMetaCache
+}
+
+export function loadManifest() {
+  if (!fs.existsSync(MANIFEST_PATH)) {
+    throw new Error(
+      `manifest.json not found at ${MANIFEST_PATH}. ` +
+        'Run "npm run build" at the repo root (or "npm run build -w packages/agentic") first.',
+    )
+  }
+  return JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8"))
+}
+
+function normalizeTag(tag) {
+  return tag
+    .trim()
+    .toLowerCase()
+    .replace(/^</, "")
+    .replace(/>$/, "")
+}
+
+export function findComponent(manifest, tag) {
+  const normalized = normalizeTag(tag)
+  return manifest.components.find((c) => c.tag === normalized)
+}
+
+export function resolveComponent(manifest, tag) {
+  const component = findComponent(manifest, tag)
+  if (component) return { component }
+  const suggestion = closestTag(normalizeTag(tag), manifest.components)
+  const available = manifest.components.map((c) => c.tag).join(", ")
+  return {
+    error: suggestion
+      ? `Unknown component "${tag}". Did you mean "${suggestion}"? Available: ${available}`
+      : `Unknown component "${tag}". Available: ${available}`,
+  }
+}
+
+export function listComponents(manifest) {
+  return manifest.components.map((c) => ({
+    tag: c.tag,
+    description: (c.description || "").split("\n")[0],
+    storybook: c.storybook?.url,
+  }))
+}
+
+export function getComponent(manifest, tag) {
+  const { component, error } = resolveComponent(manifest, tag)
+  if (error) throw new Error(error)
+  return component
+}
+
+export function getComponentDocs(manifest, tag) {
+  const component = getComponent(manifest, tag)
+  const mdPath = path.join(DIST_DIR, component.docsPath)
+  if (!fs.existsSync(mdPath)) {
+    throw new Error(
+      `Docs file not found at ${mdPath}. Re-run "npm run build" to regenerate the AI manifest and per-component markdown.`,
+    )
+  }
+  return fs.readFileSync(mdPath, "utf8")
+}
+
+export function getExamples(manifest, tag, { framework } = {}) {
+  const component = getComponent(manifest, tag)
+  const examples = (component.examples ?? []).map((example) =>
+    framework ? { name: example.name, [framework]: example[framework] } : example,
+  )
+  return {
+    tag: component.tag,
+    storybook: component.storybook?.url,
+    examples,
+  }
+}
+
+export function getDesignTokens(manifest, { filter } = {}) {
+  let tokens = manifest.designTokens ?? []
+  if (filter) {
+    const query = filter.toLowerCase()
+    tokens = tokens.filter(
+      (t) =>
+        t.name.toLowerCase().includes(query) ||
+        t.cssVariable.toLowerCase().includes(query),
+    )
+  }
+  return tokens
+}
+
+export function search(manifest, query) {
+  const q = query.toLowerCase()
+
+  const components = manifest.components
+    .map((c) => {
+      const matches = []
+      if (c.tag.includes(q) || (c.description || "").toLowerCase().includes(q))
+        matches.push("component")
+      for (const p of c.props ?? []) {
+        if (
+          p.name.toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q)
+        ) {
+          matches.push(`prop:${p.name}`)
+        }
+      }
+      for (const e of c.events ?? []) {
+        if (
+          e.name.toLowerCase().includes(q) ||
+          (e.description || "").toLowerCase().includes(q)
+        ) {
+          matches.push(`event:${e.name}`)
+        }
+      }
+      return matches.length ? { tag: c.tag, matches } : null
+    })
+    .filter(Boolean)
+
+  const tokens = (manifest.designTokens ?? []).filter((t) =>
+    t.name.toLowerCase().includes(q),
+  )
+
+  return { components, designTokens: tokens.map((t) => t.name) }
+}
+
+export function validate(manifest, code, { css } = {}) {
+  return validateUsage(manifest, code, { css })
+}
+
+export function guidelines(manifest) {
+  return [
+    `# Using ${manifest.name}`,
+    "",
+    "## Packages",
+    "- `@stencil-storybook-boilerplate/core` — the web components (Stencil). Import the loader or use `dist-custom-elements`.",
+    "- `@stencil-storybook-boilerplate/react`, `/vue`, `/angular` — framework wrappers generated by Stencil output targets.",
+    "- `@stencil-storybook-boilerplate/design-tokens` — DTCG tokens compiled with Style Dictionary (light & dark themes as CSS files).",
+    "",
+    "## Rules for generated code",
+    "- Prefer the framework wrapper components over raw custom elements in React/Vue/Angular apps.",
+    "- The React wrappers support SSR with the Next.js App Router (hydrate module).",
+    "- Set ARIA attributes via the `aria` prop (JSON string or object) where a component exposes it.",
+    "- Use design tokens (CSS custom properties) instead of hard-coded colors/sizes. Themes: `themes/light.css`, `themes/dark.css`.",
+    "- Look up exact prop names/types before writing code (`ssds get <tag>` CLI or `get_component` MCP tool); do not invent props.",
+    "",
+    `Storybook: ${manifest.homepage}`,
+    `Repository: ${manifest.repository}`,
+  ].join("\n")
+}
+
+/**
+ * Self-describing capability manifest (Astryx-style `manifest` command).
+ * Lets agents discover what the CLI/MCP can do without hard-coding tool
+ * names. Also embeds the design-system manifest for zero-round-trip loads.
+ */
+export function capabilityManifest(manifest) {
+  const pkg = packageMeta()
+  return {
+    name: pkg.name,
+    version: pkg.version,
+    designSystem: {
+      name: manifest.name,
+      homepage: manifest.homepage,
+      repository: manifest.repository,
+      componentCount: manifest.components.length,
+      designTokenCount: (manifest.designTokens ?? []).length,
+    },
+    capabilities: [
+      { name: "list", description: "List all components (tag + short description + storybook link)." },
+      { name: "get", description: "Full structured API of one component.", args: ["tag"] },
+      { name: "docs", description: "Markdown docs incl. examples for HTML, React, Vue, Angular.", args: ["tag"] },
+      { name: "examples", description: "Usage examples from Storybook stories.", args: ["tag", "--framework?"] },
+      { name: "tokens", description: "Design tokens with resolved values.", args: ["--filter?"] },
+      { name: "search", description: "Free-text search across components, props, events, tokens.", args: ["query"] },
+      { name: "validate", description: "Validate HTML markup (and optionally CSS) against the manifest.", args: ["<file|->", "--css?"] },
+      { name: "guidelines", description: "Install & usage rules (packages, SSR, theming, aria prop)." },
+      { name: "manifest", description: "This capability manifest as JSON." },
+      { name: "mcp", description: "Start the MCP server on stdio (same as design-system-mcp bin)." },
+      {
+        name: "init",
+        description:
+          "Set up the consumer app: writes .mcp.json and symlinks the SKILL.md from node_modules (or the local checkout).",
+        args: ["--claude?", "--cursor?", "--codex?", "--copilot?", "--mode?"],
+      },
+      {
+        name: "new component",
+        description:
+          "Scaffold a new Stencil component (tsx + css + spec) plus Storybook story and MDX intent/guidelines skeleton. Boilerplate-only.",
+        args: ["tag"],
+      },
+    ],
+  }
+}
+
+function closestTag(input, components) {
+  let best = null
+  let bestDistance = Infinity
+  for (const c of components) {
+    const distance = levenshtein(input, c.tag)
+    if (distance < bestDistance) {
+      bestDistance = distance
+      best = c.tag
+    }
+  }
+  return bestDistance <= Math.max(2, Math.floor(input.length / 3)) ? best : null
+}
+
+function levenshtein(a, b) {
+  const rows = a.length + 1
+  const cols = b.length + 1
+  const d = Array.from({ length: rows }, (_, i) => {
+    const row = new Array(cols).fill(0)
+    row[0] = i
+    return row
+  })
+  for (let j = 0; j < cols; j++) d[0][j] = j
+
+  for (let i = 1; i < rows; i++) {
+    for (let j = 1; j < cols; j++) {
+      d[i][j] = Math.min(
+        d[i - 1][j] + 1,
+        d[i][j - 1] + 1,
+        d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+      )
+    }
+  }
+  return d[rows - 1][cols - 1]
+}
