@@ -14,84 +14,21 @@ It combines three existing sources of truth into agent-friendly artifacts — no
 
 Run `npm run build` at the repo root (or `node scripts/generate.mjs` here, after building `core`):
 
-- **`manifest.json`** — one structured JSON document: every component with props, events, methods, slots, CSS custom properties, usage examples (HTML, React, Vue, Angular) and Storybook deep links, plus all design tokens. This is the single source the MCP server reads.
+- **`manifest.json`** — one structured JSON document: every component with props, events, methods, slots, CSS custom properties, usage examples (HTML, React, Vue, Angular) and Storybook deep links, plus all design tokens. Also carries structured `intent`, `dos` and `donts` fields per component, parsed from the `## Intent` and `## Guidelines` (`**Do**`/`**Don't**` bullets) sections of the Storybook MDX page.
 - **`components/<tag>.md`** — per-component markdown, optimized for LLM retrieval.
 - **`design-tokens.md`** — flattened token table (name, CSS variable, resolved value).
 - **`llms.txt`** / **`llms-full.txt`** — index & full-dump following [llmstxt.org](https://llmstxt.org), the convention used by design systems like [Nord](https://nordhealth.design/ai/), [Atlassian](https://atlassian.design/llms.txt) and [Ant Design](https://ant.design/llms-full.txt). Both are deployed to GitHub Pages together with Storybook.
 
 Additionally, `packages/core` now emits **`dist/custom-elements.json`** via Stencil's first-party `docs-custom-elements-manifest` output target — the interoperable [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) standard that powers IDE autocomplete and CEM-based AI tooling (referenced via the `customElements` field in `core/package.json`).
 
-## MCP server
-
-A [Model Context Protocol](https://modelcontextprotocol.io) server (stdio) that lets agents query the design system instead of guessing APIs.
-
-### Tools
-
-| Tool                   | Purpose                                                                 |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `list_components`      | Discover all components (tag + short description + Storybook link)      |
-| `get_component`        | Full structured API of one component                                    |
-| `get_component_docs`   | Markdown docs incl. examples for HTML, React, Vue, Angular              |
-| `get_examples`         | Usage examples from Storybook stories, optionally filtered by framework |
-| `get_design_tokens`    | Design tokens with resolved values, optionally filtered                 |
-| `search`               | Free-text search across components, props, events and tokens            |
-| `validate_usage`       | **The harness**: checks generated markup/CSS against the manifest       |
-| `get_usage_guidelines` | Install & usage rules (packages, SSR, theming, `aria` prop convention)  |
-
-`validate_usage` is what turns documentation into a harness ("agentic design systems" in the [John Rodrigues](https://johnrodrigues.substack.com/p/agentic-design-systems-part-1) sense — reducing agent drift): it catches unknown components, invented or misspelled attributes (with did-you-mean suggestions), missing required props, invalid `aria` JSON, unknown design tokens and hard-coded colors — and returns the component's don't-rules as reminders. The manifest also carries structured `intent`, `dos` and `donts` fields per component, parsed from the `## Intent` and `## Guidelines` (`**Do**`/`**Don't**` bullets) sections of the Storybook MDX page.
-
-### Setup
-
-Prerequisite — generate the manifest once:
-
-```bash
-npm install
-npm run build
-```
-
-**Claude Code** — nothing to do: the repo ships a root [`.mcp.json`](../../.mcp.json), Claude Code picks the server up automatically. Manual alternative:
-
-```bash
-claude mcp add design-system -- node packages/agentic/src/server.mjs
-```
-
-**Cursor** (`.cursor/mcp.json`) / **VS Code** (`.vscode/mcp.json`) / **Claude Desktop** (`claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "design-system": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/stencil-storybook-boilerplate/packages/agentic/src/server.mjs"
-      ]
-    }
-  }
-}
-```
-
-### Try it
-
-Ask your agent things like:
-
-> Which components does the design system provide?
-> Build a page section using `my-component` in React — use the correct props.
-> Which purple color tokens exist and what are their hex values?
-
-The agent will call `list_components` / `get_component` / `get_design_tokens` and generate code against the real API instead of hallucinating props.
-
-### MCP vs. llms.txt — do you even need the server?
-
-Both are layers over the same generated data. llms.txt is passive (the agent must know about it and fetch it), MCP is active (tools are offered to the model in every session, results are always fresh from the local build, and wrong tag names get corrected with an error listing the valid ones). And one capability is MCP-only by nature: `validate_usage` — static files can inform an agent, but they cannot _check_ its output. For an empirical comparison, run the A/B experiment in [`packages/examples`](../examples/readme.md): the same consumer app twice — once with the MCP server, once with llms.txt/markdown only.
-
 ## How this compares to other design systems
 
-Based on [research](docs/research.md) into how other systems approach AI readiness:
+Based on how other systems approach AI readiness:
 
 - **Nord (Nordhealth)**: `llms.txt` + `llms-full.txt` + per-page markdown + agent skills → we follow the same llms.txt convention.
-- **IBM Carbon, Atlassian, Ant Design**: publish llms.txt / MCP servers → same pattern.
-- **shadcn/ui**: MCP over a machine-readable registry → our `manifest.json` plays that role.
-- **Storybook 10.4+ `@storybook/addon-mcp`**: serves docs/story tools from a running Storybook — currently a **React-only preview**. Once web-components support lands, it can complement or replace parts of this package; our stories are already CSF3 and manifest-friendly. Track [storybookjs/addon-mcp](https://github.com/storybookjs/addon-mcp).
+- **IBM Carbon, Atlassian, Ant Design**: publish llms.txt → same pattern.
+- **shadcn/ui**: machine-readable registry → our `manifest.json` plays that role.
+- **Storybook 10.4+ `@storybook/addon-mcp`**: serves docs/story tools from a running Storybook — currently a **React-only preview**. Once web-components support lands, it can complement parts of this package; our stories are already CSF3 and manifest-friendly. Track [storybookjs/addon-mcp](https://github.com/storybookjs/addon-mcp).
 - **Custom Elements Manifest**: the interop layer used by Shoelace/Web Awesome, Nord, FAST — we ship it from Stencil directly.
 
 ## Extending

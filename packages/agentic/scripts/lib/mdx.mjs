@@ -30,7 +30,7 @@ export function extractMdxDocs(storiesRootDir, storiesFileRelative) {
 
 /**
  * Splits `- **Do** ...` / `- **Don't** ...` guideline bullets into structured
- * lists, so agents (and the validate_usage tool) get machine-readable rules
+ * lists, so agents get machine-readable rules
  * instead of a prose blob.
  */
 function splitDosAndDonts(guidelines) {

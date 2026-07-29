@@ -3,20 +3,11 @@
   "private": true,
   "type": "module",
   "version": "0.0.1",
-  "description": "AI / Agentic Design System Readiness: machine-readable component manifest, per-component markdown, llms.txt and an MCP server for the design system",
+  "description": "AI / Agentic Design System Readiness: machine-readable component manifest, per-component markdown and llms.txt for the design system",
   "author": "Artur Sopelnik <artur.sopelnik93@gmail.com>",
   "license": "MIT",
-  "bin": {
-    "design-system-mcp": "src/server.mjs"
-  },
   "scripts": {
-    "build": "node scripts/generate.mjs",
-    "start": "node src/server.mjs",
-    "mcp": "node src/server.mjs"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.21.0",
-    "zod": "^3.25.76"
+    "build": "node scripts/generate.mjs"
   },
   "devDependencies": {
     "@stencil-storybook-boilerplate/core": "*",

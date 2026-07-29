@@ -36,7 +36,7 @@ Optimized for Web Components: Seamlessly integrates across frameworks.
 - **Fully Typed Arguments**: Enhanced type safety with TypeScript.
 - **Design Tokens Support**: Enables consistent theming with customizable tokens ([DTCG](https://styledictionary.com/info/dtcg/)).
 - **Accessibility-Focused**: Define and validate ARIA attributes through a single `aria` prop, as [Porsche and the Stencil Core do](https://github.com/stenciljs/core/issues/5033#issuecomment-2828695662), accepting both JSON strings and objects to improve inclusivity and usability.
-- **AI / Agentic Ready**: Ships a machine-readable component manifest, per-component markdown, [llms.txt](https://llmstxt.org), a [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) and an **MCP server**, so AI coding agents (Claude Code, Cursor, Copilot) can consume the design system without hallucinating APIs. See below 🤖.
+- **AI / Agentic Ready**: Ships a machine-readable component manifest, per-component markdown, [llms.txt](https://llmstxt.org) and a [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest), so AI coding agents (Claude Code, Cursor, Copilot) can consume the design system without hallucinating APIs. See below 🤖.
 
 ## 🤔 Why Stencil over Lit?
 
@@ -101,14 +101,11 @@ The design system is consumable by AI coding agents. `npm run build` generates (
 
 - `packages/agentic/dist/manifest.json` — structured data per component: props, events, methods, slots, CSS custom properties **plus usage examples extracted from Storybook stories** (HTML, React, Vue, Angular) and all design tokens with resolved values
 - `packages/agentic/dist/components/<tag>.md` — agent-friendly markdown per component
+- `packages/agentic/dist/design-tokens.md` — flattened token table (name, CSS variable, type, resolved value)
 - `packages/agentic/dist/llms.txt` / `llms-full.txt` — [llms.txt](https://llmstxt.org) index & full dump (deployed to [GitHub Pages](https://artursopelnik.github.io/stencil-storybook-boilerplate/llms.txt) alongside Storybook)
 - `packages/core/dist/custom-elements.json` — interoperable [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (Stencil `docs-custom-elements-manifest` output target)
 
-**MCP server**: `.mcp.json` is checked in, so Claude Code discovers the design-system MCP server automatically. Tools: `list_components`, `get_component`, `get_component_docs`, `get_examples`, `get_design_tokens`, `search`, `get_usage_guidelines`.
-
-👉 Setup for Cursor/VS Code/Claude Desktop, architecture and a comparison with how Nord, Carbon, Atlassian and shadcn approach AI readiness: [`packages/agentic`](packages/agentic/readme.md) · [research notes](packages/agentic/docs/research.md) · [AGENTS.md](AGENTS.md)
-
-**Try it yourself**: [`packages/examples`](packages/examples/readme.md) contains two identical consumer apps for an A/B experiment — let an AI agent build the same UI once **with** the MCP server and once **without** (llms.txt/markdown only) and compare correctness, process and hallucinations.
+👉 Architecture and a comparison with how Nord, Carbon, Atlassian and shadcn approach AI readiness: [`packages/agentic`](   packages/agentic/readme.md) · [AGENTS.md](AGENTS.md)
 
 ## 🙌 Contributing
 

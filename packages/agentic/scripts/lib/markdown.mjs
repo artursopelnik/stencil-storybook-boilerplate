@@ -123,7 +123,7 @@ export function llmsTxt(manifest, { siteUrl }) {
   const lines = [`# ${manifest.name}`, ""]
   lines.push(`> ${manifest.description}`, "")
   lines.push(
-    "Web components built with Stencil, documented in Storybook, themable via design tokens. Framework wrappers exist for React, Vue and Angular. Machine-readable API data: [manifest.json](ai/manifest.json). An MCP server is available, see [Agentic readme](https://github.com/artursopelnik/stencil-storybook-boilerplate/tree/main/packages/agentic).",
+    "Web components built with Stencil, documented in Storybook, themable via design tokens. Framework wrappers exist for React, Vue and Angular. Machine-readable API data: [manifest.json](ai/manifest.json).",
     "",
   )
   lines.push("## Components", "")

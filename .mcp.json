@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "design-system": {
-      "command": "node",
-      "args": ["packages/agentic/src/server.mjs"]
-    }
-  }
-}

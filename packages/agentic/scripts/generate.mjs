@@ -8,7 +8,7 @@
  *   3. Design tokens (DTCG)          → theming data
  *
  * Outputs (into dist/):
- *   - manifest.json          structured data per component, for tools & the MCP server
+ *   - manifest.json          structured data per component, for tools & agents
  *   - components/<tag>.md    agent-friendly markdown per component
  *   - design-tokens.md       flattened token table
  *   - llms.txt               index file following https://llmstxt.org

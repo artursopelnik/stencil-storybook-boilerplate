@@ -135,7 +135,7 @@ const NAMESPACE = 'stencil-storybook-boilerplate';
 const BUILD = /* stencil-storybook-boilerplate */ { hotModuleReplacement: false, hydratedSelectorName: "hydrated", prop: true, propChangeCallback: false, slotRelocation: true, updatable: true};
 
 /*
- Stencil Hydrate Platform v4.43.4 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.43.5 | MIT Licensed | https://stenciljs.com
  */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -5392,7 +5392,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.43.4 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.43.5 | MIT Licensed | https://stenciljs.com
  */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
