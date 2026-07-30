@@ -1,0 +1,57 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-checkbox/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbCheckboxStories from "./ssb-checkbox.stories"
+
+<Meta of={SsbCheckboxStories} />
+
+<Title />
+
+`ssb-checkbox` is a checkbox styled after the Basecoat UI checkbox. It wraps a visually-hidden native `<input type="checkbox">` and emits `ssbChange` when toggled.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a checkbox to let people toggle independent yes/no options or select multiple items from a list. Do NOT use a checkbox for a single instant on/off setting — use `ssb-switch` for that.
+
+---
+
+## Guidelines
+
+- **Do** provide a visible label via the `label` prop or the default slot; clicking the label toggles the checkbox.
+- **Do** use `indeterminate` for "select all" checkboxes when only some children are selected.
+- **Do** keep labels positive — "Enable notifications" instead of "Disable notifications".
+- **Don't** rely on native form submission — the checkbox lives inside shadow DOM; read its state via the `ssbChange` event or the `checked` prop.
+- **Don't** use a checkbox to trigger immediate actions such as navigation.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbCheckboxStories.Default} sourceState="none" meta={SsbCheckboxStories} withToolbar={false} />
+
+### Checked
+
+<Canvas of={SsbCheckboxStories.Checked} sourceState="none" meta={SsbCheckboxStories} withToolbar={false} />
+
+### Indeterminate
+
+<Canvas of={SsbCheckboxStories.Indeterminate} sourceState="none" meta={SsbCheckboxStories} withToolbar={false} />
+
+### With slotted label
+
+<Canvas of={SsbCheckboxStories.WithSlottedLabel} sourceState="none" meta={SsbCheckboxStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

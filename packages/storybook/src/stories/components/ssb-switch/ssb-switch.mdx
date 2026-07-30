@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-switch/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSwitchStories from "./ssb-switch.stories"
+
+<Meta of={SsbSwitchStories} />
+
+<Title />
+
+`ssb-switch` is a toggle styled after the Basecoat UI switch. It wraps a visually-hidden native checkbox with `role="switch"` and emits `ssbChange` when toggled.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a switch for a single binary setting that takes effect immediately, such as enabling notifications. Do NOT use a switch for options that require a confirmation or submit step — use `ssb-checkbox` for those.
+
+---
+
+## Guidelines
+
+- **Do** provide a visible inline label via the default slot; clicking the label toggles the switch.
+- **Do** apply the change immediately when the switch is toggled.
+- **Do** pass an `aria-label` via the `aria` prop when no visible label is rendered.
+- **Don't** rely on native form submission — the switch lives inside shadow DOM; read its state via the `ssbChange` event or the `checked` prop.
+- **Don't** use a switch for selecting multiple items from a list.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbSwitchStories.Default} sourceState="none" meta={SsbSwitchStories} withToolbar={false} />
+
+### Checked
+
+<Canvas of={SsbSwitchStories.Checked} sourceState="none" meta={SsbSwitchStories} withToolbar={false} />
+
+### Disabled
+
+<Canvas of={SsbSwitchStories.Disabled} sourceState="none" meta={SsbSwitchStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

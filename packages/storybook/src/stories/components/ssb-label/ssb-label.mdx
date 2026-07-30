@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-label/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbLabelStories from "./ssb-label.stories"
+
+<Meta of={SsbLabelStories} />
+
+<Title />
+
+`ssb-label` is a form label styled after the Basecoat UI label. It renders its slotted content inside a native `<label>` and can show a required marker.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a label to give every form control a short, visible caption placed directly above or next to it. Do NOT use a label for helper or error text — use `ssb-field` with `description` and `error` for that.
+
+---
+
+## Guidelines
+
+- **Do** keep label text short and sentence-cased.
+- **Do** set `required` on the label when the associated control is required.
+- **Do** mirror the control's `disabled` state on the label for consistent styling.
+- **Don't** rely on `html-for` for accessibility across shadow roots — it only associates controls within the same shadow root, so it is mostly presentational; give the control its own `aria-label` instead.
+- **Don't** rely on native form submission — controls inside shadow DOM do not participate in surrounding forms; read values via events/props.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbLabelStories.Default} sourceState="none" meta={SsbLabelStories} withToolbar={false} />
+
+### Required
+
+<Canvas of={SsbLabelStories.Required} sourceState="none" meta={SsbLabelStories} withToolbar={false} />
+
+### With input
+
+<Canvas of={SsbLabelStories.WithInput} sourceState="none" meta={SsbLabelStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

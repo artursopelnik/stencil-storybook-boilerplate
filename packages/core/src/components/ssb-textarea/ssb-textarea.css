@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 4rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--ssb-color-input, #cbd5e0);
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+  background-color: var(--ssb-color-background, #ffffff);
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  resize: vertical;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.textarea::placeholder {
+  color: var(--ssb-color-muted-foreground, #718096);
+}
+
+.textarea:focus-visible {
+  outline: 2px solid var(--ssb-color-ring, #646cff);
+  outline-offset: 2px;
+  border-color: var(--ssb-color-ring, #646cff);
+}
+
+.textarea--invalid {
+  border-color: var(--ssb-color-destructive, #dc2626);
+}
+
+.textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  resize: none;
+}

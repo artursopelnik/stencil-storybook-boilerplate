@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--ssb-color-input, #cbd5e0);
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+  background-color: var(--ssb-color-background, #ffffff);
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: var(--ssb-color-muted-foreground, #718096);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--ssb-color-ring, #646cff);
+  outline-offset: 2px;
+  border-color: var(--ssb-color-ring, #646cff);
+}
+
+.input--invalid {
+  border-color: var(--ssb-color-destructive, #dc2626);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

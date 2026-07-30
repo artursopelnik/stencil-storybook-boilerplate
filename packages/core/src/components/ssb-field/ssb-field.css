@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.field__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.field__required {
+  color: var(--ssb-color-destructive, #dc2626);
+}
+
+.field__description {
+  margin: 0;
+  color: var(--ssb-color-muted-foreground, #718096);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.field__error {
+  margin: 0;
+  color: var(--ssb-color-destructive, #dc2626);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}

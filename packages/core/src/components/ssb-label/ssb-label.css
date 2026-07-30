@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.label--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.label__required {
+  color: var(--ssb-color-destructive, #dc2626);
+}

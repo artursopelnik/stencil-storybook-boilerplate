@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-field/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbFieldStories from "./ssb-field.stories"
+
+<Meta of={SsbFieldStories} />
+
+<Title />
+
+`ssb-field` wraps a single form control with a label, an optional description, and an optional error message, following the Basecoat UI form layout.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a field to give one form control a consistent layout of label, helper text, and error message. Do NOT use a field to group multiple controls — wrap each control in its own field.
+
+---
+
+## Guidelines
+
+- **Do** slot exactly one control (e.g. `ssb-input`, `ssb-textarea`, `ssb-native-select`) into the default slot.
+- **Do** set `error` together with the control's `invalid` prop when validation fails — the description is hidden while an error is shown.
+- **Do** set `required` on the field and the slotted control together.
+- **Don't** rely on `field-id` for accessibility across shadow roots — it only associates controls within the same shadow root, so it is mostly presentational; give the control its own `aria-label` instead.
+- **Don't** rely on native form submission — controls inside shadow DOM do not participate in surrounding forms; read values via events/props.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbFieldStories.Default} sourceState="none" meta={SsbFieldStories} withToolbar={false} />
+
+### With error
+
+<Canvas of={SsbFieldStories.WithError} sourceState="none" meta={SsbFieldStories} withToolbar={false} />
+
+### With textarea
+
+<Canvas of={SsbFieldStories.WithTextarea} sourceState="none" meta={SsbFieldStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

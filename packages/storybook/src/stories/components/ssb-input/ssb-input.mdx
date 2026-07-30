@@ -1,0 +1,57 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-input/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbInputStories from "./ssb-input.stories"
+
+<Meta of={SsbInputStories} />
+
+<Title />
+
+`ssb-input` is a single-line text input styled after the Basecoat UI input. It wraps a native `<input>` and emits `ssbInput` and `ssbChange` events.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an input to collect short, single-line text such as names, email addresses, or search terms. Do NOT use an input for longer, multiline content — use `ssb-textarea` instead.
+
+---
+
+## Guidelines
+
+- **Do** pair the input with `ssb-label` or `ssb-field` so people know what to enter.
+- **Do** set `invalid` together with an error message when validation fails.
+- **Do** choose the matching `type` (`email`, `tel`, `url`, ...) to get the right on-screen keyboard.
+- **Don't** rely on native form submission — the input lives inside shadow DOM; read values via the `ssbInput`/`ssbChange` events or the `value` prop.
+- **Don't** use placeholder text as a replacement for a visible label.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbInputStories.Default} sourceState="none" meta={SsbInputStories} withToolbar={false} />
+
+### Types
+
+<Canvas of={SsbInputStories.Types} sourceState="none" meta={SsbInputStories} withToolbar={false} />
+
+### Invalid
+
+<Canvas of={SsbInputStories.Invalid} sourceState="none" meta={SsbInputStories} withToolbar={false} />
+
+### Disabled
+
+<Canvas of={SsbInputStories.Disabled} sourceState="none" meta={SsbInputStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

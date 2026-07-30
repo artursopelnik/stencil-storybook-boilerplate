@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-textarea/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbTextareaStories from "./ssb-textarea.stories"
+
+<Meta of={SsbTextareaStories} />
+
+<Title />
+
+`ssb-textarea` is a multiline text input styled after the Basecoat UI textarea. It wraps a native `<textarea>` and emits `ssbInput` and `ssbChange` events.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a textarea to collect longer, multiline free-form text such as messages, comments, or descriptions. Do NOT use a textarea for short single-line values — use `ssb-input` instead.
+
+---
+
+## Guidelines
+
+- **Do** pair the textarea with `ssb-label` or `ssb-field` so people know what to enter.
+- **Do** set `rows` to roughly match the expected length of the content.
+- **Do** set `invalid` together with an error message when validation fails.
+- **Don't** rely on native form submission — the textarea lives inside shadow DOM; read values via the `ssbInput`/`ssbChange` events or the `value` prop.
+- **Don't** disable vertical resizing needs by cramping content into a tiny textarea.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbTextareaStories.Default} sourceState="none" meta={SsbTextareaStories} withToolbar={false} />
+
+### Invalid
+
+<Canvas of={SsbTextareaStories.Invalid} sourceState="none" meta={SsbTextareaStories} withToolbar={false} />
+
+### Disabled
+
+<Canvas of={SsbTextareaStories.Disabled} sourceState="none" meta={SsbTextareaStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>
