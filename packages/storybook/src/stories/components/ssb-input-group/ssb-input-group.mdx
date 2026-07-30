@@ -1,0 +1,68 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-input-group/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbInputGroupStories from "./ssb-input-group.stories"
+
+<Meta of={SsbInputGroupStories} />
+
+<Title />
+
+`ssb-input-group` frames a text control with optional `prefix` and `suffix` addons such as symbols, units, or protocol fragments — sharing one border and radius like the Basecoat UI input group.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an input group to attach a static addon such as a currency, unit, domain suffix, or symbol directly to a text input. Do NOT use an input group addon for interactive elements like buttons — place actions next to the group instead.
+
+---
+
+## Guidelines
+
+- **Do** prefer a plain `<input>` in the default slot — the group styles it borderless via `::slotted(input)` and provides the outer border and focus ring itself.
+- **Do** keep addon content short: a symbol, a unit, or a few characters.
+- **Do** give the inner input an accessible name, e.g. via `aria-label` on the native input.
+- **Don't** slot an `ssb-input` if you expect a seamless look — a nested custom input keeps its own border (known limitation).
+- **Don't** put form validation messages inside the addons.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbInputGroupStories.Default}
+  sourceState="none"
+  meta={SsbInputGroupStories}
+  withToolbar={false}
+/>
+
+### Prefix and suffix
+
+<Canvas
+  of={SsbInputGroupStories.PrefixAndSuffix}
+  sourceState="none"
+  meta={SsbInputGroupStories}
+  withToolbar={false}
+/>
+
+### Suffix only
+
+<Canvas
+  of={SsbInputGroupStories.SuffixOnly}
+  sourceState="none"
+  meta={SsbInputGroupStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

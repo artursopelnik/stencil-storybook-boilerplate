@@ -1,0 +1,68 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-button-group/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbButtonGroupStories from "./ssb-button-group.stories"
+
+<Meta of={SsbButtonGroupStories} />
+
+<Title />
+
+`ssb-button-group` visually joins slotted `ssb-button` elements into one segmented control: inner corners are squared and adjacent borders collapse.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a button group to present a small set of closely related actions or mutually related commands as one visual unit, such as pagination or text alignment. Do NOT use a button group for unrelated actions — keep independent actions as separate buttons.
+
+---
+
+## Guidelines
+
+- **Do** slot only `ssb-button` elements into the group.
+- **Do** use the same `variant` (preferably `outline` or `secondary`) for every button in the group.
+- **Do** provide a group label via the `aria` prop (`aria-label`).
+- **Don't** mix `primary` and `destructive` buttons inside one group.
+- **Don't** use a button group when only a single action exists.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbButtonGroupStories.Default}
+  sourceState="none"
+  meta={SsbButtonGroupStories}
+  withToolbar={false}
+/>
+
+### Two buttons
+
+<Canvas
+  of={SsbButtonGroupStories.TwoButtons}
+  sourceState="none"
+  meta={SsbButtonGroupStories}
+  withToolbar={false}
+/>
+
+### With secondary buttons
+
+<Canvas
+  of={SsbButtonGroupStories.WithSecondary}
+  sourceState="none"
+  meta={SsbButtonGroupStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

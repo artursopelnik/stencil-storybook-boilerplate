@@ -1,0 +1,68 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-radio-group/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbRadioGroupStories from "./ssb-radio-group.stories"
+
+<Meta of={SsbRadioGroupStories} />
+
+<Title />
+
+`ssb-radio-group` coordinates a set of `ssb-radio` children so exactly one option is selected at a time. It follows the Basecoat UI radio group.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a radio group to let people pick exactly one option from a small set of mutually exclusive choices that should all be visible at once. Do NOT use a radio group for multi-select scenarios or long option lists — use checkboxes for multi-select and a select for many options.
+
+---
+
+## Guidelines
+
+- **Do** always nest `ssb-radio` elements inside the group so selection is coordinated.
+- **Do** provide an accessible group label via the `aria` prop (`aria-label` or `aria-labelledby`).
+- **Do** preselect a sensible default via the `value` prop whenever possible.
+- **Don't** use a radio group with only one option — use a checkbox instead.
+- **Don't** mix the `horizontal` orientation with long option labels that wrap.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbRadioGroupStories.Default}
+  sourceState="none"
+  meta={SsbRadioGroupStories}
+  withToolbar={false}
+/>
+
+### Horizontal
+
+<Canvas
+  of={SsbRadioGroupStories.Horizontal}
+  sourceState="none"
+  meta={SsbRadioGroupStories}
+  withToolbar={false}
+/>
+
+### Disabled
+
+<Canvas
+  of={SsbRadioGroupStories.Disabled}
+  sourceState="none"
+  meta={SsbRadioGroupStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

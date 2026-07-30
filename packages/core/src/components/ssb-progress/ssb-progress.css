@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.progress {
+  box-sizing: border-box;
+  height: 0.5rem;
+  width: 100%;
+  border-radius: var(--ssb-radius-full, 9999px);
+  background-color: var(--ssb-color-muted, #edf2f7);
+  overflow: hidden;
+}
+
+.progress__indicator {
+  height: 100%;
+  border-radius: var(--ssb-radius-full, 9999px);
+  background-color: var(--ssb-color-foreground, #1a202c);
+  transition: width 0.3s ease;
+}

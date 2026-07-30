@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* zero out inner radii via the custom property exposed by ssb-button */
+::slotted(ssb-button) {
+  --ssb-button-border-radius: 0;
+}
+
+/* overlap the 1px borders between adjacent buttons */
+::slotted(ssb-button:not(:first-of-type)) {
+  margin-left: -1px;
+}
+
+::slotted(ssb-button:first-of-type) {
+  --ssb-button-border-radius: var(--ssb-radius-medium, 0.5rem) 0 0 var(--ssb-radius-medium, 0.5rem);
+}
+
+::slotted(ssb-button:last-of-type) {
+  --ssb-button-border-radius: 0 var(--ssb-radius-medium, 0.5rem) var(--ssb-radius-medium, 0.5rem) 0;
+}
+
+::slotted(ssb-button:only-of-type) {
+  --ssb-button-border-radius: var(--ssb-radius-medium, 0.5rem);
+}

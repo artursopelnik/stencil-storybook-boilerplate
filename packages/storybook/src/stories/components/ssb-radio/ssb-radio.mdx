@@ -1,0 +1,68 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-radio/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbRadioStories from "./ssb-radio.stories"
+
+<Meta of={SsbRadioStories} />
+
+<Title />
+
+`ssb-radio` renders a single radio option with a styled circle and a slotted label. It is designed to be used inside `ssb-radio-group`, which coordinates the selection.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a radio to present one option of a mutually exclusive set inside an `ssb-radio-group`. Do NOT use a standalone radio as an on/off control — use a checkbox or a switch for independent boolean settings.
+
+---
+
+## Guidelines
+
+- **Do** always give each radio a unique `value` within its group.
+- **Do** provide a visible label via the default slot; the whole label is clickable.
+- **Do** let `ssb-radio-group` manage the `checked` state instead of toggling it manually.
+- **Don't** place radios of the same set outside a shared `ssb-radio-group`.
+- **Don't** use a radio to trigger an immediate action — use `ssb-button` for actions.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbRadioStories.Default}
+  sourceState="none"
+  meta={SsbRadioStories}
+  withToolbar={false}
+/>
+
+### Checked
+
+<Canvas
+  of={SsbRadioStories.Checked}
+  sourceState="none"
+  meta={SsbRadioStories}
+  withToolbar={false}
+/>
+
+### Disabled
+
+<Canvas
+  of={SsbRadioStories.Disabled}
+  sourceState="none"
+  meta={SsbRadioStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

@@ -1,0 +1,50 @@
+:host {
+  display: inline-flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  border: 1px solid var(--ssb-color-input, #cbd5e0);
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+  background-color: var(--ssb-color-background, #ffffff);
+  font-family: inherit;
+  font-size: 0.875rem;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+:host(:focus-within) {
+  outline: 2px solid var(--ssb-color-ring, #646cff);
+  outline-offset: 2px;
+}
+
+::slotted([slot='prefix']),
+::slotted([slot='suffix']) {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background-color: var(--ssb-color-muted, #edf2f7);
+  color: var(--ssb-color-muted-foreground, #718096);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+::slotted([slot='prefix']) {
+  border-right: 1px solid var(--ssb-color-input, #cbd5e0);
+}
+
+::slotted([slot='suffix']) {
+  border-left: 1px solid var(--ssb-color-input, #cbd5e0);
+}
+
+/* prefer a plain input in the default slot — the group styles it borderless */
+::slotted(input) {
+  flex: 1;
+  min-width: 0;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border: none;
+  background-color: transparent;
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  outline: none;
+}

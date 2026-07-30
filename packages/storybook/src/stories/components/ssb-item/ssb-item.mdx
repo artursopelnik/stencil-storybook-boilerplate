@@ -1,0 +1,76 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-item/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbItemStories from "./ssb-item.stories"
+
+<Meta of={SsbItemStories} />
+
+<Title />
+
+`ssb-item` is a generic list row with slots for media, a title, a description, and trailing actions. It follows the Basecoat UI item.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an item to render one entry of a list such as a notification, file, contact, or setting, with an optional icon and trailing actions. Do NOT use an item for standalone page content or long prose — use regular layout elements for that.
+
+---
+
+## Guidelines
+
+- **Do** keep the `item-title` slot to a single short line and put details in the default slot.
+- **Do** set `interactive` (or `href`) when the whole row reacts to clicks so hover feedback appears.
+- **Don't** combine `href` with slotted buttons that trigger conflicting actions — nested interactive elements confuse keyboard users.
+- **Don't** overload the `actions` slot; one or two compact controls at most.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbItemStories.Default}
+  sourceState="none"
+  meta={SsbItemStories}
+  withToolbar={false}
+/>
+
+### Variants
+
+<Canvas
+  of={SsbItemStories.Variants}
+  sourceState="none"
+  meta={SsbItemStories}
+  withToolbar={false}
+/>
+
+### Interactive
+
+<Canvas
+  of={SsbItemStories.Interactive}
+  sourceState="none"
+  meta={SsbItemStories}
+  withToolbar={false}
+/>
+
+### As link
+
+<Canvas
+  of={SsbItemStories.AsLink}
+  sourceState="none"
+  meta={SsbItemStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

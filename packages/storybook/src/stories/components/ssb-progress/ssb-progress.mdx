@@ -1,0 +1,68 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-progress/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbProgressStories from "./ssb-progress.stories"
+
+<Meta of={SsbProgressStories} />
+
+<Title />
+
+`ssb-progress` shows how far a determinate operation has advanced as a filled bar. The indicator animates smoothly when the value changes.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a progress bar to communicate the completion state of a determinate operation such as an upload, download, or multi-step flow. Do NOT use a progress bar for operations of unknown duration — use a spinner or skeleton state instead.
+
+---
+
+## Guidelines
+
+- **Do** provide an accessible name via the `label` prop or the `aria` prop.
+- **Do** keep `value` between `0` and `max`; the indicator is clamped either way.
+- **Do** update the value in reasonably sized increments so the animation stays smooth.
+- **Don't** animate the bar backwards — decreasing progress confuses people.
+- **Don't** use a progress bar as a static decoration or rating display.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbProgressStories.Default}
+  sourceState="none"
+  meta={SsbProgressStories}
+  withToolbar={false}
+/>
+
+### Complete
+
+<Canvas
+  of={SsbProgressStories.Complete}
+  sourceState="none"
+  meta={SsbProgressStories}
+  withToolbar={false}
+/>
+
+### Custom max
+
+<Canvas
+  of={SsbProgressStories.CustomMax}
+  sourceState="none"
+  meta={SsbProgressStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

@@ -1,0 +1,77 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-slider/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSliderStories from "./ssb-slider.stories"
+
+<Meta of={SsbSliderStories} />
+
+<Title />
+
+`ssb-slider` lets people pick a numeric value from a range by dragging a thumb along a track. It emits `ssbInput` while dragging and `ssbChange` when the value is committed.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a slider to adjust a value along a continuous or stepped range where the relative position matters more than the exact number, such as volume or opacity. Do NOT use a slider when people need to enter a precise value — use a number input instead.
+
+---
+
+## Guidelines
+
+- **Do** provide an accessible name via the `aria` prop (`aria-label`).
+- **Do** enable `show-value` when the exact number is relevant to the user.
+- **Do** listen to `ssbChange` for persisting the value and `ssbInput` only for live previews.
+- **Don't** use a slider for ranges with only two or three options — use a radio group.
+- **Don't** choose a `step` so small that keyboard adjustment becomes tedious.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbSliderStories.Default}
+  sourceState="none"
+  meta={SsbSliderStories}
+  withToolbar={false}
+/>
+
+### With value
+
+<Canvas
+  of={SsbSliderStories.WithValue}
+  sourceState="none"
+  meta={SsbSliderStories}
+  withToolbar={false}
+/>
+
+### Steps
+
+<Canvas
+  of={SsbSliderStories.Steps}
+  sourceState="none"
+  meta={SsbSliderStories}
+  withToolbar={false}
+/>
+
+### Disabled
+
+<Canvas
+  of={SsbSliderStories.Disabled}
+  sourceState="none"
+  meta={SsbSliderStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>
