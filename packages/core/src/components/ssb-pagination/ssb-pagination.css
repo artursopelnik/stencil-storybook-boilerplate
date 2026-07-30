@@ -1,0 +1,72 @@
+:host {
+  display: block;
+  font-family: inherit;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  padding: 0 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  color: var(--ssb-color-foreground, #1a202c);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.button:hover {
+  background-color: var(--ssb-color-accent, #edf2f7);
+  color: var(--ssb-color-accent-foreground, #1a202c);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--ssb-color-ring, #646cff);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.button--text {
+  padding: 0 0.75rem;
+}
+
+.button--current {
+  border-color: var(--ssb-color-border, #e2e8f0);
+  background-color: var(--ssb-color-background, #ffffff);
+}
+
+.button--current:hover {
+  background-color: var(--ssb-color-background, #ffffff);
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  font-size: 0.875rem;
+  color: var(--ssb-color-muted-foreground, #718096);
+  user-select: none;
+}

@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-tabs/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbTabsStories from "./ssb-tabs.stories"
+
+<Meta of={SsbTabsStories} />
+
+<Title />
+
+`ssb-tabs` switches between related panels of content. Tabs are defined via the `tabs` prop and panels are projected into named slots matching each tab value. The look follows the Basecoat UI tabs.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use tabs to let people switch between peer views of the same context, such as account settings sections. Do NOT use tabs for sequential steps that must be completed in order — use a wizard or stepper instead.
+
+---
+
+## Guidelines
+
+- **Do** keep tab labels short — one or two words.
+- **Do** match each panel's `slot` attribute to the corresponding tab `value`.
+- **Do** listen to `ssbChange` when the surrounding page needs to react to the selection.
+- **Don't** use more than about six tabs — group content differently instead.
+- **Don't** put critical actions only inside a non-default tab where people may miss them.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbTabsStories.Default} sourceState="none" meta={SsbTabsStories} withToolbar={false} />
+
+### With disabled tab
+
+<Canvas of={SsbTabsStories.WithDisabledTab} sourceState="none" meta={SsbTabsStories} withToolbar={false} />
+
+### Preselected
+
+<Canvas of={SsbTabsStories.Preselected} sourceState="none" meta={SsbTabsStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

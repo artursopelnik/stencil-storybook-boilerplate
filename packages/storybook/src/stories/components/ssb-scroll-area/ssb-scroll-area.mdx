@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-scroll-area/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbScrollAreaStories from "./ssb-scroll-area.stories"
+
+<Meta of={SsbScrollAreaStories} />
+
+<Title />
+
+`ssb-scroll-area` constrains its slotted content to a maximum height and shows slim, subtly styled scrollbars in the configured direction.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a scroll area to keep long secondary content, such as tag lists or logs, within a bounded region of the layout. Do NOT use a scroll area for a page's primary content — let the document scroll naturally instead.
+
+---
+
+## Guidelines
+
+- **Do** set `maxHeight` so the surrounding layout stays stable regardless of content length.
+- **Do** use `orientation="horizontal"` for rows of cards or chips that overflow sideways.
+- **Do** make sure content is still reachable via keyboard scrolling and focus.
+- **Don't** nest scroll areas — inner scrollbars inside scrollbars are hard to use.
+- **Don't** hide critical actions below the fold of a small scroll area.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbScrollAreaStories.Default} sourceState="none" meta={SsbScrollAreaStories} withToolbar={false} />
+
+### Horizontal
+
+<Canvas of={SsbScrollAreaStories.Horizontal} sourceState="none" meta={SsbScrollAreaStories} withToolbar={false} />
+
+### Short content
+
+<Canvas of={SsbScrollAreaStories.ShortContent} sourceState="none" meta={SsbScrollAreaStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

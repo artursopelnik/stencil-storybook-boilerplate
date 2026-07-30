@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-accordion/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbAccordionStories from "./ssb-accordion.stories"
+
+<Meta of={SsbAccordionStories} />
+
+<Title />
+
+`ssb-accordion` groups `ssb-accordion-item` children into a vertically stacked set of collapsible sections. By default only one item is open at a time.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an accordion to let people progressively disclose longer, secondary content such as FAQs or settings groups. Do NOT use an accordion for critical content people must read — show that content directly instead.
+
+---
+
+## Guidelines
+
+- **Do** keep item headings short and scannable.
+- **Do** set `multiple` when sections are independent and people may want to compare them.
+- **Do** open the most relevant item by default when one section clearly matters most.
+- **Don't** nest accordions inside accordions.
+- **Don't** hide required form fields or errors inside collapsed items.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbAccordionStories.Default} sourceState="none" meta={SsbAccordionStories} withToolbar={false} />
+
+### Multiple
+
+<Canvas of={SsbAccordionStories.Multiple} sourceState="none" meta={SsbAccordionStories} withToolbar={false} />
+
+### With disabled item
+
+<Canvas of={SsbAccordionStories.WithDisabledItem} sourceState="none" meta={SsbAccordionStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

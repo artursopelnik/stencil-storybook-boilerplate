@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-accordion-item/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbAccordionItemStories from "./ssb-accordion-item.stories"
+
+<Meta of={SsbAccordionItemStories} />
+
+<Title />
+
+`ssb-accordion-item` is a single collapsible section with a heading trigger and a content region. It emits `ssbToggle` when the user toggles it and is coordinated by a parent `ssb-accordion`.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an accordion item inside `ssb-accordion` to disclose one section of supplementary content behind a heading. Do NOT use a standalone accordion item as a generic show/hide toggle for arbitrary UI — it is designed for grouped, sectioned content.
+
+---
+
+## Guidelines
+
+- **Do** place items inside an `ssb-accordion` so single-open coordination works.
+- **Do** write headings as short phrases or questions that summarize the content.
+- **Do** listen to `ssbToggle` when the surrounding page needs to react to state changes.
+- **Don't** put interactive content that people need permanently visible inside an item.
+- **Don't** disable an item without explaining elsewhere why its content is unavailable.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbAccordionItemStories.Default} sourceState="none" meta={SsbAccordionItemStories} withToolbar={false} />
+
+### Open
+
+<Canvas of={SsbAccordionItemStories.Open} sourceState="none" meta={SsbAccordionItemStories} withToolbar={false} />
+
+### Disabled
+
+<Canvas of={SsbAccordionItemStories.Disabled} sourceState="none" meta={SsbAccordionItemStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

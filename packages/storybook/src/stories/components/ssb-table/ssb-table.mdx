@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-table/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbTableStories from "./ssb-table.stories"
+
+<Meta of={SsbTableStories} />
+
+<Title />
+
+`ssb-table` renders tabular data from `columns` and `rows` props as a semantic table with muted headers, row hover, and optional striping and compact density.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a table to present structured records that people compare across rows and columns, such as invoices or users. Do NOT use a table for page layout or for content that is not truly tabular — use cards or lists instead.
+
+---
+
+## Guidelines
+
+- **Do** right-align numeric columns via `align: "right"` so digits line up.
+- **Do** add a `caption` describing the table for assistive technology.
+- **Do** use `compact` for dense, data-heavy screens.
+- **Don't** mix unrelated data sets in a single table.
+- **Don't** rely on striping alone to convey meaning — it is purely visual.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbTableStories.Default} sourceState="none" meta={SsbTableStories} withToolbar={false} />
+
+### Striped
+
+<Canvas of={SsbTableStories.Striped} sourceState="none" meta={SsbTableStories} withToolbar={false} />
+
+### Compact
+
+<Canvas of={SsbTableStories.Compact} sourceState="none" meta={SsbTableStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

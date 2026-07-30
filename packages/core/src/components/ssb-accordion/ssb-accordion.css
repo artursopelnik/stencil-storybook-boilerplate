@@ -1,0 +1,6 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  color: var(--ssb-color-foreground, #1a202c);
+}

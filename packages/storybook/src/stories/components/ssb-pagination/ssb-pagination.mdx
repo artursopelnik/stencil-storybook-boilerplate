@@ -1,0 +1,57 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-pagination/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbPaginationStories from "./ssb-pagination.stories"
+
+<Meta of={SsbPaginationStories} />
+
+<Title />
+
+`ssb-pagination` lets people move through paged content with Previous/Next buttons and numbered pages. Long ranges collapse into ellipses while the first and last page stay visible.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use pagination when a long list or table is split into pages and people need direct access to specific pages. Do NOT use pagination for continuous feeds — use infinite scrolling or a "load more" button instead.
+
+---
+
+## Guidelines
+
+- **Do** keep the current page in sync with your data source by listening to `ssbPageChange`.
+- **Do** keep `siblingCount` small (1–2) so the control stays compact.
+- **Do** preserve the current page in the URL so it survives reloads and sharing.
+- **Don't** reset the page unexpectedly when unrelated filters change.
+- **Don't** show pagination for content that fits on a single page.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbPaginationStories.Default} sourceState="none" meta={SsbPaginationStories} withToolbar={false} />
+
+### Middle page
+
+<Canvas of={SsbPaginationStories.MiddlePage} sourceState="none" meta={SsbPaginationStories} withToolbar={false} />
+
+### Few pages
+
+<Canvas of={SsbPaginationStories.FewPages} sourceState="none" meta={SsbPaginationStories} withToolbar={false} />
+
+### Wider siblings
+
+<Canvas of={SsbPaginationStories.WiderSiblings} sourceState="none" meta={SsbPaginationStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

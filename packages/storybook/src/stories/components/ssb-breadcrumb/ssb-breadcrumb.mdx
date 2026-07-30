@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-breadcrumb/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbBreadcrumbStories from "./ssb-breadcrumb.stories"
+
+<Meta of={SsbBreadcrumbStories} />
+
+<Title />
+
+`ssb-breadcrumb` shows the path to the current page as a list of links separated by a configurable separator. The last item is announced as the current page.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a breadcrumb to show where the current page sits in a deep hierarchy and to let people jump back to parent pages. Do NOT use a breadcrumb as primary navigation or for flat sites with only one level.
+
+---
+
+## Guidelines
+
+- **Do** order items from the root page to the current page.
+- **Do** keep labels identical to the page titles they link to.
+- **Do** provide `href` for every item except the current page.
+- **Don't** link the last item — it represents the page people are already on.
+- **Don't** use breadcrumbs to show progress in a multi-step flow — use a stepper pattern instead.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbBreadcrumbStories.Default} sourceState="none" meta={SsbBreadcrumbStories} withToolbar={false} />
+
+### Custom separator
+
+<Canvas of={SsbBreadcrumbStories.CustomSeparator} sourceState="none" meta={SsbBreadcrumbStories} withToolbar={false} />
+
+### Without links
+
+<Canvas of={SsbBreadcrumbStories.WithoutLinks} sourceState="none" meta={SsbBreadcrumbStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

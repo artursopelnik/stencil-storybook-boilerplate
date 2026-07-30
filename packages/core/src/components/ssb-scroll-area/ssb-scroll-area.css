@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  font-family: inherit;
+  color: var(--ssb-color-foreground, #1a202c);
+}
+
+.viewport {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ssb-color-border, #e2e8f0) transparent;
+}
+
+.viewport--vertical {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.viewport--horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.viewport--both {
+  overflow: auto;
+}
+
+.viewport::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.viewport::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.viewport::-webkit-scrollbar-thumb {
+  background-color: var(--ssb-color-border, #e2e8f0);
+  border-radius: var(--ssb-radius-full, 9999px);
+}
+
+.viewport::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ssb-color-muted-foreground, #718096);
+}
