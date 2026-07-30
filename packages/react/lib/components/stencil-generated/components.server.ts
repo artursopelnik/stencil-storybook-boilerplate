@@ -9,3 +9,5 @@ import { type SerializeShadowRootOptions } from "@stencil/react-output-target/ss
 export const serializeShadowRoot: SerializeShadowRootOptions = { default: "declarative-shadow-dom" };
 
 export { MyComponent } from "./my-component.server.js";
+export { SsbBadge } from "./ssb-badge.server.js";
+export { SsbButton } from "./ssb-button.server.js";

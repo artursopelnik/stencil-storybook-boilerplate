@@ -1749,6 +1749,11 @@ var parsePropertyValue = (propValue, propType, isFormAssociated) => {
     return propValue;
   }
   if (propValue != null && !isComplexType(propValue)) {
+    if (propType & 4 /* Boolean */) {
+      {
+        return propValue === "false" ? false : propValue === "" || !!propValue;
+      }
+    }
     if (propType & 2 /* Number */) {
       return typeof propValue === "string" ? parseFloat(propValue) : typeof propValue === "number" ? propValue : NaN;
     }
@@ -2256,10 +2261,17 @@ var patch = (oldVNode, newVNode2, isInitialRender = false) => {
   const elm = newVNode2.$elm$ = oldVNode.$elm$;
   const oldChildren = oldVNode.$children$;
   const newChildren = newVNode2.$children$;
+  const tag = newVNode2.$tag$;
   const text = newVNode2.$text$;
   let defaultHolder;
   if (text == null) {
     {
+      if (tag === "slot" && !useNativeShadowDom) {
+        if (oldVNode.$name$ !== newVNode2.$name$) {
+          newVNode2.$elm$["s-sn"] = newVNode2.$name$ || "";
+          relocateToHostRoot(newVNode2.$elm$.parentElement);
+        }
+      }
       updateElement(oldVNode, newVNode2, isSvgMode, isInitialRender);
     }
     if (oldChildren !== null && newChildren !== null) {
@@ -5289,8 +5301,86 @@ class MyComponent {
     }; }
 }
 
+const ssbBadgeCss = () => `:host{display:inline-block}.badge{display:inline-flex;align-items:center;gap:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-full, 9999px);padding:0.125rem 0.625rem;font-family:inherit;font-size:0.75rem;font-weight:600;line-height:1rem;white-space:nowrap}.badge--primary{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.badge--secondary{background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c)}.badge--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.badge--outline{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}`;
+
+class SsbBadge {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Visual style of the badge.
+         */
+        this.variant = 'primary';
+    }
+    render() {
+        return (hAsync(Host, Object.assign({ key: 'fdf43cd65c455869a1b06474ef39238718e3a4f5' }, getAriaAttributes(this.aria)), hAsync("span", { key: 'f2da970fafba270f08aaa6aabedde719037ff4f7', class: { badge: true, [`badge--${this.variant}`]: true } }, hAsync("slot", { key: '4f59dcdb97747db8301d36fbdd3f3f655e786464' }))));
+    }
+    static get style() { return ssbBadgeCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-badge",
+        "$members$": {
+            "variant": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbButtonCss = () => `:host{display:inline-block}.button{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;box-sizing:border-box;border:1px solid transparent;border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.button:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.button:disabled,.button[aria-disabled='true']{opacity:0.5;pointer-events:none}.button--sm{height:2rem;padding:0 0.75rem}.button--md{height:2.25rem;padding:0 1rem}.button--lg{height:2.5rem;padding:0 1.5rem;font-size:1rem}.button--icon{height:2.25rem;width:2.25rem;padding:0}.button--primary{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.button--primary:hover{background-color:var(--ssb-color-primary-hover, #646cff);color:var(--ssb-color-text-on-primary-hover, #ffffff)}.button--secondary{background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c)}.button--secondary:hover{background-color:var(--ssb-color-accent, #e2e8f0)}.button--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.button--destructive:hover{filter:brightness(0.9)}.button--outline{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}.button--outline:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--ghost{background-color:transparent;color:var(--ssb-color-foreground, #1a202c)}.button--ghost:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--link{background-color:transparent;color:var(--ssb-color-foreground, #1a202c);text-decoration:underline;text-underline-offset:4px;padding:0;height:auto}`;
+
+class SsbButton {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Visual style of the button.
+         */
+        this.variant = 'primary';
+        /**
+         * Size of the button. Use `icon` for square icon-only buttons.
+         */
+        this.size = 'md';
+        /**
+         * Disables the button.
+         */
+        this.disabled = false;
+        /**
+         * Native button type. Note: buttons inside shadow DOM do not implicitly submit surrounding forms.
+         */
+        this.type = 'button';
+    }
+    render() {
+        const classes = {
+            button: true,
+            [`button--${this.variant}`]: true,
+            [`button--${this.size}`]: true,
+        };
+        return (hAsync(Host, { key: '0899f5f73b0c2c956cd721f07fa39525a07de59b' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.disabled ? undefined : this.href, target: this.target }, getAriaAttributes(this.aria), { "aria-disabled": this.disabled ? 'true' : undefined }), hAsync("slot", null))) : (hAsync("button", Object.assign({ class: classes, type: this.type, disabled: this.disabled }, getAriaAttributes(this.aria)), hAsync("slot", null)))));
+    }
+    static get style() { return ssbButtonCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-button",
+        "$members$": {
+            "variant": [1],
+            "size": [1],
+            "disabled": [4],
+            "type": [1],
+            "href": [1],
+            "target": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
 registerComponents([
   MyComponent,
+  SsbBadge,
+  SsbButton,
 ]);
 
 exports.hydrateApp = hydrateApp;
@@ -20314,7 +20404,7 @@ function transformTag(tag) {
 function setTagTransformer(transformer) {
   if (tagTransformer) {
     console.warn(`
-      A tagTransformer has already been set.
+      A tagTransformer has already been set. 
       Overwriting it may lead to error and unexpected results if your components have already been defined.
     `);
   }

@@ -5,3 +5,5 @@
 
 /* eslint-disable */
 export { MyComponent } from "./my-component.js";
+export { SsbBadge } from "./ssb-badge.js";
+export { SsbButton } from "./ssb-button.js";

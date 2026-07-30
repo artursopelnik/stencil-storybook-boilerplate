@@ -6,7 +6,11 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SelectedAriaAttributes } from "./types";
+import { BadgeVariant } from "./components/ssb-badge/ssb-badge";
+import { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
 export { SelectedAriaAttributes } from "./types";
+export { BadgeVariant } from "./components/ssb-badge/ssb-badge";
+export { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
 export namespace Components {
     interface MyComponent {
         /**
@@ -31,6 +35,51 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface SsbBadge {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbBadgeAriaAttribute>;
+        /**
+          * Visual style of the badge.
+          * @default 'primary'
+         */
+        "variant": BadgeVariant;
+    }
+    interface SsbButton {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbButtonAriaAttribute>;
+        /**
+          * Disables the button.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * When set, the button renders as an anchor element.
+         */
+        "href"?: string;
+        /**
+          * Size of the button. Use `icon` for square icon-only buttons.
+          * @default 'md'
+         */
+        "size": ButtonSize;
+        /**
+          * Anchor target, only used together with `href`.
+         */
+        "target"?: string;
+        /**
+          * Native button type. Note: buttons inside shadow DOM do not implicitly submit surrounding forms.
+          * @default 'button'
+         */
+        "type": 'button' | 'submit' | 'reset';
+        /**
+          * Visual style of the button.
+          * @default 'primary'
+         */
+        "variant": ButtonVariant;
+    }
 }
 export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -54,8 +103,22 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSsbBadgeElement extends Components.SsbBadge, HTMLStencilElement {
+    }
+    var HTMLSsbBadgeElement: {
+        prototype: HTMLSsbBadgeElement;
+        new (): HTMLSsbBadgeElement;
+    };
+    interface HTMLSsbButtonElement extends Components.SsbButton, HTMLStencilElement {
+    }
+    var HTMLSsbButtonElement: {
+        prototype: HTMLSsbButtonElement;
+        new (): HTMLSsbButtonElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "ssb-badge": HTMLSsbBadgeElement;
+        "ssb-button": HTMLSsbButtonElement;
     }
 }
 declare namespace LocalJSX {
@@ -88,6 +151,51 @@ declare namespace LocalJSX {
          */
         "onButtonClick"?: (event: MyComponentCustomEvent<any>) => void;
     }
+    interface SsbBadge {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbBadgeAriaAttribute>;
+        /**
+          * Visual style of the badge.
+          * @default 'primary'
+         */
+        "variant"?: BadgeVariant;
+    }
+    interface SsbButton {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbButtonAriaAttribute>;
+        /**
+          * Disables the button.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * When set, the button renders as an anchor element.
+         */
+        "href"?: string;
+        /**
+          * Size of the button. Use `icon` for square icon-only buttons.
+          * @default 'md'
+         */
+        "size"?: ButtonSize;
+        /**
+          * Anchor target, only used together with `href`.
+         */
+        "target"?: string;
+        /**
+          * Native button type. Note: buttons inside shadow DOM do not implicitly submit surrounding forms.
+          * @default 'button'
+         */
+        "type"?: 'button' | 'submit' | 'reset';
+        /**
+          * Visual style of the button.
+          * @default 'primary'
+         */
+        "variant"?: ButtonVariant;
+    }
 
     interface MyComponentAttributes {
         "count": number;
@@ -96,9 +204,24 @@ declare namespace LocalJSX {
         "last": string;
         "aria": SelectedAriaAttributes<MyComponentAriaAttribute>;
     }
+    interface SsbBadgeAttributes {
+        "variant": BadgeVariant;
+        "aria": SelectedAriaAttributes<SsbBadgeAriaAttribute>;
+    }
+    interface SsbButtonAttributes {
+        "variant": ButtonVariant;
+        "size": ButtonSize;
+        "disabled": boolean;
+        "type": 'button' | 'submit' | 'reset';
+        "href": string;
+        "target": string;
+        "aria": SelectedAriaAttributes<SsbButtonAriaAttribute>;
+    }
 
     interface IntrinsicElements {
         "my-component": Omit<MyComponent, keyof MyComponentAttributes> & { [K in keyof MyComponent & keyof MyComponentAttributes]?: MyComponent[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `attr:${K}`]?: MyComponentAttributes[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `prop:${K}`]?: MyComponent[K] } & OneOf<"first", MyComponent["first"], MyComponentAttributes["first"]>;
+        "ssb-badge": Omit<SsbBadge, keyof SsbBadgeAttributes> & { [K in keyof SsbBadge & keyof SsbBadgeAttributes]?: SsbBadge[K] } & { [K in keyof SsbBadge & keyof SsbBadgeAttributes as `attr:${K}`]?: SsbBadgeAttributes[K] } & { [K in keyof SsbBadge & keyof SsbBadgeAttributes as `prop:${K}`]?: SsbBadge[K] };
+        "ssb-button": Omit<SsbButton, keyof SsbButtonAttributes> & { [K in keyof SsbButton & keyof SsbButtonAttributes]?: SsbButton[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `attr:${K}`]?: SsbButtonAttributes[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `prop:${K}`]?: SsbButton[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -106,6 +229,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.IntrinsicElements["my-component"] & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "ssb-badge": LocalJSX.IntrinsicElements["ssb-badge"] & JSXBase.HTMLAttributes<HTMLSsbBadgeElement>;
+            "ssb-button": LocalJSX.IntrinsicElements["ssb-button"] & JSXBase.HTMLAttributes<HTMLSsbButtonElement>;
         }
     }
 }

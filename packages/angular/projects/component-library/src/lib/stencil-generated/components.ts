@@ -39,3 +39,49 @@ export declare interface MyComponent extends Components.MyComponent {
 }
 
 
+@ProxyCmp({
+  inputs: ['aria', 'variant']
+})
+@Component({
+  selector: 'ssb-badge',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'variant'],
+  standalone: false
+})
+export class SsbBadge {
+  protected el: HTMLSsbBadgeElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface SsbBadge extends Components.SsbBadge {}
+
+
+@ProxyCmp({
+  inputs: ['aria', 'disabled', 'href', 'size', 'target', 'type', 'variant']
+})
+@Component({
+  selector: 'ssb-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'disabled', 'href', 'size', 'target', 'type', 'variant'],
+  standalone: false
+})
+export class SsbButton {
+  protected el: HTMLSsbButtonElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface SsbButton extends Components.SsbButton {}
+
+

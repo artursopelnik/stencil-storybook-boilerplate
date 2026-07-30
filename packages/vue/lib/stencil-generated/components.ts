@@ -21,3 +21,20 @@ export const MyComponent: StencilVueComponent<JSX.MyComponent> = /*@__PURE__*/ d
 ]);
 
 
+export const SsbBadge: StencilVueComponent<JSX.SsbBadge> = /*@__PURE__*/ defineContainer<JSX.SsbBadge>('ssb-badge', undefined, [
+  'variant',
+  'aria'
+]);
+
+
+export const SsbButton: StencilVueComponent<JSX.SsbButton> = /*@__PURE__*/ defineContainer<JSX.SsbButton>('ssb-button', undefined, [
+  'variant',
+  'size',
+  'disabled',
+  'type',
+  'href',
+  'target',
+  'aria'
+]);
+
+
