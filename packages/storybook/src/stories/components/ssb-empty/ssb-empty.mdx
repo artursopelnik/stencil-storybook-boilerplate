@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-empty/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbEmptyStories from "./ssb-empty.stories"
+
+<Meta of={SsbEmptyStories} />
+
+<Title />
+
+`ssb-empty` displays a centered empty state with an optional icon, title, description, and actions. The look follows the Basecoat UI empty state.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an empty state to explain why a list or view has no content and to guide people towards the next step, such as creating their first item. Do NOT use an empty state for errors or loading — use `ssb-alert` and `ssb-skeleton` instead.
+
+---
+
+## Guidelines
+
+- **Do** explain in the description why the view is empty and what to do next.
+- **Do** offer a clear primary action in the `actions` slot when one exists.
+- **Do** keep the icon simple and decorative.
+- **Don't** blame the user in the copy — keep the tone helpful.
+- **Don't** show more than one primary action.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbEmptyStories.Default} sourceState="none" meta={SsbEmptyStories} withToolbar={false} />
+
+### With icon
+
+<Canvas of={SsbEmptyStories.WithIcon} sourceState="none" meta={SsbEmptyStories} withToolbar={false} />
+
+### With actions
+
+<Canvas of={SsbEmptyStories.WithActions} sourceState="none" meta={SsbEmptyStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

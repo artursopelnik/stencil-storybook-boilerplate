@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-skeleton/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSkeletonStories from "./ssb-skeleton.stories"
+
+<Meta of={SsbSkeletonStories} />
+
+<Title />
+
+`ssb-skeleton` renders a pulsing placeholder shape while content is loading. The look follows the Basecoat UI skeleton.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a skeleton to reserve space for content that is still loading, mirroring the final layout as closely as possible. Do NOT use a skeleton for indeterminate operations without layout, such as form submissions — use `ssb-spinner` instead.
+
+---
+
+## Guidelines
+
+- **Do** match the skeleton's width, height, and radius to the content it replaces.
+- **Do** combine several skeletons to sketch the final layout of the loading view.
+- **Do** replace skeletons with real content as soon as it is available.
+- **Don't** keep skeletons on screen after loading has failed — show an error state instead.
+- **Don't** announce skeletons to assistive technology — they are purely decorative.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbSkeletonStories.Default} sourceState="none" meta={SsbSkeletonStories} withToolbar={false} />
+
+### Card placeholder
+
+<Canvas of={SsbSkeletonStories.CardPlaceholder} sourceState="none" meta={SsbSkeletonStories} withToolbar={false} />
+
+### Avatar placeholder
+
+<Canvas of={SsbSkeletonStories.AvatarPlaceholder} sourceState="none" meta={SsbSkeletonStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

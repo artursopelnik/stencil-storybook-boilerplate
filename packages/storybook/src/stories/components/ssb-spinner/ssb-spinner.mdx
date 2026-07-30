@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-spinner/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSpinnerStories from "./ssb-spinner.stories"
+
+<Meta of={SsbSpinnerStories} />
+
+<Title />
+
+`ssb-spinner` shows an animated loading indicator with a visually hidden label. The look follows the Basecoat UI spinner.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a spinner to indicate an in-progress operation without a known layout, such as submitting a form or fetching data behind a button. Do NOT use a spinner where the final layout is known — use `ssb-skeleton` placeholders instead.
+
+---
+
+## Guidelines
+
+- **Do** provide a meaningful `label` describing what is loading, e.g. "Saving…".
+- **Do** use the `sm` size inside buttons and inline contexts.
+- **Do** remove the spinner as soon as the operation finishes.
+- **Don't** show several spinners for the same operation.
+- **Don't** use a spinner for long operations with known progress — prefer a progress indicator.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbSpinnerStories.Default} sourceState="none" meta={SsbSpinnerStories} withToolbar={false} />
+
+### Sizes
+
+<Canvas of={SsbSpinnerStories.Sizes} sourceState="none" meta={SsbSpinnerStories} withToolbar={false} />
+
+### In button
+
+<Canvas of={SsbSpinnerStories.InButton} sourceState="none" meta={SsbSpinnerStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

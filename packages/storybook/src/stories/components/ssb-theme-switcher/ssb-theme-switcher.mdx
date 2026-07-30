@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-theme-switcher/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbThemeSwitcherStories from "./ssb-theme-switcher.stories"
+
+<Meta of={SsbThemeSwitcherStories} />
+
+<Title />
+
+`ssb-theme-switcher` toggles between the light and dark theme by switching the `ssb-theme--dark` and `ssb-theme--light` classes on the document element and emitting `ssbThemeChange`.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use the theme switcher to let people toggle the whole application between light and dark mode, typically in a header or settings area. Do NOT use it to toggle arbitrary component-level styles — it always targets the document element.
+
+---
+
+## Guidelines
+
+- **Do** place a single theme switcher in a prominent, consistent location such as the app header.
+- **Do** listen to `ssbThemeChange` to persist the chosen theme, e.g. in local storage.
+- **Do** apply the persisted theme class to the document element before the page renders to avoid flashes.
+- **Don't** render multiple theme switchers on the same page.
+- **Don't** override its `aria-pressed` state — it is managed by the component.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbThemeSwitcherStories.Default} sourceState="none" meta={SsbThemeSwitcherStories} withToolbar={false} />
+
+### Dark
+
+<Canvas of={SsbThemeSwitcherStories.Dark} sourceState="none" meta={SsbThemeSwitcherStories} withToolbar={false} />
+
+### With event log
+
+<Canvas of={SsbThemeSwitcherStories.WithEventLog} sourceState="none" meta={SsbThemeSwitcherStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

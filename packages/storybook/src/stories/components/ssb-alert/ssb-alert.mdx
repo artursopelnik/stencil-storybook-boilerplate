@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-alert/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbAlertStories from "./ssb-alert.stories"
+
+<Meta of={SsbAlertStories} />
+
+<Title />
+
+`ssb-alert` displays a callout box with an optional icon, a title and a description. Variants follow the Basecoat UI alert.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an alert to draw attention to important contextual information such as warnings, errors, or status messages that relate to the current view. Do NOT use an alert for transient feedback after user actions — use a toast-style notification instead.
+
+---
+
+## Guidelines
+
+- **Do** keep the title short and put details in the description text.
+- **Do** use the `destructive` variant for errors and irreversible failures.
+- **Do** provide an icon in the `icon` slot to reinforce the message type.
+- **Don't** stack many alerts on one view — consolidate related messages.
+- **Don't** use alerts for marketing or promotional content.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbAlertStories.Default} sourceState="none" meta={SsbAlertStories} withToolbar={false} />
+
+### With icon
+
+<Canvas of={SsbAlertStories.WithIcon} sourceState="none" meta={SsbAlertStories} withToolbar={false} />
+
+### Destructive
+
+<Canvas of={SsbAlertStories.Destructive} sourceState="none" meta={SsbAlertStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

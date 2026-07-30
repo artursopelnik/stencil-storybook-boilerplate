@@ -1,0 +1,52 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-kbd/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbKbdStories from "./ssb-kbd.stories"
+
+<Meta of={SsbKbdStories} />
+
+<Title />
+
+`ssb-kbd` renders a keyboard key in a small monospace chip. The look follows the Basecoat UI kbd element.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a kbd element to display keyboard shortcuts or key names inside documentation, tooltips, and menus. Do NOT use it for badges, tags, or other non-keyboard labels — use `ssb-badge` instead.
+
+---
+
+## Guidelines
+
+- **Do** render one key per `ssb-kbd` and join combinations with a plus sign or spacing.
+- **Do** use platform-appropriate symbols such as `⌘` on macOS and `Ctrl` on Windows.
+- **Don't** use kbd chips as interactive buttons — they are purely presentational.
+- **Don't** put whole sentences inside a kbd chip.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbKbdStories.Default} sourceState="none" meta={SsbKbdStories} withToolbar={false} />
+
+### Combination
+
+<Canvas of={SsbKbdStories.Combination} sourceState="none" meta={SsbKbdStories} withToolbar={false} />
+
+### In text
+
+<Canvas of={SsbKbdStories.InText} sourceState="none" meta={SsbKbdStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--ssb-spacing-static-small, 0.5rem);
+  box-sizing: border-box;
+  border: 1px dashed var(--ssb-color-border, #e2e8f0);
+  border-radius: var(--ssb-radius-large, 0.75rem);
+  background-color: var(--ssb-color-background, #ffffff);
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 3rem 1.5rem;
+}
+
+.empty__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ssb-color-muted-foreground, #718096);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.empty__icon ::slotted(*) {
+  width: 2rem;
+  height: 2rem;
+}
+
+.empty__title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.empty__description {
+  color: var(--ssb-color-muted-foreground, #718096);
+  max-width: 24rem;
+}
+
+.empty__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--ssb-spacing-static-small, 0.5rem);
+  margin-top: var(--ssb-spacing-static-small, 0.5rem);
+}

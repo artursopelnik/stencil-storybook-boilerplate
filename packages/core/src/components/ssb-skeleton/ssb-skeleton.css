@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.skeleton {
+  box-sizing: border-box;
+  background-color: var(--ssb-color-muted, #edf2f7);
+  animation: skeleton-pulse 2s ease-in-out infinite;
+}
+
+.skeleton--small {
+  border-radius: var(--ssb-radius-small, 0.25rem);
+}
+
+.skeleton--medium {
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+}
+
+.skeleton--large {
+  border-radius: var(--ssb-radius-large, 0.75rem);
+}
+
+.skeleton--full {
+  border-radius: var(--ssb-radius-full, 9999px);
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

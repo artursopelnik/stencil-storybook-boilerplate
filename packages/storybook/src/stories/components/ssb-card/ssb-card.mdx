@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-card/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbCardStories from "./ssb-card.stories"
+
+<Meta of={SsbCardStories} />
+
+<Title />
+
+`ssb-card` groups related content in a bordered container with title, description, action, content, and footer areas. The layout follows the Basecoat UI card.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a card to group related information and actions into a self-contained surface, such as a settings section, a summary tile, or a form container. Do NOT use a card as a generic wrapper for whole pages or for single inline elements.
+
+---
+
+## Guidelines
+
+- **Do** provide a concise title in the `card-title` slot and supporting copy in the `card-description` slot.
+- **Do** place primary actions in the `footer` slot and secondary icon actions in the `action` slot.
+- **Do** keep the content of one card focused on a single topic.
+- **Don't** nest cards inside cards.
+- **Don't** overload a card with more than one primary action.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbCardStories.Default} sourceState="none" meta={SsbCardStories} withToolbar={false} />
+
+### With action
+
+<Canvas of={SsbCardStories.WithAction} sourceState="none" meta={SsbCardStories} withToolbar={false} />
+
+### With footer
+
+<Canvas of={SsbCardStories.WithFooter} sourceState="none" meta={SsbCardStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ssb-spacing-static-medium, 1rem);
+  box-sizing: border-box;
+  border: 1px solid var(--ssb-color-border, #e2e8f0);
+  border-radius: var(--ssb-radius-large, 0.75rem);
+  background-color: var(--ssb-color-background, #ffffff);
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 1.5rem;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ssb-spacing-static-small, 0.5rem);
+}
+
+.card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.card__description {
+  color: var(--ssb-color-muted-foreground, #718096);
+}
+
+.card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--ssb-spacing-static-small, 0.5rem);
+}

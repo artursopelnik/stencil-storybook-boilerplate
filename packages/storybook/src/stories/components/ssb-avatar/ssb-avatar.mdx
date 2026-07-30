@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-avatar/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbAvatarStories from "./ssb-avatar.stories"
+
+<Meta of={SsbAvatarStories} />
+
+<Title />
+
+`ssb-avatar` displays a user image with an initials fallback. Shapes and sizes follow the Basecoat UI avatar.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an avatar to represent a person or entity with an image or their initials, for example in navigation bars, comment threads, or user lists. Do NOT use an avatar for decorative illustrations or content images — use a plain image instead.
+
+---
+
+## Guidelines
+
+- **Do** always provide `initials` so a meaningful fallback appears when the image fails to load.
+- **Do** provide a descriptive `alt` text for the image.
+- **Do** keep initials to one or two characters.
+- **Don't** use avatars to display logos or arbitrary icons.
+- **Don't** mix shapes within the same list of people.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbAvatarStories.Default} sourceState="none" meta={SsbAvatarStories} withToolbar={false} />
+
+### Fallback
+
+<Canvas of={SsbAvatarStories.Fallback} sourceState="none" meta={SsbAvatarStories} withToolbar={false} />
+
+### Sizes
+
+<Canvas of={SsbAvatarStories.Sizes} sourceState="none" meta={SsbAvatarStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>
