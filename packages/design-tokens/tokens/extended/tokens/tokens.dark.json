@@ -7,7 +7,20 @@
       },
       "text-on-primary": {
         "$value": "{global.color.white}"
-      }
+      },
+      "background": { "$value": "{global.color.gray.900}" },
+      "foreground": { "$value": "{global.color.gray.100}" },
+      "muted": { "$value": "{global.color.gray.800}" },
+      "muted-foreground": { "$value": "{global.color.gray.500}" },
+      "border": { "$value": "{global.color.gray.700}" },
+      "input": { "$value": "{global.color.gray.600}" },
+      "ring": { "$value": "{global.color.purple.400}" },
+      "accent": { "$value": "{global.color.gray.800}" },
+      "accent-foreground": { "$value": "{global.color.gray.100}" },
+      "destructive": { "$value": "{global.color.red.500}" },
+      "destructive-foreground": { "$value": "{global.color.white}" },
+      "body-background": { "$value": "{global.color.gray.900}" },
+      "body-text": { "$value": "{global.color.gray.100}" }
     }
   }
 }

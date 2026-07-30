@@ -1,0 +1,38 @@
+:host {
+  display: inline-block;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--ssb-radius-full, 9999px);
+  padding: 0.125rem 0.625rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  white-space: nowrap;
+}
+
+.badge--primary {
+  background-color: var(--ssb-color-foreground, #1a202c);
+  color: var(--ssb-color-background, #ffffff);
+}
+
+.badge--secondary {
+  background-color: var(--ssb-color-muted, #edf2f7);
+  color: var(--ssb-color-foreground, #1a202c);
+}
+
+.badge--destructive {
+  background-color: var(--ssb-color-destructive, #dc2626);
+  color: var(--ssb-color-destructive-foreground, #ffffff);
+}
+
+.badge--outline {
+  background-color: transparent;
+  border-color: var(--ssb-color-border, #e2e8f0);
+  color: var(--ssb-color-foreground, #1a202c);
+}

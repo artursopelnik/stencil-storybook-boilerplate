@@ -1,0 +1,47 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-badge/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbBadgeStories from "./ssb-badge.stories"
+
+<Meta of={SsbBadgeStories} />
+
+<Title />
+
+`ssb-badge` displays a small status descriptor such as "New", "Beta" or a count.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a badge to highlight the status or category of an item, e.g. counts, labels or states. Do NOT use a badge as an interactive element — use `ssb-button` when a click action is required.
+
+---
+
+## Guidelines
+
+- **Do** keep badge text short — one or two words or a count.
+- **Do** use the `destructive` variant for error or warning states.
+- **Don't** attach click handlers to badges; they are purely presentational.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbBadgeStories.Default} sourceState="none" meta={SsbBadgeStories} withToolbar={false} />
+
+### Variants
+
+<Canvas of={SsbBadgeStories.Variants} sourceState="none" meta={SsbBadgeStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

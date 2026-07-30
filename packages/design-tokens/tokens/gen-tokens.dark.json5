@@ -1,6 +1,6 @@
 /**
  * Do not edit directly, this file was auto-generated.
- * By /Users/artursopelnik/IdeaProjects/stencil-storybook-boilerplate/packages/design-tokens/tokens/extended/tokens/tokens.dark.json
+ * By /home/user/stencil-storybook-boilerplate/packages/design-tokens/tokens/extended/tokens/tokens.dark.json
  */
 
 {
@@ -69,6 +69,20 @@
         },
         "900": {
           $value: "#322659",
+        },
+      },
+      red: {
+        "100": {
+          $value: "#fef2f2",
+        },
+        "500": {
+          $value: "#ef4444",
+        },
+        "600": {
+          $value: "#dc2626",
+        },
+        "700": {
+          $value: "#b91c1c",
         },
       },
     },
@@ -141,10 +155,59 @@
         $value: "{global.color.white}",
       },
       "body-background": {
-        $value: "{global.color.white}",
+        $value: "{global.color.gray.900}",
       },
       "body-text": {
-        $value: "{global.color.black}",
+        $value: "{global.color.gray.100}",
+      },
+      background: {
+        $value: "{global.color.gray.900}",
+      },
+      foreground: {
+        $value: "{global.color.gray.100}",
+      },
+      muted: {
+        $value: "{global.color.gray.800}",
+      },
+      "muted-foreground": {
+        $value: "{global.color.gray.500}",
+      },
+      border: {
+        $value: "{global.color.gray.700}",
+      },
+      input: {
+        $value: "{global.color.gray.600}",
+      },
+      ring: {
+        $value: "{global.color.purple.400}",
+      },
+      accent: {
+        $value: "{global.color.gray.800}",
+      },
+      "accent-foreground": {
+        $value: "{global.color.gray.100}",
+      },
+      destructive: {
+        $value: "{global.color.red.500}",
+      },
+      "destructive-foreground": {
+        $value: "{global.color.white}",
+      },
+    },
+    radius: {
+      $type: "dimension",
+      small: {
+        $value: "{global.size.4}",
+      },
+      medium: {
+        $value: "{global.size.8}",
+      },
+      large: {
+        $value: "{global.size.12}",
+      },
+      full: {
+        $value: "9999px",
+        disablePxToRem: true,
       },
     },
     spacing: {

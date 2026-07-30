@@ -1,0 +1,57 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-button/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbButtonStories from "./ssb-button.stories"
+
+<Meta of={SsbButtonStories} />
+
+<Title />
+
+`ssb-button` triggers an action or navigates when a `href` is provided. Variants and sizes follow the Basecoat UI button.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a button to let people trigger an action such as submitting data, opening a dialog, or navigating (with `href`). Do NOT use a button for purely decorative labels — use `ssb-badge` for status labels and plain links for inline text navigation.
+
+---
+
+## Guidelines
+
+- **Do** use exactly one `primary` button per view to mark the main action.
+- **Do** use the `destructive` variant for irreversible actions such as deleting data.
+- **Do** provide an `aria-label` via the `aria` prop for `icon` size buttons.
+- **Don't** use a button where a plain inline link inside running text is expected.
+- **Don't** rely on implicit form submission — buttons inside shadow DOM do not submit surrounding forms.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbButtonStories.Default} sourceState="none" meta={SsbButtonStories} withToolbar={false} />
+
+### Variants
+
+<Canvas of={SsbButtonStories.Variants} sourceState="none" meta={SsbButtonStories} withToolbar={false} />
+
+### Sizes
+
+<Canvas of={SsbButtonStories.Sizes} sourceState="none" meta={SsbButtonStories} withToolbar={false} />
+
+### As link
+
+<Canvas of={SsbButtonStories.AsLink} sourceState="none" meta={SsbButtonStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>
