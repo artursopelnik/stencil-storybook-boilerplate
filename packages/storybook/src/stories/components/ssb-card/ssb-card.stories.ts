@@ -4,7 +4,11 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite"
 // @ts-expect-error because Intellij does not understand imports within Lerna monorepos
 import type { SsbCard } from "@stencil-storybook-boilerplate/core/src/components/ssb-card/ssb-card"
 
-type Args = SsbCard & { cardTitle: string; description: string; content: string }
+type Args = SsbCard & {
+  cardTitle: string
+  description: string
+  content: string
+}
 
 const meta = {
   title: "Components/Card",
@@ -21,7 +25,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ cardTitle, description, content }) =>
+  render: ({ cardTitle, description, content }: Args) =>
     html`<ssb-card style="width: 24rem;">
       <span slot="card-title">${cardTitle}</span>
       <span slot="card-description">${description}</span>
@@ -34,7 +38,13 @@ export const WithAction = {
     html`<ssb-card style="width: 24rem;">
       <span slot="card-title">Notifications</span>
       <span slot="card-description">Manage how you receive updates.</span>
-      <ssb-button slot="action" variant="ghost" size="icon" aria=${JSON.stringify({ "aria-label": "Settings" })}>&#9881;</ssb-button>
+      <ssb-button
+        slot="action"
+        variant="ghost"
+        size="icon"
+        aria=${JSON.stringify({ "aria-label": "Settings" })}
+        >&#9881;</ssb-button
+      >
       You currently receive notifications by e-mail.
     </ssb-card>`,
 } satisfies StoryObj<Args>

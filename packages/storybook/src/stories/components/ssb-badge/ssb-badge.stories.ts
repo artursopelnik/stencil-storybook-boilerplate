@@ -26,7 +26,8 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ label, variant }) => html`<ssb-badge variant=${variant}>${label}</ssb-badge>`,
+  render: ({ label, variant }: Args) =>
+    html`<ssb-badge variant=${variant}>${label}</ssb-badge>`,
 } satisfies StoryObj<Args>
 
 export const Variants = {

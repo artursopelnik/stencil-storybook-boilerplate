@@ -25,7 +25,8 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ theme }) => html`<ssb-theme-switcher theme=${theme}></ssb-theme-switcher>`,
+  render: ({ theme }: Args) =>
+    html`<ssb-theme-switcher theme=${theme}></ssb-theme-switcher>`,
 } satisfies StoryObj<Args>
 
 export const Dark = {
@@ -43,6 +44,8 @@ export const WithEventLog = {
           }
         }}
       ></ssb-theme-switcher>
-      <span id="ssb-theme-switcher-output" style="font-size: 0.875rem;">Click to toggle the theme</span>
+      <span id="ssb-theme-switcher-output" style="font-size: 0.875rem;"
+        >Click to toggle the theme</span
+      >
     </div>`,
 } satisfies StoryObj<Args>

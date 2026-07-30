@@ -97,7 +97,7 @@ export class SsbPagination {
               </span>
             ) : (
               <button
-                class={{ button: true, 'button--current': entry === current }}
+                class={{ 'button': true, 'button--current': entry === current }}
                 type="button"
                 aria-current={entry === current ? 'page' : undefined}
                 onClick={() => this.selectPage(entry)}

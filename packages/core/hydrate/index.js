@@ -132,7 +132,7 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
 
 
 const NAMESPACE = 'stencil-storybook-boilerplate';
-const BUILD = /* stencil-storybook-boilerplate */ { hotModuleReplacement: false, hydratedSelectorName: "hydrated", prop: true, propChangeCallback: false, slotRelocation: true, updatable: true};
+const BUILD = /* stencil-storybook-boilerplate */ { hotModuleReplacement: false, hydratedSelectorName: "hydrated", slotRelocation: true, state: true, updatable: true};
 
 /*
  Stencil Hydrate Platform v4.43.5 | MIT Licensed | https://stenciljs.com
@@ -383,6 +383,10 @@ var require_brace_expansion = __commonJS({
     }
   }
 });
+
+// src/utils/constants.ts
+var SVG_NS = "http://www.w3.org/2000/svg";
+var HTML_NS = "http://www.w3.org/1999/xhtml";
 var PrimitiveType = /* @__PURE__ */ ((PrimitiveType2) => {
   PrimitiveType2["Undefined"] = "undefined";
   PrimitiveType2["Null"] = "null";
@@ -1631,6 +1635,31 @@ var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
   return cssText;
 };
 
+// src/runtime/normalize-watchers.ts
+var normalizeWatchers = (raw) => {
+  if (!raw) return void 0;
+  const keys = Object.keys(raw);
+  if (keys.length === 0) return void 0;
+  let hasLegacy = false;
+  for (const propName of keys) {
+    if (hasLegacy) break;
+    for (const h2 of raw[propName]) {
+      if (typeof h2 === "string") {
+        hasLegacy = true;
+        break;
+      }
+    }
+  }
+  if (!hasLegacy) return raw;
+  const out = {};
+  for (const propName of keys) {
+    out[propName] = raw[propName].map(
+      (h2) => typeof h2 === "string" ? { [h2]: 0 } : h2
+    );
+  }
+  return out;
+};
+
 // src/utils/remote-value.ts
 var RemoteValue = class _RemoteValue {
   /**
@@ -1775,9 +1804,9 @@ var createEvent = (ref, name, flags) => {
   return {
     emit: (detail) => {
       return emitEvent(elm, name, {
-        bubbles: false,
-        composed: true,
-        cancelable: true,
+        bubbles: !!(flags & 4 /* Bubbles */),
+        composed: !!(flags & 2 /* Composed */),
+        cancelable: !!(flags & 1 /* Cancellable */),
         detail
       });
     }
@@ -2020,12 +2049,19 @@ var createElm = (oldParentVNode, newParentVNode, childIndex) => {
       updateElement(null, newVNode2, isSvgMode);
     }
   } else {
+    if (!isSvgMode) {
+      isSvgMode = newVNode2.$tag$ === "svg";
+    }
     if (!win.document) {
       throw new Error("You are trying to render a Stencil component in an environment that doesn't support the DOM.");
     }
-    elm = newVNode2.$elm$ = win.document.createElement(
+    elm = newVNode2.$elm$ = win.document.createElementNS(
+      isSvgMode ? SVG_NS : HTML_NS,
       !useNativeShadowDom && BUILD.slotRelocation && newVNode2.$flags$ & 2 /* isSlotFallback */ ? "slot-fb" : newVNode2.$tag$
-    );
+    ) ;
+    if (isSvgMode && newVNode2.$tag$ === "foreignObject") {
+      isSvgMode = false;
+    }
     {
       updateElement(null, newVNode2, isSvgMode);
     }
@@ -2039,6 +2075,13 @@ var createElm = (oldParentVNode, newParentVNode, childIndex) => {
         if (childNode) {
           appendTarget.appendChild(childNode);
         }
+      }
+    }
+    {
+      if (newVNode2.$tag$ === "svg") {
+        isSvgMode = false;
+      } else if (elm.tagName === "foreignObject") {
+        isSvgMode = true;
       }
     }
   }
@@ -2266,6 +2309,9 @@ var patch = (oldVNode, newVNode2, isInitialRender = false) => {
   let defaultHolder;
   if (text == null) {
     {
+      isSvgMode = tag === "svg" ? true : tag === "foreignObject" ? false : isSvgMode;
+    }
+    {
       if (tag === "slot" && !useNativeShadowDom) {
         if (oldVNode.$name$ !== newVNode2.$name$) {
           newVNode2.$elm$["s-sn"] = newVNode2.$name$ || "";
@@ -2288,6 +2334,9 @@ var patch = (oldVNode, newVNode2, isInitialRender = false) => {
       removeVnodes(oldChildren, 0, oldChildren.length - 1);
     } else if (isInitialRender && BUILD.updatable && oldChildren !== null && newChildren === null) {
       newVNode2.$children$ = oldChildren;
+    }
+    if (isSvgMode && tag === "svg") {
+      isSvgMode = false;
     }
   } else if ((defaultHolder = elm["s-cr"])) {
     defaultHolder.parentNode.textContent = text;
@@ -2410,6 +2459,14 @@ var renderVdom = (hostRef, renderFnResults, isInitialLoad = false) => {
   const isHostElement = isHost(renderFnResults);
   const rootVnode = isHostElement ? renderFnResults : h(null, null, renderFnResults);
   hostTagName = hostElm.tagName;
+  if (cmpMeta.$attrsToReflect$) {
+    rootVnode.$attrs$ = rootVnode.$attrs$ || {};
+    cmpMeta.$attrsToReflect$.forEach(([propName, attribute]) => {
+      {
+        rootVnode.$attrs$[attribute] = hostElm[propName];
+      }
+    });
+  }
   if (isInitialLoad && rootVnode.$attrs$) {
     for (const key of Object.keys(rootVnode.$attrs$)) {
       if (hostElm.hasAttribute(key) && !["key", "ref", "style", "class"].includes(key)) {
@@ -2569,6 +2626,13 @@ var dispatchHooks = (hostRef, isInitialLoad) => {
       if (hostRef.$deferredConnectedCallback$) {
         hostRef.$deferredConnectedCallback$ = false;
         safeCall(instance, "connectedCallback", void 0, elm);
+      }
+      {
+        hostRef.$flags$ |= 256 /* isListenReady */;
+        if (hostRef.$queuedListeners$) {
+          hostRef.$queuedListeners$.map(([methodName, event]) => safeCall(instance, methodName, event, elm));
+          hostRef.$queuedListeners$ = void 0;
+        }
       }
       if (hostRef.$fetchedCbList$.length) {
         hostRef.$fetchedCbList$.forEach((cb) => cb(elm));
@@ -2738,6 +2802,7 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
       `Couldn't find host element for "${cmpMeta.$tagName$}" as it is unknown to this Stencil runtime. This usually happens when integrating a 3rd party Stencil component with another Stencil component or application. Please reach out to the maintainers of the 3rd party Stencil component or report this on the Stencil Discord server (https://chat.stenciljs.com) or comment on this similar [GitHub issue](https://github.com/stenciljs/core/issues/5457).`
     );
   }
+  const elm = hostRef.$hostElement$ ;
   const oldVal = hostRef.$instanceValues$.get(propName);
   const flags = hostRef.$flags$;
   const instance = hostRef.$lazyInstance$ ;
@@ -2748,6 +2813,27 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
   const didValueChange = newVal !== oldVal && !areBothNaN;
   if ((!(flags & 8 /* isConstructingInstance */) || oldVal === void 0) && didValueChange) {
     hostRef.$instanceValues$.set(propName, newVal);
+    if (cmpMeta.$watchers$) {
+      const watchMethods = cmpMeta.$watchers$[propName];
+      if (watchMethods) {
+        watchMethods.map((watcher) => {
+          try {
+            const [[watchMethodName, watcherFlags]] = Object.entries(watcher);
+            if (flags & 128 /* isWatchReady */ || watcherFlags & 1 /* Immediate */) {
+              if (!instance) {
+                hostRef.$fetchedCbList$.push(() => {
+                  hostRef.$lazyInstance$[watchMethodName](newVal, oldVal, propName);
+                });
+              } else {
+                instance[watchMethodName](newVal, oldVal, propName);
+              }
+            }
+          } catch (e) {
+            consoleError(e, elm);
+          }
+        });
+      }
+    }
     if (flags & 2 /* hasRendered */) {
       if (instance.componentShouldUpdate) {
         const shouldUpdate = instance.componentShouldUpdate(newVal, oldVal, propName);
@@ -2766,7 +2852,18 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
 var proxyComponent = (Cstr, cmpMeta, flags) => {
   var _a2;
   const prototype = Cstr.prototype;
-  if (cmpMeta.$members$ || BUILD.propChangeCallback) {
+  {
+    {
+      if (Cstr.watchers && !cmpMeta.$watchers$) {
+        cmpMeta.$watchers$ = normalizeWatchers(Cstr.watchers);
+      }
+      if (Cstr.deserializers && !cmpMeta.$deserializers$) {
+        cmpMeta.$deserializers$ = Cstr.deserializers;
+      }
+      if (Cstr.serializers && !cmpMeta.$serializers$) {
+        cmpMeta.$serializers$ = Cstr.serializers;
+      }
+    }
     const members = Object.entries((_a2 = cmpMeta.$members$) != null ? _a2 : {});
     members.map(([memberName, [memberFlags]]) => {
       if ((memberFlags & 31 /* Prop */ || memberFlags & 32 /* State */)) {
@@ -2844,6 +2941,11 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
           throw new Error(`Constructor for "${cmpMeta.$tagName$}#${hostRef.$modeName$}" was not found`);
         }
         if (!Cstr.isProxied) {
+          {
+            cmpMeta.$watchers$ = normalizeWatchers(Cstr.watchers);
+            cmpMeta.$serializers$ = Cstr.serializers;
+            cmpMeta.$deserializers$ = Cstr.deserializers;
+          }
           proxyComponent(Cstr, cmpMeta);
           Cstr.isProxied = true;
         }
@@ -2858,6 +2960,9 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
         }
         {
           hostRef.$flags$ &= -9 /* isConstructingInstance */;
+        }
+        {
+          hostRef.$flags$ |= 128 /* isWatchReady */;
         }
         endNewInstance();
         const needsDeferredCallback = cmpMeta.$flags$ & 4 /* hasSlotRelocation */;
@@ -2957,6 +3062,7 @@ var connectedCallback = (elm) => {
         initializeComponent(elm, hostRef, cmpMeta);
       }
     } else {
+      addHostEventListeners(elm, hostRef, cmpMeta.$listeners$);
       if (hostRef == null ? void 0 : hostRef.$lazyInstance$) {
         fireConnectedCallback(hostRef.$lazyInstance$, elm);
       } else if (hostRef == null ? void 0 : hostRef.$onReadyPromise$) {
@@ -2976,6 +3082,32 @@ var setContentReference = (elm) => {
   contentRefElm["s-cn"] = true;
   insertBefore(elm, contentRefElm, elm.firstChild);
 };
+var addHostEventListeners = (elm, hostRef, listeners, attachParentListeners) => {
+  if (listeners && win.document) {
+    listeners.map(([flags, name, method]) => {
+      const target = elm;
+      const handler = hostListenerProxy(hostRef, method);
+      const opts = hostListenerOpts(flags);
+      plt.ael(target, name, handler, opts);
+      (hostRef.$rmListeners$ = hostRef.$rmListeners$ || []).push(() => plt.rel(target, name, handler, opts));
+    });
+  }
+};
+var hostListenerProxy = (hostRef, methodName) => (ev) => {
+  var _a2;
+  try {
+    {
+      if (hostRef.$flags$ & 256 /* isListenReady */) {
+        (_a2 = hostRef.$lazyInstance$) == null ? void 0 : _a2[methodName](ev);
+      } else {
+        (hostRef.$queuedListeners$ = hostRef.$queuedListeners$ || []).push([methodName, ev]);
+      }
+    }
+  } catch (e) {
+    consoleError(e, hostRef.$hostElement$);
+  }
+};
+var hostListenerOpts = (flags) => (flags & 2 /* Capture */) !== 0;
 function transformTag(tag) {
   return tag;
 }
@@ -4966,6 +5098,7 @@ async function hydrateComponent(win2, results, tagName, elm, waitingElements) {
       if (!hostRef) {
         return;
       }
+      addHostEventListeners(this, hostRef, cmpMeta.$listeners$);
       try {
         connectedCallback(elm);
         await elm.componentOnReady();
@@ -5195,7 +5328,7 @@ var registerInstance = (lazyInstance, hostRef) => {
   if (!hostRef) return void 0;
   lazyInstance.__stencil__getHostRef = () => hostRef;
   hostRef.$lazyInstance$ = lazyInstance;
-  if (hostRef.$cmpMeta$.$flags$ & 512 /* hasModernPropertyDecls */ && (BUILD.prop)) {
+  if (hostRef.$cmpMeta$.$flags$ & 512 /* hasModernPropertyDecls */ && (BUILD.state)) {
     reWireGetterSetter(lazyInstance, hostRef);
   }
   return hostRef;
@@ -5268,7 +5401,7 @@ const myComponentCss = () => `:host{max-width:1280px;margin:0 auto;padding:2rem;
 class MyComponent {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.buttonClick = createEvent(this, "buttonClick");
+        this.buttonClick = createEvent(this, "buttonClick", 3);
         /**
          * The number of times the button has been clicked.
          */
@@ -5282,7 +5415,7 @@ class MyComponent {
         return format(this.first, this.middle, this.last);
     }
     render() {
-        return (hAsync(Host, { key: '7733c69447504b33648dc44214dc53532f4753b1' }, hAsync("div", { key: '487538f721862dce8cf74e98c22b992bcbf29acb' }, hAsync("div", { key: '05fdc68e9e0bd533965e7c4382cd21497989c83a' }, "Hello World! I'm ", this.getText()), hAsync("br", { key: 'f9f09028ec899b8a1051cf245bb93ae5c6417c67' }), hAsync("div", { key: '320e41b0a38c49bfdab6f8a722896447577e3756' }, hAsync("button", Object.assign({ key: 'd2dd8db6849d64a37a2535ba067d83dc765f199d' }, getAriaAttributes(this.aria), { onClick: this._onClick.bind(this) }), "count is ", this.count)))));
+        return (hAsync(Host, { key: 'da48e3d249fc8cc849c16c1f717bfcaded9394a7' }, hAsync("div", { key: '243177be107e661d022d797be25c00922d543e43' }, hAsync("div", { key: 'b2e1e62847748fe5346de1e40346e8efb39bcc17' }, "Hello World! I'm ", this.getText()), hAsync("br", { key: 'a56bd7eaa16db7a05287e3c050786c238b9dd6fa' }), hAsync("div", { key: '16dd8e806cde037cfdae7bde23dcea26097d16e2' }, hAsync("button", Object.assign({ key: 'a2c1203876414340e83a4b4b676cf38dab0fb745' }, getAriaAttributes(this.aria), { onClick: this._onClick.bind(this) }), "count is ", this.count)))));
     }
     static get style() { return myComponentCss(); }
     static get cmpMeta() { return {
@@ -5301,6 +5434,275 @@ class MyComponent {
     }; }
 }
 
+const ssbAccordionCss = () => `:host{display:block;width:100%;font-family:inherit;color:var(--ssb-color-foreground, #1a202c)}`;
+
+class SsbAccordion {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Allows multiple items to be open at the same time. When `false`, opening an item closes the others.
+         */
+        this.multiple = false;
+    }
+    handleToggle(event) {
+        if (this.multiple || !event.detail.open) {
+            return;
+        }
+        const items = Array.from(this.el.querySelectorAll('ssb-accordion-item'));
+        items.forEach(item => {
+            if (item !== event.target) {
+                item.open = false;
+            }
+        });
+    }
+    render() {
+        return (hAsync(Host, Object.assign({ key: 'be3302e8d646d7cca2254b55379435c2d6bc3d9e' }, getAriaAttributes(this.aria)), hAsync("slot", { key: '7c819c43663811351191bf0f82899a0d78f04276' })));
+    }
+    get el() { return getElement(this); }
+    static get style() { return ssbAccordionCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-accordion",
+        "$members$": {
+            "multiple": [4],
+            "aria": [1]
+        },
+        "$listeners$": [[0, "ssbToggle", "handleToggle"]],
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbAccordionItemCss = () => `:host{display:block;border-bottom:1px solid var(--ssb-color-border, #e2e8f0);font-family:inherit;color:var(--ssb-color-foreground, #1a202c)}.trigger{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;box-sizing:border-box;width:100%;padding:1rem 0;border:none;background-color:transparent;font-family:inherit;font-size:0.875rem;font-weight:500;text-align:left;color:var(--ssb-color-foreground, #1a202c);cursor:pointer;transition:color 0.15s ease}.trigger:hover{text-decoration:underline;text-underline-offset:4px}.trigger:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.trigger:disabled{opacity:0.5;pointer-events:none}.chevron{display:inline-flex;align-items:center;color:var(--ssb-color-muted-foreground, #718096);transition:transform 0.2s ease}.chevron--open{transform:rotate(180deg)}.content{padding-bottom:1rem;font-size:0.875rem;line-height:1.5;color:var(--ssb-color-foreground, #1a202c)}.content[hidden]{display:none}`;
+
+class SsbAccordionItem {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbToggle = createEvent(this, "ssbToggle", 7);
+        /**
+         * Heading text shown in the trigger button.
+         */
+        this.heading = '';
+        /**
+         * Whether the item content is expanded.
+         */
+        this.open = false;
+        /**
+         * Disables the item so it can no longer be toggled.
+         */
+        this.disabled = false;
+        this.handleClick = () => {
+            if (this.disabled) {
+                return;
+            }
+            this.open = !this.open;
+            this.ssbToggle.emit({ open: this.open });
+        };
+    }
+    render() {
+        return (hAsync(Host, { key: '2f941498e1e0c323b8ef989e7a290e27822c6d58' }, hAsync("button", Object.assign({ key: '5e707aa42969dca95929341dea89e1c6a46da11c', class: "trigger", type: "button", id: "trigger", disabled: this.disabled, "aria-expanded": this.open ? 'true' : 'false', "aria-controls": "content", onClick: this.handleClick }, getAriaAttributes(this.aria)), hAsync("span", { key: '75f6cd4e87634a27bb7adc8600d74950aa7da21e', class: "heading" }, this.heading), hAsync("span", { key: '56c8f04ebf0686d442ec433897ba1b7a64a64cbb', class: { 'chevron': true, 'chevron--open': this.open }, "aria-hidden": "true" }, hAsync("svg", { key: '5d98e5459715e7f9e70f190061274ba0961c6eab', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" }, hAsync("path", { key: 'ce11d029e82588d3a5e7cd3eea94c4d5ba172d9d', d: "m6 9 6 6 6-6" })))), hAsync("div", { key: '9a2f3d76db8fae9eddea23f428c78bd99a52b59b', class: "content", id: "content", role: "region", "aria-labelledby": "trigger", hidden: !this.open }, hAsync("slot", { key: '70d17f4e4f006f4c73ebfad0fca5aa9f351e4395' }))));
+    }
+    static get style() { return ssbAccordionItemCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-accordion-item",
+        "$members$": {
+            "heading": [1],
+            "open": [1540],
+            "disabled": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbAlertCss = () => `:host{display:block}.alert{display:grid;grid-template-columns:auto 1fr;grid-template-areas:'icon title'     'icon description';column-gap:0.75rem;row-gap:0.25rem;align-items:start;box-sizing:border-box;border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;padding:var(--ssb-spacing-static-medium, 1rem);transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.alert__icon{grid-area:icon;display:flex;align-items:center;line-height:1}.alert__icon ::slotted(*){width:1rem;height:1rem}.alert__title{grid-area:title;font-size:0.875rem;font-weight:600;line-height:1.25rem}.alert__description{grid-area:description;color:var(--ssb-color-muted-foreground, #718096)}.alert--destructive{border-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive, #dc2626)}.alert--destructive .alert__description{color:var(--ssb-color-destructive, #dc2626)}`;
+
+class SsbAlert {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Visual style of the alert. Use `destructive` for errors and dangerous situations.
+         */
+        this.variant = 'default';
+    }
+    render() {
+        const classes = {
+            alert: true,
+            [`alert--${this.variant}`]: true,
+        };
+        return (hAsync(Host, { key: 'b7d043b1e149e11ce92ee4f2764b06124bee1af6' }, hAsync("div", Object.assign({ key: '11dc1cc300357f395c57d0be2e191cdb60fcdd22', class: classes, role: "alert" }, getAriaAttributes(this.aria)), hAsync("div", { key: '772439bdd01c714b542715de631a32fd06dcfe9f', class: "alert__icon" }, hAsync("slot", { key: '2027fe9919f8de21329fdfb1036a3199d7bd9445', name: "icon" })), hAsync("div", { key: '92069635a8b51aabeff609be915d5ae27fbc5f99', class: "alert__title" }, hAsync("slot", { key: '2a0bfda1e0c9457a3de5ef882b3e97fde0ec7a93', name: "alert-title" })), hAsync("div", { key: '121d697794f422461a33c7eb7e2cb2f5baf0bb59', class: "alert__description" }, hAsync("slot", { key: 'fc1aaa58979e604e885773e4ebf79098bfa73664' })))));
+    }
+    static get style() { return ssbAlertCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-alert",
+        "$members$": {
+            "variant": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbAlertDialogCss = () => `:host{display:block}.alert-dialog__overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background-color:rgb(0 0 0 / 0.5)}.alert-dialog__overlay--open{display:flex}.alert-dialog__panel{position:relative;box-sizing:border-box;max-width:32rem;width:calc(100% - 2rem);padding:1.5rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-large, 0.75rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.alert-dialog__header{display:flex;flex-direction:column;gap:0.375rem}.alert-dialog__title{margin:0;font-size:1rem;font-weight:600;line-height:1.5rem}.alert-dialog__description{margin:0;color:var(--ssb-color-muted-foreground, #718096);line-height:1.25rem}.alert-dialog__content{margin-top:1rem}.alert-dialog__content:empty{margin-top:0}.alert-dialog__footer{display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.5rem}.alert-dialog__button{display:inline-flex;align-items:center;justify-content:center;height:2.25rem;padding:0 1rem;border:1px solid transparent;border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;white-space:nowrap;cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.alert-dialog__button:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.alert-dialog__button--cancel{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}.alert-dialog__button--cancel:hover{background-color:var(--ssb-color-accent, #edf2f7)}.alert-dialog__button--confirm{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.alert-dialog__button--confirm:hover{filter:brightness(0.9)}.alert-dialog__button--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.alert-dialog__button--destructive:hover{filter:brightness(0.9)}`;
+
+class SsbAlertDialog {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbConfirm = createEvent(this, "ssbConfirm", 7);
+        this.ssbCancel = createEvent(this, "ssbCancel", 7);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Controls whether the alert dialog is shown.
+         */
+        this.open = false;
+        /**
+         * Label of the confirm button.
+         */
+        this.confirmLabel = 'Continue';
+        /**
+         * Label of the cancel button.
+         */
+        this.cancelLabel = 'Cancel';
+        /**
+         * Styles the confirm button as destructive for irreversible actions.
+         */
+        this.destructive = false;
+        this.handleKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.cancel();
+            }
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addKeydownListener();
+        }
+        else {
+            this.removeKeydownListener();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addKeydownListener();
+        }
+    }
+    disconnectedCallback() {
+        this.removeKeydownListener();
+    }
+    addKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('keydown', this.handleKeydown);
+        }
+    }
+    removeKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('keydown', this.handleKeydown);
+        }
+    }
+    close() {
+        this.open = false;
+        this.ssbOpenChange.emit({ open: false });
+    }
+    confirm() {
+        this.ssbConfirm.emit();
+        this.close();
+    }
+    cancel() {
+        this.ssbCancel.emit();
+        this.close();
+    }
+    render() {
+        const overlayClasses = {
+            'alert-dialog__overlay': true,
+            'alert-dialog__overlay--open': this.open,
+        };
+        const confirmClasses = {
+            'alert-dialog__button': true,
+            'alert-dialog__button--confirm': !this.destructive,
+            'alert-dialog__button--destructive': this.destructive,
+        };
+        return (hAsync(Host, { key: '44e3dd48f6b45535b8be800ef69c913940b750c7' }, hAsync("div", { key: 'e7746bd76b44442a0fe48be723817f6434c93768', class: overlayClasses }, hAsync("div", Object.assign({ key: '1e84fb8c9124c6fcc298845379d78f2588cbf310', class: "alert-dialog__panel", role: "alertdialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), (this.dialogTitle || this.description) && (hAsync("div", { key: '613ae20b855d2485b0bc33bcafe79c5edd4527e9', class: "alert-dialog__header" }, this.dialogTitle && hAsync("h2", { key: '5409f35c3a69b8c1be077ef23c2bfea6c0784c7a', class: "alert-dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '71910bbc646efcc28c96856cbee92b7f5fd9ee45', class: "alert-dialog__description" }, this.description))), hAsync("div", { key: '44f23a615c3cce142c6c0c0317ef1a1c64b3c76b', class: "alert-dialog__content" }, hAsync("slot", { key: 'a2ffb68f20a64e60db62ba1049fba9c7cb173188' })), hAsync("div", { key: 'e20db73d7a20b0f47dce58879ee288e2f6c8fadf', class: "alert-dialog__footer" }, hAsync("button", { key: '32175f2ed4bb4887ca7add06d343e71cadf65f47', class: "alert-dialog__button alert-dialog__button--cancel", type: "button", onClick: () => this.cancel() }, this.cancelLabel), hAsync("button", { key: '881252ff94e5d497a5e16cfe2578e2b5e6c627d2', class: confirmClasses, type: "button", onClick: () => this.confirm() }, this.confirmLabel))))));
+    }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbAlertDialogCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-alert-dialog",
+        "$members$": {
+            "open": [1540],
+            "dialogTitle": [1, "dialog-title"],
+            "description": [1],
+            "confirmLabel": [1, "confirm-label"],
+            "cancelLabel": [1, "cancel-label"],
+            "destructive": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbAvatarCss = () => `:host{display:inline-block}.avatar{display:inline-flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box;background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;font-weight:500;user-select:none}.avatar--circle{border-radius:var(--ssb-radius-full, 9999px)}.avatar--square{border-radius:var(--ssb-radius-medium, 0.5rem)}.avatar--sm{width:2rem;height:2rem;font-size:0.75rem}.avatar--md{width:2.5rem;height:2.5rem}.avatar--lg{width:3rem;height:3rem;font-size:1rem}.avatar__image{width:100%;height:100%;object-fit:cover}.avatar__fallback{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-muted-foreground, #718096);line-height:1}`;
+
+class SsbAvatar {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Alternative text for the avatar image.
+         */
+        this.alt = '';
+        /**
+         * Shape of the avatar.
+         */
+        this.shape = 'circle';
+        /**
+         * Size of the avatar.
+         */
+        this.size = 'md';
+        this.imageFailed = false;
+        this.handleError = () => {
+            this.imageFailed = true;
+        };
+    }
+    render() {
+        const classes = {
+            avatar: true,
+            [`avatar--${this.shape}`]: true,
+            [`avatar--${this.size}`]: true,
+        };
+        const showImage = !!this.src && !this.imageFailed;
+        return (hAsync(Host, { key: 'fe463caf6404d03635bd9ebb5b492297ed400449' }, hAsync("span", Object.assign({ key: '8de8c593e10088a7fa0036f2ba8407d63661e315', class: classes }, getAriaAttributes(this.aria)), showImage ? hAsync("img", { class: "avatar__image", src: this.src, alt: this.alt, onError: this.handleError }) : hAsync("span", { class: "avatar__fallback" }, this.initials))));
+    }
+    static get style() { return ssbAvatarCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-avatar",
+        "$members$": {
+            "src": [1],
+            "alt": [1],
+            "initials": [1],
+            "shape": [1],
+            "size": [1],
+            "aria": [1],
+            "imageFailed": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
 const ssbBadgeCss = () => `:host{display:inline-block}.badge{display:inline-flex;align-items:center;gap:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-full, 9999px);padding:0.125rem 0.625rem;font-family:inherit;font-size:0.75rem;font-weight:600;line-height:1rem;white-space:nowrap}.badge--primary{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.badge--secondary{background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c)}.badge--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.badge--outline{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}`;
 
 class SsbBadge {
@@ -5312,7 +5714,7 @@ class SsbBadge {
         this.variant = 'primary';
     }
     render() {
-        return (hAsync(Host, Object.assign({ key: 'fdf43cd65c455869a1b06474ef39238718e3a4f5' }, getAriaAttributes(this.aria)), hAsync("span", { key: 'f2da970fafba270f08aaa6aabedde719037ff4f7', class: { badge: true, [`badge--${this.variant}`]: true } }, hAsync("slot", { key: '4f59dcdb97747db8301d36fbdd3f3f655e786464' }))));
+        return (hAsync(Host, Object.assign({ key: '404d9b2c4af9a4921bbde4584ab2489d18dcde8b' }, getAriaAttributes(this.aria)), hAsync("span", { key: '9682493a1ff43805d77d9db69706641cb0ebc688', class: { badge: true, [`badge--${this.variant}`]: true } }, hAsync("slot", { key: '423c588ad74becd104028d9bfc457efffb7340a9' }))));
     }
     static get style() { return ssbBadgeCss(); }
     static get cmpMeta() { return {
@@ -5328,7 +5730,61 @@ class SsbBadge {
     }; }
 }
 
-const ssbButtonCss = () => `:host{display:inline-block}.button{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;box-sizing:border-box;border:1px solid transparent;border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.button:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.button:disabled,.button[aria-disabled='true']{opacity:0.5;pointer-events:none}.button--sm{height:2rem;padding:0 0.75rem}.button--md{height:2.25rem;padding:0 1rem}.button--lg{height:2.5rem;padding:0 1.5rem;font-size:1rem}.button--icon{height:2.25rem;width:2.25rem;padding:0}.button--primary{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.button--primary:hover{background-color:var(--ssb-color-primary-hover, #646cff);color:var(--ssb-color-text-on-primary-hover, #ffffff)}.button--secondary{background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c)}.button--secondary:hover{background-color:var(--ssb-color-accent, #e2e8f0)}.button--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.button--destructive:hover{filter:brightness(0.9)}.button--outline{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}.button--outline:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--ghost{background-color:transparent;color:var(--ssb-color-foreground, #1a202c)}.button--ghost:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--link{background-color:transparent;color:var(--ssb-color-foreground, #1a202c);text-decoration:underline;text-underline-offset:4px;padding:0;height:auto}`;
+const ssbBreadcrumbCss = () => `:host{display:block;font-family:inherit}.list{display:flex;flex-wrap:wrap;align-items:center;gap:0.375rem;margin:0;padding:0;list-style:none;font-size:0.875rem}.item{display:inline-flex;align-items:center}.link{color:var(--ssb-color-muted-foreground, #718096);text-decoration:none;transition:color 0.15s ease}a.link:hover{color:var(--ssb-color-foreground, #1a202c)}a.link:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px;border-radius:var(--ssb-radius-small, 0.25rem)}.page{color:var(--ssb-color-foreground, #1a202c);font-weight:400}.separator{display:inline-flex;align-items:center;color:var(--ssb-color-muted-foreground, #718096);user-select:none}`;
+
+class SsbBreadcrumb {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Breadcrumb items as an array or a JSON string.
+         * Shape: `[{ "label": "Home", "href": "/" }, { "label": "Current page" }]`.
+         * The last item is rendered as the current page.
+         */
+        this.items = [];
+        /**
+         * Separator rendered between items.
+         */
+        this.separator = '/';
+    }
+    parseItems() {
+        var _a;
+        if (typeof this.items !== 'string') {
+            return (_a = this.items) !== null && _a !== void 0 ? _a : [];
+        }
+        try {
+            const parsed = JSON.parse(this.items);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_b) {
+            return [];
+        }
+    }
+    render() {
+        const items = this.parseItems();
+        return (hAsync(Host, { key: '5e1aa481c2eee95b3f6d4e3f13ac1a53cd8d048a' }, hAsync("nav", Object.assign({ key: 'c6ff118d5a561fa922a72c371ee9b365df386533', "aria-label": "Breadcrumb" }, getAriaAttributes(this.aria)), hAsync("ol", { key: 'dcfcdf5f84394d68601a2bcf83c5b87386d6c9a8', class: "list" }, items.map((item, index) => {
+            const isLast = index === items.length - 1;
+            return [
+                hAsync("li", { class: "item" }, isLast ? (hAsync("span", { class: "page", "aria-current": "page" }, item.label)) : item.href ? (hAsync("a", { class: "link", href: item.href }, item.label)) : (hAsync("span", { class: "link" }, item.label))),
+                !isLast && (hAsync("li", { class: "separator", "aria-hidden": "true" }, hAsync("span", null, this.separator))),
+            ];
+        })))));
+    }
+    static get style() { return ssbBreadcrumbCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-breadcrumb",
+        "$members$": {
+            "items": [1],
+            "separator": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbButtonCss = () => `:host{display:inline-block}.button{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;box-sizing:border-box;border:1px solid transparent;border-radius:var(--ssb-button-border-radius, var(--ssb-radius-medium, 0.5rem));font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.button:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.button:disabled,.button[aria-disabled='true']{opacity:0.5;pointer-events:none}.button--sm{height:2rem;padding:0 0.75rem}.button--md{height:2.25rem;padding:0 1rem}.button--lg{height:2.5rem;padding:0 1.5rem;font-size:1rem}.button--icon{height:2.25rem;width:2.25rem;padding:0}.button--primary{background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff)}.button--primary:hover{background-color:var(--ssb-color-primary-hover, #646cff);color:var(--ssb-color-text-on-primary-hover, #ffffff)}.button--secondary{background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c)}.button--secondary:hover{background-color:var(--ssb-color-accent, #e2e8f0)}.button--destructive{background-color:var(--ssb-color-destructive, #dc2626);color:var(--ssb-color-destructive-foreground, #ffffff)}.button--destructive:hover{filter:brightness(0.9)}.button--outline{background-color:transparent;border-color:var(--ssb-color-border, #e2e8f0);color:var(--ssb-color-foreground, #1a202c)}.button--outline:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--ghost{background-color:transparent;color:var(--ssb-color-foreground, #1a202c)}.button--ghost:hover{background-color:var(--ssb-color-accent, #edf2f7)}.button--link{background-color:transparent;color:var(--ssb-color-foreground, #1a202c);text-decoration:underline;text-underline-offset:4px;padding:0;height:auto}`;
 
 class SsbButton {
     constructor(hostRef) {
@@ -5356,7 +5812,7 @@ class SsbButton {
             [`button--${this.variant}`]: true,
             [`button--${this.size}`]: true,
         };
-        return (hAsync(Host, { key: '0899f5f73b0c2c956cd721f07fa39525a07de59b' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.disabled ? undefined : this.href, target: this.target }, getAriaAttributes(this.aria), { "aria-disabled": this.disabled ? 'true' : undefined }), hAsync("slot", null))) : (hAsync("button", Object.assign({ class: classes, type: this.type, disabled: this.disabled }, getAriaAttributes(this.aria)), hAsync("slot", null)))));
+        return (hAsync(Host, { key: '1dbd264ea875a1d789545c16ba566a96d39d7761' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.disabled ? undefined : this.href, target: this.target }, getAriaAttributes(this.aria), { "aria-disabled": this.disabled ? 'true' : undefined }), hAsync("slot", null))) : (hAsync("button", Object.assign({ class: classes, type: this.type, disabled: this.disabled }, getAriaAttributes(this.aria)), hAsync("slot", null)))));
     }
     static get style() { return ssbButtonCss(); }
     static get cmpMeta() { return {
@@ -5377,10 +5833,1643 @@ class SsbButton {
     }; }
 }
 
+const ssbButtonGroupCss = () => `:host{display:inline-flex;align-items:stretch}::slotted(ssb-button){--ssb-button-border-radius:0}::slotted(ssb-button:not(:first-of-type)){margin-left:-1px}::slotted(ssb-button:first-of-type){--ssb-button-border-radius:var(--ssb-radius-medium, 0.5rem) 0 0 var(--ssb-radius-medium, 0.5rem)}::slotted(ssb-button:last-of-type){--ssb-button-border-radius:0 var(--ssb-radius-medium, 0.5rem) var(--ssb-radius-medium, 0.5rem) 0}::slotted(ssb-button:only-of-type){--ssb-button-border-radius:var(--ssb-radius-medium, 0.5rem)}`;
+
+class SsbButtonGroup {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    render() {
+        return (hAsync(Host, Object.assign({ key: '0d2975517357d2b55c3d970510cefcee6367067f', role: "group" }, getAriaAttributes(this.aria)), hAsync("slot", { key: '90e70a98dc7ba5d952845733767021b50ad8569d' })));
+    }
+    static get style() { return ssbButtonGroupCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-button-group",
+        "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbCardCss = () => `:host{display:block}.card{display:flex;flex-direction:column;gap:var(--ssb-spacing-static-medium, 1rem);box-sizing:border-box;border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-large, 0.75rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;padding:1.5rem;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.card__header{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--ssb-spacing-static-small, 0.5rem)}.card__heading{display:flex;flex-direction:column;gap:0.25rem}.card__title{font-size:1rem;font-weight:600;line-height:1.5rem}.card__description{color:var(--ssb-color-muted-foreground, #718096)}.card__footer{display:flex;align-items:center;gap:var(--ssb-spacing-static-small, 0.5rem)}`;
+
+class SsbCard {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    render() {
+        return (hAsync(Host, { key: '085f2d0caf8d740db2808dda64a172ecd524dd45' }, hAsync("div", Object.assign({ key: '1fb82f1f4a35f97a44839c46ab66ef7aaa62d231', class: "card" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'fc12613141bbc780c3f2878d3af5baff21bfb6d7', class: "card__header" }, hAsync("div", { key: '3830a8481cd42b1bda6844c12fd7093b72f62cc7', class: "card__heading" }, hAsync("div", { key: '8f5decda695b8fe10b576888775c929cc032d85a', class: "card__title" }, hAsync("slot", { key: '361e6ff4f824e026af713e292c33a1ac812d6be1', name: "card-title" })), hAsync("div", { key: 'c1836a1bb63b37993f4c90a42e82e829529b7128', class: "card__description" }, hAsync("slot", { key: '1f225de3ea3c02a9f92d2a5e4211005832f07eec', name: "card-description" }))), hAsync("div", { key: 'e2ea0df2c542ae8758b338b368ba5b6c66fb4c29', class: "card__action" }, hAsync("slot", { key: '9db4f4ec0c7e0c4d73b0f3cb68b0b6d70719333a', name: "action" }))), hAsync("div", { key: '476a7671dd0a21deed31a993ffe9109f0d3d2a7e', class: "card__content" }, hAsync("slot", { key: 'cada463e1c608d5fbbb21c319832a0217b2328f7' })), hAsync("div", { key: '1dc44294113f8d0029a98f7c86298c9d2498cfc1', class: "card__footer" }, hAsync("slot", { key: 'c47a3e91ad6fd8492d0b36bd8b95b417d51805c4', name: "footer" })))));
+    }
+    static get style() { return ssbCardCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-card",
+        "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbCheckboxCss = () => `:host{display:inline-block}.checkbox{display:inline-flex;align-items:center;gap:0.5rem;cursor:pointer;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem}.checkbox--disabled{opacity:0.5;cursor:not-allowed}.checkbox__input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap}.checkbox__box{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:1rem;height:1rem;flex-shrink:0;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-small, 0.25rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-background, #ffffff);transition:background-color 0.15s ease,     border-color 0.15s ease}.checkbox__icon{display:none;width:0.75rem;height:0.75rem}.checkbox__input:checked+.checkbox__box,.checkbox__input:indeterminate+.checkbox__box{background-color:var(--ssb-color-foreground, #1a202c);border-color:var(--ssb-color-foreground, #1a202c)}.checkbox__input:checked+.checkbox__box .checkbox__icon--check{display:block}.checkbox__input:indeterminate+.checkbox__box .checkbox__icon--check{display:none}.checkbox__input:indeterminate+.checkbox__box .checkbox__icon--dash{display:block}.checkbox__input:focus-visible+.checkbox__box{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}`;
+
+class SsbCheckbox {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Whether the checkbox is checked.
+         */
+        this.checked = false;
+        /**
+         * Disables the checkbox.
+         */
+        this.disabled = false;
+        /**
+         * Shows the indeterminate (mixed) state. Cleared as soon as the user toggles the checkbox.
+         */
+        this.indeterminate = false;
+        /**
+         * Value forwarded to the native checkbox.
+         */
+        this.value = 'on';
+        this.handleChange = (event) => {
+            const target = event.target;
+            this.indeterminate = false;
+            this.checked = target.checked;
+            this.ssbChange.emit({ checked: this.checked });
+        };
+    }
+    componentDidRender() {
+        if (this.inputEl) {
+            this.inputEl.indeterminate = this.indeterminate;
+        }
+    }
+    render() {
+        const classes = {
+            'checkbox': true,
+            'checkbox--disabled': this.disabled,
+        };
+        return (hAsync(Host, { key: 'dd81e5f267e52a06cfe8971aa1619fb2120025d1' }, hAsync("label", { key: '8931aa0458de9ca11d09293d509663944743a64b', class: classes }, hAsync("input", Object.assign({ key: 'ff78ce968b838579d8a5cc460bb0dad3615eb44a', ref: el => (this.inputEl = el), class: "checkbox__input", type: "checkbox", checked: this.checked, disabled: this.disabled, name: this.name, value: this.value, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '305f717ebe8907ad2594a00a99ca8b9c921b3825', class: "checkbox__box", "aria-hidden": "true" }, hAsync("svg", { key: 'e57b712ba0d05ab395e392ee62834a2016ee2c32', class: "checkbox__icon checkbox__icon--check", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '44b3eb08192eac475ce49da46383644489d90111', d: "M3.5 8.5 L6.5 11.5 L12.5 4.5", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })), hAsync("svg", { key: '634b23699d24fea58db6d73b72cc3de3e68a214d', class: "checkbox__icon checkbox__icon--dash", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '39999ce7f0bb3fe564432132a59d1ce03f1164e1', d: "M4 8 L12 8", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round" }))), hAsync("span", { key: '5a28f7a57ab4b79ec7fe0fcc637915ec3d21173f', class: "checkbox__label" }, this.label ? this.label : hAsync("slot", null)))));
+    }
+    static get style() { return ssbCheckboxCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-checkbox",
+        "$members$": {
+            "checked": [1540],
+            "disabled": [4],
+            "indeterminate": [1028],
+            "name": [1],
+            "value": [1],
+            "label": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["checked", "checked"]]
+    }; }
+}
+
+const ssbDialogCss = () => `:host{display:block}.dialog__overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background-color:rgb(0 0 0 / 0.5)}.dialog__overlay--open{display:flex}.dialog__panel{position:relative;box-sizing:border-box;max-width:32rem;width:calc(100% - 2rem);padding:1.5rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-large, 0.75rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.dialog__close{position:absolute;top:1rem;right:1rem;display:inline-flex;align-items:center;justify-content:center;padding:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;color:var(--ssb-color-muted-foreground, #718096);font-family:inherit;font-size:0.875rem;line-height:1;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.dialog__close:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.dialog__close:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.dialog__header{display:flex;flex-direction:column;gap:0.375rem;padding-right:1.5rem}.dialog__title{margin:0;font-size:1rem;font-weight:600;line-height:1.5rem}.dialog__description{margin:0;color:var(--ssb-color-muted-foreground, #718096);line-height:1.25rem}.dialog__content{margin-top:1rem}.dialog__footer{display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1.5rem}`;
+
+class SsbDialog {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Controls whether the dialog is shown.
+         */
+        this.open = false;
+        /**
+         * Hides the close (✕) button in the top right corner.
+         */
+        this.hideClose = false;
+        this.handleKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.close();
+            }
+        };
+        this.handleBackdropClick = (event) => {
+            if (event.target === event.currentTarget) {
+                this.close();
+            }
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addKeydownListener();
+        }
+        else {
+            this.removeKeydownListener();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addKeydownListener();
+        }
+    }
+    disconnectedCallback() {
+        this.removeKeydownListener();
+    }
+    addKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('keydown', this.handleKeydown);
+        }
+    }
+    removeKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('keydown', this.handleKeydown);
+        }
+    }
+    close() {
+        this.open = false;
+        this.ssbOpenChange.emit({ open: false });
+    }
+    render() {
+        const overlayClasses = {
+            'dialog__overlay': true,
+            'dialog__overlay--open': this.open,
+        };
+        return (hAsync(Host, { key: '041958425b905d655f213190ad47b35faf282b5e' }, hAsync("div", { key: 'dddfdf6d422b2b6cfd2042c0afd3d21a3c8e3d42', class: overlayClasses, onClick: this.handleBackdropClick }, hAsync("div", Object.assign({ key: 'd8833ebb2167fc21083caa8fc4a5686fce24b34a', class: "dialog__panel", role: "dialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), !this.hideClose && (hAsync("button", { key: 'edaa611c4e891b5025f5cd9efab0e6afa24cbf62', class: "dialog__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715")), (this.dialogTitle || this.description) && (hAsync("div", { key: 'e543a928cec0b474a8ad9b3e8a6b59ec93ff8bd7', class: "dialog__header" }, this.dialogTitle && hAsync("h2", { key: 'aec9d5744e7a3bd96581c4282d0d5a44d460de06', class: "dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '1e535983068851b8aec0b72b8450121f6255e764', class: "dialog__description" }, this.description))), hAsync("div", { key: '1b9fea0d6bd0ea22de044014a68c74db0d929cc2', class: "dialog__content" }, hAsync("slot", { key: '59af562f864820fcd689fa7babb97320dfdf8a38' })), hAsync("div", { key: '20b52e04ba0ab15ed930e69443ec90ff6971645a', class: "dialog__footer" }, hAsync("slot", { key: '151e6cdb8c7c9f5fcf25c5c74ec4a468252b52fd', name: "footer" }))))));
+    }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbDialogCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-dialog",
+        "$members$": {
+            "open": [1540],
+            "dialogTitle": [1, "dialog-title"],
+            "description": [1],
+            "hideClose": [4, "hide-close"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbDropdownMenuCss = () => `:host{position:relative;display:inline-block}.menu__trigger{display:inline-block}.menu{position:absolute;top:calc(100% + 0.25rem);z-index:50;display:none;box-sizing:border-box;min-width:12rem;padding:0.25rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.menu--open{display:block}.menu--align-start{left:0}.menu--align-end{right:0}.menu__item{display:block;width:100%;padding:0.375rem 0.5rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;text-align:left;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.menu__item:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.menu__item:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.menu__item:disabled{opacity:0.5;pointer-events:none}.menu__item--destructive{color:var(--ssb-color-destructive, #dc2626)}.menu__item--destructive:hover{color:var(--ssb-color-destructive, #dc2626)}.menu__separator{height:1px;margin:0.25rem 0;background-color:var(--ssb-color-border, #e2e8f0)}.menu__group-label{padding:0.375rem 0.5rem;color:var(--ssb-color-muted-foreground, #718096);font-size:0.75rem;font-weight:500}`;
+
+class SsbDropdownMenu {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbSelect = createEvent(this, "ssbSelect", 7);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Controls whether the menu is shown.
+         */
+        this.open = false;
+        /**
+         * Menu entries (array or JSON string). Entries with `separator` render a divider, entries with `groupLabel` render a group heading, all others render menu items.
+         */
+        this.items = [];
+        /**
+         * Alignment of the menu relative to the trigger.
+         */
+        this.align = 'start';
+        this.handleDocumentClick = (event) => {
+            if (!event.composedPath().includes(this.el)) {
+                this.setOpen(false);
+            }
+        };
+        this.handleDocumentKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.setOpen(false);
+            }
+        };
+        this.handleKeyDown = (event) => {
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                this.moveFocus(event.key === 'ArrowDown' ? 1 : -1);
+            }
+        };
+        this.handleTriggerClick = () => {
+            this.setOpen(!this.open);
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addDocumentListeners();
+        }
+        else {
+            this.removeDocumentListeners();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addDocumentListeners();
+        }
+    }
+    disconnectedCallback() {
+        this.removeDocumentListeners();
+    }
+    addDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('click', this.handleDocumentClick);
+            document.addEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    removeDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('click', this.handleDocumentClick);
+            document.removeEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    moveFocus(delta) {
+        const shadowRoot = this.el.shadowRoot;
+        if (!shadowRoot) {
+            return;
+        }
+        const buttons = Array.from(shadowRoot.querySelectorAll('.menu__item:not([disabled])'));
+        if (!buttons.length) {
+            return;
+        }
+        const currentIndex = buttons.indexOf(shadowRoot.activeElement);
+        const nextIndex = (currentIndex + delta + buttons.length) % buttons.length;
+        buttons[nextIndex].focus();
+    }
+    setOpen(open) {
+        if (this.open === open) {
+            return;
+        }
+        this.open = open;
+        this.ssbOpenChange.emit({ open });
+    }
+    getItems() {
+        if (typeof this.items !== 'string') {
+            return this.items || [];
+        }
+        try {
+            return JSON.parse(this.items);
+        }
+        catch (error) {
+            console.error('Invalid items JSON for ssb-dropdown-menu', error);
+            return [];
+        }
+    }
+    select(item) {
+        var _a;
+        if (item.disabled) {
+            return;
+        }
+        this.ssbSelect.emit({ value: (_a = item.value) !== null && _a !== void 0 ? _a : '' });
+        this.setOpen(false);
+    }
+    render() {
+        const menuClasses = {
+            'menu': true,
+            [`menu--align-${this.align}`]: true,
+            'menu--open': this.open,
+        };
+        return (hAsync(Host, { key: '738236823e4539adee85e710e9ff7cea1ee94428', onKeyDown: this.handleKeyDown }, hAsync("span", { key: 'a60879fce308ae6abccba798820735e15fd70e8d', class: "menu__trigger", "aria-haspopup": "menu", "aria-expanded": this.open ? 'true' : 'false', onClick: this.handleTriggerClick }, hAsync("slot", { key: '7775aed60a71b90cb88942decc4ca37811e37fe0', name: "trigger" })), hAsync("div", Object.assign({ key: 'b67d1b7c05a9e13346cbd95d3e4d7aca605c3f47', class: menuClasses, role: "menu" }, getAriaAttributes(this.aria)), this.getItems().map(item => {
+            if (item.separator) {
+                return hAsync("div", { class: "menu__separator", role: "separator" });
+            }
+            if (item.groupLabel) {
+                return hAsync("div", { class: "menu__group-label" }, item.groupLabel);
+            }
+            return (hAsync("button", { class: { 'menu__item': true, 'menu__item--destructive': !!item.destructive }, type: "button", role: "menuitem", disabled: item.disabled, onClick: () => this.select(item) }, item.label));
+        }))));
+    }
+    get el() { return getElement(this); }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbDropdownMenuCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-dropdown-menu",
+        "$members$": {
+            "open": [1540],
+            "items": [1],
+            "align": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbEmptyCss = () => `:host{display:block}.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:var(--ssb-spacing-static-small, 0.5rem);box-sizing:border-box;border:1px dashed var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-large, 0.75rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;padding:3rem 1.5rem}.empty__icon{display:flex;align-items:center;justify-content:center;color:var(--ssb-color-muted-foreground, #718096);font-size:1.5rem;line-height:1}.empty__icon ::slotted(*){width:2rem;height:2rem}.empty__title{font-size:1rem;font-weight:600;line-height:1.5rem}.empty__description{color:var(--ssb-color-muted-foreground, #718096);max-width:24rem}.empty__actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--ssb-spacing-static-small, 0.5rem);margin-top:var(--ssb-spacing-static-small, 0.5rem)}`;
+
+class SsbEmpty {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    render() {
+        return (hAsync(Host, { key: '03c86cdee7b20e89ee123ccee2688eb3e72031e8' }, hAsync("div", Object.assign({ key: '5a876e0d1b367a1d3dfcdcaf3fda5d16076a782d', class: "empty" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'e5ef01d89c97f4ef7cd85f0408155b57682d3625', class: "empty__icon" }, hAsync("slot", { key: '1ab77caefdba7ffdc7e33f71a0b9ca08bc44ffeb', name: "icon" })), hAsync("div", { key: 'f7033b4cea40123679b850f98b8bfa58b50e58a4', class: "empty__title" }, hAsync("slot", { key: 'cd87afbc0555051efe899be12469d871e9075dc4', name: "empty-title" })), hAsync("div", { key: 'e52dabc8e942219a69a0ff88c738a643a31d7634', class: "empty__description" }, hAsync("slot", { key: '42fc6b34639ea6d25960e39711ab77ade1ddc50f' })), hAsync("div", { key: '1518808bbdba655a50d685a20acdf837aade72c3', class: "empty__actions" }, hAsync("slot", { key: '0437a62b2982af3ed5d10b9939fd7c4870879a98', name: "actions" })))));
+    }
+    static get style() { return ssbEmptyCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-empty",
+        "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbFieldCss = () => `:host{display:block}.field{display:flex;flex-direction:column;gap:0.375rem}.field__label{display:inline-flex;align-items:center;gap:0.25rem;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem}.field__required{color:var(--ssb-color-destructive, #dc2626)}.field__description{margin:0;color:var(--ssb-color-muted-foreground, #718096);font-size:0.75rem;line-height:1rem}.field__error{margin:0;color:var(--ssb-color-destructive, #dc2626);font-size:0.75rem;line-height:1rem}`;
+
+class SsbField {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Shows a destructive asterisk next to the label.
+         */
+        this.required = false;
+    }
+    render() {
+        return (hAsync(Host, { key: '2dc74875793e871911c0345a242fb801c81a2995' }, hAsync("div", Object.assign({ key: '9be859e21e04bdac758431c8420c9b95b6d86ddb', class: "field" }, getAriaAttributes(this.aria)), this.label && (hAsync("label", { key: 'cbe76c72b2cdaa7171dd6ba37fc20f8cd5c0ba80', class: "field__label", htmlFor: this.fieldId }, this.label, this.required && (hAsync("span", { key: '1aafb5bdd366b0ca3621fed0010df568c3863614', class: "field__required", "aria-hidden": "true" }, "*")))), hAsync("slot", { key: '029353f61e991d28c09e480687e74cdcabd09f8c' }), this.error ? hAsync("p", { class: "field__error" }, this.error) : this.description && hAsync("p", { class: "field__description" }, this.description))));
+    }
+    static get style() { return ssbFieldCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-field",
+        "$members$": {
+            "label": [1],
+            "description": [1],
+            "error": [1],
+            "required": [4],
+            "fieldId": [1, "field-id"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbInputCss = () => `:host{display:block}.input{display:block;width:100%;box-sizing:border-box;height:2.25rem;padding:0 0.75rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;transition:border-color 0.15s ease,     box-shadow 0.15s ease}.input::placeholder{color:var(--ssb-color-muted-foreground, #718096)}.input:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px;border-color:var(--ssb-color-ring, #646cff)}.input--invalid{border-color:var(--ssb-color-destructive, #dc2626)}.input:disabled{opacity:0.5;cursor:not-allowed}`;
+
+class SsbInput {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbInput = createEvent(this, "ssbInput", 7);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Native input type of the control.
+         */
+        this.type = 'text';
+        /**
+         * Current value of the input.
+         */
+        this.value = '';
+        /**
+         * Disables the input.
+         */
+        this.disabled = false;
+        /**
+         * Makes the input read-only.
+         */
+        this.readonly = false;
+        /**
+         * Marks the input as required.
+         */
+        this.required = false;
+        /**
+         * Marks the input as invalid, sets `aria-invalid` and applies a destructive border.
+         */
+        this.invalid = false;
+        this.handleInput = (event) => {
+            const target = event.target;
+            this.value = target.value;
+            this.ssbInput.emit({ value: this.value });
+        };
+        this.handleChange = (event) => {
+            const target = event.target;
+            this.value = target.value;
+            this.ssbChange.emit({ value: this.value });
+        };
+    }
+    render() {
+        const classes = {
+            'input': true,
+            'input--invalid': this.invalid,
+        };
+        return (hAsync(Host, { key: '425fdb653a29373379683823be060d651c57c027' }, hAsync("input", Object.assign({ key: '20517572ba47b997d1c141f5f611935320322b44', class: classes, type: this.type, value: this.value, placeholder: this.placeholder, name: this.name, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)))));
+    }
+    static get style() { return ssbInputCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-input",
+        "$members$": {
+            "type": [1],
+            "value": [1025],
+            "placeholder": [1],
+            "name": [1],
+            "disabled": [4],
+            "readonly": [4],
+            "required": [4],
+            "invalid": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbInputGroupCss = () => `:host{display:inline-flex;align-items:stretch;box-sizing:border-box;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);font-family:inherit;font-size:0.875rem;overflow:hidden;transition:border-color 0.15s ease}:host(:focus-within){outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}::slotted([slot='prefix']),::slotted([slot='suffix']){display:flex;align-items:center;padding:0 0.75rem;background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-muted-foreground, #718096);font-size:0.875rem;white-space:nowrap}::slotted([slot='prefix']){border-right:1px solid var(--ssb-color-input, #cbd5e0)}::slotted([slot='suffix']){border-left:1px solid var(--ssb-color-input, #cbd5e0)}::slotted(input){flex:1;min-width:0;height:2.25rem;padding:0 0.75rem;border:none;background-color:transparent;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;outline:none}`;
+
+class SsbInputGroup {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    render() {
+        return (hAsync(Host, Object.assign({ key: '8230c2e7007f7e140da4b219a10c305f70a16bdf' }, getAriaAttributes(this.aria)), hAsync("slot", { key: '00f6886cfc00ea4a66c8e7af27be98af8c5ba846', name: "prefix" }), hAsync("slot", { key: '3676a4bd8b53b1358cf01585b82d54846e601124' }), hAsync("slot", { key: '4a8c648caad8eb80951c7cf7a77af21d8cccbb60', name: "suffix" })));
+    }
+    static get style() { return ssbInputGroupCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-input-group",
+        "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbItemCss = () => `:host{display:block}.item{display:flex;flex-direction:row;align-items:center;gap:0.75rem;box-sizing:border-box;padding:0.75rem 1rem;border:1px solid transparent;border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;color:inherit;text-decoration:none;transition:background-color 0.15s ease,     border-color 0.15s ease}.item--outline{border-color:var(--ssb-color-border, #e2e8f0)}.item--muted{background-color:var(--ssb-color-muted, #edf2f7)}.item--interactive{cursor:pointer}.item--interactive:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}a.item:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.item__media{display:flex;align-items:center;justify-content:center;color:var(--ssb-color-muted-foreground, #718096)}.item__content{display:flex;flex:1;flex-direction:column;gap:0.125rem;min-width:0}.item__title{font-size:0.875rem;font-weight:500;color:var(--ssb-color-foreground, #1a202c)}.item__description{font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096)}.item__actions{display:flex;align-items:center;gap:0.5rem;margin-left:auto}`;
+
+class SsbItem {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Visual style of the item.
+         */
+        this.variant = 'default';
+        /**
+         * Adds hover feedback and a pointer cursor for clickable rows.
+         */
+        this.interactive = false;
+    }
+    render() {
+        const classes = {
+            'item': true,
+            [`item--${this.variant}`]: true,
+            'item--interactive': this.interactive || !!this.href,
+        };
+        const content = [
+            hAsync("div", { key: '7d15a59200e6ea039e67b82aec86de7353d0cb56', class: "item__media" }, hAsync("slot", { key: 'f42ab6c6e922312711b5368602988f9d0b34ffca', name: "media" })),
+            hAsync("div", { key: '6e611509ae98aa0c6217df01ca7f64c7ca46b261', class: "item__content" }, hAsync("div", { key: 'baca70e14e5e4ea48c69890647b249148d69b3b7', class: "item__title" }, hAsync("slot", { key: '4d2a176098866e1f8151947e6d8f5daa8dac1344', name: "item-title" })), hAsync("div", { key: 'f85bea2f2297ea2fe4d57c1ebf1acdbd8d3d2d8f', class: "item__description" }, hAsync("slot", { key: 'a96ab05e639ea10a8270eb6ede50b01d1867aaea' }))),
+            hAsync("div", { key: '3d4bfc153c3005687aa9b7ade9d5d8e060de3bc7', class: "item__actions" }, hAsync("slot", { key: '20b83c896e771d512eca9ac9dc251d6966cdeca8', name: "actions" })),
+        ];
+        return (hAsync(Host, { key: 'f04be4882711831f0ea2708f81296f6729f95001' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.href }, getAriaAttributes(this.aria)), content)) : (hAsync("div", Object.assign({ class: classes }, getAriaAttributes(this.aria)), content))));
+    }
+    static get style() { return ssbItemCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-item",
+        "$members$": {
+            "variant": [1],
+            "interactive": [4],
+            "href": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbKbdCss = () => `:host{display:inline-block}.kbd{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:1.5rem;border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-small, 0.25rem);background-color:var(--ssb-color-muted, #edf2f7);color:var(--ssb-color-foreground, #1a202c);font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;font-size:0.75rem;line-height:1rem;padding:0.125rem 0.375rem}`;
+
+class SsbKbd {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    render() {
+        return (hAsync(Host, { key: '121aded9075a813ac24c610df230b3f9f869e272' }, hAsync("kbd", Object.assign({ key: '55a207668cf918127c96d60f3a858b81242de7b0', class: "kbd" }, getAriaAttributes(this.aria)), hAsync("slot", { key: '6687349a7b125aaae184148a54c45707e2e39754' }))));
+    }
+    static get style() { return ssbKbdCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-kbd",
+        "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbLabelCss = () => `:host{display:inline-block}.label{display:inline-flex;align-items:center;gap:0.25rem;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem}.label--disabled{opacity:0.5;cursor:not-allowed}.label__required{color:var(--ssb-color-destructive, #dc2626)}`;
+
+class SsbLabel {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Shows a destructive asterisk to mark the associated control as required.
+         */
+        this.required = false;
+        /**
+         * Renders the label in a muted, disabled style.
+         */
+        this.disabled = false;
+    }
+    render() {
+        const classes = {
+            'label': true,
+            'label--disabled': this.disabled,
+        };
+        return (hAsync(Host, { key: 'c0157859db1ccce8b8e48bafb77e828c43f6854e' }, hAsync("label", Object.assign({ key: 'be5554d069127519b76c411652bf8c711e363cc9', class: classes, htmlFor: this.htmlFor }, getAriaAttributes(this.aria)), hAsync("slot", { key: '59018463266a2f318f4df3592d97b3db6c5fb0f1' }), this.required && (hAsync("span", { key: 'e85de8b03527ade1c55209b7be6e7c5531f6be68', class: "label__required", "aria-hidden": "true" }, "*")))));
+    }
+    static get style() { return ssbLabelCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-label",
+        "$members$": {
+            "htmlFor": [1, "html-for"],
+            "required": [4],
+            "disabled": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbNativeSelectCss = () => `:host{display:block}.select{position:relative;display:block}.select__control{display:block;width:100%;box-sizing:border-box;padding:0 2rem 0 0.75rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;appearance:none;cursor:pointer;transition:border-color 0.15s ease,     box-shadow 0.15s ease}.select__control--sm{height:2rem}.select__control--md{height:2.25rem}.select__control:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px;border-color:var(--ssb-color-ring, #646cff)}.select__control:disabled{opacity:0.5;cursor:not-allowed}.select__chevron{position:absolute;top:50%;right:0.75rem;width:1rem;height:1rem;transform:translateY(-50%);pointer-events:none;color:var(--ssb-color-muted-foreground, #718096)}`;
+
+class SsbNativeSelect {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+         */
+        this.options = [];
+        /**
+         * Currently selected value.
+         */
+        this.value = '';
+        /**
+         * Disables the select.
+         */
+        this.disabled = false;
+        /**
+         * Marks the select as required.
+         */
+        this.required = false;
+        /**
+         * Size of the select.
+         */
+        this.size = 'md';
+        this.handleChange = (event) => {
+            const target = event.target;
+            this.value = target.value;
+            this.ssbChange.emit({ value: this.value });
+        };
+    }
+    parseOptions() {
+        if (typeof this.options !== 'string') {
+            return this.options;
+        }
+        try {
+            const parsed = JSON.parse(this.options);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            console.error('Invalid options: Expected a JSON array of { label, value } objects');
+            return [];
+        }
+    }
+    render() {
+        const options = this.parseOptions();
+        const classes = {
+            select__control: true,
+            [`select__control--${this.size}`]: true,
+        };
+        return (hAsync(Host, { key: '9254c7b827c6f38a0ecde635ff3b41e57b05a704' }, hAsync("div", { key: 'a2c7f3804ccb039d4c82a4b562577acf233f740d', class: "select" }, hAsync("select", Object.assign({ key: '5a76a35e3f1676fd9e64a86b9c1be301fe72bd84', class: classes, name: this.name, disabled: this.disabled, required: this.required, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.placeholder && (hAsync("option", { key: '7d022f88f2334d395a5777a862b8df7a035a2020', value: "", disabled: true, selected: this.value === '' }, this.placeholder)), options.map(option => (hAsync("option", { value: option.value, disabled: option.disabled, selected: option.value === this.value }, option.label)))), hAsync("svg", { key: '122c854f2ab89949ae8c2a8677e6a099d10b6657', class: "select__chevron", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '9c9a9899556f9748d1ab754eefcf1c6555a571ca', d: "M4 6 L8 10 L12 6", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" })))));
+    }
+    static get style() { return ssbNativeSelectCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-native-select",
+        "$members$": {
+            "options": [1],
+            "value": [1025],
+            "name": [1],
+            "disabled": [4],
+            "required": [4],
+            "placeholder": [1],
+            "size": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbPaginationCss = () => `:host{display:block;font-family:inherit}.pagination{display:flex;align-items:center;gap:0.25rem}.button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:2.25rem;min-width:2.25rem;padding:0 0.5rem;border:1px solid transparent;border-radius:var(--ssb-radius-medium, 0.5rem);background-color:transparent;font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;color:var(--ssb-color-foreground, #1a202c);cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.button:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.button:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.button:disabled{opacity:0.5;pointer-events:none}.button--text{padding:0 0.75rem}.button--current{border-color:var(--ssb-color-border, #e2e8f0);background-color:var(--ssb-color-background, #ffffff)}.button--current:hover{background-color:var(--ssb-color-background, #ffffff)}.ellipsis{display:inline-flex;align-items:center;justify-content:center;height:2.25rem;min-width:2.25rem;font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096);user-select:none}`;
+
+class SsbPagination {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbPageChange = createEvent(this, "ssbPageChange", 7);
+        /**
+         * Currently selected page (1-based).
+         */
+        this.page = 1;
+        /**
+         * Total number of pages.
+         */
+        this.totalPages = 1;
+        /**
+         * Number of pages shown on each side of the current page before collapsing into an ellipsis.
+         */
+        this.siblingCount = 1;
+    }
+    get clampedTotal() {
+        return Math.max(1, this.totalPages);
+    }
+    get clampedPage() {
+        return Math.min(Math.max(1, this.page), this.clampedTotal);
+    }
+    getRange() {
+        const total = this.clampedTotal;
+        const current = this.clampedPage;
+        const start = Math.max(current - this.siblingCount, 1);
+        const end = Math.min(current + this.siblingCount, total);
+        const range = [1];
+        if (start > 2) {
+            range.push('ellipsis');
+        }
+        for (let i = Math.max(start, 2); i <= Math.min(end, total - 1); i++) {
+            range.push(i);
+        }
+        if (end < total - 1) {
+            range.push('ellipsis');
+        }
+        if (total > 1) {
+            range.push(total);
+        }
+        return range;
+    }
+    selectPage(page) {
+        const next = Math.min(Math.max(1, page), this.clampedTotal);
+        if (next === this.clampedPage) {
+            return;
+        }
+        this.page = next;
+        this.ssbPageChange.emit({ page: next });
+    }
+    render() {
+        const current = this.clampedPage;
+        const total = this.clampedTotal;
+        return (hAsync(Host, { key: '036976e065ac8be875a8e1f6439fb6c9e98104e9' }, hAsync("nav", Object.assign({ key: '5c6c5d735ee92c242763be97843f0adebaeadf76', class: "pagination", "aria-label": "Pagination" }, getAriaAttributes(this.aria)), hAsync("button", { key: 'f53d9ea04b8399b5197520530741d65ad9167400', class: "button button--text", type: "button", disabled: current <= 1, onClick: () => this.selectPage(current - 1) }, "Previous"), this.getRange().map(entry => entry === 'ellipsis' ? (hAsync("span", { class: "ellipsis", "aria-hidden": "true" }, "\u2026")) : (hAsync("button", { class: { 'button': true, 'button--current': entry === current }, type: "button", "aria-current": entry === current ? 'page' : undefined, onClick: () => this.selectPage(entry) }, entry))), hAsync("button", { key: 'fe9b5a3accaa9ae387f962d115bca5d1bf8a8e3b', class: "button button--text", type: "button", disabled: current >= total, onClick: () => this.selectPage(current + 1) }, "Next"))));
+    }
+    static get style() { return ssbPaginationCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-pagination",
+        "$members$": {
+            "page": [1026],
+            "totalPages": [2, "total-pages"],
+            "siblingCount": [2, "sibling-count"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbPopoverCss = () => `:host{position:relative;display:inline-block}.popover__trigger{display:inline-block}.popover__panel{position:absolute;z-index:40;display:none;box-sizing:border-box;min-width:16rem;padding:1rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.popover__panel--open{display:block}.popover__panel--bottom{top:calc(100% + 0.5rem)}.popover__panel--top{bottom:calc(100% + 0.5rem)}.popover__panel--align-start{left:0}.popover__panel--align-center{left:50%;transform:translateX(-50%)}.popover__panel--align-end{right:0}`;
+
+class SsbPopover {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Controls whether the popover panel is shown.
+         */
+        this.open = false;
+        /**
+         * Side of the trigger on which the panel is placed.
+         */
+        this.position = 'bottom';
+        /**
+         * Alignment of the panel relative to the trigger.
+         */
+        this.align = 'center';
+        this.handleDocumentClick = (event) => {
+            if (!event.composedPath().includes(this.el)) {
+                this.setOpen(false);
+            }
+        };
+        this.handleDocumentKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.setOpen(false);
+            }
+        };
+        this.handleTriggerClick = () => {
+            this.setOpen(!this.open);
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addDocumentListeners();
+        }
+        else {
+            this.removeDocumentListeners();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addDocumentListeners();
+        }
+    }
+    disconnectedCallback() {
+        this.removeDocumentListeners();
+    }
+    addDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('click', this.handleDocumentClick);
+            document.addEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    removeDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('click', this.handleDocumentClick);
+            document.removeEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    setOpen(open) {
+        if (this.open === open) {
+            return;
+        }
+        this.open = open;
+        this.ssbOpenChange.emit({ open });
+    }
+    render() {
+        const panelClasses = {
+            'popover__panel': true,
+            [`popover__panel--${this.position}`]: true,
+            [`popover__panel--align-${this.align}`]: true,
+            'popover__panel--open': this.open,
+        };
+        return (hAsync(Host, { key: '9c1c5e88f350c44eb13622a908ab2afec5da7598' }, hAsync("span", { key: '480df2d0c8e6b7abbf781992596ac37ab2b6497a', class: "popover__trigger", onClick: this.handleTriggerClick }, hAsync("slot", { key: '3380c908dc2f066906747cbfadffa9789a2da433', name: "trigger" })), hAsync("div", Object.assign({ key: '9914de035361d11d6335306d9fd547b21ec99e39', class: panelClasses }, getAriaAttributes(this.aria)), hAsync("slot", { key: '1ba49748036718db6a37b408d23c390ffa282dad' }))));
+    }
+    get el() { return getElement(this); }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbPopoverCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-popover",
+        "$members$": {
+            "open": [1540],
+            "position": [1],
+            "align": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbProgressCss = () => `:host{display:block}.progress{box-sizing:border-box;height:0.5rem;width:100%;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-muted, #edf2f7);overflow:hidden}.progress__indicator{height:100%;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-foreground, #1a202c);transition:width 0.3s ease}`;
+
+class SsbProgress {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Current progress value.
+         */
+        this.value = 0;
+        /**
+         * Maximum value the progress can reach.
+         */
+        this.max = 100;
+    }
+    render() {
+        const percentage = this.max > 0 ? Math.min(100, Math.max(0, (this.value / this.max) * 100)) : 0;
+        return (hAsync(Host, { key: '3b28a6ae78a04080fb707ab1a1a979394543367d' }, hAsync("div", Object.assign({ key: 'd962977dca709642e187f5aca2116ebf93c14bf5', class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": `${this.max}`, "aria-valuenow": `${this.value}`, "aria-label": this.label }, getAriaAttributes(this.aria)), hAsync("div", { key: '27a11e581bd7756e30ada644a5e2021f4410a5da', class: "progress__indicator", style: { width: `${percentage}%` } }))));
+    }
+    static get style() { return ssbProgressCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-progress",
+        "$members$": {
+            "value": [2],
+            "max": [2],
+            "label": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbRadioCss = () => `:host{display:inline-block}.radio{display:inline-flex;align-items:center;gap:0.5rem;font-family:inherit;font-size:0.875rem;line-height:1.25rem;color:var(--ssb-color-foreground, #1a202c);cursor:pointer}.radio__input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;clip:rect(0 0 0 0);overflow:hidden;white-space:nowrap}.radio__circle{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:1rem;height:1rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-background, #ffffff);transition:border-color 0.15s ease}.radio__circle--checked{border-color:var(--ssb-color-foreground, #1a202c)}.radio__circle--checked::after{content:'';width:0.375rem;height:0.375rem;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-foreground, #1a202c)}.radio__input:focus-visible+.radio__circle{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.radio--disabled{opacity:0.5;cursor:not-allowed}`;
+
+class SsbRadio {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbRadioSelect = createEvent(this, "ssbRadioSelect", 7);
+        /**
+         * Whether the radio is selected. Managed by `ssb-radio-group` when used inside one.
+         */
+        this.checked = false;
+        /**
+         * Disables the radio.
+         */
+        this.disabled = false;
+        this.handleChange = () => {
+            if (this.disabled) {
+                return;
+            }
+            this.checked = true;
+            this.ssbRadioSelect.emit({ value: this.value });
+        };
+    }
+    render() {
+        return (hAsync(Host, { key: 'c4c7370c88d4199038aa77f348751f2b18c2be7c' }, hAsync("label", { key: 'a18c2ad74a5bec1479892fbaa29c75882034e829', class: { 'radio': true, 'radio--disabled': this.disabled } }, hAsync("input", Object.assign({ key: 'c33e300ea17f1f7239b85f396b305cba73f4c270', class: "radio__input", type: "radio", value: this.value, checked: this.checked, disabled: this.disabled, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '2b1d797fa0fae4b5fc43a06f9b6d17c1e7d810a3', class: { 'radio__circle': true, 'radio__circle--checked': this.checked }, "aria-hidden": "true" }), hAsync("span", { key: '062654390147a02a7fbf819cfdbef7e2ff41e617', class: "radio__label" }, hAsync("slot", { key: '951e31677a85017c111a9bf968d566b8f42d1a42' })))));
+    }
+    static get style() { return ssbRadioCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-radio",
+        "$members$": {
+            "value": [1],
+            "checked": [1540],
+            "disabled": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["checked", "checked"]]
+    }; }
+}
+
+const ssbRadioGroupCss = () => `:host{display:block}.radio-group{display:flex;gap:0.75rem}.radio-group--vertical{flex-direction:column}.radio-group--horizontal{flex-direction:row;flex-wrap:wrap;gap:1rem}.radio-group--disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}`;
+
+class SsbRadioGroup {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Value of the currently selected `ssb-radio` child.
+         */
+        this.value = '';
+        /**
+         * Informational name of the group, e.g. for form integrations.
+         */
+        this.name = '';
+        /**
+         * Disables the whole group.
+         */
+        this.disabled = false;
+        /**
+         * Layout direction of the radios inside the group.
+         */
+        this.orientation = 'vertical';
+    }
+    handleValueChange() {
+        this.syncRadios();
+    }
+    handleRadioSelect(event) {
+        event.stopPropagation();
+        if (this.disabled) {
+            return;
+        }
+        this.value = event.detail.value;
+        this.ssbChange.emit({ value: this.value });
+    }
+    componentDidLoad() {
+        this.syncRadios();
+    }
+    syncRadios() {
+        this.el.querySelectorAll('ssb-radio').forEach((radio) => {
+            const item = radio;
+            item.checked = item.value === this.value;
+        });
+    }
+    render() {
+        const classes = {
+            'radio-group': true,
+            [`radio-group--${this.orientation}`]: true,
+            'radio-group--disabled': this.disabled,
+        };
+        return (hAsync(Host, Object.assign({ key: '4c7736f68884c0985839393511574df8fe41835a', role: "radiogroup" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'e2060e1d517b87f5629470648c09ef21e0154e71', class: classes }, hAsync("slot", { key: 'd6a1e28208f14c17490ef673e572faf9e764abc4' }))));
+    }
+    get el() { return getElement(this); }
+    static get watchers() { return {
+        "value": [{
+                "handleValueChange": 0
+            }]
+    }; }
+    static get style() { return ssbRadioGroupCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-radio-group",
+        "$members$": {
+            "value": [1025],
+            "name": [1],
+            "disabled": [4],
+            "orientation": [1],
+            "aria": [1]
+        },
+        "$listeners$": [[0, "ssbRadioSelect", "handleRadioSelect"]],
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbScrollAreaCss = () => `:host{display:block;font-family:inherit;color:var(--ssb-color-foreground, #1a202c)}.viewport{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--ssb-color-border, #e2e8f0) transparent}.viewport--vertical{overflow-y:auto;overflow-x:hidden}.viewport--horizontal{overflow-x:auto;overflow-y:hidden}.viewport--both{overflow:auto}.viewport::-webkit-scrollbar{width:0.5rem;height:0.5rem}.viewport::-webkit-scrollbar-track{background-color:transparent}.viewport::-webkit-scrollbar-thumb{background-color:var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-full, 9999px)}.viewport::-webkit-scrollbar-thumb:hover{background-color:var(--ssb-color-muted-foreground, #718096)}`;
+
+class SsbScrollArea {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Maximum height of the viewport, any CSS length (e.g. `16rem`, `300px`).
+         */
+        this.maxHeight = '16rem';
+        /**
+         * Scroll direction of the viewport.
+         */
+        this.orientation = 'vertical';
+    }
+    render() {
+        return (hAsync(Host, { key: '4b3926b42dcf7d8ac680ba07c812acf613a8c12e' }, hAsync("div", Object.assign({ key: 'a8e715005aa8b6b6b77a329ce78f2310ddd34a4f', class: { viewport: true, [`viewport--${this.orientation}`]: true }, style: { maxHeight: this.maxHeight } }, getAriaAttributes(this.aria)), hAsync("slot", { key: '7e1939651131d9b891fe001e84317a2d8cbdc719' }))));
+    }
+    static get style() { return ssbScrollAreaCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-scroll-area",
+        "$members$": {
+            "maxHeight": [1, "max-height"],
+            "orientation": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbSkeletonCss = () => `:host{display:block}.skeleton{box-sizing:border-box;background-color:var(--ssb-color-muted, #edf2f7);animation:skeleton-pulse 2s ease-in-out infinite}.skeleton--small{border-radius:var(--ssb-radius-small, 0.25rem)}.skeleton--medium{border-radius:var(--ssb-radius-medium, 0.5rem)}.skeleton--large{border-radius:var(--ssb-radius-large, 0.75rem)}.skeleton--full{border-radius:var(--ssb-radius-full, 9999px)}@keyframes skeleton-pulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}@media (prefers-reduced-motion: reduce){.skeleton{animation:none}}`;
+
+class SsbSkeleton {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Width of the skeleton, any CSS length value.
+         */
+        this.width = '100%';
+        /**
+         * Height of the skeleton, any CSS length value.
+         */
+        this.height = '1rem';
+        /**
+         * Border radius of the skeleton, mapped to the design token radii.
+         */
+        this.rounded = 'medium';
+    }
+    render() {
+        const classes = {
+            skeleton: true,
+            [`skeleton--${this.rounded}`]: true,
+        };
+        return (hAsync(Host, Object.assign({ key: '4f34d6849d967bf1b2bb3c012c0a920729ee39ed' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'b8f8d7a62bf6cfaf8228cbd8ab4acc8823865a31', class: classes, style: { width: this.width, height: this.height }, "aria-hidden": "true" })));
+    }
+    static get style() { return ssbSkeletonCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-skeleton",
+        "$members$": {
+            "width": [1],
+            "height": [1],
+            "rounded": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbSliderCss = () => `:host{display:block}.slider{display:flex;align-items:center;gap:0.75rem}.slider__input{-webkit-appearance:none;appearance:none;flex:1;width:100%;height:0.375rem;margin:0;padding:0;border:none;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-muted, #edf2f7);cursor:pointer;transition:box-shadow 0.15s ease}.slider__input:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.slider__input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;box-sizing:border-box;width:1.125rem;height:1.125rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-background, #ffffff);box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);cursor:pointer}.slider__input::-moz-range-thumb{box-sizing:border-box;width:1.125rem;height:1.125rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-background, #ffffff);box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);cursor:pointer}.slider__input::-moz-range-track{background:transparent}.slider__value{min-width:2.5rem;font-family:inherit;font-size:0.875rem;font-variant-numeric:tabular-nums;text-align:right;color:var(--ssb-color-muted-foreground, #718096)}.slider--disabled{opacity:0.5}.slider--disabled .slider__input,.slider--disabled .slider__input::-webkit-slider-thumb,.slider--disabled .slider__input::-moz-range-thumb{cursor:not-allowed}`;
+
+class SsbSlider {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbInput = createEvent(this, "ssbInput", 7);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Current value of the slider.
+         */
+        this.value = 50;
+        /**
+         * Minimum selectable value.
+         */
+        this.min = 0;
+        /**
+         * Maximum selectable value.
+         */
+        this.max = 100;
+        /**
+         * Granularity of the value.
+         */
+        this.step = 1;
+        /**
+         * Disables the slider.
+         */
+        this.disabled = false;
+        /**
+         * Renders the current value to the right of the track.
+         */
+        this.showValue = false;
+        this.handleInput = (event) => {
+            this.value = parseFloat(event.target.value);
+            this.ssbInput.emit({ value: this.value });
+        };
+        this.handleChange = (event) => {
+            this.value = parseFloat(event.target.value);
+            this.ssbChange.emit({ value: this.value });
+        };
+    }
+    render() {
+        const range = this.max - this.min;
+        const percentage = range > 0 ? Math.min(100, Math.max(0, ((this.value - this.min) / range) * 100)) : 0;
+        return (hAsync(Host, { key: '9f676e413c932880ca53aba687cbdd653a6d9eb1' }, hAsync("div", { key: '3ca0af82cdcee92de59c593ceef638b6424eb5e4', class: { 'slider': true, 'slider--disabled': this.disabled } }, hAsync("input", Object.assign({ key: '75f639dd79e083d4e300b06c6ad13407d2c97b49', class: "slider__input", type: "range", min: this.min, max: this.max, step: this.step, value: this.value, disabled: this.disabled, style: {
+                background: `linear-gradient(to right, var(--ssb-color-foreground, #1a202c) ${percentage}%, var(--ssb-color-muted, #edf2f7) ${percentage}%)`,
+            }, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria))), this.showValue && hAsync("span", { key: '4dd10097ca3d13e8b7f0caa52689577770070fcf', class: "slider__value" }, this.value))));
+    }
+    static get style() { return ssbSliderCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-slider",
+        "$members$": {
+            "value": [1026],
+            "min": [2],
+            "max": [2],
+            "step": [2],
+            "disabled": [4],
+            "showValue": [4, "show-value"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbSpinnerCss = () => `:host{display:inline-block}.spinner{display:inline-flex;align-items:center;justify-content:center;color:inherit}.spinner__svg{width:100%;height:100%;animation:spinner-rotate 0.8s linear infinite}.spinner--sm{width:1rem;height:1rem}.spinner--md{width:1.5rem;height:1.5rem}.spinner--lg{width:2rem;height:2rem}.spinner__label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}@keyframes spinner-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@media (prefers-reduced-motion: reduce){.spinner__svg{animation-duration:2s}}`;
+
+class SsbSpinner {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Size of the spinner.
+         */
+        this.size = 'md';
+        /**
+         * Visually hidden label announced to assistive technology.
+         */
+        this.label = 'Loading…';
+    }
+    render() {
+        const classes = {
+            spinner: true,
+            [`spinner--${this.size}`]: true,
+        };
+        return (hAsync(Host, { key: '9256c831bcceef895d9f250ab7970705a0a0b9a4' }, hAsync("span", Object.assign({ key: '92e0b9aafef4081b6be80e8b5d3360e7b77b91b2', class: classes, role: "status" }, getAriaAttributes(this.aria)), hAsync("svg", { key: '237ee420087142f08a5849ec4c60e69199d92982', class: "spinner__svg", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", "aria-hidden": "true" }, hAsync("circle", { key: '84f8d451b9e6a65b615eac4cad2868249953bfae', class: "spinner__circle", cx: "12", cy: "12", r: "10", stroke: "currentColor", "stroke-width": "3", "stroke-linecap": "round", "stroke-dasharray": "47 16" })), hAsync("span", { key: '221e05b22e06387f22f184d9053adcb14899660e', class: "spinner__label" }, this.label))));
+    }
+    static get style() { return ssbSpinnerCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-spinner",
+        "$members$": {
+            "size": [1],
+            "label": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbSwitchCss = () => `:host{display:inline-block}.switch{display:inline-flex;align-items:center;gap:0.5rem;cursor:pointer;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem}.switch--disabled{opacity:0.5;cursor:not-allowed}.switch__input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap}.switch__track{position:relative;display:inline-block;box-sizing:border-box;width:2.25rem;height:1.25rem;flex-shrink:0;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-muted, #edf2f7);transition:background-color 0.15s ease}.switch__thumb{position:absolute;top:0.125rem;left:0.125rem;width:1rem;height:1rem;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-background, #ffffff);box-shadow:0 1px 2px rgba(0, 0, 0, 0.15);transition:transform 0.15s ease}.switch__input:checked+.switch__track{background-color:var(--ssb-color-foreground, #1a202c)}.switch__input:checked+.switch__track .switch__thumb{transform:translateX(1rem)}.switch__input:focus-visible+.switch__track{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}`;
+
+class SsbSwitch {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Whether the switch is on.
+         */
+        this.checked = false;
+        /**
+         * Disables the switch.
+         */
+        this.disabled = false;
+        this.handleChange = (event) => {
+            const target = event.target;
+            this.checked = target.checked;
+            this.ssbChange.emit({ checked: this.checked });
+        };
+    }
+    render() {
+        const classes = {
+            'switch': true,
+            'switch--disabled': this.disabled,
+        };
+        return (hAsync(Host, { key: '408ce2051e0254f5515e6d7777e6e284df3dc537' }, hAsync("label", { key: '49cd10f01daf4e2f8bed880d242b4b1592e89f85', class: classes }, hAsync("input", Object.assign({ key: 'b97bda54d3a5c1a3eb99365cb5dd2efde9fe39dd', class: "switch__input", type: "checkbox", role: "switch", checked: this.checked, disabled: this.disabled, name: this.name, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '425b07d9a02749e0d6ad4394593c42fb07abd192', class: "switch__track", "aria-hidden": "true" }, hAsync("span", { key: 'c15092bacc8686522878e73dac06c686fada47bf', class: "switch__thumb" })), hAsync("span", { key: 'd30c5f9aebc18b045b7cad58df0a5f01414f1913', class: "switch__label" }, hAsync("slot", { key: '1573351452b655941a98c536929a4898de6d5a17' })))));
+    }
+    static get style() { return ssbSwitchCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-switch",
+        "$members$": {
+            "checked": [1540],
+            "disabled": [4],
+            "name": [1],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["checked", "checked"]]
+    }; }
+}
+
+const ssbTableCss = () => `:host{display:block;font-family:inherit;color:var(--ssb-color-foreground, #1a202c)}.table{width:100%;border-collapse:collapse;caption-side:bottom}.caption{padding-top:1rem;font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096);text-align:left}th{height:2.5rem;padding:0 0.75rem;border-bottom:1px solid var(--ssb-color-border, #e2e8f0);font-size:0.875rem;font-weight:500;text-align:left;vertical-align:middle;color:var(--ssb-color-muted-foreground, #718096)}td{padding:0.75rem;border-bottom:1px solid var(--ssb-color-border, #e2e8f0);font-size:0.875rem;vertical-align:middle}tbody tr{transition:background-color 0.15s ease}tbody tr:hover{background-color:color-mix(in srgb, var(--ssb-color-muted, #edf2f7) 50%, transparent)}.table--striped tbody tr:nth-child(even){background-color:color-mix(in srgb, var(--ssb-color-muted, #edf2f7) 50%, transparent)}.table--compact th{height:2rem;padding:0 0.5rem}.table--compact td{padding:0.375rem 0.5rem}`;
+
+class SsbTable {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Column definitions as an array or a JSON string.
+         * Shape: `[{ "key": "name", "header": "Name", "align": "left" }]`.
+         */
+        this.columns = [];
+        /**
+         * Row data as an array or a JSON string. Each row is a record keyed by column key.
+         * Shape: `[{ "name": "Jane", "amount": 250 }]`.
+         */
+        this.rows = [];
+        /**
+         * Applies a muted background to even rows.
+         */
+        this.striped = false;
+        /**
+         * Reduces cell padding for dense data.
+         */
+        this.compact = false;
+    }
+    parseJson(value) {
+        if (typeof value !== 'string') {
+            return value !== null && value !== void 0 ? value : [];
+        }
+        try {
+            const parsed = JSON.parse(value);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            return [];
+        }
+    }
+    render() {
+        const columns = this.parseJson(this.columns);
+        const rows = this.parseJson(this.rows);
+        return (hAsync(Host, { key: '3a7a92866e16d299307b75843fe96cbb39f5e1d3' }, hAsync("table", Object.assign({ key: '845e3ed30def418d5ace799ace345c52ef9ba393', class: { 'table': true, 'table--striped': this.striped, 'table--compact': this.compact } }, getAriaAttributes(this.aria)), this.caption && hAsync("caption", { key: '107c4d72d02544e1eb98077a364585ba9782c206', class: "caption" }, this.caption), hAsync("thead", { key: '06de1d6a8d02897cf54a5799b39bda1dcb3b7ba1' }, hAsync("tr", { key: 'f435a82f23a37d40a223e068cbfe77263e8ca8cc' }, columns.map(column => {
+            var _a;
+            return (hAsync("th", { style: { textAlign: (_a = column.align) !== null && _a !== void 0 ? _a : 'left' } }, column.header));
+        }))), hAsync("tbody", { key: '05623a9cea32f30c34f33184acc99a2f4466675e' }, rows.map(row => (hAsync("tr", null, columns.map(column => {
+            var _a;
+            return (hAsync("td", { style: { textAlign: (_a = column.align) !== null && _a !== void 0 ? _a : 'left' } }, row[column.key]));
+        }))))))));
+    }
+    static get style() { return ssbTableCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-table",
+        "$members$": {
+            "columns": [1],
+            "rows": [1],
+            "caption": [1],
+            "striped": [4],
+            "compact": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbTabsCss = () => `:host{display:block;font-family:inherit;color:var(--ssb-color-foreground, #1a202c)}.tablist{display:inline-flex;align-items:center;gap:0.25rem;box-sizing:border-box;padding:0.25rem;background-color:var(--ssb-color-muted, #edf2f7);border-radius:var(--ssb-radius-medium, 0.5rem)}.tab{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0.25rem 0.75rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;font-family:inherit;font-size:0.875rem;font-weight:500;line-height:1.25rem;white-space:nowrap;color:var(--ssb-color-muted-foreground, #718096);cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease,     box-shadow 0.15s ease}.tab:hover{color:var(--ssb-color-foreground, #1a202c)}.tab:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.tab:disabled{opacity:0.5;pointer-events:none}.tab--active{background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);box-shadow:0 1px 2px rgba(0, 0, 0, 0.05)}.panel{padding-top:1rem;font-size:0.875rem}.panel:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}`;
+
+class SsbTabs {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Tab definitions as an array or a JSON string.
+         * Shape: `[{ "value": "tab1", "label": "Tab 1", "disabled": false }]`.
+         * The panel content is projected via `<div slot="tab1">…</div>` children.
+         */
+        this.tabs = [];
+        /**
+         * Value of the selected tab. Defaults to the first tab when empty.
+         */
+        this.value = '';
+        this.handleKeyDown = (event) => {
+            var _a;
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+                return;
+            }
+            const enabledTabs = this.parseTabs().filter(tab => !tab.disabled);
+            if (enabledTabs.length === 0) {
+                return;
+            }
+            event.preventDefault();
+            const currentIndex = enabledTabs.findIndex(tab => tab.value === this.value);
+            const delta = event.key === 'ArrowRight' ? 1 : -1;
+            const nextTab = enabledTabs[(currentIndex + delta + enabledTabs.length) % enabledTabs.length];
+            this.selectTab(nextTab.value);
+            const button = (_a = this.el.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector(`button[data-value="${nextTab.value}"]`);
+            button === null || button === void 0 ? void 0 : button.focus();
+        };
+    }
+    componentWillLoad() {
+        const tabs = this.parseTabs();
+        if (!this.value && tabs.length > 0) {
+            this.value = tabs[0].value;
+        }
+    }
+    parseTabs() {
+        var _a;
+        if (typeof this.tabs !== 'string') {
+            return (_a = this.tabs) !== null && _a !== void 0 ? _a : [];
+        }
+        try {
+            const parsed = JSON.parse(this.tabs);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_b) {
+            return [];
+        }
+    }
+    selectTab(value) {
+        if (value === this.value) {
+            return;
+        }
+        this.value = value;
+        this.ssbChange.emit({ value });
+    }
+    render() {
+        const tabs = this.parseTabs();
+        const activeTab = tabs.find(tab => tab.value === this.value);
+        return (hAsync(Host, { key: 'e6026ce3dc3f0e5ec52ba859185dc6925be9d819' }, hAsync("div", Object.assign({ key: 'bc0bf0388c095342bc5ca1b22bc6ca8a7ea062ee', class: "tablist", role: "tablist", onKeyDown: this.handleKeyDown }, getAriaAttributes(this.aria)), tabs.map(tab => (hAsync("button", { class: { 'tab': true, 'tab--active': tab.value === this.value }, type: "button", role: "tab", id: `tab-${tab.value}`, "data-value": tab.value, disabled: tab.disabled, "aria-selected": tab.value === this.value ? 'true' : 'false', "aria-controls": `panel-${tab.value}`, tabindex: tab.value === this.value ? 0 : -1, onClick: () => this.selectTab(tab.value) }, tab.label)))), activeTab && (hAsync("div", { key: '7da92b0b161182cf0ffe04707f2c8711b837cb92', class: "panel", role: "tabpanel", id: `panel-${activeTab.value}`, "aria-labelledby": `tab-${activeTab.value}` }, hAsync("slot", { key: 'b316da840cf23f8933bf3278a0bb8796aa5422bd', name: activeTab.value })))));
+    }
+    get el() { return getElement(this); }
+    static get style() { return ssbTabsCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-tabs",
+        "$members$": {
+            "tabs": [1],
+            "value": [1025],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbTextareaCss = () => `:host{display:block}.textarea{display:block;width:100%;box-sizing:border-box;min-height:4rem;padding:0.5rem 0.75rem;border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1.25rem;resize:vertical;transition:border-color 0.15s ease,     box-shadow 0.15s ease}.textarea::placeholder{color:var(--ssb-color-muted-foreground, #718096)}.textarea:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px;border-color:var(--ssb-color-ring, #646cff)}.textarea--invalid{border-color:var(--ssb-color-destructive, #dc2626)}.textarea:disabled{opacity:0.5;cursor:not-allowed;resize:none}`;
+
+class SsbTextarea {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbInput = createEvent(this, "ssbInput", 7);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        /**
+         * Current value of the textarea.
+         */
+        this.value = '';
+        /**
+         * Number of visible text rows.
+         */
+        this.rows = 3;
+        /**
+         * Disables the textarea.
+         */
+        this.disabled = false;
+        /**
+         * Makes the textarea read-only.
+         */
+        this.readonly = false;
+        /**
+         * Marks the textarea as required.
+         */
+        this.required = false;
+        /**
+         * Marks the textarea as invalid, sets `aria-invalid` and applies a destructive border.
+         */
+        this.invalid = false;
+        this.handleInput = (event) => {
+            const target = event.target;
+            this.value = target.value;
+            this.ssbInput.emit({ value: this.value });
+        };
+        this.handleChange = (event) => {
+            const target = event.target;
+            this.value = target.value;
+            this.ssbChange.emit({ value: this.value });
+        };
+    }
+    render() {
+        const classes = {
+            'textarea': true,
+            'textarea--invalid': this.invalid,
+        };
+        return (hAsync(Host, { key: 'c0488fcf4981994f58e4d5b86f4e17e3f38796c9' }, hAsync("textarea", Object.assign({ key: '120294fae391eeacd98b61d70e17a3e9ae32c7ed', class: classes, placeholder: this.placeholder, name: this.name, rows: this.rows, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.value)));
+    }
+    static get style() { return ssbTextareaCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-textarea",
+        "$members$": {
+            "value": [1025],
+            "placeholder": [1],
+            "name": [1],
+            "rows": [2],
+            "disabled": [4],
+            "readonly": [4],
+            "required": [4],
+            "invalid": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbThemeSwitcherCss = () => `:host{display:inline-block}.theme-switcher{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:2.25rem;height:2.25rem;padding:0;border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;line-height:1;cursor:pointer;transition:background-color 0.15s ease,     border-color 0.15s ease,     color 0.15s ease}.theme-switcher:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.theme-switcher:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.theme-switcher__icon{display:inline-flex;align-items:center;justify-content:center;font-size:1rem}`;
+
+class SsbThemeSwitcher {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbThemeChange = createEvent(this, "ssbThemeChange", 7);
+        /**
+         * Currently active theme. Initialized from the `ssb-theme--dark` class on the document element.
+         */
+        this.theme = 'light';
+        this.toggleTheme = () => {
+            this.theme = this.theme === 'dark' ? 'light' : 'dark';
+            if (typeof document !== 'undefined') {
+                document.documentElement.classList.toggle('ssb-theme--dark', this.theme === 'dark');
+                document.documentElement.classList.toggle('ssb-theme--light', this.theme === 'light');
+            }
+            this.ssbThemeChange.emit({ theme: this.theme });
+        };
+    }
+    componentWillLoad() {
+        if (typeof document !== 'undefined' && document.documentElement.classList.contains('ssb-theme--dark')) {
+            this.theme = 'dark';
+        }
+    }
+    render() {
+        const isDark = this.theme === 'dark';
+        return (hAsync(Host, { key: '9cafa0afef2ee8b57ff2d76410a30f6924c3458f' }, hAsync("button", Object.assign({ key: 'a2575506b40036319b5e1c96db55af6c8a019809', class: "theme-switcher", type: "button", onClick: this.toggleTheme, "aria-pressed": isDark ? 'true' : 'false', "aria-label": isDark ? 'Switch to light theme' : 'Switch to dark theme' }, getAriaAttributes(this.aria)), hAsync("span", { key: 'a6d617917a851eef913fec23768931544568431b', class: "theme-switcher__icon", "aria-hidden": "true" }, isDark ? '\u{1F319}' : '☀'))));
+    }
+    static get style() { return ssbThemeSwitcherCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-theme-switcher",
+        "$members$": {
+            "theme": [1537],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["theme", "theme"]]
+    }; }
+}
+
+const ssbToastCss = () => `:host{display:block;max-width:24rem}.toast{display:flex;align-items:flex-start;gap:0.75rem;box-sizing:border-box;padding:1rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.toast--destructive{border-color:var(--ssb-color-destructive, #dc2626)}.toast--destructive .toast__title{color:var(--ssb-color-destructive, #dc2626)}.toast__content{flex:1;min-width:0}.toast__title{font-weight:600;line-height:1.25rem}.toast__description{margin-top:0.25rem;color:var(--ssb-color-muted-foreground, #718096);line-height:1.25rem}.toast__close{display:inline-flex;align-items:center;justify-content:center;padding:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;color:var(--ssb-color-muted-foreground, #718096);font-family:inherit;font-size:0.875rem;line-height:1;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.toast__close:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.toast__close:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}`;
+
+class SsbToast {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbClose = createEvent(this, "ssbClose", 7);
+        /**
+         * Controls whether the toast is shown.
+         */
+        this.open = false;
+        /**
+         * Visual style of the toast. Use `destructive` for errors.
+         */
+        this.variant = 'default';
+        /**
+         * Auto-dismiss timeout in milliseconds. `0` disables auto-dismiss.
+         */
+        this.duration = 0;
+        /**
+         * Shows a ✕ button that lets the user dismiss the toast.
+         */
+        this.dismissible = true;
+    }
+    handleOpenChange(open) {
+        this.clearTimer();
+        if (open && this.duration > 0) {
+            this.startTimer();
+        }
+    }
+    connectedCallback() {
+        if (this.open && this.duration > 0) {
+            this.startTimer();
+        }
+    }
+    disconnectedCallback() {
+        this.clearTimer();
+    }
+    startTimer() {
+        this.timer = setTimeout(() => {
+            this.close();
+        }, this.duration);
+    }
+    clearTimer() {
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
+            this.timer = undefined;
+        }
+    }
+    close() {
+        this.clearTimer();
+        this.open = false;
+        this.ssbClose.emit();
+    }
+    render() {
+        const classes = {
+            toast: true,
+            [`toast--${this.variant}`]: true,
+        };
+        return (hAsync(Host, { key: 'ced7fe391164cdfa4cc86b59d3a4975d16ec8a24' }, this.open && (hAsync("div", Object.assign({ key: '27499ddd7f4baefb7887805b16228ec8b5b68f8e', class: classes, role: this.variant === 'destructive' ? 'alert' : 'status' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'a069ca41787f548f44c640fdc6fc5e6cc3655d20', class: "toast__content" }, this.toastTitle && hAsync("div", { key: '1272004027e7f01b4e9bf23acf0d976484c03229', class: "toast__title" }, this.toastTitle), this.description && hAsync("div", { key: '331410f0c6072d4b7686ff2227d456020a5da9f6', class: "toast__description" }, this.description), hAsync("slot", { key: '07648f21837026ab59fc3fa541ecf97ca57d44fc' })), this.dismissible && (hAsync("button", { key: '11e3ede4cbb443485b68091e5eb0a70f9b327e18', class: "toast__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715"))))));
+    }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbToastCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-toast",
+        "$members$": {
+            "open": [1540],
+            "toastTitle": [1, "toast-title"],
+            "description": [1],
+            "variant": [1],
+            "duration": [2],
+            "dismissible": [4],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbTooltipCss = () => `:host{position:relative;display:inline-block}.tooltip{position:absolute;z-index:50;padding:0.375rem 0.625rem;background-color:var(--ssb-color-foreground, #1a202c);color:var(--ssb-color-background, #ffffff);border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.75rem;line-height:1rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.15s ease}.tooltip--visible{opacity:1}.tooltip--top{bottom:calc(100% + 0.375rem);left:50%;transform:translateX(-50%)}.tooltip--bottom{top:calc(100% + 0.375rem);left:50%;transform:translateX(-50%)}.tooltip--left{right:calc(100% + 0.375rem);top:50%;transform:translateY(-50%)}.tooltip--right{left:calc(100% + 0.375rem);top:50%;transform:translateY(-50%)}`;
+
+class SsbTooltip {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Placement of the tooltip bubble relative to the trigger element.
+         */
+        this.position = 'top';
+        /**
+         * Delay in milliseconds before the tooltip is shown on hover or focus.
+         */
+        this.openDelay = 200;
+        this.visible = false;
+        this.show = () => {
+            this.clearTimer();
+            this.timer = setTimeout(() => {
+                this.visible = true;
+            }, this.openDelay);
+        };
+        this.hide = () => {
+            this.clearTimer();
+            this.visible = false;
+        };
+        this.handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                this.hide();
+            }
+        };
+    }
+    disconnectedCallback() {
+        this.clearTimer();
+    }
+    clearTimer() {
+        if (this.timer !== undefined) {
+            clearTimeout(this.timer);
+            this.timer = undefined;
+        }
+    }
+    render() {
+        const classes = {
+            'tooltip': true,
+            [`tooltip--${this.position}`]: true,
+            'tooltip--visible': this.visible,
+        };
+        return (hAsync(Host, { key: '1f37c06fd6a2fe638ad29743d89a9fb1ae03aa28', onMouseEnter: this.show, onMouseLeave: this.hide, onFocusin: this.show, onFocusout: this.hide, onKeyDown: this.handleKeyDown }, hAsync("slot", { key: 'af0652b07b362a49902df099f592ef982d5bc4cc' }), hAsync("div", Object.assign({ key: '2d54e40311cb5875af874677a40a49dff54e3737', class: classes, role: "tooltip" }, getAriaAttributes(this.aria)), this.text)));
+    }
+    static get style() { return ssbTooltipCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-tooltip",
+        "$members$": {
+            "text": [1],
+            "position": [1],
+            "openDelay": [2, "open-delay"],
+            "aria": [1],
+            "visible": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
 registerComponents([
   MyComponent,
+  SsbAccordion,
+  SsbAccordionItem,
+  SsbAlert,
+  SsbAlertDialog,
+  SsbAvatar,
   SsbBadge,
+  SsbBreadcrumb,
   SsbButton,
+  SsbButtonGroup,
+  SsbCard,
+  SsbCheckbox,
+  SsbDialog,
+  SsbDropdownMenu,
+  SsbEmpty,
+  SsbField,
+  SsbInput,
+  SsbInputGroup,
+  SsbItem,
+  SsbKbd,
+  SsbLabel,
+  SsbNativeSelect,
+  SsbPagination,
+  SsbPopover,
+  SsbProgress,
+  SsbRadio,
+  SsbRadioGroup,
+  SsbScrollArea,
+  SsbSkeleton,
+  SsbSlider,
+  SsbSpinner,
+  SsbSwitch,
+  SsbTable,
+  SsbTabs,
+  SsbTextarea,
+  SsbThemeSwitcher,
+  SsbToast,
+  SsbTooltip,
 ]);
 
 exports.hydrateApp = hydrateApp;

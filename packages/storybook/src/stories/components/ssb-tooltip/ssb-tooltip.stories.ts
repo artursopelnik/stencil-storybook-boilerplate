@@ -28,7 +28,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ text, position, openDelay, triggerLabel }) =>
+  render: ({ text, position, openDelay, triggerLabel }: Args) =>
     html`<ssb-tooltip text=${text} position=${position} open-delay=${openDelay}>
       <ssb-button variant="outline">${triggerLabel}</ssb-button>
     </ssb-tooltip>`,
@@ -36,7 +36,9 @@ export const Default = {
 
 export const Positions = {
   render: () =>
-    html`<div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; padding: 3rem;">
+    html`<div
+      style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; padding: 3rem;"
+    >
       <ssb-tooltip text="Tooltip on top" position="top">
         <ssb-button variant="outline">Top</ssb-button>
       </ssb-tooltip>

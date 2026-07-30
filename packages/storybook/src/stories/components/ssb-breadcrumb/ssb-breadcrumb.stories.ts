@@ -2,7 +2,10 @@ import { html } from "lit"
 import type { Meta, StoryObj } from "@storybook/web-components-vite"
 
 // @ts-expect-error because Intellij does not understand imports within Lerna monorepos
-import type { SsbBreadcrumb, BreadcrumbItem } from "@stencil-storybook-boilerplate/core/src/components/ssb-breadcrumb/ssb-breadcrumb"
+import type {
+  SsbBreadcrumb,
+  BreadcrumbItem,
+} from "@stencil-storybook-boilerplate/core/src/components/ssb-breadcrumb/ssb-breadcrumb"
 
 type Args = SsbBreadcrumb & { items: BreadcrumbItem[] }
 
@@ -24,8 +27,11 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ items, separator }) =>
-    html`<ssb-breadcrumb items=${JSON.stringify(items)} separator=${separator}></ssb-breadcrumb>`,
+  render: ({ items, separator }: Args) =>
+    html`<ssb-breadcrumb
+      items=${JSON.stringify(items)}
+      separator=${separator}
+    ></ssb-breadcrumb>`,
 } satisfies StoryObj<Args>
 
 export const CustomSeparator = {

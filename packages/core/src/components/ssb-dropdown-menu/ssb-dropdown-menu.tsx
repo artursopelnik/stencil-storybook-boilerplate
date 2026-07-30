@@ -156,7 +156,7 @@ export class SsbDropdownMenu {
 
   render() {
     const menuClasses = {
-      menu: true,
+      'menu': true,
       [`menu--align-${this.align}`]: true,
       'menu--open': this.open,
     };
@@ -176,7 +176,7 @@ export class SsbDropdownMenu {
             }
             return (
               <button
-                class={{ menu__item: true, 'menu__item--destructive': !!item.destructive }}
+                class={{ 'menu__item': true, 'menu__item--destructive': !!item.destructive }}
                 type="button"
                 role="menuitem"
                 disabled={item.disabled}

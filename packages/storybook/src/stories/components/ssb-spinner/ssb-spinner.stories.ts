@@ -26,7 +26,8 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ size, label }) => html`<ssb-spinner size=${size} label=${label}></ssb-spinner>`,
+  render: ({ size, label }: Args) =>
+    html`<ssb-spinner size=${size} label=${label}></ssb-spinner>`,
 } satisfies StoryObj<Args>
 
 export const Sizes = {

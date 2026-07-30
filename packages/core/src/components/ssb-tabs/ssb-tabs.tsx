@@ -93,7 +93,7 @@ export class SsbTabs {
         <div class="tablist" role="tablist" onKeyDown={this.handleKeyDown} {...getAriaAttributes(this.aria)}>
           {tabs.map(tab => (
             <button
-              class={{ tab: true, 'tab--active': tab.value === this.value }}
+              class={{ 'tab': true, 'tab--active': tab.value === this.value }}
               type="button"
               role="tab"
               id={`tab-${tab.value}`}

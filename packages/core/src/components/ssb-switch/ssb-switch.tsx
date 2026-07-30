@@ -46,7 +46,7 @@ export class SsbSwitch {
 
   render() {
     const classes = {
-      switch: true,
+      'switch': true,
       'switch--disabled': this.disabled,
     };
 

@@ -35,7 +35,7 @@ export class SsbLabel {
 
   render() {
     const classes = {
-      label: true,
+      'label': true,
       'label--disabled': this.disabled,
     };
 

@@ -32,19 +32,24 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ open, position, align, triggerLabel }) =>
+  render: ({ open, position, align, triggerLabel }: Args) =>
     html`<ssb-popover ?open=${open} position=${position} align=${align}>
       <ssb-button slot="trigger" variant="outline">${triggerLabel}</ssb-button>
       <div>
-        <strong style="display: block; margin-bottom: 0.25rem;">Dimensions</strong>
-        Set the dimensions for the layer. Click outside or press Escape to close.
+        <strong style="display: block; margin-bottom: 0.25rem;"
+          >Dimensions</strong
+        >
+        Set the dimensions for the layer. Click outside or press Escape to
+        close.
       </div>
     </ssb-popover>`,
 } satisfies StoryObj<Args>
 
 export const Alignments = {
   render: () =>
-    html`<div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; padding: 6rem 2rem;">
+    html`<div
+      style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; padding: 6rem 2rem;"
+    >
       <ssb-popover align="start">
         <ssb-button slot="trigger" variant="outline">Start</ssb-button>
         <div>Aligned to the start edge of the trigger.</div>

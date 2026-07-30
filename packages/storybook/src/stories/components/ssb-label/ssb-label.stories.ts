@@ -22,8 +22,13 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ text, htmlFor, required, disabled }) =>
-    html`<ssb-label html-for=${htmlFor} ?required=${required} ?disabled=${disabled}>${text}</ssb-label>`,
+  render: ({ text, htmlFor, required, disabled }: Args) =>
+    html`<ssb-label
+      html-for=${htmlFor}
+      ?required=${required}
+      ?disabled=${disabled}
+      >${text}</ssb-label
+    >`,
 } satisfies StoryObj<Args>
 
 export const Required = {
@@ -36,7 +41,9 @@ export const Disabled = {
 
 export const WithInput = {
   render: () =>
-    html`<div style="display: flex; flex-direction: column; gap: 0.375rem; width: 20rem;">
+    html`<div
+      style="display: flex; flex-direction: column; gap: 0.375rem; width: 20rem;"
+    >
       <ssb-label ?required=${true}>Email address</ssb-label>
       <ssb-input type="email" placeholder="you@example.com"></ssb-input>
     </div>`,

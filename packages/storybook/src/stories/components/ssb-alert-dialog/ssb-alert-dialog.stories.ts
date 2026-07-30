@@ -7,7 +7,9 @@ import type { SsbAlertDialog } from "@stencil-storybook-boilerplate/core/src/com
 type Args = SsbAlertDialog & { triggerLabel: string }
 
 const openAlertDialog = () => {
-  const dialog = document.querySelector("ssb-alert-dialog") as HTMLElement & { open: boolean }
+  const dialog = document.querySelector("ssb-alert-dialog") as HTMLElement & {
+    open: boolean
+  }
   if (dialog) dialog.open = true
 }
 
@@ -19,7 +21,8 @@ const meta = {
   args: {
     open: false,
     dialogTitle: "Are you absolutely sure?",
-    description: "This action cannot be undone. This will permanently remove your data from our servers.",
+    description:
+      "This action cannot be undone. This will permanently remove your data from our servers.",
     confirmLabel: "Continue",
     cancelLabel: "Cancel",
     destructive: false,
@@ -30,9 +33,19 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ open, dialogTitle, description, confirmLabel, cancelLabel, destructive, triggerLabel }) =>
+  render: ({
+    open,
+    dialogTitle,
+    description,
+    confirmLabel,
+    cancelLabel,
+    destructive,
+    triggerLabel,
+  }: Args) =>
     html`<div>
-      <ssb-button variant="outline" @click=${openAlertDialog}>${triggerLabel}</ssb-button>
+      <ssb-button variant="outline" @click=${openAlertDialog}
+        >${triggerLabel}</ssb-button
+      >
       <ssb-alert-dialog
         ?open=${open}
         dialog-title=${dialogTitle}
@@ -47,7 +60,9 @@ export const Default = {
 export const Destructive = {
   render: () =>
     html`<div>
-      <ssb-button variant="destructive" @click=${openAlertDialog}>Delete account</ssb-button>
+      <ssb-button variant="destructive" @click=${openAlertDialog}
+        >Delete account</ssb-button
+      >
       <ssb-alert-dialog
         dialog-title="Delete account?"
         description="Your account and all associated data will be permanently deleted."
@@ -61,7 +76,9 @@ export const Destructive = {
 export const InitiallyOpen = {
   render: () =>
     html`<div>
-      <ssb-button variant="outline" @click=${openAlertDialog}>Show alert dialog</ssb-button>
+      <ssb-button variant="outline" @click=${openAlertDialog}
+        >Show alert dialog</ssb-button
+      >
       <ssb-alert-dialog
         ?open=${true}
         dialog-title="Discard draft?"

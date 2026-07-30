@@ -20,7 +20,14 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "destructive", "outline", "ghost", "link"],
+      options: [
+        "primary",
+        "secondary",
+        "destructive",
+        "outline",
+        "ghost",
+        "link",
+      ],
     },
     size: {
       control: "select",
@@ -32,13 +39,17 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ label, variant, size, disabled }) =>
-    html`<ssb-button variant=${variant} size=${size} ?disabled=${disabled}>${label}</ssb-button>`,
+  render: ({ label, variant, size, disabled }: Args) =>
+    html`<ssb-button variant=${variant} size=${size} ?disabled=${disabled}
+      >${label}</ssb-button
+    >`,
 } satisfies StoryObj<Args>
 
 export const Variants = {
   render: () =>
-    html`<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    html`<div
+      style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;"
+    >
       <ssb-button variant="primary">Primary</ssb-button>
       <ssb-button variant="secondary">Secondary</ssb-button>
       <ssb-button variant="destructive">Destructive</ssb-button>
@@ -50,16 +61,28 @@ export const Variants = {
 
 export const Sizes = {
   render: () =>
-    html`<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    html`<div
+      style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;"
+    >
       <ssb-button size="sm">Small</ssb-button>
       <ssb-button size="md">Medium</ssb-button>
       <ssb-button size="lg">Large</ssb-button>
-      <ssb-button size="icon" aria=${JSON.stringify({ "aria-label": "Settings" })}>&#9881;</ssb-button>
+      <ssb-button
+        size="icon"
+        aria=${JSON.stringify({ "aria-label": "Settings" })}
+        >&#9881;</ssb-button
+      >
     </div>`,
 } satisfies StoryObj<Args>
 
 export const AsLink = {
-  render: () => html`<ssb-button href="https://example.com" target="_blank" variant="outline">Open example.com</ssb-button>`,
+  render: () =>
+    html`<ssb-button
+      href="https://example.com"
+      target="_blank"
+      variant="outline"
+      >Open example.com</ssb-button
+    >`,
 } satisfies StoryObj<Args>
 
 export const Disabled = {

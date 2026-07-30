@@ -23,8 +23,15 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ label, description, error, required, fieldId }) =>
-    html`<ssb-field style="width: 20rem;" label=${label} description=${description} error=${error} ?required=${required} field-id=${fieldId}>
+  render: ({ label, description, error, required, fieldId }: Args) =>
+    html`<ssb-field
+      style="width: 20rem;"
+      label=${label}
+      description=${description}
+      error=${error}
+      ?required=${required}
+      field-id=${fieldId}
+    >
       <ssb-input type="email" placeholder="you@example.com"></ssb-input>
     </ssb-field>`,
 } satisfies StoryObj<Args>
@@ -44,7 +51,11 @@ export const WithError = {
 
 export const WithTextarea = {
   render: () =>
-    html`<ssb-field style="width: 20rem;" label="Message" description="Max. 500 characters.">
+    html`<ssb-field
+      style="width: 20rem;"
+      label="Message"
+      description="Max. 500 characters."
+    >
       <ssb-textarea placeholder="Type your message here."></ssb-textarea>
     </ssb-field>`,
 } satisfies StoryObj<Args>

@@ -31,7 +31,15 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ type, value, placeholder, disabled, readonly, required, invalid }) =>
+  render: ({
+    type,
+    value,
+    placeholder,
+    disabled,
+    readonly,
+    required,
+    invalid,
+  }: Args) =>
     html`<ssb-input
       style="width: 20rem;"
       type=${type}
@@ -46,7 +54,9 @@ export const Default = {
 
 export const Types = {
   render: () =>
-    html`<div style="display: flex; flex-direction: column; gap: 0.5rem; width: 20rem;">
+    html`<div
+      style="display: flex; flex-direction: column; gap: 0.5rem; width: 20rem;"
+    >
       <ssb-input type="text" placeholder="Text"></ssb-input>
       <ssb-input type="email" placeholder="Email"></ssb-input>
       <ssb-input type="password" placeholder="Password"></ssb-input>
@@ -55,9 +65,20 @@ export const Types = {
 } satisfies StoryObj<Args>
 
 export const Invalid = {
-  render: () => html`<ssb-input style="width: 20rem;" ?invalid=${true} value="not-an-email" placeholder="Email address"></ssb-input>`,
+  render: () =>
+    html`<ssb-input
+      style="width: 20rem;"
+      ?invalid=${true}
+      value="not-an-email"
+      placeholder="Email address"
+    ></ssb-input>`,
 } satisfies StoryObj<Args>
 
 export const Disabled = {
-  render: () => html`<ssb-input style="width: 20rem;" ?disabled=${true} placeholder="Disabled"></ssb-input>`,
+  render: () =>
+    html`<ssb-input
+      style="width: 20rem;"
+      ?disabled=${true}
+      placeholder="Disabled"
+    ></ssb-input>`,
 } satisfies StoryObj<Args>

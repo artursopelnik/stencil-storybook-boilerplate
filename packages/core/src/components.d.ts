@@ -6,11 +6,49 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SelectedAriaAttributes } from "./types";
+import { AccordionItemToggleDetail } from "./components/ssb-accordion-item/ssb-accordion-item";
+import { AlertVariant } from "./components/ssb-alert/ssb-alert";
+import { AvatarShape, AvatarSize } from "./components/ssb-avatar/ssb-avatar";
 import { BadgeVariant } from "./components/ssb-badge/ssb-badge";
+import { BreadcrumbItem } from "./components/ssb-breadcrumb/ssb-breadcrumb";
 import { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
+import { DropdownMenuAlign, DropdownMenuItem } from "./components/ssb-dropdown-menu/ssb-dropdown-menu";
+import { InputType } from "./components/ssb-input/ssb-input";
+import { ItemVariant } from "./components/ssb-item/ssb-item";
+import { NativeSelectOption, NativeSelectSize } from "./components/ssb-native-select/ssb-native-select";
+import { PaginationPageChangeDetail } from "./components/ssb-pagination/ssb-pagination";
+import { PopoverAlign, PopoverPosition } from "./components/ssb-popover/ssb-popover";
+import { RadioGroupOrientation } from "./components/ssb-radio-group/ssb-radio-group";
+import { ScrollAreaOrientation } from "./components/ssb-scroll-area/ssb-scroll-area";
+import { SkeletonRounded } from "./components/ssb-skeleton/ssb-skeleton";
+import { SpinnerSize } from "./components/ssb-spinner/ssb-spinner";
+import { TableColumn, TableRow } from "./components/ssb-table/ssb-table";
+import { TabItem, TabsChangeDetail } from "./components/ssb-tabs/ssb-tabs";
+import { Theme, ThemeChangeDetail } from "./components/ssb-theme-switcher/ssb-theme-switcher";
+import { ToastVariant } from "./components/ssb-toast/ssb-toast";
+import { TooltipPosition } from "./components/ssb-tooltip/ssb-tooltip";
 export { SelectedAriaAttributes } from "./types";
+export { AccordionItemToggleDetail } from "./components/ssb-accordion-item/ssb-accordion-item";
+export { AlertVariant } from "./components/ssb-alert/ssb-alert";
+export { AvatarShape, AvatarSize } from "./components/ssb-avatar/ssb-avatar";
 export { BadgeVariant } from "./components/ssb-badge/ssb-badge";
+export { BreadcrumbItem } from "./components/ssb-breadcrumb/ssb-breadcrumb";
 export { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
+export { DropdownMenuAlign, DropdownMenuItem } from "./components/ssb-dropdown-menu/ssb-dropdown-menu";
+export { InputType } from "./components/ssb-input/ssb-input";
+export { ItemVariant } from "./components/ssb-item/ssb-item";
+export { NativeSelectOption, NativeSelectSize } from "./components/ssb-native-select/ssb-native-select";
+export { PaginationPageChangeDetail } from "./components/ssb-pagination/ssb-pagination";
+export { PopoverAlign, PopoverPosition } from "./components/ssb-popover/ssb-popover";
+export { RadioGroupOrientation } from "./components/ssb-radio-group/ssb-radio-group";
+export { ScrollAreaOrientation } from "./components/ssb-scroll-area/ssb-scroll-area";
+export { SkeletonRounded } from "./components/ssb-skeleton/ssb-skeleton";
+export { SpinnerSize } from "./components/ssb-spinner/ssb-spinner";
+export { TableColumn, TableRow } from "./components/ssb-table/ssb-table";
+export { TabItem, TabsChangeDetail } from "./components/ssb-tabs/ssb-tabs";
+export { Theme, ThemeChangeDetail } from "./components/ssb-theme-switcher/ssb-theme-switcher";
+export { ToastVariant } from "./components/ssb-toast/ssb-toast";
+export { TooltipPosition } from "./components/ssb-tooltip/ssb-tooltip";
 export namespace Components {
     interface MyComponent {
         /**
@@ -35,6 +73,112 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface SsbAccordion {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAccordionAriaAttribute>;
+        /**
+          * Allows multiple items to be open at the same time. When `false`, opening an item closes the others.
+          * @default false
+         */
+        "multiple": boolean;
+    }
+    interface SsbAccordionItem {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAccordionItemAriaAttribute>;
+        /**
+          * Disables the item so it can no longer be toggled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Heading text shown in the trigger button.
+          * @default ''
+         */
+        "heading": string;
+        /**
+          * Whether the item content is expanded.
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface SsbAlert {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAlertAriaAttribute>;
+        /**
+          * Visual style of the alert. Use `destructive` for errors and dangerous situations.
+          * @default 'default'
+         */
+        "variant": AlertVariant;
+    }
+    interface SsbAlertDialog {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAlertDialogAriaAttribute>;
+        /**
+          * Label of the cancel button.
+          * @default 'Cancel'
+         */
+        "cancelLabel": string;
+        /**
+          * Label of the confirm button.
+          * @default 'Continue'
+         */
+        "confirmLabel": string;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Styles the confirm button as destructive for irreversible actions.
+          * @default false
+         */
+        "destructive": boolean;
+        /**
+          * Heading text of the alert dialog, also used as the accessible name.
+         */
+        "dialogTitle"?: string;
+        /**
+          * Controls whether the alert dialog is shown.
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface SsbAvatar {
+        /**
+          * Alternative text for the avatar image.
+          * @default ''
+         */
+        "alt": string;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAvatarAriaAttribute>;
+        /**
+          * Initials shown as fallback when no image is available or the image fails to load.
+         */
+        "initials"?: string;
+        /**
+          * Shape of the avatar.
+          * @default 'circle'
+         */
+        "shape": AvatarShape;
+        /**
+          * Size of the avatar.
+          * @default 'md'
+         */
+        "size": AvatarSize;
+        /**
+          * Image source URL. When omitted or when loading fails, the initials fallback is shown.
+         */
+        "src"?: string;
+    }
     interface SsbBadge {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -45,6 +189,22 @@ export namespace Components {
           * @default 'primary'
          */
         "variant": BadgeVariant;
+    }
+    interface SsbBreadcrumb {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbBreadcrumbAriaAttribute>;
+        /**
+          * Breadcrumb items as an array or a JSON string. Shape: `[{ "label": "Home", "href": "/" }, { "label": "Current page" }]`. The last item is rendered as the current page.
+          * @default []
+         */
+        "items": BreadcrumbItem[] | string;
+        /**
+          * Separator rendered between items.
+          * @default '/'
+         */
+        "separator": string;
     }
     interface SsbButton {
         /**
@@ -80,10 +240,709 @@ export namespace Components {
          */
         "variant": ButtonVariant;
     }
+    interface SsbButtonGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbButtonGroupAriaAttribute>;
+    }
+    interface SsbCard {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCardAriaAttribute>;
+    }
+    interface SsbCheckbox {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCheckboxAriaAttribute>;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Disables the checkbox.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Shows the indeterminate (mixed) state. Cleared as soon as the user toggles the checkbox.
+          * @default false
+         */
+        "indeterminate": boolean;
+        /**
+          * Text rendered next to the box. Alternatively use the default slot.
+         */
+        "label"?: string;
+        /**
+          * Name forwarded to the native checkbox. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Value forwarded to the native checkbox.
+          * @default 'on'
+         */
+        "value": string;
+    }
+    interface SsbDialog {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDialogAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Heading text of the dialog, also used as the accessible name.
+         */
+        "dialogTitle"?: string;
+        /**
+          * Hides the close (✕) button in the top right corner.
+          * @default false
+         */
+        "hideClose": boolean;
+        /**
+          * Controls whether the dialog is shown.
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface SsbDropdownMenu {
+        /**
+          * Alignment of the menu relative to the trigger.
+          * @default 'start'
+         */
+        "align": DropdownMenuAlign;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDropdownMenuAriaAttribute>;
+        /**
+          * Menu entries (array or JSON string). Entries with `separator` render a divider, entries with `groupLabel` render a group heading, all others render menu items.
+          * @default []
+         */
+        "items": DropdownMenuItem[] | string;
+        /**
+          * Controls whether the menu is shown.
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface SsbEmpty {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbEmptyAriaAttribute>;
+    }
+    interface SsbField {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbFieldAriaAttribute>;
+        /**
+          * Muted helper text rendered below the control. Hidden while `error` is set.
+         */
+        "description"?: string;
+        /**
+          * Error text rendered in destructive color below the control. When set, the description is hidden.
+         */
+        "error"?: string;
+        /**
+          * Rendered as `for` on the label element. Note: it only associates controls within the same shadow root, so it is mostly presentational.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text rendered above the control.
+         */
+        "label"?: string;
+        /**
+          * Shows a destructive asterisk next to the label.
+          * @default false
+         */
+        "required": boolean;
+    }
+    interface SsbInput {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbInputAriaAttribute>;
+        /**
+          * Disables the input.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Marks the input as invalid, sets `aria-invalid` and applies a destructive border.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Name forwarded to the native input. Note: inputs inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Placeholder text shown while the input is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * Makes the input read-only.
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * Marks the input as required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Native input type of the control.
+          * @default 'text'
+         */
+        "type": InputType;
+        /**
+          * Current value of the input.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbInputGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbInputGroupAriaAttribute>;
+    }
+    interface SsbItem {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbItemAriaAttribute>;
+        /**
+          * When set, the item content is wrapped in an anchor element.
+         */
+        "href"?: string;
+        /**
+          * Adds hover feedback and a pointer cursor for clickable rows.
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Visual style of the item.
+          * @default 'default'
+         */
+        "variant": ItemVariant;
+    }
+    interface SsbKbd {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbKbdAriaAttribute>;
+    }
+    interface SsbLabel {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbLabelAriaAttribute>;
+        /**
+          * Renders the label in a muted, disabled style.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Rendered as `for` on the native label. Note: it only associates controls within the same shadow root, so it is mostly presentational.
+         */
+        "htmlFor"?: string;
+        /**
+          * Shows a destructive asterisk to mark the associated control as required.
+          * @default false
+         */
+        "required": boolean;
+    }
+    interface SsbNativeSelect {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbNativeSelectAriaAttribute>;
+        /**
+          * Disables the select.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Name forwarded to the native select. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options": NativeSelectOption[] | string;
+        /**
+          * Renders a disabled empty first option as placeholder text.
+         */
+        "placeholder"?: string;
+        /**
+          * Marks the select as required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size of the select.
+          * @default 'md'
+         */
+        "size": NativeSelectSize;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbPagination {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbPaginationAriaAttribute>;
+        /**
+          * Currently selected page (1-based).
+          * @default 1
+         */
+        "page": number;
+        /**
+          * Number of pages shown on each side of the current page before collapsing into an ellipsis.
+          * @default 1
+         */
+        "siblingCount": number;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "totalPages": number;
+    }
+    interface SsbPopover {
+        /**
+          * Alignment of the panel relative to the trigger.
+          * @default 'center'
+         */
+        "align": PopoverAlign;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbPopoverAriaAttribute>;
+        /**
+          * Controls whether the popover panel is shown.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Side of the trigger on which the panel is placed.
+          * @default 'bottom'
+         */
+        "position": PopoverPosition;
+    }
+    interface SsbProgress {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbProgressAriaAttribute>;
+        /**
+          * Accessible label fallback, applied as `aria-label` on the progressbar.
+         */
+        "label"?: string;
+        /**
+          * Maximum value the progress can reach.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * Current progress value.
+          * @default 0
+         */
+        "value": number;
+    }
+    interface SsbRadio {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbRadioAriaAttribute>;
+        /**
+          * Whether the radio is selected. Managed by `ssb-radio-group` when used inside one.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Disables the radio.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Value represented by this radio. Reported to the surrounding `ssb-radio-group` on selection.
+         */
+        "value": string;
+    }
+    interface SsbRadioGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbRadioGroupAriaAttribute>;
+        /**
+          * Disables the whole group.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Informational name of the group, e.g. for form integrations.
+          * @default ''
+         */
+        "name": string;
+        /**
+          * Layout direction of the radios inside the group.
+          * @default 'vertical'
+         */
+        "orientation": RadioGroupOrientation;
+        /**
+          * Value of the currently selected `ssb-radio` child.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbScrollArea {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbScrollAreaAriaAttribute>;
+        /**
+          * Maximum height of the viewport, any CSS length (e.g. `16rem`, `300px`).
+          * @default '16rem'
+         */
+        "maxHeight": string;
+        /**
+          * Scroll direction of the viewport.
+          * @default 'vertical'
+         */
+        "orientation": ScrollAreaOrientation;
+    }
+    interface SsbSkeleton {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSkeletonAriaAttribute>;
+        /**
+          * Height of the skeleton, any CSS length value.
+          * @default '1rem'
+         */
+        "height": string;
+        /**
+          * Border radius of the skeleton, mapped to the design token radii.
+          * @default 'medium'
+         */
+        "rounded": SkeletonRounded;
+        /**
+          * Width of the skeleton, any CSS length value.
+          * @default '100%'
+         */
+        "width": string;
+    }
+    interface SsbSlider {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSliderAriaAttribute>;
+        /**
+          * Disables the slider.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Maximum selectable value.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * Minimum selectable value.
+          * @default 0
+         */
+        "min": number;
+        /**
+          * Renders the current value to the right of the track.
+          * @default false
+         */
+        "showValue": boolean;
+        /**
+          * Granularity of the value.
+          * @default 1
+         */
+        "step": number;
+        /**
+          * Current value of the slider.
+          * @default 50
+         */
+        "value": number;
+    }
+    interface SsbSpinner {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSpinnerAriaAttribute>;
+        /**
+          * Visually hidden label announced to assistive technology.
+          * @default 'Loading…'
+         */
+        "label": string;
+        /**
+          * Size of the spinner.
+          * @default 'md'
+         */
+        "size": SpinnerSize;
+    }
+    interface SsbSwitch {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSwitchAriaAttribute>;
+        /**
+          * Whether the switch is on.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Disables the switch.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Name forwarded to the native checkbox. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+    }
+    interface SsbTable {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTableAriaAttribute>;
+        /**
+          * Optional caption rendered muted below the table.
+         */
+        "caption"?: string;
+        /**
+          * Column definitions as an array or a JSON string. Shape: `[{ "key": "name", "header": "Name", "align": "left" }]`.
+          * @default []
+         */
+        "columns": TableColumn[] | string;
+        /**
+          * Reduces cell padding for dense data.
+          * @default false
+         */
+        "compact": boolean;
+        /**
+          * Row data as an array or a JSON string. Each row is a record keyed by column key. Shape: `[{ "name": "Jane", "amount": 250 }]`.
+          * @default []
+         */
+        "rows": TableRow[] | string;
+        /**
+          * Applies a muted background to even rows.
+          * @default false
+         */
+        "striped": boolean;
+    }
+    interface SsbTabs {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTabsAriaAttribute>;
+        /**
+          * Tab definitions as an array or a JSON string. Shape: `[{ "value": "tab1", "label": "Tab 1", "disabled": false }]`. The panel content is projected via `<div slot="tab1">…</div>` children.
+          * @default []
+         */
+        "tabs": TabItem[] | string;
+        /**
+          * Value of the selected tab. Defaults to the first tab when empty.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbTextarea {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTextareaAriaAttribute>;
+        /**
+          * Disables the textarea.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Marks the textarea as invalid, sets `aria-invalid` and applies a destructive border.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Name forwarded to the native textarea. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Placeholder text shown while the textarea is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * Makes the textarea read-only.
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * Marks the textarea as required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Number of visible text rows.
+          * @default 3
+         */
+        "rows": number;
+        /**
+          * Current value of the textarea.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbThemeSwitcher {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbThemeSwitcherAriaAttribute>;
+        /**
+          * Currently active theme. Initialized from the `ssb-theme--dark` class on the document element.
+          * @default 'light'
+         */
+        "theme": Theme;
+    }
+    interface SsbToast {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbToastAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Shows a ✕ button that lets the user dismiss the toast.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Auto-dismiss timeout in milliseconds. `0` disables auto-dismiss.
+          * @default 0
+         */
+        "duration": number;
+        /**
+          * Controls whether the toast is shown.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Heading text of the toast.
+         */
+        "toastTitle"?: string;
+        /**
+          * Visual style of the toast. Use `destructive` for errors.
+          * @default 'default'
+         */
+        "variant": ToastVariant;
+    }
+    interface SsbTooltip {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTooltipAriaAttribute>;
+        /**
+          * Delay in milliseconds before the tooltip is shown on hover or focus.
+          * @default 200
+         */
+        "openDelay": number;
+        /**
+          * Placement of the tooltip bubble relative to the trigger element.
+          * @default 'top'
+         */
+        "position": TooltipPosition;
+        /**
+          * Text shown inside the tooltip bubble. Required for the tooltip to be useful.
+         */
+        "text": string;
+    }
 }
 export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLMyComponentElement;
+}
+export interface SsbAccordionItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbAccordionItemElement;
+}
+export interface SsbAlertDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbAlertDialogElement;
+}
+export interface SsbCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbCheckboxElement;
+}
+export interface SsbDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbDialogElement;
+}
+export interface SsbDropdownMenuCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbDropdownMenuElement;
+}
+export interface SsbInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbInputElement;
+}
+export interface SsbNativeSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbNativeSelectElement;
+}
+export interface SsbPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbPaginationElement;
+}
+export interface SsbPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbPopoverElement;
+}
+export interface SsbRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbRadioElement;
+}
+export interface SsbRadioGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbRadioGroupElement;
+}
+export interface SsbSliderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbSliderElement;
+}
+export interface SsbSwitchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbSwitchElement;
+}
+export interface SsbTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbTabsElement;
+}
+export interface SsbTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbTextareaElement;
+}
+export interface SsbThemeSwitcherCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbThemeSwitcherElement;
+}
+export interface SsbToastCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbToastElement;
 }
 declare global {
     interface HTMLMyComponentElementEventMap {
@@ -103,11 +962,71 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSsbAccordionElement extends Components.SsbAccordion, HTMLStencilElement {
+    }
+    var HTMLSsbAccordionElement: {
+        prototype: HTMLSsbAccordionElement;
+        new (): HTMLSsbAccordionElement;
+    };
+    interface HTMLSsbAccordionItemElementEventMap {
+        "ssbToggle": AccordionItemToggleDetail;
+    }
+    interface HTMLSsbAccordionItemElement extends Components.SsbAccordionItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsbAccordionItemElement, ev: SsbAccordionItemCustomEvent<HTMLSsbAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsbAccordionItemElement, ev: SsbAccordionItemCustomEvent<HTMLSsbAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbAccordionItemElement: {
+        prototype: HTMLSsbAccordionItemElement;
+        new (): HTMLSsbAccordionItemElement;
+    };
+    interface HTMLSsbAlertElement extends Components.SsbAlert, HTMLStencilElement {
+    }
+    var HTMLSsbAlertElement: {
+        prototype: HTMLSsbAlertElement;
+        new (): HTMLSsbAlertElement;
+    };
+    interface HTMLSsbAlertDialogElementEventMap {
+        "ssbConfirm": void;
+        "ssbCancel": void;
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbAlertDialogElement extends Components.SsbAlertDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbAlertDialogElementEventMap>(type: K, listener: (this: HTMLSsbAlertDialogElement, ev: SsbAlertDialogCustomEvent<HTMLSsbAlertDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbAlertDialogElementEventMap>(type: K, listener: (this: HTMLSsbAlertDialogElement, ev: SsbAlertDialogCustomEvent<HTMLSsbAlertDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbAlertDialogElement: {
+        prototype: HTMLSsbAlertDialogElement;
+        new (): HTMLSsbAlertDialogElement;
+    };
+    interface HTMLSsbAvatarElement extends Components.SsbAvatar, HTMLStencilElement {
+    }
+    var HTMLSsbAvatarElement: {
+        prototype: HTMLSsbAvatarElement;
+        new (): HTMLSsbAvatarElement;
+    };
     interface HTMLSsbBadgeElement extends Components.SsbBadge, HTMLStencilElement {
     }
     var HTMLSsbBadgeElement: {
         prototype: HTMLSsbBadgeElement;
         new (): HTMLSsbBadgeElement;
+    };
+    interface HTMLSsbBreadcrumbElement extends Components.SsbBreadcrumb, HTMLStencilElement {
+    }
+    var HTMLSsbBreadcrumbElement: {
+        prototype: HTMLSsbBreadcrumbElement;
+        new (): HTMLSsbBreadcrumbElement;
     };
     interface HTMLSsbButtonElement extends Components.SsbButton, HTMLStencilElement {
     }
@@ -115,10 +1034,388 @@ declare global {
         prototype: HTMLSsbButtonElement;
         new (): HTMLSsbButtonElement;
     };
+    interface HTMLSsbButtonGroupElement extends Components.SsbButtonGroup, HTMLStencilElement {
+    }
+    var HTMLSsbButtonGroupElement: {
+        prototype: HTMLSsbButtonGroupElement;
+        new (): HTMLSsbButtonGroupElement;
+    };
+    interface HTMLSsbCardElement extends Components.SsbCard, HTMLStencilElement {
+    }
+    var HTMLSsbCardElement: {
+        prototype: HTMLSsbCardElement;
+        new (): HTMLSsbCardElement;
+    };
+    interface HTMLSsbCheckboxElementEventMap {
+        "ssbChange": { checked: boolean };
+    }
+    interface HTMLSsbCheckboxElement extends Components.SsbCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbCheckboxElementEventMap>(type: K, listener: (this: HTMLSsbCheckboxElement, ev: SsbCheckboxCustomEvent<HTMLSsbCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbCheckboxElementEventMap>(type: K, listener: (this: HTMLSsbCheckboxElement, ev: SsbCheckboxCustomEvent<HTMLSsbCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbCheckboxElement: {
+        prototype: HTMLSsbCheckboxElement;
+        new (): HTMLSsbCheckboxElement;
+    };
+    interface HTMLSsbDialogElementEventMap {
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbDialogElement extends Components.SsbDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbDialogElementEventMap>(type: K, listener: (this: HTMLSsbDialogElement, ev: SsbDialogCustomEvent<HTMLSsbDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbDialogElementEventMap>(type: K, listener: (this: HTMLSsbDialogElement, ev: SsbDialogCustomEvent<HTMLSsbDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbDialogElement: {
+        prototype: HTMLSsbDialogElement;
+        new (): HTMLSsbDialogElement;
+    };
+    interface HTMLSsbDropdownMenuElementEventMap {
+        "ssbSelect": { value: string };
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbDropdownMenuElement extends Components.SsbDropdownMenu, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbDropdownMenuElementEventMap>(type: K, listener: (this: HTMLSsbDropdownMenuElement, ev: SsbDropdownMenuCustomEvent<HTMLSsbDropdownMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbDropdownMenuElementEventMap>(type: K, listener: (this: HTMLSsbDropdownMenuElement, ev: SsbDropdownMenuCustomEvent<HTMLSsbDropdownMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbDropdownMenuElement: {
+        prototype: HTMLSsbDropdownMenuElement;
+        new (): HTMLSsbDropdownMenuElement;
+    };
+    interface HTMLSsbEmptyElement extends Components.SsbEmpty, HTMLStencilElement {
+    }
+    var HTMLSsbEmptyElement: {
+        prototype: HTMLSsbEmptyElement;
+        new (): HTMLSsbEmptyElement;
+    };
+    interface HTMLSsbFieldElement extends Components.SsbField, HTMLStencilElement {
+    }
+    var HTMLSsbFieldElement: {
+        prototype: HTMLSsbFieldElement;
+        new (): HTMLSsbFieldElement;
+    };
+    interface HTMLSsbInputElementEventMap {
+        "ssbInput": { value: string };
+        "ssbChange": { value: string };
+    }
+    interface HTMLSsbInputElement extends Components.SsbInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbInputElementEventMap>(type: K, listener: (this: HTMLSsbInputElement, ev: SsbInputCustomEvent<HTMLSsbInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbInputElementEventMap>(type: K, listener: (this: HTMLSsbInputElement, ev: SsbInputCustomEvent<HTMLSsbInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbInputElement: {
+        prototype: HTMLSsbInputElement;
+        new (): HTMLSsbInputElement;
+    };
+    interface HTMLSsbInputGroupElement extends Components.SsbInputGroup, HTMLStencilElement {
+    }
+    var HTMLSsbInputGroupElement: {
+        prototype: HTMLSsbInputGroupElement;
+        new (): HTMLSsbInputGroupElement;
+    };
+    interface HTMLSsbItemElement extends Components.SsbItem, HTMLStencilElement {
+    }
+    var HTMLSsbItemElement: {
+        prototype: HTMLSsbItemElement;
+        new (): HTMLSsbItemElement;
+    };
+    interface HTMLSsbKbdElement extends Components.SsbKbd, HTMLStencilElement {
+    }
+    var HTMLSsbKbdElement: {
+        prototype: HTMLSsbKbdElement;
+        new (): HTMLSsbKbdElement;
+    };
+    interface HTMLSsbLabelElement extends Components.SsbLabel, HTMLStencilElement {
+    }
+    var HTMLSsbLabelElement: {
+        prototype: HTMLSsbLabelElement;
+        new (): HTMLSsbLabelElement;
+    };
+    interface HTMLSsbNativeSelectElementEventMap {
+        "ssbChange": { value: string };
+    }
+    interface HTMLSsbNativeSelectElement extends Components.SsbNativeSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbNativeSelectElementEventMap>(type: K, listener: (this: HTMLSsbNativeSelectElement, ev: SsbNativeSelectCustomEvent<HTMLSsbNativeSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbNativeSelectElementEventMap>(type: K, listener: (this: HTMLSsbNativeSelectElement, ev: SsbNativeSelectCustomEvent<HTMLSsbNativeSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbNativeSelectElement: {
+        prototype: HTMLSsbNativeSelectElement;
+        new (): HTMLSsbNativeSelectElement;
+    };
+    interface HTMLSsbPaginationElementEventMap {
+        "ssbPageChange": PaginationPageChangeDetail;
+    }
+    interface HTMLSsbPaginationElement extends Components.SsbPagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbPaginationElementEventMap>(type: K, listener: (this: HTMLSsbPaginationElement, ev: SsbPaginationCustomEvent<HTMLSsbPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbPaginationElementEventMap>(type: K, listener: (this: HTMLSsbPaginationElement, ev: SsbPaginationCustomEvent<HTMLSsbPaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbPaginationElement: {
+        prototype: HTMLSsbPaginationElement;
+        new (): HTMLSsbPaginationElement;
+    };
+    interface HTMLSsbPopoverElementEventMap {
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbPopoverElement extends Components.SsbPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbPopoverElementEventMap>(type: K, listener: (this: HTMLSsbPopoverElement, ev: SsbPopoverCustomEvent<HTMLSsbPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbPopoverElementEventMap>(type: K, listener: (this: HTMLSsbPopoverElement, ev: SsbPopoverCustomEvent<HTMLSsbPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbPopoverElement: {
+        prototype: HTMLSsbPopoverElement;
+        new (): HTMLSsbPopoverElement;
+    };
+    interface HTMLSsbProgressElement extends Components.SsbProgress, HTMLStencilElement {
+    }
+    var HTMLSsbProgressElement: {
+        prototype: HTMLSsbProgressElement;
+        new (): HTMLSsbProgressElement;
+    };
+    interface HTMLSsbRadioElementEventMap {
+        "ssbRadioSelect": { value: string };
+    }
+    interface HTMLSsbRadioElement extends Components.SsbRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbRadioElementEventMap>(type: K, listener: (this: HTMLSsbRadioElement, ev: SsbRadioCustomEvent<HTMLSsbRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbRadioElementEventMap>(type: K, listener: (this: HTMLSsbRadioElement, ev: SsbRadioCustomEvent<HTMLSsbRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbRadioElement: {
+        prototype: HTMLSsbRadioElement;
+        new (): HTMLSsbRadioElement;
+    };
+    interface HTMLSsbRadioGroupElementEventMap {
+        "ssbChange": { value: string };
+    }
+    interface HTMLSsbRadioGroupElement extends Components.SsbRadioGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsbRadioGroupElement, ev: SsbRadioGroupCustomEvent<HTMLSsbRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsbRadioGroupElement, ev: SsbRadioGroupCustomEvent<HTMLSsbRadioGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbRadioGroupElement: {
+        prototype: HTMLSsbRadioGroupElement;
+        new (): HTMLSsbRadioGroupElement;
+    };
+    interface HTMLSsbScrollAreaElement extends Components.SsbScrollArea, HTMLStencilElement {
+    }
+    var HTMLSsbScrollAreaElement: {
+        prototype: HTMLSsbScrollAreaElement;
+        new (): HTMLSsbScrollAreaElement;
+    };
+    interface HTMLSsbSkeletonElement extends Components.SsbSkeleton, HTMLStencilElement {
+    }
+    var HTMLSsbSkeletonElement: {
+        prototype: HTMLSsbSkeletonElement;
+        new (): HTMLSsbSkeletonElement;
+    };
+    interface HTMLSsbSliderElementEventMap {
+        "ssbInput": { value: number };
+        "ssbChange": { value: number };
+    }
+    interface HTMLSsbSliderElement extends Components.SsbSlider, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbSliderElementEventMap>(type: K, listener: (this: HTMLSsbSliderElement, ev: SsbSliderCustomEvent<HTMLSsbSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbSliderElementEventMap>(type: K, listener: (this: HTMLSsbSliderElement, ev: SsbSliderCustomEvent<HTMLSsbSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbSliderElement: {
+        prototype: HTMLSsbSliderElement;
+        new (): HTMLSsbSliderElement;
+    };
+    interface HTMLSsbSpinnerElement extends Components.SsbSpinner, HTMLStencilElement {
+    }
+    var HTMLSsbSpinnerElement: {
+        prototype: HTMLSsbSpinnerElement;
+        new (): HTMLSsbSpinnerElement;
+    };
+    interface HTMLSsbSwitchElementEventMap {
+        "ssbChange": { checked: boolean };
+    }
+    interface HTMLSsbSwitchElement extends Components.SsbSwitch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbSwitchElementEventMap>(type: K, listener: (this: HTMLSsbSwitchElement, ev: SsbSwitchCustomEvent<HTMLSsbSwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbSwitchElementEventMap>(type: K, listener: (this: HTMLSsbSwitchElement, ev: SsbSwitchCustomEvent<HTMLSsbSwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbSwitchElement: {
+        prototype: HTMLSsbSwitchElement;
+        new (): HTMLSsbSwitchElement;
+    };
+    interface HTMLSsbTableElement extends Components.SsbTable, HTMLStencilElement {
+    }
+    var HTMLSsbTableElement: {
+        prototype: HTMLSsbTableElement;
+        new (): HTMLSsbTableElement;
+    };
+    interface HTMLSsbTabsElementEventMap {
+        "ssbChange": TabsChangeDetail;
+    }
+    interface HTMLSsbTabsElement extends Components.SsbTabs, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbTabsElementEventMap>(type: K, listener: (this: HTMLSsbTabsElement, ev: SsbTabsCustomEvent<HTMLSsbTabsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbTabsElementEventMap>(type: K, listener: (this: HTMLSsbTabsElement, ev: SsbTabsCustomEvent<HTMLSsbTabsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbTabsElement: {
+        prototype: HTMLSsbTabsElement;
+        new (): HTMLSsbTabsElement;
+    };
+    interface HTMLSsbTextareaElementEventMap {
+        "ssbInput": { value: string };
+        "ssbChange": { value: string };
+    }
+    interface HTMLSsbTextareaElement extends Components.SsbTextarea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbTextareaElementEventMap>(type: K, listener: (this: HTMLSsbTextareaElement, ev: SsbTextareaCustomEvent<HTMLSsbTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbTextareaElementEventMap>(type: K, listener: (this: HTMLSsbTextareaElement, ev: SsbTextareaCustomEvent<HTMLSsbTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbTextareaElement: {
+        prototype: HTMLSsbTextareaElement;
+        new (): HTMLSsbTextareaElement;
+    };
+    interface HTMLSsbThemeSwitcherElementEventMap {
+        "ssbThemeChange": ThemeChangeDetail;
+    }
+    interface HTMLSsbThemeSwitcherElement extends Components.SsbThemeSwitcher, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbThemeSwitcherElementEventMap>(type: K, listener: (this: HTMLSsbThemeSwitcherElement, ev: SsbThemeSwitcherCustomEvent<HTMLSsbThemeSwitcherElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbThemeSwitcherElementEventMap>(type: K, listener: (this: HTMLSsbThemeSwitcherElement, ev: SsbThemeSwitcherCustomEvent<HTMLSsbThemeSwitcherElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbThemeSwitcherElement: {
+        prototype: HTMLSsbThemeSwitcherElement;
+        new (): HTMLSsbThemeSwitcherElement;
+    };
+    interface HTMLSsbToastElementEventMap {
+        "ssbClose": void;
+    }
+    interface HTMLSsbToastElement extends Components.SsbToast, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbToastElementEventMap>(type: K, listener: (this: HTMLSsbToastElement, ev: SsbToastCustomEvent<HTMLSsbToastElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbToastElementEventMap>(type: K, listener: (this: HTMLSsbToastElement, ev: SsbToastCustomEvent<HTMLSsbToastElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbToastElement: {
+        prototype: HTMLSsbToastElement;
+        new (): HTMLSsbToastElement;
+    };
+    interface HTMLSsbTooltipElement extends Components.SsbTooltip, HTMLStencilElement {
+    }
+    var HTMLSsbTooltipElement: {
+        prototype: HTMLSsbTooltipElement;
+        new (): HTMLSsbTooltipElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "ssb-accordion": HTMLSsbAccordionElement;
+        "ssb-accordion-item": HTMLSsbAccordionItemElement;
+        "ssb-alert": HTMLSsbAlertElement;
+        "ssb-alert-dialog": HTMLSsbAlertDialogElement;
+        "ssb-avatar": HTMLSsbAvatarElement;
         "ssb-badge": HTMLSsbBadgeElement;
+        "ssb-breadcrumb": HTMLSsbBreadcrumbElement;
         "ssb-button": HTMLSsbButtonElement;
+        "ssb-button-group": HTMLSsbButtonGroupElement;
+        "ssb-card": HTMLSsbCardElement;
+        "ssb-checkbox": HTMLSsbCheckboxElement;
+        "ssb-dialog": HTMLSsbDialogElement;
+        "ssb-dropdown-menu": HTMLSsbDropdownMenuElement;
+        "ssb-empty": HTMLSsbEmptyElement;
+        "ssb-field": HTMLSsbFieldElement;
+        "ssb-input": HTMLSsbInputElement;
+        "ssb-input-group": HTMLSsbInputGroupElement;
+        "ssb-item": HTMLSsbItemElement;
+        "ssb-kbd": HTMLSsbKbdElement;
+        "ssb-label": HTMLSsbLabelElement;
+        "ssb-native-select": HTMLSsbNativeSelectElement;
+        "ssb-pagination": HTMLSsbPaginationElement;
+        "ssb-popover": HTMLSsbPopoverElement;
+        "ssb-progress": HTMLSsbProgressElement;
+        "ssb-radio": HTMLSsbRadioElement;
+        "ssb-radio-group": HTMLSsbRadioGroupElement;
+        "ssb-scroll-area": HTMLSsbScrollAreaElement;
+        "ssb-skeleton": HTMLSsbSkeletonElement;
+        "ssb-slider": HTMLSsbSliderElement;
+        "ssb-spinner": HTMLSsbSpinnerElement;
+        "ssb-switch": HTMLSsbSwitchElement;
+        "ssb-table": HTMLSsbTableElement;
+        "ssb-tabs": HTMLSsbTabsElement;
+        "ssb-textarea": HTMLSsbTextareaElement;
+        "ssb-theme-switcher": HTMLSsbThemeSwitcherElement;
+        "ssb-toast": HTMLSsbToastElement;
+        "ssb-tooltip": HTMLSsbTooltipElement;
     }
 }
 declare namespace LocalJSX {
@@ -151,6 +1448,128 @@ declare namespace LocalJSX {
          */
         "onButtonClick"?: (event: MyComponentCustomEvent<any>) => void;
     }
+    interface SsbAccordion {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAccordionAriaAttribute>;
+        /**
+          * Allows multiple items to be open at the same time. When `false`, opening an item closes the others.
+          * @default false
+         */
+        "multiple"?: boolean;
+    }
+    interface SsbAccordionItem {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAccordionItemAriaAttribute>;
+        /**
+          * Disables the item so it can no longer be toggled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Heading text shown in the trigger button.
+          * @default ''
+         */
+        "heading"?: string;
+        /**
+          * Emitted after the user toggles the item. Detail: `{ open: boolean }`.
+         */
+        "onSsbToggle"?: (event: SsbAccordionItemCustomEvent<AccordionItemToggleDetail>) => void;
+        /**
+          * Whether the item content is expanded.
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface SsbAlert {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAlertAriaAttribute>;
+        /**
+          * Visual style of the alert. Use `destructive` for errors and dangerous situations.
+          * @default 'default'
+         */
+        "variant"?: AlertVariant;
+    }
+    interface SsbAlertDialog {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAlertDialogAriaAttribute>;
+        /**
+          * Label of the cancel button.
+          * @default 'Cancel'
+         */
+        "cancelLabel"?: string;
+        /**
+          * Label of the confirm button.
+          * @default 'Continue'
+         */
+        "confirmLabel"?: string;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Styles the confirm button as destructive for irreversible actions.
+          * @default false
+         */
+        "destructive"?: boolean;
+        /**
+          * Heading text of the alert dialog, also used as the accessible name.
+         */
+        "dialogTitle"?: string;
+        /**
+          * Emitted when the cancel button is pressed or Escape is used.
+         */
+        "onSsbCancel"?: (event: SsbAlertDialogCustomEvent<void>) => void;
+        /**
+          * Emitted when the confirm button is pressed.
+         */
+        "onSsbConfirm"?: (event: SsbAlertDialogCustomEvent<void>) => void;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbAlertDialogCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the alert dialog is shown.
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface SsbAvatar {
+        /**
+          * Alternative text for the avatar image.
+          * @default ''
+         */
+        "alt"?: string;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbAvatarAriaAttribute>;
+        /**
+          * Initials shown as fallback when no image is available or the image fails to load.
+         */
+        "initials"?: string;
+        /**
+          * Shape of the avatar.
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape;
+        /**
+          * Size of the avatar.
+          * @default 'md'
+         */
+        "size"?: AvatarSize;
+        /**
+          * Image source URL. When omitted or when loading fails, the initials fallback is shown.
+         */
+        "src"?: string;
+    }
     interface SsbBadge {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -161,6 +1580,22 @@ declare namespace LocalJSX {
           * @default 'primary'
          */
         "variant"?: BadgeVariant;
+    }
+    interface SsbBreadcrumb {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbBreadcrumbAriaAttribute>;
+        /**
+          * Breadcrumb items as an array or a JSON string. Shape: `[{ "label": "Home", "href": "/" }, { "label": "Current page" }]`. The last item is rendered as the current page.
+          * @default []
+         */
+        "items"?: BreadcrumbItem[] | string;
+        /**
+          * Separator rendered between items.
+          * @default '/'
+         */
+        "separator"?: string;
     }
     interface SsbButton {
         /**
@@ -196,6 +1631,713 @@ declare namespace LocalJSX {
          */
         "variant"?: ButtonVariant;
     }
+    interface SsbButtonGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbButtonGroupAriaAttribute>;
+    }
+    interface SsbCard {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCardAriaAttribute>;
+    }
+    interface SsbCheckbox {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCheckboxAriaAttribute>;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Disables the checkbox.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Shows the indeterminate (mixed) state. Cleared as soon as the user toggles the checkbox.
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        /**
+          * Text rendered next to the box. Alternatively use the default slot.
+         */
+        "label"?: string;
+        /**
+          * Name forwarded to the native checkbox. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the checked state changes. Detail contains the new checked state.
+         */
+        "onSsbChange"?: (event: SsbCheckboxCustomEvent<{ checked: boolean }>) => void;
+        /**
+          * Value forwarded to the native checkbox.
+          * @default 'on'
+         */
+        "value"?: string;
+    }
+    interface SsbDialog {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDialogAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Heading text of the dialog, also used as the accessible name.
+         */
+        "dialogTitle"?: string;
+        /**
+          * Hides the close (✕) button in the top right corner.
+          * @default false
+         */
+        "hideClose"?: boolean;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbDialogCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the dialog is shown.
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface SsbDropdownMenu {
+        /**
+          * Alignment of the menu relative to the trigger.
+          * @default 'start'
+         */
+        "align"?: DropdownMenuAlign;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDropdownMenuAriaAttribute>;
+        /**
+          * Menu entries (array or JSON string). Entries with `separator` render a divider, entries with `groupLabel` render a group heading, all others render menu items.
+          * @default []
+         */
+        "items"?: DropdownMenuItem[] | string;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbDropdownMenuCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Emitted when a menu item is selected. Detail contains the item value.
+         */
+        "onSsbSelect"?: (event: SsbDropdownMenuCustomEvent<{ value: string }>) => void;
+        /**
+          * Controls whether the menu is shown.
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface SsbEmpty {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbEmptyAriaAttribute>;
+    }
+    interface SsbField {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbFieldAriaAttribute>;
+        /**
+          * Muted helper text rendered below the control. Hidden while `error` is set.
+         */
+        "description"?: string;
+        /**
+          * Error text rendered in destructive color below the control. When set, the description is hidden.
+         */
+        "error"?: string;
+        /**
+          * Rendered as `for` on the label element. Note: it only associates controls within the same shadow root, so it is mostly presentational.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text rendered above the control.
+         */
+        "label"?: string;
+        /**
+          * Shows a destructive asterisk next to the label.
+          * @default false
+         */
+        "required"?: boolean;
+    }
+    interface SsbInput {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbInputAriaAttribute>;
+        /**
+          * Disables the input.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Marks the input as invalid, sets `aria-invalid` and applies a destructive border.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Name forwarded to the native input. Note: inputs inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the value is committed (native change). Detail contains the current value.
+         */
+        "onSsbChange"?: (event: SsbInputCustomEvent<{ value: string }>) => void;
+        /**
+          * Emitted on every keystroke while the user types. Detail contains the current value.
+         */
+        "onSsbInput"?: (event: SsbInputCustomEvent<{ value: string }>) => void;
+        /**
+          * Placeholder text shown while the input is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * Makes the input read-only.
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * Marks the input as required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Native input type of the control.
+          * @default 'text'
+         */
+        "type"?: InputType;
+        /**
+          * Current value of the input.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbInputGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbInputGroupAriaAttribute>;
+    }
+    interface SsbItem {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbItemAriaAttribute>;
+        /**
+          * When set, the item content is wrapped in an anchor element.
+         */
+        "href"?: string;
+        /**
+          * Adds hover feedback and a pointer cursor for clickable rows.
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Visual style of the item.
+          * @default 'default'
+         */
+        "variant"?: ItemVariant;
+    }
+    interface SsbKbd {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbKbdAriaAttribute>;
+    }
+    interface SsbLabel {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbLabelAriaAttribute>;
+        /**
+          * Renders the label in a muted, disabled style.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Rendered as `for` on the native label. Note: it only associates controls within the same shadow root, so it is mostly presentational.
+         */
+        "htmlFor"?: string;
+        /**
+          * Shows a destructive asterisk to mark the associated control as required.
+          * @default false
+         */
+        "required"?: boolean;
+    }
+    interface SsbNativeSelect {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbNativeSelectAriaAttribute>;
+        /**
+          * Disables the select.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Name forwarded to the native select. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selection changes. Detail contains the selected value.
+         */
+        "onSsbChange"?: (event: SsbNativeSelectCustomEvent<{ value: string }>) => void;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options"?: NativeSelectOption[] | string;
+        /**
+          * Renders a disabled empty first option as placeholder text.
+         */
+        "placeholder"?: string;
+        /**
+          * Marks the select as required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size of the select.
+          * @default 'md'
+         */
+        "size"?: NativeSelectSize;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbPagination {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbPaginationAriaAttribute>;
+        /**
+          * Emitted when the user selects a different page. Detail: `{ page: number }`.
+         */
+        "onSsbPageChange"?: (event: SsbPaginationCustomEvent<PaginationPageChangeDetail>) => void;
+        /**
+          * Currently selected page (1-based).
+          * @default 1
+         */
+        "page"?: number;
+        /**
+          * Number of pages shown on each side of the current page before collapsing into an ellipsis.
+          * @default 1
+         */
+        "siblingCount"?: number;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "totalPages"?: number;
+    }
+    interface SsbPopover {
+        /**
+          * Alignment of the panel relative to the trigger.
+          * @default 'center'
+         */
+        "align"?: PopoverAlign;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbPopoverAriaAttribute>;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbPopoverCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the popover panel is shown.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Side of the trigger on which the panel is placed.
+          * @default 'bottom'
+         */
+        "position"?: PopoverPosition;
+    }
+    interface SsbProgress {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbProgressAriaAttribute>;
+        /**
+          * Accessible label fallback, applied as `aria-label` on the progressbar.
+         */
+        "label"?: string;
+        /**
+          * Maximum value the progress can reach.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * Current progress value.
+          * @default 0
+         */
+        "value"?: number;
+    }
+    interface SsbRadio {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbRadioAriaAttribute>;
+        /**
+          * Whether the radio is selected. Managed by `ssb-radio-group` when used inside one.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Disables the radio.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Emitted when the radio is selected. Bubbles so a surrounding `ssb-radio-group` can coordinate the selection.
+         */
+        "onSsbRadioSelect"?: (event: SsbRadioCustomEvent<{ value: string }>) => void;
+        /**
+          * Value represented by this radio. Reported to the surrounding `ssb-radio-group` on selection.
+         */
+        "value": string;
+    }
+    interface SsbRadioGroup {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbRadioGroupAriaAttribute>;
+        /**
+          * Disables the whole group.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Informational name of the group, e.g. for form integrations.
+          * @default ''
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selected value changes.
+         */
+        "onSsbChange"?: (event: SsbRadioGroupCustomEvent<{ value: string }>) => void;
+        /**
+          * Layout direction of the radios inside the group.
+          * @default 'vertical'
+         */
+        "orientation"?: RadioGroupOrientation;
+        /**
+          * Value of the currently selected `ssb-radio` child.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbScrollArea {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbScrollAreaAriaAttribute>;
+        /**
+          * Maximum height of the viewport, any CSS length (e.g. `16rem`, `300px`).
+          * @default '16rem'
+         */
+        "maxHeight"?: string;
+        /**
+          * Scroll direction of the viewport.
+          * @default 'vertical'
+         */
+        "orientation"?: ScrollAreaOrientation;
+    }
+    interface SsbSkeleton {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSkeletonAriaAttribute>;
+        /**
+          * Height of the skeleton, any CSS length value.
+          * @default '1rem'
+         */
+        "height"?: string;
+        /**
+          * Border radius of the skeleton, mapped to the design token radii.
+          * @default 'medium'
+         */
+        "rounded"?: SkeletonRounded;
+        /**
+          * Width of the skeleton, any CSS length value.
+          * @default '100%'
+         */
+        "width"?: string;
+    }
+    interface SsbSlider {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSliderAriaAttribute>;
+        /**
+          * Disables the slider.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Maximum selectable value.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * Minimum selectable value.
+          * @default 0
+         */
+        "min"?: number;
+        /**
+          * Emitted when the value is committed, e.g. when the drag ends.
+         */
+        "onSsbChange"?: (event: SsbSliderCustomEvent<{ value: number }>) => void;
+        /**
+          * Emitted continuously while the thumb is dragged.
+         */
+        "onSsbInput"?: (event: SsbSliderCustomEvent<{ value: number }>) => void;
+        /**
+          * Renders the current value to the right of the track.
+          * @default false
+         */
+        "showValue"?: boolean;
+        /**
+          * Granularity of the value.
+          * @default 1
+         */
+        "step"?: number;
+        /**
+          * Current value of the slider.
+          * @default 50
+         */
+        "value"?: number;
+    }
+    interface SsbSpinner {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSpinnerAriaAttribute>;
+        /**
+          * Visually hidden label announced to assistive technology.
+          * @default 'Loading…'
+         */
+        "label"?: string;
+        /**
+          * Size of the spinner.
+          * @default 'md'
+         */
+        "size"?: SpinnerSize;
+    }
+    interface SsbSwitch {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSwitchAriaAttribute>;
+        /**
+          * Whether the switch is on.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Disables the switch.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Name forwarded to the native checkbox. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the switch is toggled. Detail contains the new checked state.
+         */
+        "onSsbChange"?: (event: SsbSwitchCustomEvent<{ checked: boolean }>) => void;
+    }
+    interface SsbTable {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTableAriaAttribute>;
+        /**
+          * Optional caption rendered muted below the table.
+         */
+        "caption"?: string;
+        /**
+          * Column definitions as an array or a JSON string. Shape: `[{ "key": "name", "header": "Name", "align": "left" }]`.
+          * @default []
+         */
+        "columns"?: TableColumn[] | string;
+        /**
+          * Reduces cell padding for dense data.
+          * @default false
+         */
+        "compact"?: boolean;
+        /**
+          * Row data as an array or a JSON string. Each row is a record keyed by column key. Shape: `[{ "name": "Jane", "amount": 250 }]`.
+          * @default []
+         */
+        "rows"?: TableRow[] | string;
+        /**
+          * Applies a muted background to even rows.
+          * @default false
+         */
+        "striped"?: boolean;
+    }
+    interface SsbTabs {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTabsAriaAttribute>;
+        /**
+          * Emitted when the selected tab changes. Detail: `{ value: string }`.
+         */
+        "onSsbChange"?: (event: SsbTabsCustomEvent<TabsChangeDetail>) => void;
+        /**
+          * Tab definitions as an array or a JSON string. Shape: `[{ "value": "tab1", "label": "Tab 1", "disabled": false }]`. The panel content is projected via `<div slot="tab1">…</div>` children.
+          * @default []
+         */
+        "tabs"?: TabItem[] | string;
+        /**
+          * Value of the selected tab. Defaults to the first tab when empty.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbTextarea {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTextareaAriaAttribute>;
+        /**
+          * Disables the textarea.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Marks the textarea as invalid, sets `aria-invalid` and applies a destructive border.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Name forwarded to the native textarea. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the value is committed (native change). Detail contains the current value.
+         */
+        "onSsbChange"?: (event: SsbTextareaCustomEvent<{ value: string }>) => void;
+        /**
+          * Emitted on every keystroke while the user types. Detail contains the current value.
+         */
+        "onSsbInput"?: (event: SsbTextareaCustomEvent<{ value: string }>) => void;
+        /**
+          * Placeholder text shown while the textarea is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * Makes the textarea read-only.
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * Marks the textarea as required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Number of visible text rows.
+          * @default 3
+         */
+        "rows"?: number;
+        /**
+          * Current value of the textarea.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbThemeSwitcher {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbThemeSwitcherAriaAttribute>;
+        /**
+          * Emitted after the theme has been toggled.
+         */
+        "onSsbThemeChange"?: (event: SsbThemeSwitcherCustomEvent<ThemeChangeDetail>) => void;
+        /**
+          * Currently active theme. Initialized from the `ssb-theme--dark` class on the document element.
+          * @default 'light'
+         */
+        "theme"?: Theme;
+    }
+    interface SsbToast {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbToastAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Shows a ✕ button that lets the user dismiss the toast.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Auto-dismiss timeout in milliseconds. `0` disables auto-dismiss.
+          * @default 0
+         */
+        "duration"?: number;
+        /**
+          * Emitted when the toast is closed, either by the user or by the auto-dismiss timer.
+         */
+        "onSsbClose"?: (event: SsbToastCustomEvent<void>) => void;
+        /**
+          * Controls whether the toast is shown.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Heading text of the toast.
+         */
+        "toastTitle"?: string;
+        /**
+          * Visual style of the toast. Use `destructive` for errors.
+          * @default 'default'
+         */
+        "variant"?: ToastVariant;
+    }
+    interface SsbTooltip {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbTooltipAriaAttribute>;
+        /**
+          * Delay in milliseconds before the tooltip is shown on hover or focus.
+          * @default 200
+         */
+        "openDelay"?: number;
+        /**
+          * Placement of the tooltip bubble relative to the trigger element.
+          * @default 'top'
+         */
+        "position"?: TooltipPosition;
+        /**
+          * Text shown inside the tooltip bubble. Required for the tooltip to be useful.
+         */
+        "text"?: string;
+    }
 
     interface MyComponentAttributes {
         "count": number;
@@ -204,9 +2346,45 @@ declare namespace LocalJSX {
         "last": string;
         "aria": SelectedAriaAttributes<MyComponentAriaAttribute>;
     }
+    interface SsbAccordionAttributes {
+        "multiple": boolean;
+        "aria": SelectedAriaAttributes<SsbAccordionAriaAttribute>;
+    }
+    interface SsbAccordionItemAttributes {
+        "heading": string;
+        "open": boolean;
+        "disabled": boolean;
+        "aria": SelectedAriaAttributes<SsbAccordionItemAriaAttribute>;
+    }
+    interface SsbAlertAttributes {
+        "variant": AlertVariant;
+        "aria": SelectedAriaAttributes<SsbAlertAriaAttribute>;
+    }
+    interface SsbAlertDialogAttributes {
+        "open": boolean;
+        "dialogTitle": string;
+        "description": string;
+        "confirmLabel": string;
+        "cancelLabel": string;
+        "destructive": boolean;
+        "aria": SelectedAriaAttributes<SsbAlertDialogAriaAttribute>;
+    }
+    interface SsbAvatarAttributes {
+        "src": string;
+        "alt": string;
+        "initials": string;
+        "shape": AvatarShape;
+        "size": AvatarSize;
+        "aria": SelectedAriaAttributes<SsbAvatarAriaAttribute>;
+    }
     interface SsbBadgeAttributes {
         "variant": BadgeVariant;
         "aria": SelectedAriaAttributes<SsbBadgeAriaAttribute>;
+    }
+    interface SsbBreadcrumbAttributes {
+        "items": BreadcrumbItem[] | string;
+        "separator": string;
+        "aria": SelectedAriaAttributes<SsbBreadcrumbAriaAttribute>;
     }
     interface SsbButtonAttributes {
         "variant": ButtonVariant;
@@ -217,11 +2395,229 @@ declare namespace LocalJSX {
         "target": string;
         "aria": SelectedAriaAttributes<SsbButtonAriaAttribute>;
     }
+    interface SsbButtonGroupAttributes {
+        "aria": SelectedAriaAttributes<SsbButtonGroupAriaAttribute>;
+    }
+    interface SsbCardAttributes {
+        "aria": SelectedAriaAttributes<SsbCardAriaAttribute>;
+    }
+    interface SsbCheckboxAttributes {
+        "checked": boolean;
+        "disabled": boolean;
+        "indeterminate": boolean;
+        "name": string;
+        "value": string;
+        "label": string;
+        "aria": SelectedAriaAttributes<SsbCheckboxAriaAttribute>;
+    }
+    interface SsbDialogAttributes {
+        "open": boolean;
+        "dialogTitle": string;
+        "description": string;
+        "hideClose": boolean;
+        "aria": SelectedAriaAttributes<SsbDialogAriaAttribute>;
+    }
+    interface SsbDropdownMenuAttributes {
+        "open": boolean;
+        "items": DropdownMenuItem[] | string;
+        "align": DropdownMenuAlign;
+        "aria": SelectedAriaAttributes<SsbDropdownMenuAriaAttribute>;
+    }
+    interface SsbEmptyAttributes {
+        "aria": SelectedAriaAttributes<SsbEmptyAriaAttribute>;
+    }
+    interface SsbFieldAttributes {
+        "label": string;
+        "description": string;
+        "error": string;
+        "required": boolean;
+        "fieldId": string;
+        "aria": SelectedAriaAttributes<SsbFieldAriaAttribute>;
+    }
+    interface SsbInputAttributes {
+        "type": InputType;
+        "value": string;
+        "placeholder": string;
+        "name": string;
+        "disabled": boolean;
+        "readonly": boolean;
+        "required": boolean;
+        "invalid": boolean;
+        "aria": SelectedAriaAttributes<SsbInputAriaAttribute>;
+    }
+    interface SsbInputGroupAttributes {
+        "aria": SelectedAriaAttributes<SsbInputGroupAriaAttribute>;
+    }
+    interface SsbItemAttributes {
+        "variant": ItemVariant;
+        "interactive": boolean;
+        "href": string;
+        "aria": SelectedAriaAttributes<SsbItemAriaAttribute>;
+    }
+    interface SsbKbdAttributes {
+        "aria": SelectedAriaAttributes<SsbKbdAriaAttribute>;
+    }
+    interface SsbLabelAttributes {
+        "htmlFor": string;
+        "required": boolean;
+        "disabled": boolean;
+        "aria": SelectedAriaAttributes<SsbLabelAriaAttribute>;
+    }
+    interface SsbNativeSelectAttributes {
+        "options": NativeSelectOption[] | string;
+        "value": string;
+        "name": string;
+        "disabled": boolean;
+        "required": boolean;
+        "placeholder": string;
+        "size": NativeSelectSize;
+        "aria": SelectedAriaAttributes<SsbNativeSelectAriaAttribute>;
+    }
+    interface SsbPaginationAttributes {
+        "page": number;
+        "totalPages": number;
+        "siblingCount": number;
+        "aria": SelectedAriaAttributes<SsbPaginationAriaAttribute>;
+    }
+    interface SsbPopoverAttributes {
+        "open": boolean;
+        "position": PopoverPosition;
+        "align": PopoverAlign;
+        "aria": SelectedAriaAttributes<SsbPopoverAriaAttribute>;
+    }
+    interface SsbProgressAttributes {
+        "value": number;
+        "max": number;
+        "label": string;
+        "aria": SelectedAriaAttributes<SsbProgressAriaAttribute>;
+    }
+    interface SsbRadioAttributes {
+        "value": string;
+        "checked": boolean;
+        "disabled": boolean;
+        "aria": SelectedAriaAttributes<SsbRadioAriaAttribute>;
+    }
+    interface SsbRadioGroupAttributes {
+        "value": string;
+        "name": string;
+        "disabled": boolean;
+        "orientation": RadioGroupOrientation;
+        "aria": SelectedAriaAttributes<SsbRadioGroupAriaAttribute>;
+    }
+    interface SsbScrollAreaAttributes {
+        "maxHeight": string;
+        "orientation": ScrollAreaOrientation;
+        "aria": SelectedAriaAttributes<SsbScrollAreaAriaAttribute>;
+    }
+    interface SsbSkeletonAttributes {
+        "width": string;
+        "height": string;
+        "rounded": SkeletonRounded;
+        "aria": SelectedAriaAttributes<SsbSkeletonAriaAttribute>;
+    }
+    interface SsbSliderAttributes {
+        "value": number;
+        "min": number;
+        "max": number;
+        "step": number;
+        "disabled": boolean;
+        "showValue": boolean;
+        "aria": SelectedAriaAttributes<SsbSliderAriaAttribute>;
+    }
+    interface SsbSpinnerAttributes {
+        "size": SpinnerSize;
+        "label": string;
+        "aria": SelectedAriaAttributes<SsbSpinnerAriaAttribute>;
+    }
+    interface SsbSwitchAttributes {
+        "checked": boolean;
+        "disabled": boolean;
+        "name": string;
+        "aria": SelectedAriaAttributes<SsbSwitchAriaAttribute>;
+    }
+    interface SsbTableAttributes {
+        "columns": TableColumn[] | string;
+        "rows": TableRow[] | string;
+        "caption": string;
+        "striped": boolean;
+        "compact": boolean;
+        "aria": SelectedAriaAttributes<SsbTableAriaAttribute>;
+    }
+    interface SsbTabsAttributes {
+        "tabs": TabItem[] | string;
+        "value": string;
+        "aria": SelectedAriaAttributes<SsbTabsAriaAttribute>;
+    }
+    interface SsbTextareaAttributes {
+        "value": string;
+        "placeholder": string;
+        "name": string;
+        "rows": number;
+        "disabled": boolean;
+        "readonly": boolean;
+        "required": boolean;
+        "invalid": boolean;
+        "aria": SelectedAriaAttributes<SsbTextareaAriaAttribute>;
+    }
+    interface SsbThemeSwitcherAttributes {
+        "theme": Theme;
+        "aria": SelectedAriaAttributes<SsbThemeSwitcherAriaAttribute>;
+    }
+    interface SsbToastAttributes {
+        "open": boolean;
+        "toastTitle": string;
+        "description": string;
+        "variant": ToastVariant;
+        "duration": number;
+        "dismissible": boolean;
+        "aria": SelectedAriaAttributes<SsbToastAriaAttribute>;
+    }
+    interface SsbTooltipAttributes {
+        "text": string;
+        "position": TooltipPosition;
+        "openDelay": number;
+        "aria": SelectedAriaAttributes<SsbTooltipAriaAttribute>;
+    }
 
     interface IntrinsicElements {
         "my-component": Omit<MyComponent, keyof MyComponentAttributes> & { [K in keyof MyComponent & keyof MyComponentAttributes]?: MyComponent[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `attr:${K}`]?: MyComponentAttributes[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `prop:${K}`]?: MyComponent[K] } & OneOf<"first", MyComponent["first"], MyComponentAttributes["first"]>;
+        "ssb-accordion": Omit<SsbAccordion, keyof SsbAccordionAttributes> & { [K in keyof SsbAccordion & keyof SsbAccordionAttributes]?: SsbAccordion[K] } & { [K in keyof SsbAccordion & keyof SsbAccordionAttributes as `attr:${K}`]?: SsbAccordionAttributes[K] } & { [K in keyof SsbAccordion & keyof SsbAccordionAttributes as `prop:${K}`]?: SsbAccordion[K] };
+        "ssb-accordion-item": Omit<SsbAccordionItem, keyof SsbAccordionItemAttributes> & { [K in keyof SsbAccordionItem & keyof SsbAccordionItemAttributes]?: SsbAccordionItem[K] } & { [K in keyof SsbAccordionItem & keyof SsbAccordionItemAttributes as `attr:${K}`]?: SsbAccordionItemAttributes[K] } & { [K in keyof SsbAccordionItem & keyof SsbAccordionItemAttributes as `prop:${K}`]?: SsbAccordionItem[K] };
+        "ssb-alert": Omit<SsbAlert, keyof SsbAlertAttributes> & { [K in keyof SsbAlert & keyof SsbAlertAttributes]?: SsbAlert[K] } & { [K in keyof SsbAlert & keyof SsbAlertAttributes as `attr:${K}`]?: SsbAlertAttributes[K] } & { [K in keyof SsbAlert & keyof SsbAlertAttributes as `prop:${K}`]?: SsbAlert[K] };
+        "ssb-alert-dialog": Omit<SsbAlertDialog, keyof SsbAlertDialogAttributes> & { [K in keyof SsbAlertDialog & keyof SsbAlertDialogAttributes]?: SsbAlertDialog[K] } & { [K in keyof SsbAlertDialog & keyof SsbAlertDialogAttributes as `attr:${K}`]?: SsbAlertDialogAttributes[K] } & { [K in keyof SsbAlertDialog & keyof SsbAlertDialogAttributes as `prop:${K}`]?: SsbAlertDialog[K] };
+        "ssb-avatar": Omit<SsbAvatar, keyof SsbAvatarAttributes> & { [K in keyof SsbAvatar & keyof SsbAvatarAttributes]?: SsbAvatar[K] } & { [K in keyof SsbAvatar & keyof SsbAvatarAttributes as `attr:${K}`]?: SsbAvatarAttributes[K] } & { [K in keyof SsbAvatar & keyof SsbAvatarAttributes as `prop:${K}`]?: SsbAvatar[K] };
         "ssb-badge": Omit<SsbBadge, keyof SsbBadgeAttributes> & { [K in keyof SsbBadge & keyof SsbBadgeAttributes]?: SsbBadge[K] } & { [K in keyof SsbBadge & keyof SsbBadgeAttributes as `attr:${K}`]?: SsbBadgeAttributes[K] } & { [K in keyof SsbBadge & keyof SsbBadgeAttributes as `prop:${K}`]?: SsbBadge[K] };
+        "ssb-breadcrumb": Omit<SsbBreadcrumb, keyof SsbBreadcrumbAttributes> & { [K in keyof SsbBreadcrumb & keyof SsbBreadcrumbAttributes]?: SsbBreadcrumb[K] } & { [K in keyof SsbBreadcrumb & keyof SsbBreadcrumbAttributes as `attr:${K}`]?: SsbBreadcrumbAttributes[K] } & { [K in keyof SsbBreadcrumb & keyof SsbBreadcrumbAttributes as `prop:${K}`]?: SsbBreadcrumb[K] };
         "ssb-button": Omit<SsbButton, keyof SsbButtonAttributes> & { [K in keyof SsbButton & keyof SsbButtonAttributes]?: SsbButton[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `attr:${K}`]?: SsbButtonAttributes[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `prop:${K}`]?: SsbButton[K] };
+        "ssb-button-group": Omit<SsbButtonGroup, keyof SsbButtonGroupAttributes> & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes]?: SsbButtonGroup[K] } & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes as `attr:${K}`]?: SsbButtonGroupAttributes[K] } & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes as `prop:${K}`]?: SsbButtonGroup[K] };
+        "ssb-card": Omit<SsbCard, keyof SsbCardAttributes> & { [K in keyof SsbCard & keyof SsbCardAttributes]?: SsbCard[K] } & { [K in keyof SsbCard & keyof SsbCardAttributes as `attr:${K}`]?: SsbCardAttributes[K] } & { [K in keyof SsbCard & keyof SsbCardAttributes as `prop:${K}`]?: SsbCard[K] };
+        "ssb-checkbox": Omit<SsbCheckbox, keyof SsbCheckboxAttributes> & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes]?: SsbCheckbox[K] } & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes as `attr:${K}`]?: SsbCheckboxAttributes[K] } & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes as `prop:${K}`]?: SsbCheckbox[K] };
+        "ssb-dialog": Omit<SsbDialog, keyof SsbDialogAttributes> & { [K in keyof SsbDialog & keyof SsbDialogAttributes]?: SsbDialog[K] } & { [K in keyof SsbDialog & keyof SsbDialogAttributes as `attr:${K}`]?: SsbDialogAttributes[K] } & { [K in keyof SsbDialog & keyof SsbDialogAttributes as `prop:${K}`]?: SsbDialog[K] };
+        "ssb-dropdown-menu": Omit<SsbDropdownMenu, keyof SsbDropdownMenuAttributes> & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes]?: SsbDropdownMenu[K] } & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes as `attr:${K}`]?: SsbDropdownMenuAttributes[K] } & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes as `prop:${K}`]?: SsbDropdownMenu[K] };
+        "ssb-empty": Omit<SsbEmpty, keyof SsbEmptyAttributes> & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes]?: SsbEmpty[K] } & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes as `attr:${K}`]?: SsbEmptyAttributes[K] } & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes as `prop:${K}`]?: SsbEmpty[K] };
+        "ssb-field": Omit<SsbField, keyof SsbFieldAttributes> & { [K in keyof SsbField & keyof SsbFieldAttributes]?: SsbField[K] } & { [K in keyof SsbField & keyof SsbFieldAttributes as `attr:${K}`]?: SsbFieldAttributes[K] } & { [K in keyof SsbField & keyof SsbFieldAttributes as `prop:${K}`]?: SsbField[K] };
+        "ssb-input": Omit<SsbInput, keyof SsbInputAttributes> & { [K in keyof SsbInput & keyof SsbInputAttributes]?: SsbInput[K] } & { [K in keyof SsbInput & keyof SsbInputAttributes as `attr:${K}`]?: SsbInputAttributes[K] } & { [K in keyof SsbInput & keyof SsbInputAttributes as `prop:${K}`]?: SsbInput[K] };
+        "ssb-input-group": Omit<SsbInputGroup, keyof SsbInputGroupAttributes> & { [K in keyof SsbInputGroup & keyof SsbInputGroupAttributes]?: SsbInputGroup[K] } & { [K in keyof SsbInputGroup & keyof SsbInputGroupAttributes as `attr:${K}`]?: SsbInputGroupAttributes[K] } & { [K in keyof SsbInputGroup & keyof SsbInputGroupAttributes as `prop:${K}`]?: SsbInputGroup[K] };
+        "ssb-item": Omit<SsbItem, keyof SsbItemAttributes> & { [K in keyof SsbItem & keyof SsbItemAttributes]?: SsbItem[K] } & { [K in keyof SsbItem & keyof SsbItemAttributes as `attr:${K}`]?: SsbItemAttributes[K] } & { [K in keyof SsbItem & keyof SsbItemAttributes as `prop:${K}`]?: SsbItem[K] };
+        "ssb-kbd": Omit<SsbKbd, keyof SsbKbdAttributes> & { [K in keyof SsbKbd & keyof SsbKbdAttributes]?: SsbKbd[K] } & { [K in keyof SsbKbd & keyof SsbKbdAttributes as `attr:${K}`]?: SsbKbdAttributes[K] } & { [K in keyof SsbKbd & keyof SsbKbdAttributes as `prop:${K}`]?: SsbKbd[K] };
+        "ssb-label": Omit<SsbLabel, keyof SsbLabelAttributes> & { [K in keyof SsbLabel & keyof SsbLabelAttributes]?: SsbLabel[K] } & { [K in keyof SsbLabel & keyof SsbLabelAttributes as `attr:${K}`]?: SsbLabelAttributes[K] } & { [K in keyof SsbLabel & keyof SsbLabelAttributes as `prop:${K}`]?: SsbLabel[K] };
+        "ssb-native-select": Omit<SsbNativeSelect, keyof SsbNativeSelectAttributes> & { [K in keyof SsbNativeSelect & keyof SsbNativeSelectAttributes]?: SsbNativeSelect[K] } & { [K in keyof SsbNativeSelect & keyof SsbNativeSelectAttributes as `attr:${K}`]?: SsbNativeSelectAttributes[K] } & { [K in keyof SsbNativeSelect & keyof SsbNativeSelectAttributes as `prop:${K}`]?: SsbNativeSelect[K] };
+        "ssb-pagination": Omit<SsbPagination, keyof SsbPaginationAttributes> & { [K in keyof SsbPagination & keyof SsbPaginationAttributes]?: SsbPagination[K] } & { [K in keyof SsbPagination & keyof SsbPaginationAttributes as `attr:${K}`]?: SsbPaginationAttributes[K] } & { [K in keyof SsbPagination & keyof SsbPaginationAttributes as `prop:${K}`]?: SsbPagination[K] };
+        "ssb-popover": Omit<SsbPopover, keyof SsbPopoverAttributes> & { [K in keyof SsbPopover & keyof SsbPopoverAttributes]?: SsbPopover[K] } & { [K in keyof SsbPopover & keyof SsbPopoverAttributes as `attr:${K}`]?: SsbPopoverAttributes[K] } & { [K in keyof SsbPopover & keyof SsbPopoverAttributes as `prop:${K}`]?: SsbPopover[K] };
+        "ssb-progress": Omit<SsbProgress, keyof SsbProgressAttributes> & { [K in keyof SsbProgress & keyof SsbProgressAttributes]?: SsbProgress[K] } & { [K in keyof SsbProgress & keyof SsbProgressAttributes as `attr:${K}`]?: SsbProgressAttributes[K] } & { [K in keyof SsbProgress & keyof SsbProgressAttributes as `prop:${K}`]?: SsbProgress[K] };
+        "ssb-radio": Omit<SsbRadio, keyof SsbRadioAttributes> & { [K in keyof SsbRadio & keyof SsbRadioAttributes]?: SsbRadio[K] } & { [K in keyof SsbRadio & keyof SsbRadioAttributes as `attr:${K}`]?: SsbRadioAttributes[K] } & { [K in keyof SsbRadio & keyof SsbRadioAttributes as `prop:${K}`]?: SsbRadio[K] } & OneOf<"value", SsbRadio["value"], SsbRadioAttributes["value"]>;
+        "ssb-radio-group": Omit<SsbRadioGroup, keyof SsbRadioGroupAttributes> & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes]?: SsbRadioGroup[K] } & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes as `attr:${K}`]?: SsbRadioGroupAttributes[K] } & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes as `prop:${K}`]?: SsbRadioGroup[K] };
+        "ssb-scroll-area": Omit<SsbScrollArea, keyof SsbScrollAreaAttributes> & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes]?: SsbScrollArea[K] } & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes as `attr:${K}`]?: SsbScrollAreaAttributes[K] } & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes as `prop:${K}`]?: SsbScrollArea[K] };
+        "ssb-skeleton": Omit<SsbSkeleton, keyof SsbSkeletonAttributes> & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes]?: SsbSkeleton[K] } & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes as `attr:${K}`]?: SsbSkeletonAttributes[K] } & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes as `prop:${K}`]?: SsbSkeleton[K] };
+        "ssb-slider": Omit<SsbSlider, keyof SsbSliderAttributes> & { [K in keyof SsbSlider & keyof SsbSliderAttributes]?: SsbSlider[K] } & { [K in keyof SsbSlider & keyof SsbSliderAttributes as `attr:${K}`]?: SsbSliderAttributes[K] } & { [K in keyof SsbSlider & keyof SsbSliderAttributes as `prop:${K}`]?: SsbSlider[K] };
+        "ssb-spinner": Omit<SsbSpinner, keyof SsbSpinnerAttributes> & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes]?: SsbSpinner[K] } & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes as `attr:${K}`]?: SsbSpinnerAttributes[K] } & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes as `prop:${K}`]?: SsbSpinner[K] };
+        "ssb-switch": Omit<SsbSwitch, keyof SsbSwitchAttributes> & { [K in keyof SsbSwitch & keyof SsbSwitchAttributes]?: SsbSwitch[K] } & { [K in keyof SsbSwitch & keyof SsbSwitchAttributes as `attr:${K}`]?: SsbSwitchAttributes[K] } & { [K in keyof SsbSwitch & keyof SsbSwitchAttributes as `prop:${K}`]?: SsbSwitch[K] };
+        "ssb-table": Omit<SsbTable, keyof SsbTableAttributes> & { [K in keyof SsbTable & keyof SsbTableAttributes]?: SsbTable[K] } & { [K in keyof SsbTable & keyof SsbTableAttributes as `attr:${K}`]?: SsbTableAttributes[K] } & { [K in keyof SsbTable & keyof SsbTableAttributes as `prop:${K}`]?: SsbTable[K] };
+        "ssb-tabs": Omit<SsbTabs, keyof SsbTabsAttributes> & { [K in keyof SsbTabs & keyof SsbTabsAttributes]?: SsbTabs[K] } & { [K in keyof SsbTabs & keyof SsbTabsAttributes as `attr:${K}`]?: SsbTabsAttributes[K] } & { [K in keyof SsbTabs & keyof SsbTabsAttributes as `prop:${K}`]?: SsbTabs[K] };
+        "ssb-textarea": Omit<SsbTextarea, keyof SsbTextareaAttributes> & { [K in keyof SsbTextarea & keyof SsbTextareaAttributes]?: SsbTextarea[K] } & { [K in keyof SsbTextarea & keyof SsbTextareaAttributes as `attr:${K}`]?: SsbTextareaAttributes[K] } & { [K in keyof SsbTextarea & keyof SsbTextareaAttributes as `prop:${K}`]?: SsbTextarea[K] };
+        "ssb-theme-switcher": Omit<SsbThemeSwitcher, keyof SsbThemeSwitcherAttributes> & { [K in keyof SsbThemeSwitcher & keyof SsbThemeSwitcherAttributes]?: SsbThemeSwitcher[K] } & { [K in keyof SsbThemeSwitcher & keyof SsbThemeSwitcherAttributes as `attr:${K}`]?: SsbThemeSwitcherAttributes[K] } & { [K in keyof SsbThemeSwitcher & keyof SsbThemeSwitcherAttributes as `prop:${K}`]?: SsbThemeSwitcher[K] };
+        "ssb-toast": Omit<SsbToast, keyof SsbToastAttributes> & { [K in keyof SsbToast & keyof SsbToastAttributes]?: SsbToast[K] } & { [K in keyof SsbToast & keyof SsbToastAttributes as `attr:${K}`]?: SsbToastAttributes[K] } & { [K in keyof SsbToast & keyof SsbToastAttributes as `prop:${K}`]?: SsbToast[K] };
+        "ssb-tooltip": Omit<SsbTooltip, keyof SsbTooltipAttributes> & { [K in keyof SsbTooltip & keyof SsbTooltipAttributes]?: SsbTooltip[K] } & { [K in keyof SsbTooltip & keyof SsbTooltipAttributes as `attr:${K}`]?: SsbTooltipAttributes[K] } & { [K in keyof SsbTooltip & keyof SsbTooltipAttributes as `prop:${K}`]?: SsbTooltip[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -229,8 +2625,43 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.IntrinsicElements["my-component"] & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "ssb-accordion": LocalJSX.IntrinsicElements["ssb-accordion"] & JSXBase.HTMLAttributes<HTMLSsbAccordionElement>;
+            "ssb-accordion-item": LocalJSX.IntrinsicElements["ssb-accordion-item"] & JSXBase.HTMLAttributes<HTMLSsbAccordionItemElement>;
+            "ssb-alert": LocalJSX.IntrinsicElements["ssb-alert"] & JSXBase.HTMLAttributes<HTMLSsbAlertElement>;
+            "ssb-alert-dialog": LocalJSX.IntrinsicElements["ssb-alert-dialog"] & JSXBase.HTMLAttributes<HTMLSsbAlertDialogElement>;
+            "ssb-avatar": LocalJSX.IntrinsicElements["ssb-avatar"] & JSXBase.HTMLAttributes<HTMLSsbAvatarElement>;
             "ssb-badge": LocalJSX.IntrinsicElements["ssb-badge"] & JSXBase.HTMLAttributes<HTMLSsbBadgeElement>;
+            "ssb-breadcrumb": LocalJSX.IntrinsicElements["ssb-breadcrumb"] & JSXBase.HTMLAttributes<HTMLSsbBreadcrumbElement>;
             "ssb-button": LocalJSX.IntrinsicElements["ssb-button"] & JSXBase.HTMLAttributes<HTMLSsbButtonElement>;
+            "ssb-button-group": LocalJSX.IntrinsicElements["ssb-button-group"] & JSXBase.HTMLAttributes<HTMLSsbButtonGroupElement>;
+            "ssb-card": LocalJSX.IntrinsicElements["ssb-card"] & JSXBase.HTMLAttributes<HTMLSsbCardElement>;
+            "ssb-checkbox": LocalJSX.IntrinsicElements["ssb-checkbox"] & JSXBase.HTMLAttributes<HTMLSsbCheckboxElement>;
+            "ssb-dialog": LocalJSX.IntrinsicElements["ssb-dialog"] & JSXBase.HTMLAttributes<HTMLSsbDialogElement>;
+            "ssb-dropdown-menu": LocalJSX.IntrinsicElements["ssb-dropdown-menu"] & JSXBase.HTMLAttributes<HTMLSsbDropdownMenuElement>;
+            "ssb-empty": LocalJSX.IntrinsicElements["ssb-empty"] & JSXBase.HTMLAttributes<HTMLSsbEmptyElement>;
+            "ssb-field": LocalJSX.IntrinsicElements["ssb-field"] & JSXBase.HTMLAttributes<HTMLSsbFieldElement>;
+            "ssb-input": LocalJSX.IntrinsicElements["ssb-input"] & JSXBase.HTMLAttributes<HTMLSsbInputElement>;
+            "ssb-input-group": LocalJSX.IntrinsicElements["ssb-input-group"] & JSXBase.HTMLAttributes<HTMLSsbInputGroupElement>;
+            "ssb-item": LocalJSX.IntrinsicElements["ssb-item"] & JSXBase.HTMLAttributes<HTMLSsbItemElement>;
+            "ssb-kbd": LocalJSX.IntrinsicElements["ssb-kbd"] & JSXBase.HTMLAttributes<HTMLSsbKbdElement>;
+            "ssb-label": LocalJSX.IntrinsicElements["ssb-label"] & JSXBase.HTMLAttributes<HTMLSsbLabelElement>;
+            "ssb-native-select": LocalJSX.IntrinsicElements["ssb-native-select"] & JSXBase.HTMLAttributes<HTMLSsbNativeSelectElement>;
+            "ssb-pagination": LocalJSX.IntrinsicElements["ssb-pagination"] & JSXBase.HTMLAttributes<HTMLSsbPaginationElement>;
+            "ssb-popover": LocalJSX.IntrinsicElements["ssb-popover"] & JSXBase.HTMLAttributes<HTMLSsbPopoverElement>;
+            "ssb-progress": LocalJSX.IntrinsicElements["ssb-progress"] & JSXBase.HTMLAttributes<HTMLSsbProgressElement>;
+            "ssb-radio": LocalJSX.IntrinsicElements["ssb-radio"] & JSXBase.HTMLAttributes<HTMLSsbRadioElement>;
+            "ssb-radio-group": LocalJSX.IntrinsicElements["ssb-radio-group"] & JSXBase.HTMLAttributes<HTMLSsbRadioGroupElement>;
+            "ssb-scroll-area": LocalJSX.IntrinsicElements["ssb-scroll-area"] & JSXBase.HTMLAttributes<HTMLSsbScrollAreaElement>;
+            "ssb-skeleton": LocalJSX.IntrinsicElements["ssb-skeleton"] & JSXBase.HTMLAttributes<HTMLSsbSkeletonElement>;
+            "ssb-slider": LocalJSX.IntrinsicElements["ssb-slider"] & JSXBase.HTMLAttributes<HTMLSsbSliderElement>;
+            "ssb-spinner": LocalJSX.IntrinsicElements["ssb-spinner"] & JSXBase.HTMLAttributes<HTMLSsbSpinnerElement>;
+            "ssb-switch": LocalJSX.IntrinsicElements["ssb-switch"] & JSXBase.HTMLAttributes<HTMLSsbSwitchElement>;
+            "ssb-table": LocalJSX.IntrinsicElements["ssb-table"] & JSXBase.HTMLAttributes<HTMLSsbTableElement>;
+            "ssb-tabs": LocalJSX.IntrinsicElements["ssb-tabs"] & JSXBase.HTMLAttributes<HTMLSsbTabsElement>;
+            "ssb-textarea": LocalJSX.IntrinsicElements["ssb-textarea"] & JSXBase.HTMLAttributes<HTMLSsbTextareaElement>;
+            "ssb-theme-switcher": LocalJSX.IntrinsicElements["ssb-theme-switcher"] & JSXBase.HTMLAttributes<HTMLSsbThemeSwitcherElement>;
+            "ssb-toast": LocalJSX.IntrinsicElements["ssb-toast"] & JSXBase.HTMLAttributes<HTMLSsbToastElement>;
+            "ssb-tooltip": LocalJSX.IntrinsicElements["ssb-tooltip"] & JSXBase.HTMLAttributes<HTMLSsbTooltipElement>;
         }
     }
 }

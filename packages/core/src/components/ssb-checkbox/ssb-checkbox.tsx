@@ -70,7 +70,7 @@ export class SsbCheckbox {
 
   render() {
     const classes = {
-      checkbox: true,
+      'checkbox': true,
       'checkbox--disabled': this.disabled,
     };
 

@@ -27,18 +27,29 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ page, totalPages, siblingCount }) =>
-    html`<ssb-pagination page=${page} total-pages=${totalPages} sibling-count=${siblingCount}></ssb-pagination>`,
+  render: ({ page, totalPages, siblingCount }: Args) =>
+    html`<ssb-pagination
+      page=${page}
+      total-pages=${totalPages}
+      sibling-count=${siblingCount}
+    ></ssb-pagination>`,
 } satisfies StoryObj<Args>
 
 export const MiddlePage = {
-  render: () => html`<ssb-pagination page=${5} total-pages=${10}></ssb-pagination>`,
+  render: () =>
+    html`<ssb-pagination page=${5} total-pages=${10}></ssb-pagination>`,
 } satisfies StoryObj<Args>
 
 export const FewPages = {
-  render: () => html`<ssb-pagination page=${2} total-pages=${3}></ssb-pagination>`,
+  render: () =>
+    html`<ssb-pagination page=${2} total-pages=${3}></ssb-pagination>`,
 } satisfies StoryObj<Args>
 
 export const WiderSiblings = {
-  render: () => html`<ssb-pagination page=${10} total-pages=${20} sibling-count=${2}></ssb-pagination>`,
+  render: () =>
+    html`<ssb-pagination
+      page=${10}
+      total-pages=${20}
+      sibling-count=${2}
+    ></ssb-pagination>`,
 } satisfies StoryObj<Args>

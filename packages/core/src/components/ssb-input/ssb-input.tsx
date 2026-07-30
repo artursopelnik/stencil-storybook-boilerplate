@@ -85,7 +85,7 @@ export class SsbInput {
 
   render() {
     const classes = {
-      input: true,
+      'input': true,
       'input--invalid': this.invalid,
     };
 

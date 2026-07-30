@@ -25,7 +25,15 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ value, placeholder, rows, disabled, readonly, required, invalid }) =>
+  render: ({
+    value,
+    placeholder,
+    rows,
+    disabled,
+    readonly,
+    required,
+    invalid,
+  }: Args) =>
     html`<ssb-textarea
       style="width: 20rem;"
       value=${value}
@@ -39,9 +47,19 @@ export const Default = {
 } satisfies StoryObj<Args>
 
 export const Invalid = {
-  render: () => html`<ssb-textarea style="width: 20rem;" ?invalid=${true} placeholder="Type your message here."></ssb-textarea>`,
+  render: () =>
+    html`<ssb-textarea
+      style="width: 20rem;"
+      ?invalid=${true}
+      placeholder="Type your message here."
+    ></ssb-textarea>`,
 } satisfies StoryObj<Args>
 
 export const Disabled = {
-  render: () => html`<ssb-textarea style="width: 20rem;" ?disabled=${true} placeholder="Disabled"></ssb-textarea>`,
+  render: () =>
+    html`<ssb-textarea
+      style="width: 20rem;"
+      ?disabled=${true}
+      placeholder="Disabled"
+    ></ssb-textarea>`,
 } satisfies StoryObj<Args>

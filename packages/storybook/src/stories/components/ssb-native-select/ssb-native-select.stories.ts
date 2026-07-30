@@ -37,7 +37,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ options, value, placeholder, disabled, required, size }) =>
+  render: ({ options, value, placeholder, disabled, required, size }: Args) =>
     html`<ssb-native-select
       style="width: 20rem;"
       options=${JSON.stringify(options)}
@@ -51,17 +51,37 @@ export const Default = {
 
 export const Sizes = {
   render: () =>
-    html`<div style="display: flex; flex-direction: column; gap: 0.5rem; width: 20rem;">
-      <ssb-native-select size="sm" placeholder="Small" options=${JSON.stringify(fruits)}></ssb-native-select>
-      <ssb-native-select size="md" placeholder="Medium" options=${JSON.stringify(fruits)}></ssb-native-select>
+    html`<div
+      style="display: flex; flex-direction: column; gap: 0.5rem; width: 20rem;"
+    >
+      <ssb-native-select
+        size="sm"
+        placeholder="Small"
+        options=${JSON.stringify(fruits)}
+      ></ssb-native-select>
+      <ssb-native-select
+        size="md"
+        placeholder="Medium"
+        options=${JSON.stringify(fruits)}
+      ></ssb-native-select>
     </div>`,
 } satisfies StoryObj<Args>
 
 export const Preselected = {
-  render: () => html`<ssb-native-select style="width: 20rem;" value="banana" options=${JSON.stringify(fruits)}></ssb-native-select>`,
+  render: () =>
+    html`<ssb-native-select
+      style="width: 20rem;"
+      value="banana"
+      options=${JSON.stringify(fruits)}
+    ></ssb-native-select>`,
 } satisfies StoryObj<Args>
 
 export const Disabled = {
   render: () =>
-    html`<ssb-native-select style="width: 20rem;" ?disabled=${true} placeholder="Select a fruit" options=${JSON.stringify(fruits)}></ssb-native-select>`,
+    html`<ssb-native-select
+      style="width: 20rem;"
+      ?disabled=${true}
+      placeholder="Select a fruit"
+      options=${JSON.stringify(fruits)}
+    ></ssb-native-select>`,
 } satisfies StoryObj<Args>

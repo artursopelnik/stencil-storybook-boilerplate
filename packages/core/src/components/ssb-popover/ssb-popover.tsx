@@ -102,7 +102,7 @@ export class SsbPopover {
 
   render() {
     const panelClasses = {
-      popover__panel: true,
+      'popover__panel': true,
       [`popover__panel--${this.position}`]: true,
       [`popover__panel--align-${this.align}`]: true,
       'popover__panel--open': this.open,

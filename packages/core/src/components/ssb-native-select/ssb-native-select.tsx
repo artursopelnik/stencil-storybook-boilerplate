@@ -91,14 +91,7 @@ export class SsbNativeSelect {
     return (
       <Host>
         <div class="select">
-          <select
-            class={classes}
-            name={this.name}
-            disabled={this.disabled}
-            required={this.required}
-            onChange={this.handleChange}
-            {...getAriaAttributes(this.aria)}
-          >
+          <select class={classes} name={this.name} disabled={this.disabled} required={this.required} onChange={this.handleChange} {...getAriaAttributes(this.aria)}>
             {this.placeholder && (
               <option value="" disabled selected={this.value === ''}>
                 {this.placeholder}

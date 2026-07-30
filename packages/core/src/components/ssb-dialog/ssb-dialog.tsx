@@ -94,7 +94,7 @@ export class SsbDialog {
 
   render() {
     const overlayClasses = {
-      dialog__overlay: true,
+      'dialog__overlay': true,
       'dialog__overlay--open': this.open,
     };
 

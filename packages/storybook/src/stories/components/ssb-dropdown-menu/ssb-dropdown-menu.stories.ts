@@ -39,7 +39,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ open, items, align, triggerLabel }) =>
+  render: ({ open, items, align, triggerLabel }: Args) =>
     html`<ssb-dropdown-menu ?open=${open} .items=${items} align=${align}>
       <ssb-button slot="trigger" variant="outline">${triggerLabel}</ssb-button>
     </ssb-dropdown-menu>`,

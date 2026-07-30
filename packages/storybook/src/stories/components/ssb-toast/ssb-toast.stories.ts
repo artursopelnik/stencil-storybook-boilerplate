@@ -7,7 +7,9 @@ import type { SsbToast } from "@stencil-storybook-boilerplate/core/src/component
 type Args = SsbToast & { triggerLabel: string }
 
 const showToast = () => {
-  const toast = document.querySelector("ssb-toast") as HTMLElement & { open: boolean }
+  const toast = document.querySelector("ssb-toast") as HTMLElement & {
+    open: boolean
+  }
   if (toast) toast.open = true
 }
 
@@ -36,7 +38,14 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ open, toastTitle, description, variant, duration, dismissible }) =>
+  render: ({
+    open,
+    toastTitle,
+    description,
+    variant,
+    duration,
+    dismissible,
+  }: Args) =>
     html`<ssb-toast
       ?open=${open}
       toast-title=${toastTitle}
@@ -59,8 +68,14 @@ export const Destructive = {
 
 export const AutoDismiss = {
   render: () =>
-    html`<div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+    html`<div
+      style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;"
+    >
       <ssb-button variant="outline" @click=${showToast}>Show toast</ssb-button>
-      <ssb-toast toast-title="Copied to clipboard" description="Disappears after 3 seconds." duration=${3000}></ssb-toast>
+      <ssb-toast
+        toast-title="Copied to clipboard"
+        description="Disappears after 3 seconds."
+        duration=${3000}
+      ></ssb-toast>
     </div>`,
 } satisfies StoryObj<Args>

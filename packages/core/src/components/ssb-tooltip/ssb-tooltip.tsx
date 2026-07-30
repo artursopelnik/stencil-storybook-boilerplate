@@ -70,7 +70,7 @@ export class SsbTooltip {
 
   render() {
     const classes = {
-      tooltip: true,
+      'tooltip': true,
       [`tooltip--${this.position}`]: true,
       'tooltip--visible': this.visible,
     };

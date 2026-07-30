@@ -83,7 +83,7 @@ export class SsbTextarea {
 
   render() {
     const classes = {
-      textarea: true,
+      'textarea': true,
       'textarea--invalid': this.invalid,
     };
 

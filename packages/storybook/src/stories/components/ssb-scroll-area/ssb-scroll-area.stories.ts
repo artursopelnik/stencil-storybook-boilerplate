@@ -27,7 +27,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ maxHeight, orientation, itemCount }) =>
+  render: ({ maxHeight, orientation, itemCount }: Args) =>
     html`<ssb-scroll-area
       max-height=${maxHeight}
       orientation=${orientation}
@@ -47,7 +47,9 @@ export const Horizontal = {
         ${Array.from(
           { length: 12 },
           (_, index) =>
-            html`<div style="width: 6rem; height: 4rem; display: flex; align-items: center; justify-content: center; background: #edf2f7; border-radius: 0.5rem; font-size: 0.875rem;">
+            html`<div
+              style="width: 6rem; height: 4rem; display: flex; align-items: center; justify-content: center; background: #edf2f7; border-radius: 0.5rem; font-size: 0.875rem;"
+            >
               Card ${index + 1}
             </div>`,
         )}
@@ -57,7 +59,13 @@ export const Horizontal = {
 
 export const ShortContent = {
   render: () =>
-    html`<ssb-scroll-area max-height="16rem" style="width: 16rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0 1rem;">
-      <p style="font-size: 0.875rem;">Short content does not scroll — the viewport only grows up to its max height.</p>
+    html`<ssb-scroll-area
+      max-height="16rem"
+      style="width: 16rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0 1rem;"
+    >
+      <p style="font-size: 0.875rem;">
+        Short content does not scroll — the viewport only grows up to its max
+        height.
+      </p>
     </ssb-scroll-area>`,
 } satisfies StoryObj<Args>

@@ -27,7 +27,7 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ alertTitle, description, variant }) =>
+  render: ({ alertTitle, description, variant }: Args) =>
     html`<ssb-alert variant=${variant} style="width: 24rem;">
       <span slot="alert-title">${alertTitle}</span>
       ${description}

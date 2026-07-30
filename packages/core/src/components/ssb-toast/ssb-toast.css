@@ -13,7 +13,9 @@
   color: var(--ssb-color-foreground, #1a202c);
   border: 1px solid var(--ssb-color-border, #e2e8f0);
   border-radius: var(--ssb-radius-medium, 0.5rem);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   font-family: inherit;
   font-size: 0.875rem;
 }

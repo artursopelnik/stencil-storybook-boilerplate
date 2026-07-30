@@ -33,8 +33,14 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ src, alt, initials, shape, size }) =>
-    html`<ssb-avatar src=${src} alt=${alt} initials=${initials} shape=${shape} size=${size}></ssb-avatar>`,
+  render: ({ src, alt, initials, shape, size }: Args) =>
+    html`<ssb-avatar
+      src=${src}
+      alt=${alt}
+      initials=${initials}
+      shape=${shape}
+      size=${size}
+    ></ssb-avatar>`,
 } satisfies StoryObj<Args>
 
 export const Fallback = {
@@ -42,7 +48,11 @@ export const Fallback = {
     html`<div style="display: flex; gap: 0.5rem; align-items: center;">
       <ssb-avatar initials="JD" alt="Jane Doe"></ssb-avatar>
       <ssb-avatar initials="AB" alt="Alex Brown" shape="square"></ssb-avatar>
-      <ssb-avatar src="https://example.invalid/broken.png" initials="KO" alt="Kim Ono"></ssb-avatar>
+      <ssb-avatar
+        src="https://example.invalid/broken.png"
+        initials="KO"
+        alt="Kim Ono"
+      ></ssb-avatar>
     </div>`,
 } satisfies StoryObj<Args>
 

@@ -66,7 +66,7 @@ export class SsbTable {
 
     return (
       <Host>
-        <table class={{ table: true, 'table--striped': this.striped, 'table--compact': this.compact }} {...getAriaAttributes(this.aria)}>
+        <table class={{ 'table': true, 'table--striped': this.striped, 'table--compact': this.compact }} {...getAriaAttributes(this.aria)}>
           {this.caption && <caption class="caption">{this.caption}</caption>}
           <thead>
             <tr>

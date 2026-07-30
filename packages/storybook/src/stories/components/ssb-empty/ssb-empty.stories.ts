@@ -13,14 +13,15 @@ const meta = {
   },
   args: {
     emptyTitle: "No results found",
-    description: "Try adjusting your search or filters to find what you are looking for.",
+    description:
+      "Try adjusting your search or filters to find what you are looking for.",
   },
 } satisfies Meta<Args>
 
 export default meta
 
 export const Default = {
-  render: ({ emptyTitle, description }) =>
+  render: ({ emptyTitle, description }: Args) =>
     html`<ssb-empty style="width: 28rem;">
       <span slot="empty-title">${emptyTitle}</span>
       ${description}
@@ -41,7 +42,8 @@ export const WithActions = {
     html`<ssb-empty style="width: 28rem;">
       <span slot="icon">&#128193;</span>
       <span slot="empty-title">No projects</span>
-      You have not created any projects yet. Get started by creating your first project.
+      You have not created any projects yet. Get started by creating your first
+      project.
       <ssb-button slot="actions">Create project</ssb-button>
       <ssb-button slot="actions" variant="outline">Import</ssb-button>
     </ssb-empty>`,

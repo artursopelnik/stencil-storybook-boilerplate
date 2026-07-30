@@ -2,7 +2,10 @@ import { html } from "lit"
 import type { Meta, StoryObj } from "@storybook/web-components-vite"
 
 // @ts-expect-error because Intellij does not understand imports within Lerna monorepos
-import type { SsbTabs, TabItem } from "@stencil-storybook-boilerplate/core/src/components/ssb-tabs/ssb-tabs"
+import type {
+  SsbTabs,
+  TabItem,
+} from "@stencil-storybook-boilerplate/core/src/components/ssb-tabs/ssb-tabs"
 
 type Args = SsbTabs & { tabs: TabItem[] }
 
@@ -23,10 +26,18 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ tabs, value }) =>
-    html`<ssb-tabs tabs=${JSON.stringify(tabs)} value=${value} style="width: 24rem;">
-      <div slot="account">Make changes to your account here. Click save when you are done.</div>
-      <div slot="password">Change your password here. After saving, you will be logged out.</div>
+  render: ({ tabs, value }: Args) =>
+    html`<ssb-tabs
+      tabs=${JSON.stringify(tabs)}
+      value=${value}
+      style="width: 24rem;"
+    >
+      <div slot="account">
+        Make changes to your account here. Click save when you are done.
+      </div>
+      <div slot="password">
+        Change your password here. After saving, you will be logged out.
+      </div>
     </ssb-tabs>`,
 } satisfies StoryObj<Args>
 

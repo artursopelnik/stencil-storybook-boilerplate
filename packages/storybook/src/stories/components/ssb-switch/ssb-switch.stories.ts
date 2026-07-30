@@ -21,7 +21,10 @@ const meta = {
 export default meta
 
 export const Default = {
-  render: ({ label, checked, disabled }) => html`<ssb-switch ?checked=${checked} ?disabled=${disabled}>${label}</ssb-switch>`,
+  render: ({ label, checked, disabled }: Args) =>
+    html`<ssb-switch ?checked=${checked} ?disabled=${disabled}
+      >${label}</ssb-switch
+    >`,
 } satisfies StoryObj<Args>
 
 export const Checked = {
