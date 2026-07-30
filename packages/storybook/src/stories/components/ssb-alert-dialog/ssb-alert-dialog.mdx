@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-alert-dialog/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbAlertDialogStories from "./ssb-alert-dialog.stories"
+
+<Meta of={SsbAlertDialogStories} />
+
+<Title />
+
+`ssb-alert-dialog` interrupts with a confirmation before a critical action. It renders its own confirm and cancel buttons and emits `ssbConfirm`, `ssbCancel` and `ssbOpenChange`. Unlike `ssb-dialog`, a backdrop click does not close it and Escape triggers cancel.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use an alert dialog to force an explicit confirm or cancel decision before an important or irreversible action such as deleting data. Do NOT use an alert dialog for general content entry or routine flows — use `ssb-dialog` for those.
+
+---
+
+## Guidelines
+
+- **Do** phrase `dialogTitle` as a question and explain the consequence in `description`.
+- **Do** set `destructive` when the confirmed action deletes or destroys something.
+- **Do** use specific verbs for `confirmLabel` such as "Delete" instead of a generic "OK".
+- **Don't** rely on a backdrop click to dismiss it — only the buttons and Escape close it.
+- **Don't** open an alert dialog without a direct user action preceding it.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbAlertDialogStories.Default} sourceState="none" meta={SsbAlertDialogStories} withToolbar={false} />
+
+### Destructive
+
+<Canvas of={SsbAlertDialogStories.Destructive} sourceState="none" meta={SsbAlertDialogStories} withToolbar={false} />
+
+### Initially open
+
+<Canvas of={SsbAlertDialogStories.InitiallyOpen} sourceState="none" meta={SsbAlertDialogStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

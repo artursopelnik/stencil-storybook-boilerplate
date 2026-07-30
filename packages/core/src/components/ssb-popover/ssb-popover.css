@@ -1,0 +1,49 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.popover__trigger {
+  display: inline-block;
+}
+
+.popover__panel {
+  position: absolute;
+  z-index: 40;
+  display: none;
+  box-sizing: border-box;
+  min-width: 16rem;
+  padding: 1rem;
+  background-color: var(--ssb-color-background, #ffffff);
+  color: var(--ssb-color-foreground, #1a202c);
+  border: 1px solid var(--ssb-color-border, #e2e8f0);
+  border-radius: var(--ssb-radius-medium, 0.5rem);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+.popover__panel--open {
+  display: block;
+}
+
+.popover__panel--bottom {
+  top: calc(100% + 0.5rem);
+}
+
+.popover__panel--top {
+  bottom: calc(100% + 0.5rem);
+}
+
+.popover__panel--align-start {
+  left: 0;
+}
+
+.popover__panel--align-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.popover__panel--align-end {
+  right: 0;
+}

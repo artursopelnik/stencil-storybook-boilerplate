@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-dialog/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbDialogStories from "./ssb-dialog.stories"
+
+<Meta of={SsbDialogStories} />
+
+<Title />
+
+`ssb-dialog` shows a modal window layered over the page. It closes via the ✕ button, a backdrop click or the Escape key and emits `ssbOpenChange`.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a dialog to interrupt the flow for a focused task such as editing details or collecting a short form before returning to the page. Do NOT use a dialog for destructive confirmations — use `ssb-alert-dialog` for those — or for passive notifications, which belong in `ssb-toast`.
+
+---
+
+## Guidelines
+
+- **Do** set `dialogTitle` so the dialog has a visible heading and an accessible name.
+- **Do** place actions in the `footer` slot with the primary action last.
+- **Do** listen to `ssbOpenChange` to keep application state in sync.
+- **Don't** nest dialogs inside each other.
+- **Don't** set `hideClose` unless the footer offers an explicit way out.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbDialogStories.Default} sourceState="none" meta={SsbDialogStories} withToolbar={false} />
+
+### Without close button
+
+<Canvas of={SsbDialogStories.WithoutCloseButton} sourceState="none" meta={SsbDialogStories} withToolbar={false} />
+
+### Initially open
+
+<Canvas of={SsbDialogStories.InitiallyOpen} sourceState="none" meta={SsbDialogStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

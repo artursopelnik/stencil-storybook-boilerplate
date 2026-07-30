@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-dropdown-menu/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbDropdownMenuStories from "./ssb-dropdown-menu.stories"
+
+<Meta of={SsbDropdownMenuStories} />
+
+<Title />
+
+`ssb-dropdown-menu` opens an action menu below its slotted trigger. Items come from the `items` prop (array or JSON string), selection emits `ssbSelect`, and outside clicks, Escape or a selection close the menu.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a dropdown menu to offer a compact list of actions or commands related to a trigger, such as row actions or account options. Do NOT use a dropdown menu to pick a value for a form field — that is a select control — or for navigation between pages.
+
+---
+
+## Guidelines
+
+- **Do** group related entries with `groupLabel` and `separator` entries.
+- **Do** mark dangerous entries such as "Log out" or "Delete" with `destructive`.
+- **Do** handle `ssbSelect` and branch on `detail.value` to run the chosen action.
+- **Don't** exceed roughly ten entries — move longer lists into a dialog or page.
+- **Don't** mix unrelated actions in a single menu without separators.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbDropdownMenuStories.Default} sourceState="none" meta={SsbDropdownMenuStories} withToolbar={false} />
+
+### Align end
+
+<Canvas of={SsbDropdownMenuStories.AlignEnd} sourceState="none" meta={SsbDropdownMenuStories} withToolbar={false} />
+
+### Initially open
+
+<Canvas of={SsbDropdownMenuStories.InitiallyOpen} sourceState="none" meta={SsbDropdownMenuStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

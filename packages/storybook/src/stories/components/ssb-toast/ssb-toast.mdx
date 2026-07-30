@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-toast/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbToastStories from "./ssb-toast.stories"
+
+<Meta of={SsbToastStories} />
+
+<Title />
+
+`ssb-toast` shows a brief notification with an optional auto-dismiss timer and emits `ssbClose` when it is closed. The component renders in place — consumers are responsible for positioning it, typically inside a fixed container in a page corner.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a toast for brief, non-blocking feedback about an operation, such as "Saved" or "Copied to clipboard". Do NOT use a toast for messages that require a decision or must not be missed — use `ssb-dialog`, `ssb-alert-dialog` or an inline `ssb-alert` for those.
+
+---
+
+## Guidelines
+
+- **Do** position the toast yourself, e.g. inside a `position: fixed` container in a page corner.
+- **Do** set a `duration` of a few seconds for transient confirmations.
+- **Do** use the `destructive` variant for errors so the toast is announced assertively via `role="alert"`.
+- **Don't** disable `dismissible` while also leaving `duration` at `0` — the toast would never close.
+- **Don't** stack many toasts at once or use them for essential information.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbToastStories.Default} sourceState="none" meta={SsbToastStories} withToolbar={false} />
+
+### Destructive
+
+<Canvas of={SsbToastStories.Destructive} sourceState="none" meta={SsbToastStories} withToolbar={false} />
+
+### Auto dismiss
+
+<Canvas of={SsbToastStories.AutoDismiss} sourceState="none" meta={SsbToastStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

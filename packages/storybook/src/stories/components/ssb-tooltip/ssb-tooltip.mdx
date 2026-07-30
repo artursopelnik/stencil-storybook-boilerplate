@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-tooltip/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbTooltipStories from "./ssb-tooltip.stories"
+
+<Meta of={SsbTooltipStories} />
+
+<Title />
+
+`ssb-tooltip` shows a short text bubble next to its slotted trigger on hover and keyboard focus, after a configurable delay. Escape hides it.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a tooltip to reveal a short, supplementary label for a control — for example the meaning of an icon-only button. Do NOT use a tooltip for essential information or interactive content — put essential text directly in the UI and use `ssb-popover` for rich content.
+
+---
+
+## Guidelines
+
+- **Do** keep `text` to a few words — tooltips are labels, not paragraphs.
+- **Do** put a focusable element in the default slot so keyboard users can trigger the tooltip.
+- **Do** keep the default `openDelay` so tooltips do not flicker while the pointer passes by.
+- **Don't** put links, buttons or other interactive content in a tooltip.
+- **Don't** repeat the visible label of the trigger as the tooltip text.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbTooltipStories.Default} sourceState="none" meta={SsbTooltipStories} withToolbar={false} />
+
+### Positions
+
+<Canvas of={SsbTooltipStories.Positions} sourceState="none" meta={SsbTooltipStories} withToolbar={false} />
+
+### Without delay
+
+<Canvas of={SsbTooltipStories.WithoutDelay} sourceState="none" meta={SsbTooltipStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

@@ -1,0 +1,53 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-popover/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbPopoverStories from "./ssb-popover.stories"
+
+<Meta of={SsbPopoverStories} />
+
+<Title />
+
+`ssb-popover` toggles a floating panel from a slotted trigger on click. Clicking outside or pressing Escape closes it, and every change emits `ssbOpenChange`.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a popover for lightweight, contextual content such as small forms, filters or extra details anchored to a trigger. Do NOT use a popover for short text hints — use `ssb-tooltip` — or for critical decisions, which belong in `ssb-dialog` or `ssb-alert-dialog`.
+
+---
+
+## Guidelines
+
+- **Do** put a focusable element such as `ssb-button` into the `trigger` slot.
+- **Do** pick `position` and `align` so the panel stays inside the viewport.
+- **Do** listen to `ssbOpenChange` when other UI depends on the popover state.
+- **Don't** put destructive confirmation flows inside a popover.
+- **Don't** open a popover automatically without a user interaction.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas of={SsbPopoverStories.Default} sourceState="none" meta={SsbPopoverStories} withToolbar={false} />
+
+### Alignments
+
+<Canvas of={SsbPopoverStories.Alignments} sourceState="none" meta={SsbPopoverStories} withToolbar={false} />
+
+### On top
+
+<Canvas of={SsbPopoverStories.OnTop} sourceState="none" meta={SsbPopoverStories} withToolbar={false} />
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>
