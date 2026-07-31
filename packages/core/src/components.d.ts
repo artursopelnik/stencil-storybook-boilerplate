@@ -12,6 +12,9 @@ import { AvatarShape, AvatarSize } from "./components/ssb-avatar/ssb-avatar";
 import { BadgeVariant } from "./components/ssb-badge/ssb-badge";
 import { BreadcrumbItem } from "./components/ssb-breadcrumb/ssb-breadcrumb";
 import { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
+import { ChartDatum } from "./components/ssb-chart/ssb-chart";
+import { ComboboxOption } from "./components/ssb-combobox/ssb-combobox";
+import { CommandItem } from "./components/ssb-command/ssb-command";
 import { DropdownMenuAlign, DropdownMenuItem } from "./components/ssb-dropdown-menu/ssb-dropdown-menu";
 import { InputType } from "./components/ssb-input/ssb-input";
 import { ItemVariant } from "./components/ssb-item/ssb-item";
@@ -20,6 +23,7 @@ import { PaginationPageChangeDetail } from "./components/ssb-pagination/ssb-pagi
 import { PopoverAlign, PopoverPosition } from "./components/ssb-popover/ssb-popover";
 import { RadioGroupOrientation } from "./components/ssb-radio-group/ssb-radio-group";
 import { ScrollAreaOrientation } from "./components/ssb-scroll-area/ssb-scroll-area";
+import { SelectOption } from "./components/ssb-select/ssb-select";
 import { SkeletonRounded } from "./components/ssb-skeleton/ssb-skeleton";
 import { SpinnerSize } from "./components/ssb-spinner/ssb-spinner";
 import { TableColumn, TableRow } from "./components/ssb-table/ssb-table";
@@ -34,6 +38,9 @@ export { AvatarShape, AvatarSize } from "./components/ssb-avatar/ssb-avatar";
 export { BadgeVariant } from "./components/ssb-badge/ssb-badge";
 export { BreadcrumbItem } from "./components/ssb-breadcrumb/ssb-breadcrumb";
 export { ButtonSize, ButtonVariant } from "./components/ssb-button/ssb-button";
+export { ChartDatum } from "./components/ssb-chart/ssb-chart";
+export { ComboboxOption } from "./components/ssb-combobox/ssb-combobox";
+export { CommandItem } from "./components/ssb-command/ssb-command";
 export { DropdownMenuAlign, DropdownMenuItem } from "./components/ssb-dropdown-menu/ssb-dropdown-menu";
 export { InputType } from "./components/ssb-input/ssb-input";
 export { ItemVariant } from "./components/ssb-item/ssb-item";
@@ -42,6 +49,7 @@ export { PaginationPageChangeDetail } from "./components/ssb-pagination/ssb-pagi
 export { PopoverAlign, PopoverPosition } from "./components/ssb-popover/ssb-popover";
 export { RadioGroupOrientation } from "./components/ssb-radio-group/ssb-radio-group";
 export { ScrollAreaOrientation } from "./components/ssb-scroll-area/ssb-scroll-area";
+export { SelectOption } from "./components/ssb-select/ssb-select";
 export { SkeletonRounded } from "./components/ssb-skeleton/ssb-skeleton";
 export { SpinnerSize } from "./components/ssb-spinner/ssb-spinner";
 export { TableColumn, TableRow } from "./components/ssb-table/ssb-table";
@@ -252,6 +260,42 @@ export namespace Components {
          */
         "aria"?: SelectedAriaAttributes<SsbCardAriaAttribute>;
     }
+    interface SsbChart {
+        /**
+          * Uses the accent color instead of the foreground color for the series.
+          * @default false
+         */
+        "accent": boolean;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbChartAriaAttribute>;
+        /**
+          * Height of the plot area (any CSS length).
+          * @default '16rem'
+         */
+        "chartHeight": string;
+        /**
+          * Data points to render (array of `{ label, value }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "data": ChartDatum[] | string;
+        /**
+          * Renders horizontal gridlines.
+          * @default true
+         */
+        "showGrid": boolean;
+        /**
+          * Renders the data labels below the chart.
+          * @default true
+         */
+        "showLabels": boolean;
+        /**
+          * Kind of chart to render.
+          * @default 'bar'
+         */
+        "type": 'bar' | 'line' | 'area';
+    }
     interface SsbCheckbox {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -286,6 +330,68 @@ export namespace Components {
          */
         "value": string;
     }
+    interface SsbCombobox {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbComboboxAriaAttribute>;
+        /**
+          * Disables the combobox.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Message shown when no option matches the search query.
+          * @default 'No results found.'
+         */
+        "emptyMessage": string;
+        /**
+          * Controls whether the panel is shown.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options": ComboboxOption[] | string;
+        /**
+          * Text shown in the trigger while no option is selected.
+          * @default 'Select an option'
+         */
+        "placeholder": string;
+        /**
+          * Placeholder of the search input inside the panel.
+          * @default 'Search…'
+         */
+        "searchPlaceholder": string;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbCommand {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCommandAriaAttribute>;
+        /**
+          * Message shown when no command matches the search query.
+          * @default 'No results found.'
+         */
+        "emptyMessage": string;
+        /**
+          * Commands to render (array of `{ label, value, group?, shortcut?, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "items": CommandItem[] | string;
+        /**
+          * Placeholder of the search input.
+          * @default 'Type a command or search…'
+         */
+        "placeholder": string;
+    }
     interface SsbDialog {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -309,6 +415,35 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+    }
+    interface SsbDrawer {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDrawerAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Heading text of the drawer, also used as the accessible name.
+         */
+        "drawerTitle"?: string;
+        /**
+          * Hides the close (✕) button in the top right corner.
+          * @default false
+         */
+        "hideClose": boolean;
+        /**
+          * Controls whether the drawer is shown.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Edge of the viewport the drawer slides in from.
+          * @default 'bottom'
+         */
+        "side": 'left' | 'right' | 'top' | 'bottom';
     }
     interface SsbDropdownMenu {
         /**
@@ -623,6 +758,72 @@ export namespace Components {
          */
         "orientation": ScrollAreaOrientation;
     }
+    interface SsbSelect {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSelectAriaAttribute>;
+        /**
+          * Disables the select.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Name of the control. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Controls whether the listbox is shown.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options": SelectOption[] | string;
+        /**
+          * Text shown in the trigger while no option is selected.
+          * @default 'Select an option'
+         */
+        "placeholder": string;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface SsbSidebar {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSidebarAriaAttribute>;
+        /**
+          * Controls whether the sidebar is collapsed to its narrow width.
+          * @default false
+         */
+        "collapsed": boolean;
+        /**
+          * Width of the sidebar in its collapsed state.
+          * @default '3.5rem'
+         */
+        "collapsedWidth": string;
+        /**
+          * Shows a collapse toggle button in the footer area.
+          * @default true
+         */
+        "collapsible": boolean;
+        /**
+          * Which side of the layout the sidebar sits on. Controls which border is drawn.
+          * @default 'left'
+         */
+        "side": 'left' | 'right';
+        /**
+          * Width of the sidebar in its expanded state. The parent element must size the sidebar's height (the host uses height: 100%).
+          * @default '16rem'
+         */
+        "width": string;
+    }
     interface SsbSkeleton {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -888,9 +1089,21 @@ export interface SsbCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsbCheckboxElement;
 }
+export interface SsbComboboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbComboboxElement;
+}
+export interface SsbCommandCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbCommandElement;
+}
 export interface SsbDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsbDialogElement;
+}
+export interface SsbDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbDrawerElement;
 }
 export interface SsbDropdownMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -919,6 +1132,14 @@ export interface SsbRadioCustomEvent<T> extends CustomEvent<T> {
 export interface SsbRadioGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsbRadioGroupElement;
+}
+export interface SsbSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbSelectElement;
+}
+export interface SsbSidebarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsbSidebarElement;
 }
 export interface SsbSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1046,6 +1267,12 @@ declare global {
         prototype: HTMLSsbCardElement;
         new (): HTMLSsbCardElement;
     };
+    interface HTMLSsbChartElement extends Components.SsbChart, HTMLStencilElement {
+    }
+    var HTMLSsbChartElement: {
+        prototype: HTMLSsbChartElement;
+        new (): HTMLSsbChartElement;
+    };
     interface HTMLSsbCheckboxElementEventMap {
         "ssbChange": { checked: boolean };
     }
@@ -1063,6 +1290,41 @@ declare global {
         prototype: HTMLSsbCheckboxElement;
         new (): HTMLSsbCheckboxElement;
     };
+    interface HTMLSsbComboboxElementEventMap {
+        "ssbChange": { value: string };
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbComboboxElement extends Components.SsbCombobox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbComboboxElementEventMap>(type: K, listener: (this: HTMLSsbComboboxElement, ev: SsbComboboxCustomEvent<HTMLSsbComboboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbComboboxElementEventMap>(type: K, listener: (this: HTMLSsbComboboxElement, ev: SsbComboboxCustomEvent<HTMLSsbComboboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbComboboxElement: {
+        prototype: HTMLSsbComboboxElement;
+        new (): HTMLSsbComboboxElement;
+    };
+    interface HTMLSsbCommandElementEventMap {
+        "ssbSelect": { value: string };
+    }
+    interface HTMLSsbCommandElement extends Components.SsbCommand, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbCommandElementEventMap>(type: K, listener: (this: HTMLSsbCommandElement, ev: SsbCommandCustomEvent<HTMLSsbCommandElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbCommandElementEventMap>(type: K, listener: (this: HTMLSsbCommandElement, ev: SsbCommandCustomEvent<HTMLSsbCommandElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbCommandElement: {
+        prototype: HTMLSsbCommandElement;
+        new (): HTMLSsbCommandElement;
+    };
     interface HTMLSsbDialogElementEventMap {
         "ssbOpenChange": { open: boolean };
     }
@@ -1079,6 +1341,23 @@ declare global {
     var HTMLSsbDialogElement: {
         prototype: HTMLSsbDialogElement;
         new (): HTMLSsbDialogElement;
+    };
+    interface HTMLSsbDrawerElementEventMap {
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbDrawerElement extends Components.SsbDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbDrawerElementEventMap>(type: K, listener: (this: HTMLSsbDrawerElement, ev: SsbDrawerCustomEvent<HTMLSsbDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbDrawerElementEventMap>(type: K, listener: (this: HTMLSsbDrawerElement, ev: SsbDrawerCustomEvent<HTMLSsbDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbDrawerElement: {
+        prototype: HTMLSsbDrawerElement;
+        new (): HTMLSsbDrawerElement;
     };
     interface HTMLSsbDropdownMenuElementEventMap {
         "ssbSelect": { value: string };
@@ -1249,6 +1528,41 @@ declare global {
         prototype: HTMLSsbScrollAreaElement;
         new (): HTMLSsbScrollAreaElement;
     };
+    interface HTMLSsbSelectElementEventMap {
+        "ssbChange": { value: string };
+        "ssbOpenChange": { open: boolean };
+    }
+    interface HTMLSsbSelectElement extends Components.SsbSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbSelectElementEventMap>(type: K, listener: (this: HTMLSsbSelectElement, ev: SsbSelectCustomEvent<HTMLSsbSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbSelectElementEventMap>(type: K, listener: (this: HTMLSsbSelectElement, ev: SsbSelectCustomEvent<HTMLSsbSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbSelectElement: {
+        prototype: HTMLSsbSelectElement;
+        new (): HTMLSsbSelectElement;
+    };
+    interface HTMLSsbSidebarElementEventMap {
+        "ssbToggle": { collapsed: boolean };
+    }
+    interface HTMLSsbSidebarElement extends Components.SsbSidebar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsbSidebarElementEventMap>(type: K, listener: (this: HTMLSsbSidebarElement, ev: SsbSidebarCustomEvent<HTMLSsbSidebarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsbSidebarElementEventMap>(type: K, listener: (this: HTMLSsbSidebarElement, ev: SsbSidebarCustomEvent<HTMLSsbSidebarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsbSidebarElement: {
+        prototype: HTMLSsbSidebarElement;
+        new (): HTMLSsbSidebarElement;
+    };
     interface HTMLSsbSkeletonElement extends Components.SsbSkeleton, HTMLStencilElement {
     }
     var HTMLSsbSkeletonElement: {
@@ -1389,8 +1703,12 @@ declare global {
         "ssb-button": HTMLSsbButtonElement;
         "ssb-button-group": HTMLSsbButtonGroupElement;
         "ssb-card": HTMLSsbCardElement;
+        "ssb-chart": HTMLSsbChartElement;
         "ssb-checkbox": HTMLSsbCheckboxElement;
+        "ssb-combobox": HTMLSsbComboboxElement;
+        "ssb-command": HTMLSsbCommandElement;
         "ssb-dialog": HTMLSsbDialogElement;
+        "ssb-drawer": HTMLSsbDrawerElement;
         "ssb-dropdown-menu": HTMLSsbDropdownMenuElement;
         "ssb-empty": HTMLSsbEmptyElement;
         "ssb-field": HTMLSsbFieldElement;
@@ -1406,6 +1724,8 @@ declare global {
         "ssb-radio": HTMLSsbRadioElement;
         "ssb-radio-group": HTMLSsbRadioGroupElement;
         "ssb-scroll-area": HTMLSsbScrollAreaElement;
+        "ssb-select": HTMLSsbSelectElement;
+        "ssb-sidebar": HTMLSsbSidebarElement;
         "ssb-skeleton": HTMLSsbSkeletonElement;
         "ssb-slider": HTMLSsbSliderElement;
         "ssb-spinner": HTMLSsbSpinnerElement;
@@ -1643,6 +1963,42 @@ declare namespace LocalJSX {
          */
         "aria"?: SelectedAriaAttributes<SsbCardAriaAttribute>;
     }
+    interface SsbChart {
+        /**
+          * Uses the accent color instead of the foreground color for the series.
+          * @default false
+         */
+        "accent"?: boolean;
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbChartAriaAttribute>;
+        /**
+          * Height of the plot area (any CSS length).
+          * @default '16rem'
+         */
+        "chartHeight"?: string;
+        /**
+          * Data points to render (array of `{ label, value }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "data"?: ChartDatum[] | string;
+        /**
+          * Renders horizontal gridlines.
+          * @default true
+         */
+        "showGrid"?: boolean;
+        /**
+          * Renders the data labels below the chart.
+          * @default true
+         */
+        "showLabels"?: boolean;
+        /**
+          * Kind of chart to render.
+          * @default 'bar'
+         */
+        "type"?: 'bar' | 'line' | 'area';
+    }
     interface SsbCheckbox {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -1681,6 +2037,80 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    interface SsbCombobox {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbComboboxAriaAttribute>;
+        /**
+          * Disables the combobox.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Message shown when no option matches the search query.
+          * @default 'No results found.'
+         */
+        "emptyMessage"?: string;
+        /**
+          * Emitted when the selection changes. Detail contains the selected value.
+         */
+        "onSsbChange"?: (event: SsbComboboxCustomEvent<{ value: string }>) => void;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbComboboxCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the panel is shown.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options"?: ComboboxOption[] | string;
+        /**
+          * Text shown in the trigger while no option is selected.
+          * @default 'Select an option'
+         */
+        "placeholder"?: string;
+        /**
+          * Placeholder of the search input inside the panel.
+          * @default 'Search…'
+         */
+        "searchPlaceholder"?: string;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbCommand {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbCommandAriaAttribute>;
+        /**
+          * Message shown when no command matches the search query.
+          * @default 'No results found.'
+         */
+        "emptyMessage"?: string;
+        /**
+          * Commands to render (array of `{ label, value, group?, shortcut?, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "items"?: CommandItem[] | string;
+        /**
+          * Emitted when a command is selected. Detail contains the command's value.
+         */
+        "onSsbSelect"?: (event: SsbCommandCustomEvent<{ value: string }>) => void;
+        /**
+          * Placeholder of the search input.
+          * @default 'Type a command or search…'
+         */
+        "placeholder"?: string;
+    }
     interface SsbDialog {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -1708,6 +2138,39 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+    }
+    interface SsbDrawer {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbDrawerAriaAttribute>;
+        /**
+          * Supporting description shown below the title.
+         */
+        "description"?: string;
+        /**
+          * Heading text of the drawer, also used as the accessible name.
+         */
+        "drawerTitle"?: string;
+        /**
+          * Hides the close (✕) button in the top right corner.
+          * @default false
+         */
+        "hideClose"?: boolean;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbDrawerCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the drawer is shown.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Edge of the viewport the drawer slides in from.
+          * @default 'bottom'
+         */
+        "side"?: 'left' | 'right' | 'top' | 'bottom';
     }
     interface SsbDropdownMenu {
         /**
@@ -2058,6 +2521,84 @@ declare namespace LocalJSX {
          */
         "orientation"?: ScrollAreaOrientation;
     }
+    interface SsbSelect {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSelectAriaAttribute>;
+        /**
+          * Disables the select.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Name of the control. Note: controls inside shadow DOM do not participate in surrounding forms.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selection changes. Detail contains the selected value.
+         */
+        "onSsbChange"?: (event: SsbSelectCustomEvent<{ value: string }>) => void;
+        /**
+          * Emitted whenever the open state changes. Detail contains the new open state.
+         */
+        "onSsbOpenChange"?: (event: SsbSelectCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controls whether the listbox is shown.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+          * @default []
+         */
+        "options"?: SelectOption[] | string;
+        /**
+          * Text shown in the trigger while no option is selected.
+          * @default 'Select an option'
+         */
+        "placeholder"?: string;
+        /**
+          * Currently selected value.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface SsbSidebar {
+        /**
+          * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
+         */
+        "aria"?: SelectedAriaAttributes<SsbSidebarAriaAttribute>;
+        /**
+          * Controls whether the sidebar is collapsed to its narrow width.
+          * @default false
+         */
+        "collapsed"?: boolean;
+        /**
+          * Width of the sidebar in its collapsed state.
+          * @default '3.5rem'
+         */
+        "collapsedWidth"?: string;
+        /**
+          * Shows a collapse toggle button in the footer area.
+          * @default true
+         */
+        "collapsible"?: boolean;
+        /**
+          * Emitted whenever the collapsed state changes via the toggle button. Detail contains the new collapsed state.
+         */
+        "onSsbToggle"?: (event: SsbSidebarCustomEvent<{ collapsed: boolean }>) => void;
+        /**
+          * Which side of the layout the sidebar sits on. Controls which border is drawn.
+          * @default 'left'
+         */
+        "side"?: 'left' | 'right';
+        /**
+          * Width of the sidebar in its expanded state. The parent element must size the sidebar's height (the host uses height: 100%).
+          * @default '16rem'
+         */
+        "width"?: string;
+    }
     interface SsbSkeleton {
         /**
           * ARIA attributes (JSON string or object). Prefer this over spreading individual aria-* attributes.
@@ -2401,6 +2942,15 @@ declare namespace LocalJSX {
     interface SsbCardAttributes {
         "aria": SelectedAriaAttributes<SsbCardAriaAttribute>;
     }
+    interface SsbChartAttributes {
+        "type": 'bar' | 'line' | 'area';
+        "data": ChartDatum[] | string;
+        "chartHeight": string;
+        "showGrid": boolean;
+        "showLabels": boolean;
+        "accent": boolean;
+        "aria": SelectedAriaAttributes<SsbChartAriaAttribute>;
+    }
     interface SsbCheckboxAttributes {
         "checked": boolean;
         "disabled": boolean;
@@ -2410,12 +2960,36 @@ declare namespace LocalJSX {
         "label": string;
         "aria": SelectedAriaAttributes<SsbCheckboxAriaAttribute>;
     }
+    interface SsbComboboxAttributes {
+        "options": ComboboxOption[] | string;
+        "value": string;
+        "placeholder": string;
+        "searchPlaceholder": string;
+        "emptyMessage": string;
+        "disabled": boolean;
+        "open": boolean;
+        "aria": SelectedAriaAttributes<SsbComboboxAriaAttribute>;
+    }
+    interface SsbCommandAttributes {
+        "items": CommandItem[] | string;
+        "placeholder": string;
+        "emptyMessage": string;
+        "aria": SelectedAriaAttributes<SsbCommandAriaAttribute>;
+    }
     interface SsbDialogAttributes {
         "open": boolean;
         "dialogTitle": string;
         "description": string;
         "hideClose": boolean;
         "aria": SelectedAriaAttributes<SsbDialogAriaAttribute>;
+    }
+    interface SsbDrawerAttributes {
+        "open": boolean;
+        "side": 'left' | 'right' | 'top' | 'bottom';
+        "drawerTitle": string;
+        "description": string;
+        "hideClose": boolean;
+        "aria": SelectedAriaAttributes<SsbDrawerAriaAttribute>;
     }
     interface SsbDropdownMenuAttributes {
         "open": boolean;
@@ -2509,6 +3083,23 @@ declare namespace LocalJSX {
         "orientation": ScrollAreaOrientation;
         "aria": SelectedAriaAttributes<SsbScrollAreaAriaAttribute>;
     }
+    interface SsbSelectAttributes {
+        "options": SelectOption[] | string;
+        "value": string;
+        "placeholder": string;
+        "disabled": boolean;
+        "name": string;
+        "open": boolean;
+        "aria": SelectedAriaAttributes<SsbSelectAriaAttribute>;
+    }
+    interface SsbSidebarAttributes {
+        "collapsed": boolean;
+        "side": 'left' | 'right';
+        "collapsible": boolean;
+        "width": string;
+        "collapsedWidth": string;
+        "aria": SelectedAriaAttributes<SsbSidebarAriaAttribute>;
+    }
     interface SsbSkeletonAttributes {
         "width": string;
         "height": string;
@@ -2591,8 +3182,12 @@ declare namespace LocalJSX {
         "ssb-button": Omit<SsbButton, keyof SsbButtonAttributes> & { [K in keyof SsbButton & keyof SsbButtonAttributes]?: SsbButton[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `attr:${K}`]?: SsbButtonAttributes[K] } & { [K in keyof SsbButton & keyof SsbButtonAttributes as `prop:${K}`]?: SsbButton[K] };
         "ssb-button-group": Omit<SsbButtonGroup, keyof SsbButtonGroupAttributes> & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes]?: SsbButtonGroup[K] } & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes as `attr:${K}`]?: SsbButtonGroupAttributes[K] } & { [K in keyof SsbButtonGroup & keyof SsbButtonGroupAttributes as `prop:${K}`]?: SsbButtonGroup[K] };
         "ssb-card": Omit<SsbCard, keyof SsbCardAttributes> & { [K in keyof SsbCard & keyof SsbCardAttributes]?: SsbCard[K] } & { [K in keyof SsbCard & keyof SsbCardAttributes as `attr:${K}`]?: SsbCardAttributes[K] } & { [K in keyof SsbCard & keyof SsbCardAttributes as `prop:${K}`]?: SsbCard[K] };
+        "ssb-chart": Omit<SsbChart, keyof SsbChartAttributes> & { [K in keyof SsbChart & keyof SsbChartAttributes]?: SsbChart[K] } & { [K in keyof SsbChart & keyof SsbChartAttributes as `attr:${K}`]?: SsbChartAttributes[K] } & { [K in keyof SsbChart & keyof SsbChartAttributes as `prop:${K}`]?: SsbChart[K] };
         "ssb-checkbox": Omit<SsbCheckbox, keyof SsbCheckboxAttributes> & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes]?: SsbCheckbox[K] } & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes as `attr:${K}`]?: SsbCheckboxAttributes[K] } & { [K in keyof SsbCheckbox & keyof SsbCheckboxAttributes as `prop:${K}`]?: SsbCheckbox[K] };
+        "ssb-combobox": Omit<SsbCombobox, keyof SsbComboboxAttributes> & { [K in keyof SsbCombobox & keyof SsbComboboxAttributes]?: SsbCombobox[K] } & { [K in keyof SsbCombobox & keyof SsbComboboxAttributes as `attr:${K}`]?: SsbComboboxAttributes[K] } & { [K in keyof SsbCombobox & keyof SsbComboboxAttributes as `prop:${K}`]?: SsbCombobox[K] };
+        "ssb-command": Omit<SsbCommand, keyof SsbCommandAttributes> & { [K in keyof SsbCommand & keyof SsbCommandAttributes]?: SsbCommand[K] } & { [K in keyof SsbCommand & keyof SsbCommandAttributes as `attr:${K}`]?: SsbCommandAttributes[K] } & { [K in keyof SsbCommand & keyof SsbCommandAttributes as `prop:${K}`]?: SsbCommand[K] };
         "ssb-dialog": Omit<SsbDialog, keyof SsbDialogAttributes> & { [K in keyof SsbDialog & keyof SsbDialogAttributes]?: SsbDialog[K] } & { [K in keyof SsbDialog & keyof SsbDialogAttributes as `attr:${K}`]?: SsbDialogAttributes[K] } & { [K in keyof SsbDialog & keyof SsbDialogAttributes as `prop:${K}`]?: SsbDialog[K] };
+        "ssb-drawer": Omit<SsbDrawer, keyof SsbDrawerAttributes> & { [K in keyof SsbDrawer & keyof SsbDrawerAttributes]?: SsbDrawer[K] } & { [K in keyof SsbDrawer & keyof SsbDrawerAttributes as `attr:${K}`]?: SsbDrawerAttributes[K] } & { [K in keyof SsbDrawer & keyof SsbDrawerAttributes as `prop:${K}`]?: SsbDrawer[K] };
         "ssb-dropdown-menu": Omit<SsbDropdownMenu, keyof SsbDropdownMenuAttributes> & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes]?: SsbDropdownMenu[K] } & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes as `attr:${K}`]?: SsbDropdownMenuAttributes[K] } & { [K in keyof SsbDropdownMenu & keyof SsbDropdownMenuAttributes as `prop:${K}`]?: SsbDropdownMenu[K] };
         "ssb-empty": Omit<SsbEmpty, keyof SsbEmptyAttributes> & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes]?: SsbEmpty[K] } & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes as `attr:${K}`]?: SsbEmptyAttributes[K] } & { [K in keyof SsbEmpty & keyof SsbEmptyAttributes as `prop:${K}`]?: SsbEmpty[K] };
         "ssb-field": Omit<SsbField, keyof SsbFieldAttributes> & { [K in keyof SsbField & keyof SsbFieldAttributes]?: SsbField[K] } & { [K in keyof SsbField & keyof SsbFieldAttributes as `attr:${K}`]?: SsbFieldAttributes[K] } & { [K in keyof SsbField & keyof SsbFieldAttributes as `prop:${K}`]?: SsbField[K] };
@@ -2608,6 +3203,8 @@ declare namespace LocalJSX {
         "ssb-radio": Omit<SsbRadio, keyof SsbRadioAttributes> & { [K in keyof SsbRadio & keyof SsbRadioAttributes]?: SsbRadio[K] } & { [K in keyof SsbRadio & keyof SsbRadioAttributes as `attr:${K}`]?: SsbRadioAttributes[K] } & { [K in keyof SsbRadio & keyof SsbRadioAttributes as `prop:${K}`]?: SsbRadio[K] } & OneOf<"value", SsbRadio["value"], SsbRadioAttributes["value"]>;
         "ssb-radio-group": Omit<SsbRadioGroup, keyof SsbRadioGroupAttributes> & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes]?: SsbRadioGroup[K] } & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes as `attr:${K}`]?: SsbRadioGroupAttributes[K] } & { [K in keyof SsbRadioGroup & keyof SsbRadioGroupAttributes as `prop:${K}`]?: SsbRadioGroup[K] };
         "ssb-scroll-area": Omit<SsbScrollArea, keyof SsbScrollAreaAttributes> & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes]?: SsbScrollArea[K] } & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes as `attr:${K}`]?: SsbScrollAreaAttributes[K] } & { [K in keyof SsbScrollArea & keyof SsbScrollAreaAttributes as `prop:${K}`]?: SsbScrollArea[K] };
+        "ssb-select": Omit<SsbSelect, keyof SsbSelectAttributes> & { [K in keyof SsbSelect & keyof SsbSelectAttributes]?: SsbSelect[K] } & { [K in keyof SsbSelect & keyof SsbSelectAttributes as `attr:${K}`]?: SsbSelectAttributes[K] } & { [K in keyof SsbSelect & keyof SsbSelectAttributes as `prop:${K}`]?: SsbSelect[K] };
+        "ssb-sidebar": Omit<SsbSidebar, keyof SsbSidebarAttributes> & { [K in keyof SsbSidebar & keyof SsbSidebarAttributes]?: SsbSidebar[K] } & { [K in keyof SsbSidebar & keyof SsbSidebarAttributes as `attr:${K}`]?: SsbSidebarAttributes[K] } & { [K in keyof SsbSidebar & keyof SsbSidebarAttributes as `prop:${K}`]?: SsbSidebar[K] };
         "ssb-skeleton": Omit<SsbSkeleton, keyof SsbSkeletonAttributes> & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes]?: SsbSkeleton[K] } & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes as `attr:${K}`]?: SsbSkeletonAttributes[K] } & { [K in keyof SsbSkeleton & keyof SsbSkeletonAttributes as `prop:${K}`]?: SsbSkeleton[K] };
         "ssb-slider": Omit<SsbSlider, keyof SsbSliderAttributes> & { [K in keyof SsbSlider & keyof SsbSliderAttributes]?: SsbSlider[K] } & { [K in keyof SsbSlider & keyof SsbSliderAttributes as `attr:${K}`]?: SsbSliderAttributes[K] } & { [K in keyof SsbSlider & keyof SsbSliderAttributes as `prop:${K}`]?: SsbSlider[K] };
         "ssb-spinner": Omit<SsbSpinner, keyof SsbSpinnerAttributes> & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes]?: SsbSpinner[K] } & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes as `attr:${K}`]?: SsbSpinnerAttributes[K] } & { [K in keyof SsbSpinner & keyof SsbSpinnerAttributes as `prop:${K}`]?: SsbSpinner[K] };
@@ -2635,8 +3232,12 @@ declare module "@stencil/core" {
             "ssb-button": LocalJSX.IntrinsicElements["ssb-button"] & JSXBase.HTMLAttributes<HTMLSsbButtonElement>;
             "ssb-button-group": LocalJSX.IntrinsicElements["ssb-button-group"] & JSXBase.HTMLAttributes<HTMLSsbButtonGroupElement>;
             "ssb-card": LocalJSX.IntrinsicElements["ssb-card"] & JSXBase.HTMLAttributes<HTMLSsbCardElement>;
+            "ssb-chart": LocalJSX.IntrinsicElements["ssb-chart"] & JSXBase.HTMLAttributes<HTMLSsbChartElement>;
             "ssb-checkbox": LocalJSX.IntrinsicElements["ssb-checkbox"] & JSXBase.HTMLAttributes<HTMLSsbCheckboxElement>;
+            "ssb-combobox": LocalJSX.IntrinsicElements["ssb-combobox"] & JSXBase.HTMLAttributes<HTMLSsbComboboxElement>;
+            "ssb-command": LocalJSX.IntrinsicElements["ssb-command"] & JSXBase.HTMLAttributes<HTMLSsbCommandElement>;
             "ssb-dialog": LocalJSX.IntrinsicElements["ssb-dialog"] & JSXBase.HTMLAttributes<HTMLSsbDialogElement>;
+            "ssb-drawer": LocalJSX.IntrinsicElements["ssb-drawer"] & JSXBase.HTMLAttributes<HTMLSsbDrawerElement>;
             "ssb-dropdown-menu": LocalJSX.IntrinsicElements["ssb-dropdown-menu"] & JSXBase.HTMLAttributes<HTMLSsbDropdownMenuElement>;
             "ssb-empty": LocalJSX.IntrinsicElements["ssb-empty"] & JSXBase.HTMLAttributes<HTMLSsbEmptyElement>;
             "ssb-field": LocalJSX.IntrinsicElements["ssb-field"] & JSXBase.HTMLAttributes<HTMLSsbFieldElement>;
@@ -2652,6 +3253,8 @@ declare module "@stencil/core" {
             "ssb-radio": LocalJSX.IntrinsicElements["ssb-radio"] & JSXBase.HTMLAttributes<HTMLSsbRadioElement>;
             "ssb-radio-group": LocalJSX.IntrinsicElements["ssb-radio-group"] & JSXBase.HTMLAttributes<HTMLSsbRadioGroupElement>;
             "ssb-scroll-area": LocalJSX.IntrinsicElements["ssb-scroll-area"] & JSXBase.HTMLAttributes<HTMLSsbScrollAreaElement>;
+            "ssb-select": LocalJSX.IntrinsicElements["ssb-select"] & JSXBase.HTMLAttributes<HTMLSsbSelectElement>;
+            "ssb-sidebar": LocalJSX.IntrinsicElements["ssb-sidebar"] & JSXBase.HTMLAttributes<HTMLSsbSidebarElement>;
             "ssb-skeleton": LocalJSX.IntrinsicElements["ssb-skeleton"] & JSXBase.HTMLAttributes<HTMLSsbSkeletonElement>;
             "ssb-slider": LocalJSX.IntrinsicElements["ssb-slider"] & JSXBase.HTMLAttributes<HTMLSsbSliderElement>;
             "ssb-spinner": LocalJSX.IntrinsicElements["ssb-spinner"] & JSXBase.HTMLAttributes<HTMLSsbSpinnerElement>;

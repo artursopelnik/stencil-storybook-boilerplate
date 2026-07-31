@@ -1,0 +1,67 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-select/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSelectStories from "./ssb-select.stories"
+
+<Meta of={SsbSelectStories} />
+
+<Title />
+
+`ssb-select` is a custom select with a styled trigger and listbox, keyboard navigation and a checkmark on the selected option.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a select when people must pick exactly one option from a list of roughly five or more predefined choices. Do NOT use it for very long, searchable lists — use `ssb-combobox` there — or for three or fewer options, where `ssb-radio-group` is clearer.
+
+---
+
+## Guidelines
+
+- **Do** provide a meaningful `placeholder` so the empty state is understandable.
+- **Do** prefer `ssb-native-select` when native mobile pickers or form participation matter.
+- **Don't** rely on native form submission — the control lives in shadow DOM; read the value via the `ssbChange` event or the `value` prop.
+- **Don't** disable options without explaining elsewhere why they are unavailable.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbSelectStories.Default}
+  sourceState="none"
+  meta={SsbSelectStories}
+  withToolbar={false}
+/>
+
+### Preselected
+
+<Canvas
+  of={SsbSelectStories.Preselected}
+  sourceState="none"
+  meta={SsbSelectStories}
+  withToolbar={false}
+/>
+
+### Disabled
+
+<Canvas
+  of={SsbSelectStories.Disabled}
+  sourceState="none"
+  meta={SsbSelectStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

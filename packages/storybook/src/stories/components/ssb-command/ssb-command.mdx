@@ -1,0 +1,58 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-command/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbCommandStories from "./ssb-command.stories"
+
+<Meta of={SsbCommandStories} />
+
+<Title />
+
+`ssb-command` is a command palette: a search input over a grouped, keyboard-navigable list of commands.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a command palette to let power users find and run actions quickly by typing. Do NOT use it for plain navigation menus — use `ssb-dropdown-menu` there.
+
+---
+
+## Guidelines
+
+- **Do** place it inside `ssb-dialog` to build a modal ⌘K-style palette.
+- **Do** group related commands and show shortcuts where they exist.
+- **Don't** overload the palette with rarely useful actions; keep the list curated.
+- **Don't** use it as a general search field for content — it selects commands, nothing else.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbCommandStories.Default}
+  sourceState="none"
+  meta={SsbCommandStories}
+  withToolbar={false}
+/>
+
+### Ungrouped
+
+<Canvas
+  of={SsbCommandStories.Ungrouped}
+  sourceState="none"
+  meta={SsbCommandStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

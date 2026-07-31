@@ -1,0 +1,58 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-combobox/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbComboboxStories from "./ssb-combobox.stories"
+
+<Meta of={SsbComboboxStories} />
+
+<Title />
+
+`ssb-combobox` is a searchable select: a trigger opens a panel with a filter input and a filtered listbox.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a combobox when people pick one option from a long list where searching is faster than scrolling. Do NOT use it for short lists — `ssb-select` or `ssb-radio-group` are simpler there.
+
+---
+
+## Guidelines
+
+- **Do** keep option labels short and distinctive so substring search works well.
+- **Do** customize `emptyMessage` to tell people what to do when nothing matches.
+- **Don't** rely on native form submission — read the value via the `ssbChange` event or the `value` prop.
+- **Don't** use it for free-text input; it only selects from the given options.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbComboboxStories.Default}
+  sourceState="none"
+  meta={SsbComboboxStories}
+  withToolbar={false}
+/>
+
+### Preselected
+
+<Canvas
+  of={SsbComboboxStories.Preselected}
+  sourceState="none"
+  meta={SsbComboboxStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

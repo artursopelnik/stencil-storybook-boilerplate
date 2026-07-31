@@ -1,0 +1,120 @@
+/* The parent element must size the sidebar's height — the host stretches to 100% of it. */
+:host {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.sidebar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: color-mix(in srgb, var(--ssb-color-muted, #edf2f7) 50%, var(--ssb-color-background, #ffffff));
+  color: var(--ssb-color-foreground, #1a202c);
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+.sidebar--left {
+  border-right: 1px solid var(--ssb-color-border, #e2e8f0);
+}
+
+.sidebar--right {
+  border-left: 1px solid var(--ssb-color-border, #e2e8f0);
+}
+
+.sidebar__header {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--ssb-color-border, #e2e8f0);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar__nav {
+  flex: 1;
+  padding: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid var(--ssb-color-border, #e2e8f0);
+}
+
+.sidebar__footer-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar--collapsed .sidebar__header,
+.sidebar--collapsed .sidebar__nav,
+.sidebar--collapsed .sidebar__footer-content {
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sidebar--collapsed .sidebar__footer-content {
+  flex: 0 0 0px;
+}
+
+.sidebar--collapsed .sidebar__footer {
+  justify-content: center;
+}
+
+.sidebar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--ssb-radius-small, 0.25rem);
+  background-color: transparent;
+  color: var(--ssb-color-muted-foreground, #718096);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.sidebar__toggle:hover {
+  background-color: var(--ssb-color-accent, #edf2f7);
+  color: var(--ssb-color-accent-foreground, #1a202c);
+}
+
+.sidebar__toggle:focus-visible {
+  outline: 2px solid var(--ssb-color-ring, #646cff);
+  outline-offset: 2px;
+}
+
+.sidebar__chevrons {
+  transition: transform 0.2s ease;
+}
+
+.sidebar--collapsed .sidebar__chevrons {
+  transform: rotate(180deg);
+}
+
+.sidebar--right .sidebar__chevrons {
+  transform: rotate(180deg);
+}
+
+.sidebar--right.sidebar--collapsed .sidebar__chevrons {
+  transform: rotate(0deg);
+}

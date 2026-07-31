@@ -1,0 +1,58 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-drawer/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbDrawerStories from "./ssb-drawer.stories"
+
+<Meta of={SsbDrawerStories} />
+
+<Title />
+
+`ssb-drawer` is a panel that slides in from an edge of the viewport over a backdrop.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a drawer for supplementary content or actions that slide in on demand — filters, carts, mobile-friendly forms. Do NOT use it for blocking confirmations — use `ssb-alert-dialog` — or for permanent navigation, where `ssb-sidebar` belongs.
+
+---
+
+## Guidelines
+
+- **Do** provide a `drawerTitle` so the dialog has an accessible name.
+- **Do** prefer `side="bottom"` on small screens; it matches the familiar sheet pattern.
+- **Don't** nest drawers inside drawers.
+- **Don't** put critical, irreversible actions solely inside a drawer that can be dismissed by a backdrop click.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbDrawerStories.Default}
+  sourceState="none"
+  meta={SsbDrawerStories}
+  withToolbar={false}
+/>
+
+### From the right
+
+<Canvas
+  of={SsbDrawerStories.FromRight}
+  sourceState="none"
+  meta={SsbDrawerStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

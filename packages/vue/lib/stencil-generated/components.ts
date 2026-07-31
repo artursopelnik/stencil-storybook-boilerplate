@@ -106,6 +106,17 @@ export const SsbCard: StencilVueComponent<JSX.SsbCard> = /*@__PURE__*/ defineCon
 ]);
 
 
+export const SsbChart: StencilVueComponent<JSX.SsbChart> = /*@__PURE__*/ defineContainer<JSX.SsbChart>('ssb-chart', undefined, [
+  'type',
+  'data',
+  'chartHeight',
+  'showGrid',
+  'showLabels',
+  'accent',
+  'aria'
+]);
+
+
 export const SsbCheckbox: StencilVueComponent<JSX.SsbCheckbox> = /*@__PURE__*/ defineContainer<JSX.SsbCheckbox>('ssb-checkbox', undefined, [
   'checked',
   'disabled',
@@ -120,9 +131,50 @@ export const SsbCheckbox: StencilVueComponent<JSX.SsbCheckbox> = /*@__PURE__*/ d
 ]);
 
 
+export const SsbCombobox: StencilVueComponent<JSX.SsbCombobox> = /*@__PURE__*/ defineContainer<JSX.SsbCombobox>('ssb-combobox', undefined, [
+  'options',
+  'value',
+  'placeholder',
+  'searchPlaceholder',
+  'emptyMessage',
+  'disabled',
+  'open',
+  'aria',
+  'ssbChange',
+  'ssbOpenChange'
+], [
+  'ssbChange',
+  'ssbOpenChange'
+]);
+
+
+export const SsbCommand: StencilVueComponent<JSX.SsbCommand> = /*@__PURE__*/ defineContainer<JSX.SsbCommand>('ssb-command', undefined, [
+  'items',
+  'placeholder',
+  'emptyMessage',
+  'aria',
+  'ssbSelect'
+], [
+  'ssbSelect'
+]);
+
+
 export const SsbDialog: StencilVueComponent<JSX.SsbDialog> = /*@__PURE__*/ defineContainer<JSX.SsbDialog>('ssb-dialog', undefined, [
   'open',
   'dialogTitle',
+  'description',
+  'hideClose',
+  'aria',
+  'ssbOpenChange'
+], [
+  'ssbOpenChange'
+]);
+
+
+export const SsbDrawer: StencilVueComponent<JSX.SsbDrawer> = /*@__PURE__*/ defineContainer<JSX.SsbDrawer>('ssb-drawer', undefined, [
+  'open',
+  'side',
+  'drawerTitle',
   'description',
   'hideClose',
   'aria',
@@ -276,6 +328,35 @@ export const SsbScrollArea: StencilVueComponent<JSX.SsbScrollArea> = /*@__PURE__
   'maxHeight',
   'orientation',
   'aria'
+]);
+
+
+export const SsbSelect: StencilVueComponent<JSX.SsbSelect> = /*@__PURE__*/ defineContainer<JSX.SsbSelect>('ssb-select', undefined, [
+  'options',
+  'value',
+  'placeholder',
+  'disabled',
+  'name',
+  'open',
+  'aria',
+  'ssbChange',
+  'ssbOpenChange'
+], [
+  'ssbChange',
+  'ssbOpenChange'
+]);
+
+
+export const SsbSidebar: StencilVueComponent<JSX.SsbSidebar> = /*@__PURE__*/ defineContainer<JSX.SsbSidebar>('ssb-sidebar', undefined, [
+  'collapsed',
+  'side',
+  'collapsible',
+  'width',
+  'collapsedWidth',
+  'aria',
+  'ssbToggle'
+], [
+  'ssbToggle'
 ]);
 
 

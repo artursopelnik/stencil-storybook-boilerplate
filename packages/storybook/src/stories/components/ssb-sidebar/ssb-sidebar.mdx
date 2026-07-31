@@ -1,0 +1,67 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-sidebar/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbSidebarStories from "./ssb-sidebar.stories"
+
+<Meta of={SsbSidebarStories} />
+
+<Title />
+
+`ssb-sidebar` is a collapsible application sidebar with header, navigation and footer areas.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use a sidebar as the primary navigation container of an application layout. Do NOT use it for temporary contextual panels — use `ssb-drawer` for content that slides in on demand.
+
+---
+
+## Guidelines
+
+- **Do** size the sidebar's height through its parent — the host uses `height: 100%`.
+- **Do** use `ssb-item` elements for navigation entries to get consistent spacing and hover states.
+- **Don't** put critical actions only inside the collapsed sidebar; collapsed content is hidden.
+- **Don't** nest more than one sidebar per layout side.
+
+---
+
+## Examples
+
+### Default
+
+<Canvas
+  of={SsbSidebarStories.Default}
+  sourceState="none"
+  meta={SsbSidebarStories}
+  withToolbar={false}
+/>
+
+### Collapsed
+
+<Canvas
+  of={SsbSidebarStories.Collapsed}
+  sourceState="none"
+  meta={SsbSidebarStories}
+  withToolbar={false}
+/>
+
+### Right side
+
+<Canvas
+  of={SsbSidebarStories.RightSide}
+  sourceState="none"
+  meta={SsbSidebarStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

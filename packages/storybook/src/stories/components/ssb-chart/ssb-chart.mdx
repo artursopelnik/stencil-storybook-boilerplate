@@ -1,0 +1,67 @@
+import StencilMd from "@stencil-storybook-boilerplate/core/src/components/ssb-chart/readme.md?raw"
+import { Markdown } from "@storybook/addon-docs/blocks"
+import { Meta, Title, Canvas } from "@storybook/addon-docs/blocks"
+import * as SsbChartStories from "./ssb-chart.stories"
+
+<Meta of={SsbChartStories} />
+
+<Title />
+
+`ssb-chart` is a lightweight, dependency-free SVG chart (bar, line or area) in the spirit of Basecoat's beta chart — not a full charting library.
+
+## Table of Contents
+
+- [Intent](#intent)
+- [Guidelines](#guidelines)
+- [Examples](#examples)
+- [Properties](#properties)
+
+---
+
+## Intent
+
+Use it to visualize a single small series — dashboards, sparklines, simple trends. Do NOT use it for multi-series, zoomable or heavily annotated charts; reach for a dedicated charting library instead.
+
+---
+
+## Guidelines
+
+- **Do** keep the series short (roughly 4–12 points) so labels stay readable.
+- **Do** provide an accessible description via the `aria` prop when the default label is not enough.
+- **Don't** feed it negative values; the scale starts at zero.
+- **Don't** rely on hover tooltips alone to convey values — pair the chart with an accompanying `ssb-table` where exact numbers matter.
+
+---
+
+## Examples
+
+### Default (bar)
+
+<Canvas
+  of={SsbChartStories.Default}
+  sourceState="none"
+  meta={SsbChartStories}
+  withToolbar={false}
+/>
+
+### Line
+
+<Canvas
+  of={SsbChartStories.Line}
+  sourceState="none"
+  meta={SsbChartStories}
+  withToolbar={false}
+/>
+
+### Area
+
+<Canvas
+  of={SsbChartStories.Area}
+  sourceState="none"
+  meta={SsbChartStories}
+  withToolbar={false}
+/>
+
+<div className="stencil-props">
+  <Markdown>{StencilMd}</Markdown>
+</div>

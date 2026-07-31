@@ -1,11 +1,9 @@
 import { html } from "lit"
 import type { Meta, StoryObj } from "@storybook/web-components-vite"
 
+// prettier-ignore
 // @ts-expect-error because Intellij does not understand imports within Lerna monorepos
-import type {
-  SsbBreadcrumb,
-  BreadcrumbItem,
-} from "@stencil-storybook-boilerplate/core/src/components/ssb-breadcrumb/ssb-breadcrumb"
+import type { SsbBreadcrumb, BreadcrumbItem } from "@stencil-storybook-boilerplate/core/src/components/ssb-breadcrumb/ssb-breadcrumb"
 
 type Args = SsbBreadcrumb & { items: BreadcrumbItem[] }
 

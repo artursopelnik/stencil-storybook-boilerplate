@@ -5415,7 +5415,7 @@ class MyComponent {
         return format(this.first, this.middle, this.last);
     }
     render() {
-        return (hAsync(Host, { key: 'da48e3d249fc8cc849c16c1f717bfcaded9394a7' }, hAsync("div", { key: '243177be107e661d022d797be25c00922d543e43' }, hAsync("div", { key: 'b2e1e62847748fe5346de1e40346e8efb39bcc17' }, "Hello World! I'm ", this.getText()), hAsync("br", { key: 'a56bd7eaa16db7a05287e3c050786c238b9dd6fa' }), hAsync("div", { key: '16dd8e806cde037cfdae7bde23dcea26097d16e2' }, hAsync("button", Object.assign({ key: 'a2c1203876414340e83a4b4b676cf38dab0fb745' }, getAriaAttributes(this.aria), { onClick: this._onClick.bind(this) }), "count is ", this.count)))));
+        return (hAsync(Host, { key: 'e0e7c083b23dc3aa8b6afc5d2326d5fe7df756da' }, hAsync("div", { key: '34ba98ba060a5739f10476231044be0c63cb34cb' }, hAsync("div", { key: 'ee36a0f2e60189464d5edb22f30889bc2d1beb65' }, "Hello World! I'm ", this.getText()), hAsync("br", { key: 'dd7c740e8d809eb2cd58ed2a1f925678f4d54e38' }), hAsync("div", { key: '19115955a44c01d3b649ca8f7be4a94735d7b517' }, hAsync("button", Object.assign({ key: '65b106baf914412c933ddb2e19288cfae0b56494' }, getAriaAttributes(this.aria), { onClick: this._onClick.bind(this) }), "count is ", this.count)))));
     }
     static get style() { return myComponentCss(); }
     static get cmpMeta() { return {
@@ -5456,7 +5456,7 @@ class SsbAccordion {
         });
     }
     render() {
-        return (hAsync(Host, Object.assign({ key: 'be3302e8d646d7cca2254b55379435c2d6bc3d9e' }, getAriaAttributes(this.aria)), hAsync("slot", { key: '7c819c43663811351191bf0f82899a0d78f04276' })));
+        return (hAsync(Host, Object.assign({ key: '9fa8b8575de3c819327ed8b7bbe882292e87b920' }, getAriaAttributes(this.aria)), hAsync("slot", { key: 'c5995ac6d4c53c867906878fcb0b3f04feb3bd22' })));
     }
     get el() { return getElement(this); }
     static get style() { return ssbAccordionCss(); }
@@ -5627,7 +5627,7 @@ class SsbAlertDialog {
             'alert-dialog__button--confirm': !this.destructive,
             'alert-dialog__button--destructive': this.destructive,
         };
-        return (hAsync(Host, { key: '44e3dd48f6b45535b8be800ef69c913940b750c7' }, hAsync("div", { key: 'e7746bd76b44442a0fe48be723817f6434c93768', class: overlayClasses }, hAsync("div", Object.assign({ key: '1e84fb8c9124c6fcc298845379d78f2588cbf310', class: "alert-dialog__panel", role: "alertdialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), (this.dialogTitle || this.description) && (hAsync("div", { key: '613ae20b855d2485b0bc33bcafe79c5edd4527e9', class: "alert-dialog__header" }, this.dialogTitle && hAsync("h2", { key: '5409f35c3a69b8c1be077ef23c2bfea6c0784c7a', class: "alert-dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '71910bbc646efcc28c96856cbee92b7f5fd9ee45', class: "alert-dialog__description" }, this.description))), hAsync("div", { key: '44f23a615c3cce142c6c0c0317ef1a1c64b3c76b', class: "alert-dialog__content" }, hAsync("slot", { key: 'a2ffb68f20a64e60db62ba1049fba9c7cb173188' })), hAsync("div", { key: 'e20db73d7a20b0f47dce58879ee288e2f6c8fadf', class: "alert-dialog__footer" }, hAsync("button", { key: '32175f2ed4bb4887ca7add06d343e71cadf65f47', class: "alert-dialog__button alert-dialog__button--cancel", type: "button", onClick: () => this.cancel() }, this.cancelLabel), hAsync("button", { key: '881252ff94e5d497a5e16cfe2578e2b5e6c627d2', class: confirmClasses, type: "button", onClick: () => this.confirm() }, this.confirmLabel))))));
+        return (hAsync(Host, { key: 'de95168502cf57fb0ebc00afac1280c89895b88b' }, hAsync("div", { key: '95945d07be8714c87b0274a1b84f6634bdf0fc38', class: overlayClasses }, hAsync("div", Object.assign({ key: '6b04e2ba09db68673e03be55ce65350cc0d4c953', class: "alert-dialog__panel", role: "alertdialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), (this.dialogTitle || this.description) && (hAsync("div", { key: '176b8fcdb993142176545435e99097005ba66ef1', class: "alert-dialog__header" }, this.dialogTitle && hAsync("h2", { key: 'c8cffa0f818b79c40b61a337d6569db8ca3f8a40', class: "alert-dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '1d8b6a94f98acad4af8594291445e5625ec4d9c8', class: "alert-dialog__description" }, this.description))), hAsync("div", { key: '0d633787ab56bdc6cbba2c50cc9acd5b402a53ce', class: "alert-dialog__content" }, hAsync("slot", { key: '56f6605a1aba9535c3de90eed201304ea19680b9' })), hAsync("div", { key: 'f0408b31d1dd2355c6a8ff5697ee5e5e9f852faa', class: "alert-dialog__footer" }, hAsync("button", { key: 'd21ee00a341a7b04a159f2dfaea68800cce477e4', class: "alert-dialog__button alert-dialog__button--cancel", type: "button", onClick: () => this.cancel() }, this.cancelLabel), hAsync("button", { key: '6fb5e2a0fc57e30dbfa761ecae2145d2f95b0279', class: confirmClasses, type: "button", onClick: () => this.confirm() }, this.confirmLabel))))));
     }
     static get watchers() { return {
         "open": [{
@@ -5840,7 +5840,7 @@ class SsbButtonGroup {
         registerInstance(this, hostRef);
     }
     render() {
-        return (hAsync(Host, Object.assign({ key: '0d2975517357d2b55c3d970510cefcee6367067f', role: "group" }, getAriaAttributes(this.aria)), hAsync("slot", { key: '90e70a98dc7ba5d952845733767021b50ad8569d' })));
+        return (hAsync(Host, Object.assign({ key: 'ff7fc7ffd297b4639e50cd444bf9b6d02005a15d', role: "group" }, getAriaAttributes(this.aria)), hAsync("slot", { key: 'acae25890a733aa3926bcb907b9026f72565274f' })));
     }
     static get style() { return ssbButtonGroupCss(); }
     static get cmpMeta() { return {
@@ -5862,13 +5862,122 @@ class SsbCard {
         registerInstance(this, hostRef);
     }
     render() {
-        return (hAsync(Host, { key: '085f2d0caf8d740db2808dda64a172ecd524dd45' }, hAsync("div", Object.assign({ key: '1fb82f1f4a35f97a44839c46ab66ef7aaa62d231', class: "card" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'fc12613141bbc780c3f2878d3af5baff21bfb6d7', class: "card__header" }, hAsync("div", { key: '3830a8481cd42b1bda6844c12fd7093b72f62cc7', class: "card__heading" }, hAsync("div", { key: '8f5decda695b8fe10b576888775c929cc032d85a', class: "card__title" }, hAsync("slot", { key: '361e6ff4f824e026af713e292c33a1ac812d6be1', name: "card-title" })), hAsync("div", { key: 'c1836a1bb63b37993f4c90a42e82e829529b7128', class: "card__description" }, hAsync("slot", { key: '1f225de3ea3c02a9f92d2a5e4211005832f07eec', name: "card-description" }))), hAsync("div", { key: 'e2ea0df2c542ae8758b338b368ba5b6c66fb4c29', class: "card__action" }, hAsync("slot", { key: '9db4f4ec0c7e0c4d73b0f3cb68b0b6d70719333a', name: "action" }))), hAsync("div", { key: '476a7671dd0a21deed31a993ffe9109f0d3d2a7e', class: "card__content" }, hAsync("slot", { key: 'cada463e1c608d5fbbb21c319832a0217b2328f7' })), hAsync("div", { key: '1dc44294113f8d0029a98f7c86298c9d2498cfc1', class: "card__footer" }, hAsync("slot", { key: 'c47a3e91ad6fd8492d0b36bd8b95b417d51805c4', name: "footer" })))));
+        return (hAsync(Host, { key: 'e447ca7681fa49f97f185c0646a71f85c3ac7cf9' }, hAsync("div", Object.assign({ key: 'e9f0b35d72f26d990052177366b199e24fae6354', class: "card" }, getAriaAttributes(this.aria)), hAsync("div", { key: '674d3071d8ac1e7fb843bbbe9f513843adbec778', class: "card__header" }, hAsync("div", { key: '634e3cedfdb04cc11c96b25c32304482e6315934', class: "card__heading" }, hAsync("div", { key: '7594a80b801e3b1f83b24a868bd8d7760b1ed8bb', class: "card__title" }, hAsync("slot", { key: '000a1d7db03f8c492cb44643158244a2221c2904', name: "card-title" })), hAsync("div", { key: '76991e2e874991985b053a99f0c40504a83e3c43', class: "card__description" }, hAsync("slot", { key: 'ca888ab176caa70c7484a256187ebe426889bacc', name: "card-description" }))), hAsync("div", { key: 'acf6d16efca9a18f4021773ab8fc95db4304d8ae', class: "card__action" }, hAsync("slot", { key: 'a1231d6c290e69f758d345d0ec75e7eb896ec2ea', name: "action" }))), hAsync("div", { key: '1dbc6f3d0b1d24d8117815767f3265658746d986', class: "card__content" }, hAsync("slot", { key: 'c74970b3033a46d02e88fbe4aba8cbb41333c390' })), hAsync("div", { key: 'b229a6c408a2571b004f28fe2bfecd7d36188dea', class: "card__footer" }, hAsync("slot", { key: 'e1cbcff61df4d6b2b28926b26fa342ff44ec16bb', name: "footer" })))));
     }
     static get style() { return ssbCardCss(); }
     static get cmpMeta() { return {
         "$flags$": 265,
         "$tagName$": "ssb-card",
         "$members$": {
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const ssbChartCss = () => `:host{display:block}.chart{display:flex;flex-direction:column;gap:0.5rem;--chart-series-color:var(--ssb-color-foreground, #1a202c)}.chart--accent{--chart-series-color:var(--ssb-color-primary-hover, #646cff)}.chart__plot{width:100%}.chart__svg{width:100%;height:100%;display:block;overflow:visible}.chart__grid{stroke:var(--ssb-color-border, #e2e8f0);stroke-width:1;vector-effect:non-scaling-stroke}.chart__bar{fill:var(--chart-series-color);opacity:0.9;transition:opacity 0.15s ease}.chart__bar:hover{opacity:1}.chart__line{fill:none;stroke:var(--chart-series-color);stroke-width:2;vector-effect:non-scaling-stroke}.chart__area{fill:var(--chart-series-color);fill-opacity:0.15;stroke:none}.chart__dot{fill:var(--ssb-color-background, #ffffff);stroke:var(--chart-series-color);stroke-width:2;vector-effect:non-scaling-stroke}.chart__labels{display:flex}.chart__label{flex:1;overflow:hidden;text-align:center;white-space:nowrap;text-overflow:ellipsis;font-size:0.75rem;color:var(--ssb-color-muted-foreground, #718096)}.chart__empty{padding:2rem;text-align:center;font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096)}`;
+
+const VIEW_WIDTH = 600;
+const VIEW_HEIGHT = 300;
+const PADDING_Y = 10;
+const GRID_LINES = 4;
+class SsbChart {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        /**
+         * Kind of chart to render.
+         */
+        this.type = 'bar';
+        /**
+         * Data points to render (array of `{ label, value }` objects or a JSON string when used as an attribute).
+         */
+        this.data = [];
+        /**
+         * Height of the plot area (any CSS length).
+         */
+        this.chartHeight = '16rem';
+        /**
+         * Renders horizontal gridlines.
+         */
+        this.showGrid = true;
+        /**
+         * Renders the data labels below the chart.
+         */
+        this.showLabels = true;
+        /**
+         * Uses the accent color instead of the foreground color for the series.
+         */
+        this.accent = false;
+    }
+    parseData() {
+        if (typeof this.data !== 'string') {
+            return this.data || [];
+        }
+        try {
+            const parsed = JSON.parse(this.data);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            console.error('Invalid data: Expected a JSON array of { label, value } objects');
+            return [];
+        }
+    }
+    scaleY(value, max) {
+        const plotHeight = VIEW_HEIGHT - PADDING_Y * 2;
+        return VIEW_HEIGHT - PADDING_Y - (value / max) * plotHeight;
+    }
+    renderGrid() {
+        if (!this.showGrid) {
+            return null;
+        }
+        const lines = [];
+        for (let index = 0; index <= GRID_LINES; index++) {
+            const y = PADDING_Y + ((VIEW_HEIGHT - PADDING_Y * 2) / GRID_LINES) * index;
+            lines.push(hAsync("line", { class: "chart__grid", x1: 0, y1: y, x2: VIEW_WIDTH, y2: y }));
+        }
+        return lines;
+    }
+    renderBars(data, max) {
+        const slot = VIEW_WIDTH / data.length;
+        const barWidth = slot * 0.6;
+        return data.map((datum, index) => {
+            const y = this.scaleY(Math.max(datum.value, 0), max);
+            return (hAsync("rect", { class: "chart__bar", x: slot * index + (slot - barWidth) / 2, y: y, width: barWidth, height: VIEW_HEIGHT - PADDING_Y - y, rx: 4 }, hAsync("title", null, `${datum.label}: ${datum.value}`)));
+        });
+    }
+    renderLine(data, max, filled) {
+        const slot = VIEW_WIDTH / data.length;
+        const points = data.map((datum, index) => ({
+            x: slot * index + slot / 2,
+            y: this.scaleY(Math.max(datum.value, 0), max),
+        }));
+        const polyline = points.map(point => `${point.x},${point.y}`).join(' ');
+        const areaPath = `M ${points[0].x} ${VIEW_HEIGHT - PADDING_Y} L ${polyline.split(' ').join(' L ')} L ${points[points.length - 1].x} ${VIEW_HEIGHT - PADDING_Y} Z`;
+        return [
+            filled && hAsync("path", { class: "chart__area", d: areaPath }),
+            hAsync("polyline", { class: "chart__line", points: polyline }),
+            ...points.map((point, index) => (hAsync("circle", { class: "chart__dot", cx: point.x, cy: point.y, r: 3.5 }, hAsync("title", null, `${data[index].label}: ${data[index].value}`)))),
+        ];
+    }
+    render() {
+        const data = this.parseData();
+        const max = Math.max(...data.map(datum => datum.value), 1);
+        const defaultLabel = `${this.type === 'bar' ? 'Bar' : this.type === 'line' ? 'Line' : 'Area'} chart with ${data.length} data points`;
+        return (hAsync(Host, { key: '5ae8f0bf8a81b0f0c4eb6251977e43355dc39331' }, hAsync("div", Object.assign({ key: '158f6ac8bc5237905d496cca43d2aa4777fc0be2', class: { 'chart': true, 'chart--accent': this.accent }, role: "img", "aria-label": defaultLabel }, getAriaAttributes(this.aria)), data.length === 0 ? (hAsync("div", { class: "chart__empty" }, "No data")) : (hAsync("div", { class: "chart__plot", style: { height: this.chartHeight } }, hAsync("svg", { class: "chart__svg", viewBox: `0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`, preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" }, this.renderGrid(), this.type === 'bar' ? this.renderBars(data, max) : this.renderLine(data, max, this.type === 'area')))), this.showLabels && data.length > 0 && (hAsync("div", { key: 'e0e121a39eb28bd5e6d469a9c509409b758671f7', class: "chart__labels", "aria-hidden": "true" }, data.map(datum => (hAsync("span", { class: "chart__label" }, datum.label))))))));
+    }
+    static get style() { return ssbChartCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-chart",
+        "$members$": {
+            "type": [1],
+            "data": [1],
+            "chartHeight": [1, "chart-height"],
+            "showGrid": [4, "show-grid"],
+            "showLabels": [4, "show-labels"],
+            "accent": [4],
             "aria": [1]
         },
         "$listeners$": undefined,
@@ -5916,7 +6025,7 @@ class SsbCheckbox {
             'checkbox': true,
             'checkbox--disabled': this.disabled,
         };
-        return (hAsync(Host, { key: 'dd81e5f267e52a06cfe8971aa1619fb2120025d1' }, hAsync("label", { key: '8931aa0458de9ca11d09293d509663944743a64b', class: classes }, hAsync("input", Object.assign({ key: 'ff78ce968b838579d8a5cc460bb0dad3615eb44a', ref: el => (this.inputEl = el), class: "checkbox__input", type: "checkbox", checked: this.checked, disabled: this.disabled, name: this.name, value: this.value, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '305f717ebe8907ad2594a00a99ca8b9c921b3825', class: "checkbox__box", "aria-hidden": "true" }, hAsync("svg", { key: 'e57b712ba0d05ab395e392ee62834a2016ee2c32', class: "checkbox__icon checkbox__icon--check", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '44b3eb08192eac475ce49da46383644489d90111', d: "M3.5 8.5 L6.5 11.5 L12.5 4.5", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })), hAsync("svg", { key: '634b23699d24fea58db6d73b72cc3de3e68a214d', class: "checkbox__icon checkbox__icon--dash", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '39999ce7f0bb3fe564432132a59d1ce03f1164e1', d: "M4 8 L12 8", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round" }))), hAsync("span", { key: '5a28f7a57ab4b79ec7fe0fcc637915ec3d21173f', class: "checkbox__label" }, this.label ? this.label : hAsync("slot", null)))));
+        return (hAsync(Host, { key: '525a1e6291c6bc91317309c29fb13ffa7e6894c3' }, hAsync("label", { key: 'f735c463c716e67cbc14bde15fdc040eb2767819', class: classes }, hAsync("input", Object.assign({ key: '2b5089d85e97f529d1bb7884802905b1019c51e0', ref: el => (this.inputEl = el), class: "checkbox__input", type: "checkbox", checked: this.checked, disabled: this.disabled, name: this.name, value: this.value, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '7de2f0bbd849d8e87a0560be5b8a331f8ba737b4', class: "checkbox__box", "aria-hidden": "true" }, hAsync("svg", { key: '5d59691db95fc504157c2930bb6f14f62156a13e', class: "checkbox__icon checkbox__icon--check", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: 'fe6143d368a3deeb3136fbd3cdcb185d85852759', d: "M3.5 8.5 L6.5 11.5 L12.5 4.5", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })), hAsync("svg", { key: '2757231b3a1a42802b24f377141a4202ad66a242', class: "checkbox__icon checkbox__icon--dash", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: 'cfdf99d22a8051b5fee25edcb8746ae5a0750b2d', d: "M4 8 L12 8", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round" }))), hAsync("span", { key: 'f8f3b3a4b35930303eca2ae980e5ca1e68d3654a', class: "checkbox__label" }, this.label ? this.label : hAsync("slot", null)))));
     }
     static get style() { return ssbCheckboxCss(); }
     static get cmpMeta() { return {
@@ -5934,6 +6043,363 @@ class SsbCheckbox {
         "$listeners$": undefined,
         "$lazyBundleId$": "-",
         "$attrsToReflect$": [["checked", "checked"]]
+    }; }
+}
+
+const ssbComboboxCss = () => `:host{position:relative;display:block}.combobox__trigger{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;box-sizing:border-box;width:100%;height:2.25rem;padding:0 0.75rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.875rem;line-height:1.25rem;text-align:left;cursor:pointer;transition:border-color 0.15s ease}.combobox__trigger:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.combobox__trigger:disabled{opacity:0.5;cursor:not-allowed}.combobox__value{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.combobox__value--placeholder{color:var(--ssb-color-muted-foreground, #718096)}.combobox__chevron{flex-shrink:0;width:1rem;height:1rem;color:var(--ssb-color-muted-foreground, #718096);transition:transform 0.15s ease}.combobox__chevron--open{transform:rotate(180deg)}.combobox__panel{position:absolute;top:calc(100% + 0.25rem);left:0;right:0;z-index:50;display:none;background-color:var(--ssb-color-background, #ffffff);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);overflow:hidden}.combobox__panel--open{display:block}.combobox__search-row{display:flex;align-items:center;gap:0.5rem;padding:0 0.75rem;border-bottom:1px solid var(--ssb-color-border, #e2e8f0)}.combobox__search-icon{flex-shrink:0;width:1rem;height:1rem;color:var(--ssb-color-muted-foreground, #718096)}.combobox__search{box-sizing:border-box;width:100%;height:2.25rem;border:none;background:transparent;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;outline:none}.combobox__search::placeholder{color:var(--ssb-color-muted-foreground, #718096)}.combobox__listbox{max-height:16rem;padding:0.25rem;overflow-y:auto}.combobox__empty{padding:1.5rem;text-align:center;font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096)}.combobox__option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0.375rem 0.5rem;border-radius:var(--ssb-radius-small, 0.25rem);font-size:0.875rem;color:var(--ssb-color-foreground, #1a202c);cursor:pointer}.combobox__option--highlighted{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.combobox__option--selected{font-weight:500}.combobox__option--disabled{opacity:0.5;cursor:not-allowed}.combobox__option-label{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.combobox__check{flex-shrink:0;width:1rem;height:1rem}`;
+
+class SsbCombobox {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+         */
+        this.options = [];
+        /**
+         * Currently selected value.
+         */
+        this.value = '';
+        /**
+         * Text shown in the trigger while no option is selected.
+         */
+        this.placeholder = 'Select an option';
+        /**
+         * Placeholder of the search input inside the panel.
+         */
+        this.searchPlaceholder = 'Search…';
+        /**
+         * Message shown when no option matches the search query.
+         */
+        this.emptyMessage = 'No results found.';
+        /**
+         * Disables the combobox.
+         */
+        this.disabled = false;
+        /**
+         * Controls whether the panel is shown.
+         */
+        this.open = false;
+        this.query = '';
+        this.highlightedIndex = -1;
+        this.shouldFocusSearch = false;
+        this.handleDocumentClick = (event) => {
+            if (!event.composedPath().includes(this.el)) {
+                this.setOpen(false);
+            }
+        };
+        this.handleDocumentKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.setOpen(false);
+            }
+        };
+        this.handleKeyDown = (event) => {
+            if (this.disabled) {
+                return;
+            }
+            if (!this.open) {
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    this.setOpen(true);
+                }
+                return;
+            }
+            const options = this.filteredOptions();
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    this.moveHighlight(1, options);
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    this.moveHighlight(-1, options);
+                    break;
+                case 'Enter':
+                    event.preventDefault();
+                    if (this.highlightedIndex >= 0 && this.highlightedIndex < options.length) {
+                        this.select(options[this.highlightedIndex]);
+                    }
+                    break;
+            }
+        };
+        this.handleTriggerClick = () => {
+            if (this.disabled) {
+                return;
+            }
+            this.setOpen(!this.open);
+        };
+        this.handleSearchInput = (event) => {
+            this.query = event.target.value;
+            this.highlightedIndex = this.filteredOptions().length ? 0 : -1;
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addDocumentListeners();
+            this.shouldFocusSearch = true;
+            this.highlightedIndex = this.filteredOptions().findIndex(option => option.value === this.value && !option.disabled);
+        }
+        else {
+            this.removeDocumentListeners();
+            this.query = '';
+            this.highlightedIndex = -1;
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addDocumentListeners();
+        }
+    }
+    disconnectedCallback() {
+        this.removeDocumentListeners();
+    }
+    componentDidRender() {
+        var _a;
+        if (this.shouldFocusSearch) {
+            this.shouldFocusSearch = false;
+            try {
+                const input = (_a = this.el.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('.combobox__search');
+                input === null || input === void 0 ? void 0 : input.focus();
+            }
+            catch (_b) {
+                // focus is unavailable in non-browser environments (e.g. spec tests)
+            }
+        }
+    }
+    addDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('click', this.handleDocumentClick);
+            document.addEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    removeDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('click', this.handleDocumentClick);
+            document.removeEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    moveHighlight(delta, options) {
+        if (!options.length) {
+            return;
+        }
+        let index = this.highlightedIndex;
+        for (let step = 0; step < options.length; step++) {
+            index = (index + delta + options.length) % options.length;
+            if (!options[index].disabled) {
+                this.highlightedIndex = index;
+                return;
+            }
+        }
+    }
+    setOpen(open) {
+        if (this.open === open) {
+            return;
+        }
+        this.open = open;
+        this.ssbOpenChange.emit({ open });
+    }
+    parseOptions() {
+        if (typeof this.options !== 'string') {
+            return this.options || [];
+        }
+        try {
+            const parsed = JSON.parse(this.options);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            console.error('Invalid options: Expected a JSON array of { label, value } objects');
+            return [];
+        }
+    }
+    filteredOptions() {
+        const query = this.query.trim().toLowerCase();
+        const options = this.parseOptions();
+        if (!query) {
+            return options;
+        }
+        return options.filter(option => option.label.toLowerCase().includes(query));
+    }
+    select(option) {
+        if (option.disabled) {
+            return;
+        }
+        this.value = option.value;
+        this.ssbChange.emit({ value: option.value });
+        this.setOpen(false);
+    }
+    render() {
+        const options = this.filteredOptions();
+        const selected = this.parseOptions().find(option => option.value === this.value);
+        return (hAsync(Host, { key: '077f287b7c28a050088c03fee1faf958d3dd6ecd', onKeyDown: this.handleKeyDown }, hAsync("button", Object.assign({ key: 'f04f531c521126a3ca644317d54dd5bcd4c2ddd0', class: "combobox__trigger", type: "button", role: "combobox", disabled: this.disabled, "aria-expanded": this.open ? 'true' : 'false', "aria-haspopup": "listbox", onClick: this.handleTriggerClick }, getAriaAttributes(this.aria)), hAsync("span", { key: 'f679a47e3aed631399ac0582dcbf22d16f1db17e', class: { 'combobox__value': true, 'combobox__value--placeholder': !selected } }, selected ? selected.label : this.placeholder), hAsync("svg", { key: 'd34d9176faaf28882b36e8d7a41628ed6efbac21', class: { 'combobox__chevron': true, 'combobox__chevron--open': this.open }, "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '9189edec7cba5d76a22a90948db13b0da8364cb6', d: "M4 6 L8 10 L12 6", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }))), hAsync("div", { key: '0830f9ba4f8b713dfe6e7c79974165a056f862ad', class: { 'combobox__panel': true, 'combobox__panel--open': this.open } }, hAsync("div", { key: 'af085ab2aab08c77f64c938ec7af0db996759c33', class: "combobox__search-row" }, hAsync("svg", { key: '6b00861813215ae8e831d5d10fc2566b653f01fd', class: "combobox__search-icon", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("circle", { key: 'd0d7be18b3932c1c9a9c338cd3153466741090c0', cx: "7", cy: "7", r: "4.5", stroke: "currentColor", "stroke-width": "1.5" }), hAsync("path", { key: '08f82d04034a75c3f566ee23112f4a44e4ec6921', d: "M10.5 10.5 L14 14", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round" })), hAsync("input", { key: '49c741ba75c248e575263ff9d661bc78b591b673', class: "combobox__search", type: "text", placeholder: this.searchPlaceholder, value: this.query, onInput: this.handleSearchInput, "aria-label": this.searchPlaceholder })), hAsync("div", { key: '815871706d08120d4998734bc65124bdbfbb6d02', class: "combobox__listbox", role: "listbox" }, options.length === 0 && hAsync("div", { key: 'e6c7e1d93bdd42e5a93fc078efa47f937a718b32', class: "combobox__empty" }, this.emptyMessage), options.map((option, index) => (hAsync("div", { class: {
+                'combobox__option': true,
+                'combobox__option--highlighted': index === this.highlightedIndex,
+                'combobox__option--selected': option.value === this.value,
+                'combobox__option--disabled': !!option.disabled,
+            }, role: "option", "aria-selected": option.value === this.value ? 'true' : 'false', "aria-disabled": option.disabled ? 'true' : undefined, onClick: () => this.select(option), onMouseEnter: () => {
+                if (!option.disabled) {
+                    this.highlightedIndex = index;
+                }
+            } }, hAsync("span", { class: "combobox__option-label" }, option.label), option.value === this.value && (hAsync("svg", { class: "combobox__check", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { d: "M3.5 8.5 L6.5 11.5 L12.5 4.5", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }))))))))));
+    }
+    get el() { return getElement(this); }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbComboboxCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-combobox",
+        "$members$": {
+            "options": [1],
+            "value": [1025],
+            "placeholder": [1],
+            "searchPlaceholder": [1, "search-placeholder"],
+            "emptyMessage": [1, "empty-message"],
+            "disabled": [4],
+            "open": [1540],
+            "aria": [1],
+            "query": [32],
+            "highlightedIndex": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbCommandCss = () => `:host{display:block}.command{display:flex;flex-direction:column;background-color:var(--ssb-color-background, #ffffff);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-large, 0.75rem);overflow:hidden}.command__search-row{display:flex;align-items:center;gap:0.5rem;padding:0 0.75rem;border-bottom:1px solid var(--ssb-color-border, #e2e8f0)}.command__search-icon{flex-shrink:0;width:1rem;height:1rem;color:var(--ssb-color-muted-foreground, #718096)}.command__search{box-sizing:border-box;width:100%;height:2.75rem;border:none;background:transparent;color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem;outline:none}.command__search::placeholder{color:var(--ssb-color-muted-foreground, #718096)}.command__list{max-height:20rem;padding:0.25rem;overflow-y:auto}.command__empty{padding:1.5rem;text-align:center;font-size:0.875rem;color:var(--ssb-color-muted-foreground, #718096)}.command__group-label{padding:0.5rem;font-size:0.75rem;font-weight:500;color:var(--ssb-color-muted-foreground, #718096)}.command__item{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0.375rem 0.5rem;border-radius:var(--ssb-radius-small, 0.25rem);font-size:0.875rem;color:var(--ssb-color-foreground, #1a202c);cursor:pointer}.command__item--highlighted{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.command__item--disabled{opacity:0.5;cursor:not-allowed}.command__item-label{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.command__shortcut{flex-shrink:0;font-size:0.75rem;color:var(--ssb-color-muted-foreground, #718096)}`;
+
+class SsbCommand {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbSelect = createEvent(this, "ssbSelect", 7);
+        /**
+         * Commands to render (array of `{ label, value, group?, shortcut?, disabled? }` objects or a JSON string when used as an attribute).
+         */
+        this.items = [];
+        /**
+         * Placeholder of the search input.
+         */
+        this.placeholder = 'Type a command or search…';
+        /**
+         * Message shown when no command matches the search query.
+         */
+        this.emptyMessage = 'No results found.';
+        this.query = '';
+        this.highlightedIndex = 0;
+        this.handleSearchInput = (event) => {
+            this.query = event.target.value;
+            this.highlightedIndex = 0;
+        };
+        this.handleKeyDown = (event) => {
+            const items = this.filteredItems();
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    this.moveHighlight(1, items);
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    this.moveHighlight(-1, items);
+                    break;
+                case 'Enter':
+                    event.preventDefault();
+                    if (this.highlightedIndex >= 0 && this.highlightedIndex < items.length) {
+                        this.select(items[this.highlightedIndex]);
+                    }
+                    break;
+            }
+        };
+    }
+    parseItems() {
+        if (typeof this.items !== 'string') {
+            return this.items || [];
+        }
+        try {
+            const parsed = JSON.parse(this.items);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            console.error('Invalid items: Expected a JSON array of { label, value } objects');
+            return [];
+        }
+    }
+    filteredItems() {
+        const query = this.query.trim().toLowerCase();
+        const items = this.parseItems();
+        if (!query) {
+            return items;
+        }
+        return items.filter(item => item.label.toLowerCase().includes(query));
+    }
+    groupedItems() {
+        var _a;
+        const groups = [];
+        for (const item of this.filteredItems()) {
+            const name = (_a = item.group) !== null && _a !== void 0 ? _a : '';
+            let bucket = groups.find(entry => entry.group === name);
+            if (!bucket) {
+                bucket = { group: name, items: [] };
+                groups.push(bucket);
+            }
+            bucket.items.push(item);
+        }
+        return groups;
+    }
+    moveHighlight(delta, items) {
+        if (!items.length) {
+            return;
+        }
+        let index = this.highlightedIndex;
+        for (let step = 0; step < items.length; step++) {
+            index = (index + delta + items.length) % items.length;
+            if (!items[index].disabled) {
+                this.highlightedIndex = index;
+                return;
+            }
+        }
+    }
+    select(item) {
+        if (item.disabled) {
+            return;
+        }
+        this.ssbSelect.emit({ value: item.value });
+    }
+    render() {
+        const flat = this.filteredItems();
+        const groups = this.groupedItems();
+        return (hAsync(Host, { key: '5a6d90a1443b6292d34545f531874e68a729a66d', onKeyDown: this.handleKeyDown }, hAsync("div", Object.assign({ key: 'fdc04eb25c2b1af04f3d509b1ea52734011d1fde', class: "command" }, getAriaAttributes(this.aria)), hAsync("div", { key: '6118a6615a5179c286d121258249b3c9f9ae38e1', class: "command__search-row" }, hAsync("svg", { key: '9b1a68c56e77be0d9f4b288c33538ead0e7f2985', class: "command__search-icon", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("circle", { key: 'beda25088b8a57e449d94a8cfe50c3fd027cf3dc', cx: "7", cy: "7", r: "4.5", stroke: "currentColor", "stroke-width": "1.5" }), hAsync("path", { key: '378a4226a423362825a188d88338dd30f13f4bf6', d: "M10.5 10.5 L14 14", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round" })), hAsync("input", { key: '77e440aa84860358848e1599afe222b088d4991c', class: "command__search", type: "text", placeholder: this.placeholder, value: this.query, onInput: this.handleSearchInput, "aria-label": this.placeholder })), hAsync("div", { key: 'aaf65c4bd9d3f7ead31e96633a7342789b87a1cd', class: "command__list", role: "listbox" }, flat.length === 0 && hAsync("div", { key: 'be93c7a85dd0ddd008de611c603098e6f1d36556', class: "command__empty" }, this.emptyMessage), groups.map(group => (hAsync("div", { class: "command__group" }, group.group && hAsync("div", { class: "command__group-label" }, group.group), group.items.map(item => {
+            const index = flat.indexOf(item);
+            return (hAsync("div", { class: {
+                    'command__item': true,
+                    'command__item--highlighted': index === this.highlightedIndex,
+                    'command__item--disabled': !!item.disabled,
+                }, role: "option", "aria-selected": index === this.highlightedIndex ? 'true' : 'false', "aria-disabled": item.disabled ? 'true' : undefined, onClick: () => this.select(item), onMouseEnter: () => {
+                    if (!item.disabled) {
+                        this.highlightedIndex = index;
+                    }
+                } }, hAsync("span", { class: "command__item-label" }, item.label), item.shortcut && hAsync("span", { class: "command__shortcut" }, item.shortcut)));
+        }))))))));
+    }
+    get el() { return getElement(this); }
+    static get style() { return ssbCommandCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-command",
+        "$members$": {
+            "items": [1],
+            "placeholder": [1],
+            "emptyMessage": [1, "empty-message"],
+            "aria": [1],
+            "query": [32],
+            "highlightedIndex": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
     }; }
 }
 
@@ -5997,7 +6463,7 @@ class SsbDialog {
             'dialog__overlay': true,
             'dialog__overlay--open': this.open,
         };
-        return (hAsync(Host, { key: '041958425b905d655f213190ad47b35faf282b5e' }, hAsync("div", { key: 'dddfdf6d422b2b6cfd2042c0afd3d21a3c8e3d42', class: overlayClasses, onClick: this.handleBackdropClick }, hAsync("div", Object.assign({ key: 'd8833ebb2167fc21083caa8fc4a5686fce24b34a', class: "dialog__panel", role: "dialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), !this.hideClose && (hAsync("button", { key: 'edaa611c4e891b5025f5cd9efab0e6afa24cbf62', class: "dialog__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715")), (this.dialogTitle || this.description) && (hAsync("div", { key: 'e543a928cec0b474a8ad9b3e8a6b59ec93ff8bd7', class: "dialog__header" }, this.dialogTitle && hAsync("h2", { key: 'aec9d5744e7a3bd96581c4282d0d5a44d460de06', class: "dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '1e535983068851b8aec0b72b8450121f6255e764', class: "dialog__description" }, this.description))), hAsync("div", { key: '1b9fea0d6bd0ea22de044014a68c74db0d929cc2', class: "dialog__content" }, hAsync("slot", { key: '59af562f864820fcd689fa7babb97320dfdf8a38' })), hAsync("div", { key: '20b52e04ba0ab15ed930e69443ec90ff6971645a', class: "dialog__footer" }, hAsync("slot", { key: '151e6cdb8c7c9f5fcf25c5c74ec4a468252b52fd', name: "footer" }))))));
+        return (hAsync(Host, { key: '6c7e29c41dc647360e19b81168fc1efe9304f5e0' }, hAsync("div", { key: '1fc9c2600fa3ad73ae7800fa6488c36e725834db', class: overlayClasses, onClick: this.handleBackdropClick }, hAsync("div", Object.assign({ key: 'd0dd907b07d44b7ab3ce5dd9edaa8210dab16d8c', class: "dialog__panel", role: "dialog", "aria-modal": "true", "aria-label": this.dialogTitle }, getAriaAttributes(this.aria)), !this.hideClose && (hAsync("button", { key: 'd67defbf4f0aa9c1c49b9e24522cf8a0256d330d', class: "dialog__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715")), (this.dialogTitle || this.description) && (hAsync("div", { key: 'd9528c09fba66c09b1e9ede2db2a668411bb1777', class: "dialog__header" }, this.dialogTitle && hAsync("h2", { key: '72a29005945a3eff4bc7e80de9213e3411ed283f', class: "dialog__title" }, this.dialogTitle), this.description && hAsync("p", { key: '95c1882ee11aa991c3d99626e559ecf55eddf118', class: "dialog__description" }, this.description))), hAsync("div", { key: '99df651c2299686b6dd0ce1c531cad867a6d6fb0', class: "dialog__content" }, hAsync("slot", { key: 'aa7e62084569a3a3dad184dd377d92d050169e6f' })), hAsync("div", { key: '1dc105d8dba044c2dba1c1ec946381df2419c52c', class: "dialog__footer" }, hAsync("slot", { key: '5760b41745da9c2ff3d04ae86cd14bcb01b4bf60', name: "footer" }))))));
     }
     static get watchers() { return {
         "open": [{
@@ -6011,6 +6477,99 @@ class SsbDialog {
         "$members$": {
             "open": [1540],
             "dialogTitle": [1, "dialog-title"],
+            "description": [1],
+            "hideClose": [4, "hide-close"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbDrawerCss = () => `:host{display:block}.drawer__overlay{position:fixed;inset:0;z-index:50;display:none;background-color:rgb(0 0 0 / 0.5)}.drawer__overlay--open{display:block}.drawer__panel{position:fixed;box-sizing:border-box;display:flex;flex-direction:column;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.drawer__panel--left{top:0;bottom:0;left:0;width:min(20rem, 85vw);border-left:none;border-top-right-radius:var(--ssb-radius-large, 0.75rem);border-bottom-right-radius:var(--ssb-radius-large, 0.75rem);animation:drawer-slide-left 0.25s ease}.drawer__panel--right{top:0;bottom:0;right:0;width:min(20rem, 85vw);border-right:none;border-top-left-radius:var(--ssb-radius-large, 0.75rem);border-bottom-left-radius:var(--ssb-radius-large, 0.75rem);animation:drawer-slide-right 0.25s ease}.drawer__panel--top{top:0;left:0;right:0;max-height:85vh;border-top:none;border-bottom-left-radius:var(--ssb-radius-large, 0.75rem);border-bottom-right-radius:var(--ssb-radius-large, 0.75rem);animation:drawer-slide-top 0.25s ease}.drawer__panel--bottom{bottom:0;left:0;right:0;max-height:85vh;border-bottom:none;border-top-left-radius:var(--ssb-radius-large, 0.75rem);border-top-right-radius:var(--ssb-radius-large, 0.75rem);animation:drawer-slide-bottom 0.25s ease}@keyframes drawer-slide-left{from{transform:translateX(-100%)}to{transform:translateX(0)}}@keyframes drawer-slide-right{from{transform:translateX(100%)}to{transform:translateX(0)}}@keyframes drawer-slide-top{from{transform:translateY(-100%)}to{transform:translateY(0)}}@keyframes drawer-slide-bottom{from{transform:translateY(100%)}to{transform:translateY(0)}}@media (prefers-reduced-motion: reduce){.drawer__panel{animation:none}}.drawer__handle{flex-shrink:0;width:2.5rem;height:0.25rem;margin:0.5rem auto;border-radius:var(--ssb-radius-full, 9999px);background-color:var(--ssb-color-muted-foreground, #718096)}.drawer__close{position:absolute;top:1rem;right:1rem;display:inline-flex;align-items:center;justify-content:center;padding:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;color:var(--ssb-color-muted-foreground, #718096);font-family:inherit;font-size:0.875rem;line-height:1;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.drawer__close:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.drawer__close:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.drawer__header{display:flex;flex-direction:column;gap:0.375rem;padding:1rem 2.5rem 0 1rem}.drawer__title{margin:0;font-size:1rem;font-weight:600;line-height:1.5rem}.drawer__description{margin:0;color:var(--ssb-color-muted-foreground, #718096);line-height:1.25rem}.drawer__content{flex:1;padding:1rem;overflow-y:auto}.drawer__footer{display:flex;justify-content:flex-end;gap:0.5rem;padding:0 1rem 1rem}`;
+
+class SsbDrawer {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Controls whether the drawer is shown.
+         */
+        this.open = false;
+        /**
+         * Edge of the viewport the drawer slides in from.
+         */
+        this.side = 'bottom';
+        /**
+         * Hides the close (✕) button in the top right corner.
+         */
+        this.hideClose = false;
+        this.handleKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.close();
+            }
+        };
+        this.handleBackdropClick = (event) => {
+            if (event.target === event.currentTarget) {
+                this.close();
+            }
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addKeydownListener();
+        }
+        else {
+            this.removeKeydownListener();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addKeydownListener();
+        }
+    }
+    disconnectedCallback() {
+        this.removeKeydownListener();
+    }
+    addKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('keydown', this.handleKeydown);
+        }
+    }
+    removeKeydownListener() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('keydown', this.handleKeydown);
+        }
+    }
+    close() {
+        this.open = false;
+        this.ssbOpenChange.emit({ open: false });
+    }
+    render() {
+        const overlayClasses = {
+            'drawer__overlay': true,
+            'drawer__overlay--open': this.open,
+        };
+        const panelClasses = {
+            drawer__panel: true,
+            [`drawer__panel--${this.side}`]: true,
+        };
+        return (hAsync(Host, { key: '3f956832edea354d9998f3efb03a604d67aed8d1' }, hAsync("div", { key: 'dc6ad8ba8a424029c5e69a7412e9f1488f0fb7c2', class: overlayClasses, onClick: this.handleBackdropClick }, hAsync("div", Object.assign({ key: '5b00c064c28ed831715a4a4ae6efa6badb60954b', class: panelClasses, role: "dialog", "aria-modal": "true", "aria-label": this.drawerTitle }, getAriaAttributes(this.aria)), this.side === 'bottom' && hAsync("div", { key: 'b4ce3fac144d3b323cbb8819cd5f14976b972d62', class: "drawer__handle", "aria-hidden": "true" }), !this.hideClose && (hAsync("button", { key: '4e527c9d0a528825d8c0da60fe04d0de272b1a80', class: "drawer__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715")), (this.drawerTitle || this.description) && (hAsync("div", { key: 'a5ea8f3f712c8405c0c317ac64c997c5fb13ffc4', class: "drawer__header" }, this.drawerTitle && hAsync("h2", { key: '0e2d1c3d70efcb0e2f44f33e1cfb3ef0658f24c8', class: "drawer__title" }, this.drawerTitle), this.description && hAsync("p", { key: '7576031cbfae35ff86b669667416856f975c4bca', class: "drawer__description" }, this.description))), hAsync("div", { key: '2e6043b2a1ca5c8c0adb5d2eb4378a14789ec34b', class: "drawer__content" }, hAsync("slot", { key: 'a604866af7e7135a44b5aca3f172630575cfe09d' })), hAsync("div", { key: '5db4cbfd1e1649271810344c3167b1b161578bc4', class: "drawer__footer" }, hAsync("slot", { key: '5f24f330f55b16fe5640adb4f0656841980064c3', name: "footer" }))))));
+    }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbDrawerCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-drawer",
+        "$members$": {
+            "open": [1540],
+            "side": [1],
+            "drawerTitle": [1, "drawer-title"],
             "description": [1],
             "hideClose": [4, "hide-close"],
             "aria": [1]
@@ -6134,7 +6693,7 @@ class SsbDropdownMenu {
             [`menu--align-${this.align}`]: true,
             'menu--open': this.open,
         };
-        return (hAsync(Host, { key: '738236823e4539adee85e710e9ff7cea1ee94428', onKeyDown: this.handleKeyDown }, hAsync("span", { key: 'a60879fce308ae6abccba798820735e15fd70e8d', class: "menu__trigger", "aria-haspopup": "menu", "aria-expanded": this.open ? 'true' : 'false', onClick: this.handleTriggerClick }, hAsync("slot", { key: '7775aed60a71b90cb88942decc4ca37811e37fe0', name: "trigger" })), hAsync("div", Object.assign({ key: 'b67d1b7c05a9e13346cbd95d3e4d7aca605c3f47', class: menuClasses, role: "menu" }, getAriaAttributes(this.aria)), this.getItems().map(item => {
+        return (hAsync(Host, { key: '0d057802787f40281f6b9b13ac46e4119fe17152', onKeyDown: this.handleKeyDown }, hAsync("span", { key: '3f0ba29ab5ab1710f2dcb3f1f8850e8186f2710e', class: "menu__trigger", "aria-haspopup": "menu", "aria-expanded": this.open ? 'true' : 'false', onClick: this.handleTriggerClick }, hAsync("slot", { key: '9451920ea081b49309b9efdda0b58f6a67cb96e9', name: "trigger" })), hAsync("div", Object.assign({ key: '05116e13a07c703ccf41b87089bf9a720edc3e8d', class: menuClasses, role: "menu" }, getAriaAttributes(this.aria)), this.getItems().map(item => {
             if (item.separator) {
                 return hAsync("div", { class: "menu__separator", role: "separator" });
             }
@@ -6173,7 +6732,7 @@ class SsbEmpty {
         registerInstance(this, hostRef);
     }
     render() {
-        return (hAsync(Host, { key: '03c86cdee7b20e89ee123ccee2688eb3e72031e8' }, hAsync("div", Object.assign({ key: '5a876e0d1b367a1d3dfcdcaf3fda5d16076a782d', class: "empty" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'e5ef01d89c97f4ef7cd85f0408155b57682d3625', class: "empty__icon" }, hAsync("slot", { key: '1ab77caefdba7ffdc7e33f71a0b9ca08bc44ffeb', name: "icon" })), hAsync("div", { key: 'f7033b4cea40123679b850f98b8bfa58b50e58a4', class: "empty__title" }, hAsync("slot", { key: 'cd87afbc0555051efe899be12469d871e9075dc4', name: "empty-title" })), hAsync("div", { key: 'e52dabc8e942219a69a0ff88c738a643a31d7634', class: "empty__description" }, hAsync("slot", { key: '42fc6b34639ea6d25960e39711ab77ade1ddc50f' })), hAsync("div", { key: '1518808bbdba655a50d685a20acdf837aade72c3', class: "empty__actions" }, hAsync("slot", { key: '0437a62b2982af3ed5d10b9939fd7c4870879a98', name: "actions" })))));
+        return (hAsync(Host, { key: '1c88fe1c6aded669e9dadcbf0b62bc0d0db8eee9' }, hAsync("div", Object.assign({ key: '92b79846d8d116f552dcef651b0513005bdb6368', class: "empty" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'fc80879f6da3f1c1e68b1fdf5ab898af78422bce', class: "empty__icon" }, hAsync("slot", { key: '72c86bf48eda349324c5c6cd1a5dcc209d5714cb', name: "icon" })), hAsync("div", { key: '39dba65bd52de08796dacff56beaa52f7fd2a70d', class: "empty__title" }, hAsync("slot", { key: '624fd964a7d3b36bf156b4ebd745b24017d56b61', name: "empty-title" })), hAsync("div", { key: '6f856d8d53ef55a8da5cf93164d6c8bb3fd13310', class: "empty__description" }, hAsync("slot", { key: 'd191c7742207456d4977ca354a3e752231f009bb' })), hAsync("div", { key: '1fa3219646bf81310b048567276708d0526e0a35', class: "empty__actions" }, hAsync("slot", { key: '43aa04c263733e536ef0e38aedb77eb6aecb7372', name: "actions" })))));
     }
     static get style() { return ssbEmptyCss(); }
     static get cmpMeta() { return {
@@ -6199,7 +6758,7 @@ class SsbField {
         this.required = false;
     }
     render() {
-        return (hAsync(Host, { key: '2dc74875793e871911c0345a242fb801c81a2995' }, hAsync("div", Object.assign({ key: '9be859e21e04bdac758431c8420c9b95b6d86ddb', class: "field" }, getAriaAttributes(this.aria)), this.label && (hAsync("label", { key: 'cbe76c72b2cdaa7171dd6ba37fc20f8cd5c0ba80', class: "field__label", htmlFor: this.fieldId }, this.label, this.required && (hAsync("span", { key: '1aafb5bdd366b0ca3621fed0010df568c3863614', class: "field__required", "aria-hidden": "true" }, "*")))), hAsync("slot", { key: '029353f61e991d28c09e480687e74cdcabd09f8c' }), this.error ? hAsync("p", { class: "field__error" }, this.error) : this.description && hAsync("p", { class: "field__description" }, this.description))));
+        return (hAsync(Host, { key: '05a84287bf6f51baf24b062d4ff9f64d61dae8ea' }, hAsync("div", Object.assign({ key: '5bf98f18cbcb5b4b732c013432f02705f03ca5d7', class: "field" }, getAriaAttributes(this.aria)), this.label && (hAsync("label", { key: '082a9a7f487601b495622dd144fcbe422371e119', class: "field__label", htmlFor: this.fieldId }, this.label, this.required && (hAsync("span", { key: 'd1d34dfb3cf7d77019c5854461069c1b4271e49d', class: "field__required", "aria-hidden": "true" }, "*")))), hAsync("slot", { key: 'e7c3124bdcc64e707ef10c9bd1b6f5da2f8bd44e' }), this.error ? hAsync("p", { class: "field__error" }, this.error) : this.description && hAsync("p", { class: "field__description" }, this.description))));
     }
     static get style() { return ssbFieldCss(); }
     static get cmpMeta() { return {
@@ -6266,7 +6825,7 @@ class SsbInput {
             'input': true,
             'input--invalid': this.invalid,
         };
-        return (hAsync(Host, { key: '425fdb653a29373379683823be060d651c57c027' }, hAsync("input", Object.assign({ key: '20517572ba47b997d1c141f5f611935320322b44', class: classes, type: this.type, value: this.value, placeholder: this.placeholder, name: this.name, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)))));
+        return (hAsync(Host, { key: '5275610f9cebff56ecf52a41318e26f01412cbc1' }, hAsync("input", Object.assign({ key: 'c4f1fffe18c3b9c1240598af051f6f7758cee512', class: classes, type: this.type, value: this.value, placeholder: this.placeholder, name: this.name, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)))));
     }
     static get style() { return ssbInputCss(); }
     static get cmpMeta() { return {
@@ -6296,7 +6855,7 @@ class SsbInputGroup {
         registerInstance(this, hostRef);
     }
     render() {
-        return (hAsync(Host, Object.assign({ key: '8230c2e7007f7e140da4b219a10c305f70a16bdf' }, getAriaAttributes(this.aria)), hAsync("slot", { key: '00f6886cfc00ea4a66c8e7af27be98af8c5ba846', name: "prefix" }), hAsync("slot", { key: '3676a4bd8b53b1358cf01585b82d54846e601124' }), hAsync("slot", { key: '4a8c648caad8eb80951c7cf7a77af21d8cccbb60', name: "suffix" })));
+        return (hAsync(Host, Object.assign({ key: '7b7b7bcfe05700e7fb8bfd614014572b1897d1a3' }, getAriaAttributes(this.aria)), hAsync("slot", { key: '314db728d604cd6e37514cd9614968380ab3d282', name: "prefix" }), hAsync("slot", { key: '0bf84b4c00ff523541516f874b14bcb0552728c2' }), hAsync("slot", { key: '8bc82bd994074638d59394769de03b568b913a45', name: "suffix" })));
     }
     static get style() { return ssbInputGroupCss(); }
     static get cmpMeta() { return {
@@ -6332,11 +6891,11 @@ class SsbItem {
             'item--interactive': this.interactive || !!this.href,
         };
         const content = [
-            hAsync("div", { key: '7d15a59200e6ea039e67b82aec86de7353d0cb56', class: "item__media" }, hAsync("slot", { key: 'f42ab6c6e922312711b5368602988f9d0b34ffca', name: "media" })),
-            hAsync("div", { key: '6e611509ae98aa0c6217df01ca7f64c7ca46b261', class: "item__content" }, hAsync("div", { key: 'baca70e14e5e4ea48c69890647b249148d69b3b7', class: "item__title" }, hAsync("slot", { key: '4d2a176098866e1f8151947e6d8f5daa8dac1344', name: "item-title" })), hAsync("div", { key: 'f85bea2f2297ea2fe4d57c1ebf1acdbd8d3d2d8f', class: "item__description" }, hAsync("slot", { key: 'a96ab05e639ea10a8270eb6ede50b01d1867aaea' }))),
-            hAsync("div", { key: '3d4bfc153c3005687aa9b7ade9d5d8e060de3bc7', class: "item__actions" }, hAsync("slot", { key: '20b83c896e771d512eca9ac9dc251d6966cdeca8', name: "actions" })),
+            hAsync("div", { key: '4f37798a589b707e250ccf2fe4ec6d17039d9ab2', class: "item__media" }, hAsync("slot", { key: 'ebb79ac9405e2d5b455b9ff56566a735c14e3002', name: "media" })),
+            hAsync("div", { key: '23099187ed84b236a77b1408f6d5df1bc979c3b4', class: "item__content" }, hAsync("div", { key: '19992809a8bbba4c4e580014497178b99543af6d', class: "item__title" }, hAsync("slot", { key: 'd018461c55a6bf2f0a28855f32b0464c37b91473', name: "item-title" })), hAsync("div", { key: 'd62e71565e858bb91d71c7db403e0268170476b7', class: "item__description" }, hAsync("slot", { key: '3b180980dd3c84ca8900814c00ccdb565107da42' }))),
+            hAsync("div", { key: 'c3899007ea69c816a1f7bd1f9ff7b654d398aaed', class: "item__actions" }, hAsync("slot", { key: '7572e245a2b35e6d0d87800e2b5b6d6f1ec4065a', name: "actions" })),
         ];
-        return (hAsync(Host, { key: 'f04be4882711831f0ea2708f81296f6729f95001' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.href }, getAriaAttributes(this.aria)), content)) : (hAsync("div", Object.assign({ class: classes }, getAriaAttributes(this.aria)), content))));
+        return (hAsync(Host, { key: '000712db2f069e1ae4de20225ab60038a3ac77b1' }, this.href ? (hAsync("a", Object.assign({ class: classes, href: this.href }, getAriaAttributes(this.aria)), content)) : (hAsync("div", Object.assign({ class: classes }, getAriaAttributes(this.aria)), content))));
     }
     static get style() { return ssbItemCss(); }
     static get cmpMeta() { return {
@@ -6361,7 +6920,7 @@ class SsbKbd {
         registerInstance(this, hostRef);
     }
     render() {
-        return (hAsync(Host, { key: '121aded9075a813ac24c610df230b3f9f869e272' }, hAsync("kbd", Object.assign({ key: '55a207668cf918127c96d60f3a858b81242de7b0', class: "kbd" }, getAriaAttributes(this.aria)), hAsync("slot", { key: '6687349a7b125aaae184148a54c45707e2e39754' }))));
+        return (hAsync(Host, { key: '9d3eee6d0f0e66420b86e2906be83c178573f2d3' }, hAsync("kbd", Object.assign({ key: '1087f863963a482ffd24674b010aff9e2b7a7aaa', class: "kbd" }, getAriaAttributes(this.aria)), hAsync("slot", { key: '6028c0ede9376ceed27694ca2717f84525dcd774' }))));
     }
     static get style() { return ssbKbdCss(); }
     static get cmpMeta() { return {
@@ -6395,7 +6954,7 @@ class SsbLabel {
             'label': true,
             'label--disabled': this.disabled,
         };
-        return (hAsync(Host, { key: 'c0157859db1ccce8b8e48bafb77e828c43f6854e' }, hAsync("label", Object.assign({ key: 'be5554d069127519b76c411652bf8c711e363cc9', class: classes, htmlFor: this.htmlFor }, getAriaAttributes(this.aria)), hAsync("slot", { key: '59018463266a2f318f4df3592d97b3db6c5fb0f1' }), this.required && (hAsync("span", { key: 'e85de8b03527ade1c55209b7be6e7c5531f6be68', class: "label__required", "aria-hidden": "true" }, "*")))));
+        return (hAsync(Host, { key: '9cd72dfab6dc70b3c9fb098be71ed7672964bb26' }, hAsync("label", Object.assign({ key: 'aaf9ca3be28f3f4790d215340d1512f53437c88d', class: classes, htmlFor: this.htmlFor }, getAriaAttributes(this.aria)), hAsync("slot", { key: 'ea6c062243b6d18a4be9be674b23b32645695c5f' }), this.required && (hAsync("span", { key: '1defa763e14f1dca5e75395c74e8fd273aa435cb', class: "label__required", "aria-hidden": "true" }, "*")))));
     }
     static get style() { return ssbLabelCss(); }
     static get cmpMeta() { return {
@@ -6464,7 +7023,7 @@ class SsbNativeSelect {
             select__control: true,
             [`select__control--${this.size}`]: true,
         };
-        return (hAsync(Host, { key: '9254c7b827c6f38a0ecde635ff3b41e57b05a704' }, hAsync("div", { key: 'a2c7f3804ccb039d4c82a4b562577acf233f740d', class: "select" }, hAsync("select", Object.assign({ key: '5a76a35e3f1676fd9e64a86b9c1be301fe72bd84', class: classes, name: this.name, disabled: this.disabled, required: this.required, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.placeholder && (hAsync("option", { key: '7d022f88f2334d395a5777a862b8df7a035a2020', value: "", disabled: true, selected: this.value === '' }, this.placeholder)), options.map(option => (hAsync("option", { value: option.value, disabled: option.disabled, selected: option.value === this.value }, option.label)))), hAsync("svg", { key: '122c854f2ab89949ae8c2a8677e6a099d10b6657', class: "select__chevron", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '9c9a9899556f9748d1ab754eefcf1c6555a571ca', d: "M4 6 L8 10 L12 6", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" })))));
+        return (hAsync(Host, { key: 'bd86d39b8c86ecd05ba53641f5ac0be4d076606b' }, hAsync("div", { key: 'a1b4cbe07ff95b4deabb0c33f8d9a1cf3d767794', class: "select" }, hAsync("select", Object.assign({ key: '46de8a52b4b23fb8d8c1554780111135a27383cb', class: classes, name: this.name, disabled: this.disabled, required: this.required, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.placeholder && (hAsync("option", { key: '1f3dc1153a8745ff3a383a67854ffb423c59087c', value: "", disabled: true, selected: this.value === '' }, this.placeholder)), options.map(option => (hAsync("option", { value: option.value, disabled: option.disabled, selected: option.value === this.value }, option.label)))), hAsync("svg", { key: '6058fdcd61416e4bbcfe5ac0871d8f29bad8d127', class: "select__chevron", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: 'bbb87c0251751674bd6fa59c94e255fd1ff43f7f', d: "M4 6 L8 10 L12 6", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" })))));
     }
     static get style() { return ssbNativeSelectCss(); }
     static get cmpMeta() { return {
@@ -6542,7 +7101,7 @@ class SsbPagination {
     render() {
         const current = this.clampedPage;
         const total = this.clampedTotal;
-        return (hAsync(Host, { key: '036976e065ac8be875a8e1f6439fb6c9e98104e9' }, hAsync("nav", Object.assign({ key: '5c6c5d735ee92c242763be97843f0adebaeadf76', class: "pagination", "aria-label": "Pagination" }, getAriaAttributes(this.aria)), hAsync("button", { key: 'f53d9ea04b8399b5197520530741d65ad9167400', class: "button button--text", type: "button", disabled: current <= 1, onClick: () => this.selectPage(current - 1) }, "Previous"), this.getRange().map(entry => entry === 'ellipsis' ? (hAsync("span", { class: "ellipsis", "aria-hidden": "true" }, "\u2026")) : (hAsync("button", { class: { 'button': true, 'button--current': entry === current }, type: "button", "aria-current": entry === current ? 'page' : undefined, onClick: () => this.selectPage(entry) }, entry))), hAsync("button", { key: 'fe9b5a3accaa9ae387f962d115bca5d1bf8a8e3b', class: "button button--text", type: "button", disabled: current >= total, onClick: () => this.selectPage(current + 1) }, "Next"))));
+        return (hAsync(Host, { key: 'e5fda747cec496961c6a99c92f5a77e3fca41138' }, hAsync("nav", Object.assign({ key: '6f27e7dc5733c500727cf19dde222efc794781a0', class: "pagination", "aria-label": "Pagination" }, getAriaAttributes(this.aria)), hAsync("button", { key: '2493d1125d5cde1e61e3d7265a51da3418229733', class: "button button--text", type: "button", disabled: current <= 1, onClick: () => this.selectPage(current - 1) }, "Previous"), this.getRange().map(entry => entry === 'ellipsis' ? (hAsync("span", { class: "ellipsis", "aria-hidden": "true" }, "\u2026")) : (hAsync("button", { class: { 'button': true, 'button--current': entry === current }, type: "button", "aria-current": entry === current ? 'page' : undefined, onClick: () => this.selectPage(entry) }, entry))), hAsync("button", { key: '636f2b277aef96e81e7f15d8f970109988e3d7cd', class: "button button--text", type: "button", disabled: current >= total, onClick: () => this.selectPage(current + 1) }, "Next"))));
     }
     static get style() { return ssbPaginationCss(); }
     static get cmpMeta() { return {
@@ -6634,7 +7193,7 @@ class SsbPopover {
             [`popover__panel--align-${this.align}`]: true,
             'popover__panel--open': this.open,
         };
-        return (hAsync(Host, { key: '9c1c5e88f350c44eb13622a908ab2afec5da7598' }, hAsync("span", { key: '480df2d0c8e6b7abbf781992596ac37ab2b6497a', class: "popover__trigger", onClick: this.handleTriggerClick }, hAsync("slot", { key: '3380c908dc2f066906747cbfadffa9789a2da433', name: "trigger" })), hAsync("div", Object.assign({ key: '9914de035361d11d6335306d9fd547b21ec99e39', class: panelClasses }, getAriaAttributes(this.aria)), hAsync("slot", { key: '1ba49748036718db6a37b408d23c390ffa282dad' }))));
+        return (hAsync(Host, { key: 'ee7640ee292f5edb59a3ffd39593ce4e2d71dd13' }, hAsync("span", { key: '259cbccd1319220e9c2131fe2a1a90dbb74e272a', class: "popover__trigger", onClick: this.handleTriggerClick }, hAsync("slot", { key: '7f90575836daf6b57384fae54a061818273944d5', name: "trigger" })), hAsync("div", Object.assign({ key: 'bc3f2589236871fd0c957c08471b7768b539ca4d', class: panelClasses }, getAriaAttributes(this.aria)), hAsync("slot", { key: '133983dd95e8ac45076b2e373d1ec9798fc014d1' }))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -6674,7 +7233,7 @@ class SsbProgress {
     }
     render() {
         const percentage = this.max > 0 ? Math.min(100, Math.max(0, (this.value / this.max) * 100)) : 0;
-        return (hAsync(Host, { key: '3b28a6ae78a04080fb707ab1a1a979394543367d' }, hAsync("div", Object.assign({ key: 'd962977dca709642e187f5aca2116ebf93c14bf5', class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": `${this.max}`, "aria-valuenow": `${this.value}`, "aria-label": this.label }, getAriaAttributes(this.aria)), hAsync("div", { key: '27a11e581bd7756e30ada644a5e2021f4410a5da', class: "progress__indicator", style: { width: `${percentage}%` } }))));
+        return (hAsync(Host, { key: 'dc8fe57ef384864fb4d4bfd6d767237cc80681df' }, hAsync("div", Object.assign({ key: 'c4c5abd2b27ff70531d395c0f7cfb7abe6134e3c', class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": `${this.max}`, "aria-valuenow": `${this.value}`, "aria-label": this.label }, getAriaAttributes(this.aria)), hAsync("div", { key: '9443f1c8b73506367e81fbb268274907f710911f', class: "progress__indicator", style: { width: `${percentage}%` } }))));
     }
     static get style() { return ssbProgressCss(); }
     static get cmpMeta() { return {
@@ -6715,7 +7274,7 @@ class SsbRadio {
         };
     }
     render() {
-        return (hAsync(Host, { key: 'c4c7370c88d4199038aa77f348751f2b18c2be7c' }, hAsync("label", { key: 'a18c2ad74a5bec1479892fbaa29c75882034e829', class: { 'radio': true, 'radio--disabled': this.disabled } }, hAsync("input", Object.assign({ key: 'c33e300ea17f1f7239b85f396b305cba73f4c270', class: "radio__input", type: "radio", value: this.value, checked: this.checked, disabled: this.disabled, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '2b1d797fa0fae4b5fc43a06f9b6d17c1e7d810a3', class: { 'radio__circle': true, 'radio__circle--checked': this.checked }, "aria-hidden": "true" }), hAsync("span", { key: '062654390147a02a7fbf819cfdbef7e2ff41e617', class: "radio__label" }, hAsync("slot", { key: '951e31677a85017c111a9bf968d566b8f42d1a42' })))));
+        return (hAsync(Host, { key: '07bf1cd8f23b798916988935622d1832f64c69fb' }, hAsync("label", { key: '5522172a32ad7ca9ec6e3f2a3306854e699e556f', class: { 'radio': true, 'radio--disabled': this.disabled } }, hAsync("input", Object.assign({ key: '874a1f4ebd74881a6991569b59768cffdb13d0f9', class: "radio__input", type: "radio", value: this.value, checked: this.checked, disabled: this.disabled, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: 'c4165c9193ea6b2dfcc85115dd3cf5b19962c29f', class: { 'radio__circle': true, 'radio__circle--checked': this.checked }, "aria-hidden": "true" }), hAsync("span", { key: 'adb01b0b2122c443401386c5499eceb58d2489de', class: "radio__label" }, hAsync("slot", { key: '6881b9f15375c907dd133acb6eab06204729dd4c' })))));
     }
     static get style() { return ssbRadioCss(); }
     static get cmpMeta() { return {
@@ -6782,7 +7341,7 @@ class SsbRadioGroup {
             [`radio-group--${this.orientation}`]: true,
             'radio-group--disabled': this.disabled,
         };
-        return (hAsync(Host, Object.assign({ key: '4c7736f68884c0985839393511574df8fe41835a', role: "radiogroup" }, getAriaAttributes(this.aria)), hAsync("div", { key: 'e2060e1d517b87f5629470648c09ef21e0154e71', class: classes }, hAsync("slot", { key: 'd6a1e28208f14c17490ef673e572faf9e764abc4' }))));
+        return (hAsync(Host, Object.assign({ key: 'bfbbce7001ae1a5e70b46089232c7023b1ff71f3', role: "radiogroup" }, getAriaAttributes(this.aria)), hAsync("div", { key: '829c79201b20c3b3b63c69253f5d3ff32d86227f', class: classes }, hAsync("slot", { key: 'b07b2101055ad5e621389cf37ac6b7b21db99628' }))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
@@ -6822,7 +7381,7 @@ class SsbScrollArea {
         this.orientation = 'vertical';
     }
     render() {
-        return (hAsync(Host, { key: '4b3926b42dcf7d8ac680ba07c812acf613a8c12e' }, hAsync("div", Object.assign({ key: 'a8e715005aa8b6b6b77a329ce78f2310ddd34a4f', class: { viewport: true, [`viewport--${this.orientation}`]: true }, style: { maxHeight: this.maxHeight } }, getAriaAttributes(this.aria)), hAsync("slot", { key: '7e1939651131d9b891fe001e84317a2d8cbdc719' }))));
+        return (hAsync(Host, { key: '4c55cd1d0e4ce7ba5f257926e74ada0a45e6b6af' }, hAsync("div", Object.assign({ key: '39ab6221033d7b794a0cb385889e0d61da400d53', class: { viewport: true, [`viewport--${this.orientation}`]: true }, style: { maxHeight: this.maxHeight } }, getAriaAttributes(this.aria)), hAsync("slot", { key: 'b02fb39012a7d31736599d5cae390fd74e5268dd' }))));
     }
     static get style() { return ssbScrollAreaCss(); }
     static get cmpMeta() { return {
@@ -6836,6 +7395,265 @@ class SsbScrollArea {
         "$listeners$": undefined,
         "$lazyBundleId$": "-",
         "$attrsToReflect$": []
+    }; }
+}
+
+const ssbSelectCss = () => `:host{position:relative;display:block}.select__trigger{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;box-sizing:border-box;width:100%;height:2.25rem;padding:0 0.75rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-input, #cbd5e0);border-radius:var(--ssb-radius-medium, 0.5rem);font-family:inherit;font-size:0.875rem;line-height:1.25rem;text-align:left;cursor:pointer;transition:border-color 0.15s ease}.select__trigger:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.select__trigger:disabled{opacity:0.5;cursor:not-allowed}.select__value{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.select__value--placeholder{color:var(--ssb-color-muted-foreground, #718096)}.select__chevron{flex-shrink:0;width:1rem;height:1rem;color:var(--ssb-color-muted-foreground, #718096);transition:transform 0.15s ease}.select__chevron--open{transform:rotate(180deg)}.select__listbox{position:absolute;top:calc(100% + 0.25rem);left:0;right:0;z-index:50;display:none;box-sizing:border-box;padding:0.25rem;background-color:var(--ssb-color-background, #ffffff);color:var(--ssb-color-foreground, #1a202c);border:1px solid var(--ssb-color-border, #e2e8f0);border-radius:var(--ssb-radius-medium, 0.5rem);box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1),     0 4px 6px -4px rgb(0 0 0 / 0.1);font-family:inherit;font-size:0.875rem}.select__listbox--open{display:block}.select__option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0.375rem 0.5rem;border-radius:var(--ssb-radius-small, 0.25rem);font-size:0.875rem;line-height:1.25rem;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.select__option:hover,.select__option--highlighted{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.select__option--selected{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.select__option--disabled{opacity:0.5;pointer-events:none}.select__option-label{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.select__check{flex-shrink:0;width:1rem;height:1rem}`;
+
+class SsbSelect {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbChange = createEvent(this, "ssbChange", 7);
+        this.ssbOpenChange = createEvent(this, "ssbOpenChange", 7);
+        /**
+         * Options to render (array of `{ label, value, disabled? }` objects or a JSON string when used as an attribute).
+         */
+        this.options = [];
+        /**
+         * Currently selected value.
+         */
+        this.value = '';
+        /**
+         * Text shown in the trigger while no option is selected.
+         */
+        this.placeholder = 'Select an option';
+        /**
+         * Disables the select.
+         */
+        this.disabled = false;
+        /**
+         * Controls whether the listbox is shown.
+         */
+        this.open = false;
+        this.highlightedIndex = -1;
+        this.handleDocumentClick = (event) => {
+            if (!event.composedPath().includes(this.el)) {
+                this.setOpen(false);
+            }
+        };
+        this.handleDocumentKeydown = (event) => {
+            if (event.key === 'Escape') {
+                this.setOpen(false);
+            }
+        };
+        this.handleKeyDown = (event) => {
+            if (this.disabled) {
+                return;
+            }
+            if (!this.open) {
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    this.setOpen(true);
+                }
+                return;
+            }
+            const options = this.parseOptions();
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    this.moveHighlight(1, options);
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    this.moveHighlight(-1, options);
+                    break;
+                case 'Home':
+                    event.preventDefault();
+                    this.highlightedIndex = this.findEnabledIndex(options, 0, 1);
+                    break;
+                case 'End':
+                    event.preventDefault();
+                    this.highlightedIndex = this.findEnabledIndex(options, options.length - 1, -1);
+                    break;
+                case 'Enter':
+                case ' ':
+                    event.preventDefault();
+                    if (this.highlightedIndex >= 0 && this.highlightedIndex < options.length) {
+                        this.select(options[this.highlightedIndex]);
+                    }
+                    break;
+            }
+        };
+        this.handleTriggerClick = () => {
+            if (this.disabled) {
+                return;
+            }
+            this.setOpen(!this.open);
+        };
+    }
+    handleOpenChange(open) {
+        if (open) {
+            this.addDocumentListeners();
+            const options = this.parseOptions();
+            this.highlightedIndex = options.findIndex(option => option.value === this.value && !option.disabled);
+        }
+        else {
+            this.removeDocumentListeners();
+        }
+    }
+    connectedCallback() {
+        if (this.open) {
+            this.addDocumentListeners();
+        }
+    }
+    disconnectedCallback() {
+        this.removeDocumentListeners();
+    }
+    addDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('click', this.handleDocumentClick);
+            document.addEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    removeDocumentListeners() {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('click', this.handleDocumentClick);
+            document.removeEventListener('keydown', this.handleDocumentKeydown);
+        }
+    }
+    moveHighlight(delta, options) {
+        if (!options.length) {
+            return;
+        }
+        let index = this.highlightedIndex;
+        for (let step = 0; step < options.length; step++) {
+            index = (index + delta + options.length) % options.length;
+            if (!options[index].disabled) {
+                this.highlightedIndex = index;
+                return;
+            }
+        }
+    }
+    findEnabledIndex(options, start, delta) {
+        for (let index = start; index >= 0 && index < options.length; index += delta) {
+            if (!options[index].disabled) {
+                return index;
+            }
+        }
+        return -1;
+    }
+    setOpen(open) {
+        if (this.open === open) {
+            return;
+        }
+        this.open = open;
+        this.ssbOpenChange.emit({ open });
+    }
+    parseOptions() {
+        if (typeof this.options !== 'string') {
+            return this.options || [];
+        }
+        try {
+            const parsed = JSON.parse(this.options);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+        catch (_a) {
+            console.error('Invalid options: Expected a JSON array of { label, value } objects');
+            return [];
+        }
+    }
+    select(option) {
+        if (option.disabled) {
+            return;
+        }
+        this.value = option.value;
+        this.ssbChange.emit({ value: option.value });
+        this.setOpen(false);
+    }
+    render() {
+        const options = this.parseOptions();
+        const selected = options.find(option => option.value === this.value);
+        return (hAsync(Host, { key: 'b23c87756d2cf2ee4f5dac489dc84515470e57d5', onKeyDown: this.handleKeyDown }, hAsync("button", Object.assign({ key: '97b6bae0bebb5ced40e199461f62b7b8f30b5801', class: "select__trigger", type: "button", role: "combobox", name: this.name, disabled: this.disabled, "aria-expanded": this.open ? 'true' : 'false', "aria-haspopup": "listbox", onClick: this.handleTriggerClick }, getAriaAttributes(this.aria)), hAsync("span", { key: '409df76db078e0df3ca1c67d8bf48f6bdca79f86', class: { 'select__value': true, 'select__value--placeholder': !selected } }, selected ? selected.label : this.placeholder), hAsync("svg", { key: 'ad9ba922dc6fb1cc9468d49a9f3d0f02ef6a04a7', class: { 'select__chevron': true, 'select__chevron--open': this.open }, "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { key: '6a6648811d6858039904a6d06da62d2bbc97c6bb', d: "M4 6 L8 10 L12 6", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }))), hAsync("div", { key: 'c44e4435f9be7b9dc85e0ba41c4794ae716d8c98', class: { 'select__listbox': true, 'select__listbox--open': this.open }, role: "listbox" }, options.map((option, index) => (hAsync("div", { class: {
+                'select__option': true,
+                'select__option--highlighted': index === this.highlightedIndex,
+                'select__option--selected': option.value === this.value,
+                'select__option--disabled': !!option.disabled,
+            }, role: "option", "aria-selected": option.value === this.value ? 'true' : 'false', "aria-disabled": option.disabled ? 'true' : undefined, onClick: () => this.select(option), onMouseEnter: () => {
+                if (!option.disabled) {
+                    this.highlightedIndex = index;
+                }
+            } }, hAsync("span", { class: "select__option-label" }, option.label), option.value === this.value && (hAsync("svg", { class: "select__check", "aria-hidden": "true", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { d: "M3.5 8.5 L6.5 11.5 L12.5 4.5", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" })))))))));
+    }
+    get el() { return getElement(this); }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+    static get style() { return ssbSelectCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 9,
+        "$tagName$": "ssb-select",
+        "$members$": {
+            "options": [1],
+            "value": [1025],
+            "placeholder": [1],
+            "disabled": [4],
+            "name": [1],
+            "open": [1540],
+            "aria": [1],
+            "highlightedIndex": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["open", "open"]]
+    }; }
+}
+
+const ssbSidebarCss = () => `:host{display:block;height:100%;overflow:hidden;transition:width 0.2s ease}.sidebar{box-sizing:border-box;display:flex;flex-direction:column;height:100%;background-color:color-mix(in srgb, var(--ssb-color-muted, #edf2f7) 50%, var(--ssb-color-background, #ffffff));color:var(--ssb-color-foreground, #1a202c);font-family:inherit;font-size:0.875rem}.sidebar--left{border-right:1px solid var(--ssb-color-border, #e2e8f0)}.sidebar--right{border-left:1px solid var(--ssb-color-border, #e2e8f0)}.sidebar__header{padding:0.75rem;border-bottom:1px solid var(--ssb-color-border, #e2e8f0);overflow:hidden;white-space:nowrap;transition:opacity 0.2s ease}.sidebar__nav{flex:1;padding:0.5rem;overflow-y:auto;overflow-x:hidden;white-space:nowrap;transition:opacity 0.2s ease}.sidebar__footer{display:flex;align-items:center;gap:0.5rem;padding:0.75rem;border-top:1px solid var(--ssb-color-border, #e2e8f0)}.sidebar__footer-content{flex:1;min-width:0;overflow:hidden;white-space:nowrap;transition:opacity 0.2s ease}.sidebar--collapsed .sidebar__header,.sidebar--collapsed .sidebar__nav,.sidebar--collapsed .sidebar__footer-content{opacity:0;overflow:hidden;pointer-events:none}.sidebar--collapsed .sidebar__footer-content{flex:0 0 0px}.sidebar--collapsed .sidebar__footer{justify-content:center}.sidebar__toggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:0.25rem;border:1px solid transparent;border-radius:var(--ssb-radius-small, 0.25rem);background-color:transparent;color:var(--ssb-color-muted-foreground, #718096);font-family:inherit;font-size:0.875rem;line-height:1;cursor:pointer;transition:background-color 0.15s ease,     color 0.15s ease}.sidebar__toggle:hover{background-color:var(--ssb-color-accent, #edf2f7);color:var(--ssb-color-accent-foreground, #1a202c)}.sidebar__toggle:focus-visible{outline:2px solid var(--ssb-color-ring, #646cff);outline-offset:2px}.sidebar__chevrons{transition:transform 0.2s ease}.sidebar--collapsed .sidebar__chevrons{transform:rotate(180deg)}.sidebar--right .sidebar__chevrons{transform:rotate(180deg)}.sidebar--right.sidebar--collapsed .sidebar__chevrons{transform:rotate(0deg)}`;
+
+class SsbSidebar {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.ssbToggle = createEvent(this, "ssbToggle", 7);
+        /**
+         * Controls whether the sidebar is collapsed to its narrow width.
+         */
+        this.collapsed = false;
+        /**
+         * Which side of the layout the sidebar sits on. Controls which border is drawn.
+         */
+        this.side = 'left';
+        /**
+         * Shows a collapse toggle button in the footer area.
+         */
+        this.collapsible = true;
+        /**
+         * Width of the sidebar in its expanded state. The parent element must size the sidebar's height (the host uses height: 100%).
+         */
+        this.width = '16rem';
+        /**
+         * Width of the sidebar in its collapsed state.
+         */
+        this.collapsedWidth = '3.5rem';
+        this.toggle = () => {
+            this.collapsed = !this.collapsed;
+            this.ssbToggle.emit({ collapsed: this.collapsed });
+        };
+    }
+    render() {
+        const sidebarClasses = {
+            'sidebar': true,
+            [`sidebar--${this.side}`]: true,
+            'sidebar--collapsed': this.collapsed,
+        };
+        return (hAsync(Host, { key: '4b36a630addfc64f84274133d291de82c294fcd3', style: { width: this.collapsed ? this.collapsedWidth : this.width } }, hAsync("aside", Object.assign({ key: 'cfab24f981d1aef091c6090ac4b202eab6820518', class: sidebarClasses }, getAriaAttributes(this.aria)), hAsync("div", { key: '6c0e0c68e7b69f3e16bcd683af13763c173f7884', class: "sidebar__header" }, hAsync("slot", { key: '4631ac07ef92e7afba20033064268267797a4e3b', name: "header" })), hAsync("nav", { key: '9943fd3b7616014af8d3ae40a3938d0583c0abc9', class: "sidebar__nav" }, hAsync("slot", { key: '79bbdec4575bd4c5fc0eb7f0da2f9c9c377d71e2' })), hAsync("div", { key: '65afc09712edc58322f4e2f5db684efaf466e44e', class: "sidebar__footer" }, hAsync("div", { key: '8a3352eb15db1cb44fe71ad5d14c4fe533a83dfe', class: "sidebar__footer-content" }, hAsync("slot", { key: '714546225af8686f5211fe1db291fc96af886fb7', name: "footer" })), this.collapsible && (hAsync("button", { key: 'c4c57715f8c11443eddf852ec317eb8378bf9c71', class: "sidebar__toggle", type: "button", "aria-label": "Toggle sidebar", "aria-expanded": this.collapsed ? 'false' : 'true', onClick: this.toggle }, hAsync("svg", { key: '2063df00c224f175a2d95822a79babfadfb58525', class: "sidebar__chevrons", xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, hAsync("path", { key: '7515d6320cb0e5dc90c71d541661a4651b32481e', d: "m11 17-5-5 5-5" }), hAsync("path", { key: '8ffaae92acacc4642bbd2492c819920148050f5d', d: "m18 17-5-5 5-5" }))))))));
+    }
+    static get style() { return ssbSidebarCss(); }
+    static get cmpMeta() { return {
+        "$flags$": 265,
+        "$tagName$": "ssb-sidebar",
+        "$members$": {
+            "collapsed": [1540],
+            "side": [1],
+            "collapsible": [4],
+            "width": [1],
+            "collapsedWidth": [1, "collapsed-width"],
+            "aria": [1]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": [["collapsed", "collapsed"]]
     }; }
 }
 
@@ -6862,7 +7680,7 @@ class SsbSkeleton {
             skeleton: true,
             [`skeleton--${this.rounded}`]: true,
         };
-        return (hAsync(Host, Object.assign({ key: '4f34d6849d967bf1b2bb3c012c0a920729ee39ed' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'b8f8d7a62bf6cfaf8228cbd8ab4acc8823865a31', class: classes, style: { width: this.width, height: this.height }, "aria-hidden": "true" })));
+        return (hAsync(Host, Object.assign({ key: '198cfbb141df22281fd0ceb902dac641ef4effd8' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'ca3cea078500892ee0b2699e64caedaee8fe6287', class: classes, style: { width: this.width, height: this.height }, "aria-hidden": "true" })));
     }
     static get style() { return ssbSkeletonCss(); }
     static get cmpMeta() { return {
@@ -6923,9 +7741,9 @@ class SsbSlider {
     render() {
         const range = this.max - this.min;
         const percentage = range > 0 ? Math.min(100, Math.max(0, ((this.value - this.min) / range) * 100)) : 0;
-        return (hAsync(Host, { key: '9f676e413c932880ca53aba687cbdd653a6d9eb1' }, hAsync("div", { key: '3ca0af82cdcee92de59c593ceef638b6424eb5e4', class: { 'slider': true, 'slider--disabled': this.disabled } }, hAsync("input", Object.assign({ key: '75f639dd79e083d4e300b06c6ad13407d2c97b49', class: "slider__input", type: "range", min: this.min, max: this.max, step: this.step, value: this.value, disabled: this.disabled, style: {
+        return (hAsync(Host, { key: '2d2e1974c9d30ebd9e167dc2af8fc925512718fb' }, hAsync("div", { key: 'b0a557871a79c50f78bbb10b47ba7c709d5ba4f1', class: { 'slider': true, 'slider--disabled': this.disabled } }, hAsync("input", Object.assign({ key: 'cddc3063358a92749cfa00bbfb887666172d49fc', class: "slider__input", type: "range", min: this.min, max: this.max, step: this.step, value: this.value, disabled: this.disabled, style: {
                 background: `linear-gradient(to right, var(--ssb-color-foreground, #1a202c) ${percentage}%, var(--ssb-color-muted, #edf2f7) ${percentage}%)`,
-            }, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria))), this.showValue && hAsync("span", { key: '4dd10097ca3d13e8b7f0caa52689577770070fcf', class: "slider__value" }, this.value))));
+            }, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria))), this.showValue && hAsync("span", { key: '07c2bd5f279d8a204b49259bf7257659aa11d222', class: "slider__value" }, this.value))));
     }
     static get style() { return ssbSliderCss(); }
     static get cmpMeta() { return {
@@ -6965,7 +7783,7 @@ class SsbSpinner {
             spinner: true,
             [`spinner--${this.size}`]: true,
         };
-        return (hAsync(Host, { key: '9256c831bcceef895d9f250ab7970705a0a0b9a4' }, hAsync("span", Object.assign({ key: '92e0b9aafef4081b6be80e8b5d3360e7b77b91b2', class: classes, role: "status" }, getAriaAttributes(this.aria)), hAsync("svg", { key: '237ee420087142f08a5849ec4c60e69199d92982', class: "spinner__svg", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", "aria-hidden": "true" }, hAsync("circle", { key: '84f8d451b9e6a65b615eac4cad2868249953bfae', class: "spinner__circle", cx: "12", cy: "12", r: "10", stroke: "currentColor", "stroke-width": "3", "stroke-linecap": "round", "stroke-dasharray": "47 16" })), hAsync("span", { key: '221e05b22e06387f22f184d9053adcb14899660e', class: "spinner__label" }, this.label))));
+        return (hAsync(Host, { key: '42860ad9cc3ab67f51e09c0a5038a3cc284d4021' }, hAsync("span", Object.assign({ key: '564c46e759a1c6a989696f9fa6bd9e46a3564783', class: classes, role: "status" }, getAriaAttributes(this.aria)), hAsync("svg", { key: '621d2b113db920dd4989449f2aeaf482d42993f7', class: "spinner__svg", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", "aria-hidden": "true" }, hAsync("circle", { key: '531e92d121df5e1fcf67d7a471bb7850c57a306d', class: "spinner__circle", cx: "12", cy: "12", r: "10", stroke: "currentColor", "stroke-width": "3", "stroke-linecap": "round", "stroke-dasharray": "47 16" })), hAsync("span", { key: '62c0f795c55876329b516d50be11d39c8aa6ab5f', class: "spinner__label" }, this.label))));
     }
     static get style() { return ssbSpinnerCss(); }
     static get cmpMeta() { return {
@@ -7007,7 +7825,7 @@ class SsbSwitch {
             'switch': true,
             'switch--disabled': this.disabled,
         };
-        return (hAsync(Host, { key: '408ce2051e0254f5515e6d7777e6e284df3dc537' }, hAsync("label", { key: '49cd10f01daf4e2f8bed880d242b4b1592e89f85', class: classes }, hAsync("input", Object.assign({ key: 'b97bda54d3a5c1a3eb99365cb5dd2efde9fe39dd', class: "switch__input", type: "checkbox", role: "switch", checked: this.checked, disabled: this.disabled, name: this.name, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '425b07d9a02749e0d6ad4394593c42fb07abd192', class: "switch__track", "aria-hidden": "true" }, hAsync("span", { key: 'c15092bacc8686522878e73dac06c686fada47bf', class: "switch__thumb" })), hAsync("span", { key: 'd30c5f9aebc18b045b7cad58df0a5f01414f1913', class: "switch__label" }, hAsync("slot", { key: '1573351452b655941a98c536929a4898de6d5a17' })))));
+        return (hAsync(Host, { key: '8d4f00d4d95c5fe3a7d8260378a9dcdcae62bbee' }, hAsync("label", { key: '618606ec0d5ba718ae964994f3f3bbdfc1ac20e6', class: classes }, hAsync("input", Object.assign({ key: '7c380a01efd73a6cf4c01eadeab8bc830114d60c', class: "switch__input", type: "checkbox", role: "switch", checked: this.checked, disabled: this.disabled, name: this.name, onChange: this.handleChange }, getAriaAttributes(this.aria))), hAsync("span", { key: '94d488cabcb1c6e6aae200d181e5503b5768b411', class: "switch__track", "aria-hidden": "true" }, hAsync("span", { key: 'bf8bf3834366b308cf7a55d27e2c0e01a933c35b', class: "switch__thumb" })), hAsync("span", { key: 'bd1cf012bf1b377a4e97965e95586e58b32449d6', class: "switch__label" }, hAsync("slot", { key: 'e823c96728bc0281df2165efb5db879f5383a4fe' })))));
     }
     static get style() { return ssbSwitchCss(); }
     static get cmpMeta() { return {
@@ -7064,10 +7882,10 @@ class SsbTable {
     render() {
         const columns = this.parseJson(this.columns);
         const rows = this.parseJson(this.rows);
-        return (hAsync(Host, { key: '3a7a92866e16d299307b75843fe96cbb39f5e1d3' }, hAsync("table", Object.assign({ key: '845e3ed30def418d5ace799ace345c52ef9ba393', class: { 'table': true, 'table--striped': this.striped, 'table--compact': this.compact } }, getAriaAttributes(this.aria)), this.caption && hAsync("caption", { key: '107c4d72d02544e1eb98077a364585ba9782c206', class: "caption" }, this.caption), hAsync("thead", { key: '06de1d6a8d02897cf54a5799b39bda1dcb3b7ba1' }, hAsync("tr", { key: 'f435a82f23a37d40a223e068cbfe77263e8ca8cc' }, columns.map(column => {
+        return (hAsync(Host, { key: '8e04c454eabf25999a0ca0b05652455ba300982c' }, hAsync("table", Object.assign({ key: 'aa0a1c25697ef34ca3865652fd5b206f46283150', class: { 'table': true, 'table--striped': this.striped, 'table--compact': this.compact } }, getAriaAttributes(this.aria)), this.caption && hAsync("caption", { key: 'e1d4931eab83ada31fef13552b082444924a759b', class: "caption" }, this.caption), hAsync("thead", { key: '3fec3f294c87a868b27da09aedfc29e27adeae69' }, hAsync("tr", { key: 'e88c4615546ee288866f0402d0b9921cc06d8322' }, columns.map(column => {
             var _a;
             return (hAsync("th", { style: { textAlign: (_a = column.align) !== null && _a !== void 0 ? _a : 'left' } }, column.header));
-        }))), hAsync("tbody", { key: '05623a9cea32f30c34f33184acc99a2f4466675e' }, rows.map(row => (hAsync("tr", null, columns.map(column => {
+        }))), hAsync("tbody", { key: '70005a82624d9e56331ddbf6351c9dc7435ab0dc' }, rows.map(row => (hAsync("tr", null, columns.map(column => {
             var _a;
             return (hAsync("td", { style: { textAlign: (_a = column.align) !== null && _a !== void 0 ? _a : 'left' } }, row[column.key]));
         }))))))));
@@ -7153,7 +7971,7 @@ class SsbTabs {
     render() {
         const tabs = this.parseTabs();
         const activeTab = tabs.find(tab => tab.value === this.value);
-        return (hAsync(Host, { key: 'e6026ce3dc3f0e5ec52ba859185dc6925be9d819' }, hAsync("div", Object.assign({ key: 'bc0bf0388c095342bc5ca1b22bc6ca8a7ea062ee', class: "tablist", role: "tablist", onKeyDown: this.handleKeyDown }, getAriaAttributes(this.aria)), tabs.map(tab => (hAsync("button", { class: { 'tab': true, 'tab--active': tab.value === this.value }, type: "button", role: "tab", id: `tab-${tab.value}`, "data-value": tab.value, disabled: tab.disabled, "aria-selected": tab.value === this.value ? 'true' : 'false', "aria-controls": `panel-${tab.value}`, tabindex: tab.value === this.value ? 0 : -1, onClick: () => this.selectTab(tab.value) }, tab.label)))), activeTab && (hAsync("div", { key: '7da92b0b161182cf0ffe04707f2c8711b837cb92', class: "panel", role: "tabpanel", id: `panel-${activeTab.value}`, "aria-labelledby": `tab-${activeTab.value}` }, hAsync("slot", { key: 'b316da840cf23f8933bf3278a0bb8796aa5422bd', name: activeTab.value })))));
+        return (hAsync(Host, { key: '348ad99e544dc4e6cc5410fdb7d5a50f3a4438a6' }, hAsync("div", Object.assign({ key: 'd4b84b40743399cca56a6f08d007c304e450f387', class: "tablist", role: "tablist", onKeyDown: this.handleKeyDown }, getAriaAttributes(this.aria)), tabs.map(tab => (hAsync("button", { class: { 'tab': true, 'tab--active': tab.value === this.value }, type: "button", role: "tab", id: `tab-${tab.value}`, "data-value": tab.value, disabled: tab.disabled, "aria-selected": tab.value === this.value ? 'true' : 'false', "aria-controls": `panel-${tab.value}`, tabindex: tab.value === this.value ? 0 : -1, onClick: () => this.selectTab(tab.value) }, tab.label)))), activeTab && (hAsync("div", { key: '2a3a518e430d008d953920fa90d113b5082e2f41', class: "panel", role: "tabpanel", id: `panel-${activeTab.value}`, "aria-labelledby": `tab-${activeTab.value}` }, hAsync("slot", { key: 'dd52729a1b851578e917fc6cc9e8e0c92c03eeab', name: activeTab.value })))));
     }
     get el() { return getElement(this); }
     static get style() { return ssbTabsCss(); }
@@ -7218,7 +8036,7 @@ class SsbTextarea {
             'textarea': true,
             'textarea--invalid': this.invalid,
         };
-        return (hAsync(Host, { key: 'c0488fcf4981994f58e4d5b86f4e17e3f38796c9' }, hAsync("textarea", Object.assign({ key: '120294fae391eeacd98b61d70e17a3e9ae32c7ed', class: classes, placeholder: this.placeholder, name: this.name, rows: this.rows, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.value)));
+        return (hAsync(Host, { key: 'b0ccf032bb79d44407312fefd5db30129c454ddc' }, hAsync("textarea", Object.assign({ key: 'b05d134bb1d8c0c9cb099cb48300c20d09e3e95d', class: classes, placeholder: this.placeholder, name: this.name, rows: this.rows, disabled: this.disabled, readonly: this.readonly, required: this.required, "aria-invalid": this.invalid ? 'true' : undefined, onInput: this.handleInput, onChange: this.handleChange }, getAriaAttributes(this.aria)), this.value)));
     }
     static get style() { return ssbTextareaCss(); }
     static get cmpMeta() { return {
@@ -7267,7 +8085,7 @@ class SsbThemeSwitcher {
     }
     render() {
         const isDark = this.theme === 'dark';
-        return (hAsync(Host, { key: '9cafa0afef2ee8b57ff2d76410a30f6924c3458f' }, hAsync("button", Object.assign({ key: 'a2575506b40036319b5e1c96db55af6c8a019809', class: "theme-switcher", type: "button", onClick: this.toggleTheme, "aria-pressed": isDark ? 'true' : 'false', "aria-label": isDark ? 'Switch to light theme' : 'Switch to dark theme' }, getAriaAttributes(this.aria)), hAsync("span", { key: 'a6d617917a851eef913fec23768931544568431b', class: "theme-switcher__icon", "aria-hidden": "true" }, isDark ? '\u{1F319}' : '☀'))));
+        return (hAsync(Host, { key: '6b875ee084aae878c515af79dfa01c6d243cb6a0' }, hAsync("button", Object.assign({ key: '6d23d6b2c1731a2346bc085d6578330b5cd8093b', class: "theme-switcher", type: "button", onClick: this.toggleTheme, "aria-pressed": isDark ? 'true' : 'false', "aria-label": isDark ? 'Switch to light theme' : 'Switch to dark theme' }, getAriaAttributes(this.aria)), hAsync("span", { key: '7bfcd653d85feba40bb883ffa1291d6464645542', class: "theme-switcher__icon", "aria-hidden": "true" }, isDark ? '\u{1F319}' : '☀'))));
     }
     static get style() { return ssbThemeSwitcherCss(); }
     static get cmpMeta() { return {
@@ -7341,7 +8159,7 @@ class SsbToast {
             toast: true,
             [`toast--${this.variant}`]: true,
         };
-        return (hAsync(Host, { key: 'ced7fe391164cdfa4cc86b59d3a4975d16ec8a24' }, this.open && (hAsync("div", Object.assign({ key: '27499ddd7f4baefb7887805b16228ec8b5b68f8e', class: classes, role: this.variant === 'destructive' ? 'alert' : 'status' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'a069ca41787f548f44c640fdc6fc5e6cc3655d20', class: "toast__content" }, this.toastTitle && hAsync("div", { key: '1272004027e7f01b4e9bf23acf0d976484c03229', class: "toast__title" }, this.toastTitle), this.description && hAsync("div", { key: '331410f0c6072d4b7686ff2227d456020a5da9f6', class: "toast__description" }, this.description), hAsync("slot", { key: '07648f21837026ab59fc3fa541ecf97ca57d44fc' })), this.dismissible && (hAsync("button", { key: '11e3ede4cbb443485b68091e5eb0a70f9b327e18', class: "toast__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715"))))));
+        return (hAsync(Host, { key: '647bd58c6dbf095ba6fa244f112a76cbba4df8a7' }, this.open && (hAsync("div", Object.assign({ key: '299e6a58af8ea019549c3dee87aad6560ef18dbd', class: classes, role: this.variant === 'destructive' ? 'alert' : 'status' }, getAriaAttributes(this.aria)), hAsync("div", { key: 'c6f0bde3ea8a668ef924b4f837a171ada038fe03', class: "toast__content" }, this.toastTitle && hAsync("div", { key: '67a0f2e396c8daaffbebfb48737cfa1acfedee91', class: "toast__title" }, this.toastTitle), this.description && hAsync("div", { key: 'fd923bf32fbf82949994b0af70bbb45c4b622c96', class: "toast__description" }, this.description), hAsync("slot", { key: '4b6f1133a3bc864b60233b3ed7f72fc04abdf446' })), this.dismissible && (hAsync("button", { key: '62a8d90f1a949ff2028f79b3cfe06091dc8eb824', class: "toast__close", type: "button", "aria-label": "Close", onClick: () => this.close() }, "\u2715"))))));
     }
     static get watchers() { return {
         "open": [{
@@ -7412,7 +8230,7 @@ class SsbTooltip {
             [`tooltip--${this.position}`]: true,
             'tooltip--visible': this.visible,
         };
-        return (hAsync(Host, { key: '1f37c06fd6a2fe638ad29743d89a9fb1ae03aa28', onMouseEnter: this.show, onMouseLeave: this.hide, onFocusin: this.show, onFocusout: this.hide, onKeyDown: this.handleKeyDown }, hAsync("slot", { key: 'af0652b07b362a49902df099f592ef982d5bc4cc' }), hAsync("div", Object.assign({ key: '2d54e40311cb5875af874677a40a49dff54e3737', class: classes, role: "tooltip" }, getAriaAttributes(this.aria)), this.text)));
+        return (hAsync(Host, { key: 'c6f9806c07acb47e2b259a8e14d26c98ac116de3', onMouseEnter: this.show, onMouseLeave: this.hide, onFocusin: this.show, onFocusout: this.hide, onKeyDown: this.handleKeyDown }, hAsync("slot", { key: 'a132d277339bc167463ffaeb0a103e4e2a99207b' }), hAsync("div", Object.assign({ key: 'cb3d91a5467a2208b0113a0ee4ca196442761982', class: classes, role: "tooltip" }, getAriaAttributes(this.aria)), this.text)));
     }
     static get style() { return ssbTooltipCss(); }
     static get cmpMeta() { return {
@@ -7443,8 +8261,12 @@ registerComponents([
   SsbButton,
   SsbButtonGroup,
   SsbCard,
+  SsbChart,
   SsbCheckbox,
+  SsbCombobox,
+  SsbCommand,
   SsbDialog,
+  SsbDrawer,
   SsbDropdownMenu,
   SsbEmpty,
   SsbField,
@@ -7460,6 +8282,8 @@ registerComponents([
   SsbRadio,
   SsbRadioGroup,
   SsbScrollArea,
+  SsbSelect,
+  SsbSidebar,
   SsbSkeleton,
   SsbSlider,
   SsbSpinner,

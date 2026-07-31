@@ -1,12 +1,9 @@
 import { html } from "lit"
 import type { Meta, StoryObj } from "@storybook/web-components-vite"
 
+// prettier-ignore
 // @ts-expect-error because Intellij does not understand imports within Lerna monorepos
-import type {
-  SsbTable,
-  TableColumn,
-  TableRow,
-} from "@stencil-storybook-boilerplate/core/src/components/ssb-table/ssb-table"
+import type { SsbTable, TableColumn, TableRow } from "@stencil-storybook-boilerplate/core/src/components/ssb-table/ssb-table"
 
 type Args = SsbTable & { columns: TableColumn[]; rows: TableRow[] }
 

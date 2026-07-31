@@ -299,6 +299,29 @@ export declare interface SsbCard extends Components.SsbCard {}
 
 
 @ProxyCmp({
+  inputs: ['accent', 'aria', 'chartHeight', 'data', 'showGrid', 'showLabels', 'type']
+})
+@Component({
+  selector: 'ssb-chart',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['accent', 'aria', 'chartHeight', 'data', 'showGrid', 'showLabels', 'type'],
+  standalone: false
+})
+export class SsbChart {
+  protected el: HTMLSsbChartElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface SsbChart extends Components.SsbChart {}
+
+
+@ProxyCmp({
   inputs: ['aria', 'checked', 'disabled', 'indeterminate', 'label', 'name', 'value']
 })
 @Component({
@@ -331,6 +354,75 @@ export declare interface SsbCheckbox extends Components.SsbCheckbox {
 
 
 @ProxyCmp({
+  inputs: ['aria', 'disabled', 'emptyMessage', 'open', 'options', 'placeholder', 'searchPlaceholder', 'value']
+})
+@Component({
+  selector: 'ssb-combobox',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'disabled', 'emptyMessage', 'open', 'options', 'placeholder', 'searchPlaceholder', 'value'],
+  outputs: ['ssbChange', 'ssbOpenChange'],
+  standalone: false
+})
+export class SsbCombobox {
+  protected el: HTMLSsbComboboxElement;
+  @Output() ssbChange = new EventEmitter<SsbComboboxCustomEvent<{ value: string }>>();
+  @Output() ssbOpenChange = new EventEmitter<SsbComboboxCustomEvent<{ open: boolean }>>();
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+import type { SsbComboboxCustomEvent } from '@stencil-storybook-boilerplate/core';
+
+export declare interface SsbCombobox extends Components.SsbCombobox {
+  /**
+   * Emitted when the selection changes. Detail contains the selected value.
+   */
+  ssbChange: EventEmitter<SsbComboboxCustomEvent<{ value: string }>>;
+  /**
+   * Emitted whenever the open state changes. Detail contains the new open state.
+   */
+  ssbOpenChange: EventEmitter<SsbComboboxCustomEvent<{ open: boolean }>>;
+}
+
+
+@ProxyCmp({
+  inputs: ['aria', 'emptyMessage', 'items', 'placeholder']
+})
+@Component({
+  selector: 'ssb-command',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'emptyMessage', 'items', 'placeholder'],
+  outputs: ['ssbSelect'],
+  standalone: false
+})
+export class SsbCommand {
+  protected el: HTMLSsbCommandElement;
+  @Output() ssbSelect = new EventEmitter<SsbCommandCustomEvent<{ value: string }>>();
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+import type { SsbCommandCustomEvent } from '@stencil-storybook-boilerplate/core';
+
+export declare interface SsbCommand extends Components.SsbCommand {
+  /**
+   * Emitted when a command is selected. Detail contains the command's value.
+   */
+  ssbSelect: EventEmitter<SsbCommandCustomEvent<{ value: string }>>;
+}
+
+
+@ProxyCmp({
   inputs: ['aria', 'description', 'dialogTitle', 'hideClose', 'open']
 })
 @Component({
@@ -359,6 +451,38 @@ export declare interface SsbDialog extends Components.SsbDialog {
    * Emitted whenever the open state changes. Detail contains the new open state.
    */
   ssbOpenChange: EventEmitter<SsbDialogCustomEvent<{ open: boolean }>>;
+}
+
+
+@ProxyCmp({
+  inputs: ['aria', 'description', 'drawerTitle', 'hideClose', 'open', 'side']
+})
+@Component({
+  selector: 'ssb-drawer',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'description', 'drawerTitle', 'hideClose', 'open', 'side'],
+  outputs: ['ssbOpenChange'],
+  standalone: false
+})
+export class SsbDrawer {
+  protected el: HTMLSsbDrawerElement;
+  @Output() ssbOpenChange = new EventEmitter<SsbDrawerCustomEvent<{ open: boolean }>>();
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+import type { SsbDrawerCustomEvent } from '@stencil-storybook-boilerplate/core';
+
+export declare interface SsbDrawer extends Components.SsbDrawer {
+  /**
+   * Emitted whenever the open state changes. Detail contains the new open state.
+   */
+  ssbOpenChange: EventEmitter<SsbDrawerCustomEvent<{ open: boolean }>>;
 }
 
 
@@ -779,6 +903,75 @@ export class SsbScrollArea {
 
 
 export declare interface SsbScrollArea extends Components.SsbScrollArea {}
+
+
+@ProxyCmp({
+  inputs: ['aria', 'disabled', 'name', 'open', 'options', 'placeholder', 'value']
+})
+@Component({
+  selector: 'ssb-select',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'disabled', 'name', 'open', 'options', 'placeholder', 'value'],
+  outputs: ['ssbChange', 'ssbOpenChange'],
+  standalone: false
+})
+export class SsbSelect {
+  protected el: HTMLSsbSelectElement;
+  @Output() ssbChange = new EventEmitter<SsbSelectCustomEvent<{ value: string }>>();
+  @Output() ssbOpenChange = new EventEmitter<SsbSelectCustomEvent<{ open: boolean }>>();
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+import type { SsbSelectCustomEvent } from '@stencil-storybook-boilerplate/core';
+
+export declare interface SsbSelect extends Components.SsbSelect {
+  /**
+   * Emitted when the selection changes. Detail contains the selected value.
+   */
+  ssbChange: EventEmitter<SsbSelectCustomEvent<{ value: string }>>;
+  /**
+   * Emitted whenever the open state changes. Detail contains the new open state.
+   */
+  ssbOpenChange: EventEmitter<SsbSelectCustomEvent<{ open: boolean }>>;
+}
+
+
+@ProxyCmp({
+  inputs: ['aria', 'collapsed', 'collapsedWidth', 'collapsible', 'side', 'width']
+})
+@Component({
+  selector: 'ssb-sidebar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['aria', 'collapsed', 'collapsedWidth', 'collapsible', 'side', 'width'],
+  outputs: ['ssbToggle'],
+  standalone: false
+})
+export class SsbSidebar {
+  protected el: HTMLSsbSidebarElement;
+  @Output() ssbToggle = new EventEmitter<SsbSidebarCustomEvent<{ collapsed: boolean }>>();
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+import type { SsbSidebarCustomEvent } from '@stencil-storybook-boilerplate/core';
+
+export declare interface SsbSidebar extends Components.SsbSidebar {
+  /**
+   * Emitted whenever the collapsed state changes via the toggle button. Detail contains the new collapsed state.
+   */
+  ssbToggle: EventEmitter<SsbSidebarCustomEvent<{ collapsed: boolean }>>;
+}
 
 
 @ProxyCmp({
