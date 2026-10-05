@@ -21,7 +21,7 @@ import { Components } from '@stencil-storybook-boilerplate/core';
 })
 export class MyComponent {
   protected el: HTMLMyComponentElement;
-  @Output() buttonClick = new EventEmitter<CustomEvent<any>>();
+  @Output() buttonClick = new EventEmitter<MyComponentCustomEvent<any>>();
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -29,11 +29,13 @@ export class MyComponent {
 }
 
 
+import type { MyComponentCustomEvent } from '@stencil-storybook-boilerplate/core';
+
 export declare interface MyComponent extends Components.MyComponent {
   /**
    * Emitted when button is clicked.
    */
-  buttonClick: EventEmitter<CustomEvent<any>>;
+  buttonClick: EventEmitter<MyComponentCustomEvent<any>>;
 }
 
 

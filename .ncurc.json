@@ -2,5 +2,7 @@
   "format": "group",
   "root": true,
   "upgrade": true,
-  "workspaces": true
+  "workspaces": true,
+  "peer": true,
+  "reject": ["jest", "jest-cli", "@types/jest"]
 }
