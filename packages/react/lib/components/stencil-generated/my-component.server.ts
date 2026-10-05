@@ -20,7 +20,7 @@ export const serializeShadowRoot: SerializeShadowRootOptions = { default: "decla
 
 export type MyComponentEvents = { onButtonClick: EventName<MyComponentCustomEvent<any>> };
 
-export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents, Components.MyComponent>({
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent, 'first'> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents, Components.MyComponent, 'first'>({
     tagName: 'my-component',
     properties: {
         count: 'count',
@@ -29,7 +29,7 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
         last: 'last',
         aria: 'aria'
     },
-    hydrateModule: import('@stencil-storybook-boilerplate/core/hydrate') as Promise<HydrateModule>,
-    clientModule: clientComponents.MyComponent as StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent>,
+    hydrateModule: typeof window === 'undefined' ? (import('@stencil-storybook-boilerplate/core/hydrate') as Promise<HydrateModule>) : undefined,
+    clientModule: clientComponents.MyComponent as StencilReactComponent<MyComponentElement, MyComponentEvents, Components.MyComponent, 'first'>,
     serializeShadowRoot
 });

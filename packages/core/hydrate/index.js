@@ -2,7 +2,11 @@
 
 var stream = require('stream');
 
-const modeResolutionChain = [];
+const modeResolver = [];
+
+// captured here, at true module scope, before hydrateFactory shadows the
+// AbortController identifier for component code below.
+var $stencilNativeAbortController = AbortController;
 
 function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResults, $stencilAfterHydrate, $stencilHydrateResolve) {
   var globalThis = $stencilWindow;
@@ -95,8 +99,46 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
 
   var fetch, FetchError, Headers, Request, Response;
 
+  // Aborted when the render times out or errors, so in-flight fetch() calls
+  // made by component code stop holding the render's window/results alive
+  // instead of running to completion against a torn-down window. See #6864.
+  var $stencilAbortController = new $stencilNativeAbortController();
+
+  // Any AbortController a component creates itself is transparently wired to
+  // cascade-abort when the render times out too, so component code using the
+  // standard AbortController convention for its own cancellable work (axios,
+  // aws-sdk v3, the mongodb driver, etc.) gets cancelled automatically. 
+  var AbortController = function () {
+    var controller = new $stencilNativeAbortController();
+    $stencilAbortController.signal.addEventListener(
+      'abort',
+      function () {
+        controller.abort();
+      },
+      { once: true },
+    );
+    return controller;
+  };
+
+  function $stencilFetchSignal(callerSignal) {
+    if (!callerSignal) {
+      return $stencilAbortController.signal;
+    }
+    if (callerSignal.aborted || $stencilAbortController.signal.aborted) {
+      return callerSignal.aborted ? callerSignal : $stencilAbortController.signal;
+    }
+    var merged = new $stencilNativeAbortController();
+    var onAbort = function () { merged.abort(); };
+    callerSignal.addEventListener('abort', onAbort, { once: true });
+    $stencilAbortController.signal.addEventListener('abort', onAbort, { once: true });
+    return merged.signal;
+  }
+
   if (typeof $stencilWindow.fetch === 'function') {
-    fetch = $stencilWindow.fetch;
+    var $stencilRawFetch = $stencilWindow.fetch;
+    fetch = $stencilWindow.fetch = function(input, init) {
+      return $stencilRawFetch(input, Object.assign({}, init, { signal: $stencilFetchSignal(init && init.signal) }));
+    };
   } else {
     fetch = $stencilWindow.fetch = function() { throw new Error('fetch() is not implemented'); };
   }
@@ -135,7 +177,7 @@ const NAMESPACE = 'stencil-storybook-boilerplate';
 const BUILD = /* stencil-storybook-boilerplate */ { hotModuleReplacement: false, hydratedSelectorName: "hydrated", prop: true, propChangeCallback: false, slotRelocation: true, updatable: true};
 
 /*
- Stencil Hydrate Platform v4.43.4 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.45.2 | MIT Licensed | https://stenciljs.com
  */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -244,6 +286,10 @@ var require_brace_expansion = __commonJS({
     var escClose = "\0CLOSE" + Math.random() + "\0";
     var escComma = "\0COMMA" + Math.random() + "\0";
     var escPeriod = "\0PERIOD" + Math.random() + "\0";
+    var EXPANSION_MAX = 1e5;
+    var EXPANSION_MAX_LENGTH = 4e6;
+    var EXPANSION_MAX_DEPTH = 1e3;
+    var EXPANSION_MAX_REWRITES = 1e3;
     function numeric(str) {
       return parseInt(str, 10) == str ? parseInt(str, 10) : str.charCodeAt(0);
     }
@@ -253,33 +299,49 @@ var require_brace_expansion = __commonJS({
     function unescapeBraces(str) {
       return str.split(escSlash).join("\\").split(escOpen).join("{").split(escClose).join("}").split(escComma).join(",").split(escPeriod).join(".");
     }
-    function parseCommaParts(str) {
-      if (!str)
-        return [""];
-      var parts = [];
-      var m = balanced("{", "}", str);
-      if (!m)
-        return str.split(",");
-      var pre = m.pre;
-      var body = m.body;
-      var post = m.post;
-      var p = pre.split(",");
-      p[p.length - 1] += "{" + body + "}";
-      var postParts = parseCommaParts(post);
-      if (post.length) {
-        p[p.length - 1] += postParts.shift();
-        p.push.apply(p, postParts);
+    function pushAll(target, items) {
+      for (var i2 = 0; i2 < items.length; i2++) {
+        target.push(items[i2]);
       }
-      parts.push.apply(parts, p);
-      return parts;
     }
-    function expandTop(str) {
+    function parseCommaParts(str) {
+      var parts = [];
+      var carry = "";
+      for (; ; ) {
+        var m = balanced("{", "}", str);
+        if (!m) {
+          var tail = str.split(",");
+          tail[0] = carry + tail[0];
+          pushAll(parts, tail);
+          return parts;
+        }
+        var pre = m.pre;
+        var body = m.body;
+        var post = m.post;
+        var p = pre.split(",");
+        p[0] = carry + p[0];
+        p[p.length - 1] += "{" + body + "}";
+        if (!post.length) {
+          pushAll(parts, p);
+          return parts;
+        }
+        carry = p.pop();
+        pushAll(parts, p);
+        str = post;
+      }
+    }
+    function expandTop(str, options) {
       if (!str)
         return [];
+      options = options || {};
+      var max = options.max == null ? EXPANSION_MAX : options.max;
+      var maxLength = options.maxLength == null ? EXPANSION_MAX_LENGTH : options.maxLength;
+      var maxDepth = options.maxDepth == null ? EXPANSION_MAX_DEPTH : options.maxDepth;
+      var maxRewrites = options.maxRewrites == null ? EXPANSION_MAX_REWRITES : options.maxRewrites;
       if (str.substr(0, 2) === "{}") {
         str = "\\{\\}" + str.substr(2);
       }
-      return expand2(escapeBraces(str), true).map(unescapeBraces);
+      return expand2(escapeBraces(str), max, maxLength, maxDepth, 0, maxRewrites, true).map(unescapeBraces);
     }
     function embrace(str) {
       return "{" + str + "}";
@@ -293,93 +355,165 @@ var require_brace_expansion = __commonJS({
     function gte(i2, y) {
       return i2 >= y;
     }
-    function expand2(str, isTop) {
-      var expansions = [];
-      var m = balanced("{", "}", str);
-      if (!m) return [str];
-      var pre = m.pre;
-      var post = m.post.length ? expand2(m.post, false) : [""];
-      if (/\$$/.test(m.pre)) {
-        for (var k = 0; k < post.length; k++) {
-          var expansion = pre + "{" + m.body + "}" + post[k];
-          expansions.push(expansion);
+    function combine(acc, pre, values, max, maxLength, dropEmpties) {
+      var out = [];
+      var length = 0;
+      for (var a = 0; a < acc.length; a++) {
+        for (var v = 0; v < values.length; v++) {
+          if (out.length >= max) return out;
+          var expansion = acc[a] + pre + values[v];
+          if (dropEmpties && !expansion) continue;
+          if (length + expansion.length > maxLength) return out;
+          out.push(expansion);
+          length += expansion.length;
         }
-      } else {
+      }
+      return out;
+    }
+    function expandSequence(body, isAlphaSequence, max, maxLength) {
+      var n = body.split(/\.\./);
+      var N = [];
+      if (n[0] === void 0 || n[1] === void 0) {
+        return N;
+      }
+      var x = numeric(n[0]);
+      var y = numeric(n[1]);
+      var width = Math.max(n[0].length, n[1].length);
+      var incr = n.length === 3 && n[2] !== void 0 ? Math.max(Math.abs(numeric(n[2])), 1) : 1;
+      var test = lte;
+      var reverse = y < x;
+      if (reverse) {
+        incr *= -1;
+        test = gte;
+      }
+      var pad = n.some(isPadded);
+      var length = 0;
+      for (var i2 = x; test(i2, y) && N.length < max; i2 += incr) {
+        var c;
+        if (isAlphaSequence) {
+          c = String.fromCharCode(i2);
+          if (c === "\\") {
+            c = "";
+          }
+        } else {
+          c = String(i2);
+          if (pad) {
+            var need = width - c.length;
+            if (need > 0) {
+              var z = new Array(need + 1).join("0");
+              if (i2 < 0) {
+                c = "-" + z + c.slice(1);
+              } else {
+                c = z + c;
+              }
+            }
+          }
+        }
+        if (length + c.length > maxLength) break;
+        N.push(c);
+        length += c.length;
+      }
+      return N;
+    }
+    function expand2(str, max, maxLength, maxDepth, depth, maxRewrites, isTop) {
+      if (depth > maxDepth) {
+        return [str];
+      }
+      var acc = [""];
+      var rewrites = 0;
+      var dropEmpties = false;
+      var firstGroup = true;
+      for (; ; ) {
+        const m = balanced("{", "}", str);
+        if (!m) {
+          return combine(acc, str, [""], max, maxLength, dropEmpties);
+        }
+        const pre = m.pre;
+        if (/\$$/.test(pre)) {
+          acc = combine(
+            acc,
+            pre + "{" + m.body + "}",
+            [""],
+            max,
+            maxLength,
+            dropEmpties && !m.post.length
+          );
+          firstGroup = false;
+          if (!m.post.length) break;
+          str = m.post;
+          continue;
+        }
         var isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m.body);
         var isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m.body);
         var isSequence = isNumericSequence || isAlphaSequence;
         var isOptions = m.body.indexOf(",") >= 0;
         if (!isSequence && !isOptions) {
-          if (m.post.match(/,(?!,).*\}/)) {
+          if (rewrites < maxRewrites && m.post.match(/,(?!,).*\}/)) {
+            rewrites++;
             str = m.pre + "{" + m.body + escClose + m.post;
-            return expand2(str);
+            isTop = true;
+            continue;
           }
-          return [str];
+          return combine(
+            acc,
+            pre + "{" + m.body + "}" + m.post,
+            [""],
+            max,
+            maxLength,
+            dropEmpties
+          );
         }
-        var n;
+        if (firstGroup) {
+          dropEmpties = isTop && !isSequence;
+          firstGroup = false;
+        }
+        var values;
         if (isSequence) {
-          n = m.body.split(/\.\./);
+          values = expandSequence(m.body, isAlphaSequence, max, maxLength);
         } else {
-          n = parseCommaParts(m.body);
-          if (n.length === 1) {
-            n = expand2(n[0], false).map(embrace);
+          var n = parseCommaParts(m.body);
+          if (n.length === 1 && n[0] !== void 0) {
+            n = expand2(n[0], max, maxLength, maxDepth, depth + 1, maxRewrites, false).map(embrace);
             if (n.length === 1) {
-              return post.map(function(p) {
-                return m.pre + n[0] + p;
-              });
+              acc = combine(
+                acc,
+                pre + n[0],
+                [""],
+                max,
+                maxLength,
+                dropEmpties && !m.post.length
+              );
+              if (!m.post.length) break;
+              str = m.post;
+              continue;
             }
           }
-        }
-        var N;
-        if (isSequence) {
-          var x = numeric(n[0]);
-          var y = numeric(n[1]);
-          var width = Math.max(n[0].length, n[1].length);
-          var incr = n.length == 3 ? Math.abs(numeric(n[2])) : 1;
-          var test = lte;
-          var reverse = y < x;
-          if (reverse) {
-            incr *= -1;
-            test = gte;
+          var dropsEmpties = dropEmpties && !m.post.length && !pre;
+          for (var d = 0; dropsEmpties && d < acc.length; d++) {
+            if (acc[d]) {
+              dropsEmpties = false;
+            }
           }
-          var pad = n.some(isPadded);
-          N = [];
-          for (var i2 = x; test(i2, y); i2 += incr) {
-            var c;
-            if (isAlphaSequence) {
-              c = String.fromCharCode(i2);
-              if (c === "\\")
-                c = "";
-            } else {
-              c = String(i2);
-              if (pad) {
-                var need = width - c.length;
-                if (need > 0) {
-                  var z = new Array(need + 1).join("0");
-                  if (i2 < 0)
-                    c = "-" + z + c.slice(1);
-                  else
-                    c = z + c;
-                }
+          values = [];
+          var valuesLength = 0;
+          outer: for (var j = 0; j < n.length; j++) {
+            var expanded = expand2(n[j], max, maxLength, maxDepth, depth + 1, maxRewrites, false);
+            for (var k = 0; k < expanded.length; k++) {
+              var v = expanded[k];
+              if (dropsEmpties && !v) continue;
+              if (values.length >= max || valuesLength + v.length > maxLength) {
+                break outer;
               }
+              values.push(v);
+              valuesLength += v.length;
             }
-            N.push(c);
-          }
-        } else {
-          N = [];
-          for (var j = 0; j < n.length; j++) {
-            N.push.apply(N, expand2(n[j], false));
           }
         }
-        for (var j = 0; j < N.length; j++) {
-          for (var k = 0; k < post.length; k++) {
-            var expansion = pre + N[j] + post[k];
-            if (!isTop || isSequence || expansion)
-              expansions.push(expansion);
-          }
-        }
+        acc = combine(acc, pre, values, max, maxLength, dropEmpties && !m.post.length);
+        if (!m.post.length) break;
+        str = m.post;
       }
-      return expansions;
+      return acc;
     }
   }
 });
@@ -466,6 +600,8 @@ var DEFAULT_DOC_DATA = {
 };
 var SLOT_FB_CSS = "slot-fb{display:contents}slot-fb[hidden]{display:none}";
 var XLINK_NS = "http://www.w3.org/1999/xlink";
+var MAX_LAZY_LOAD_RETRIES = 3;
+var LAZY_LOAD_RETRY_INTERVAL_MS = 1e3;
 
 // src/utils/style.ts
 function createStyleSheetIfNeededAndSupported(styles2) {
@@ -526,7 +662,7 @@ function getHostSlotNodes(childNodes, hostName, slotName) {
       slottedNodes.push(childNode);
       if (typeof slotName !== "undefined") return slottedNodes;
     }
-    slottedNodes = [...slottedNodes, ...getHostSlotNodes(childNode.childNodes, hostName, slotName)];
+    slottedNodes = [...slottedNodes, ...getHostSlotNodes(internalCall(childNode, "childNodes"), hostName, slotName)];
   }
   return slottedNodes;
 }
@@ -768,6 +904,11 @@ var h = (nodeName, vnodeData, ...children) => {
       } else if (child != null && typeof child !== "boolean") {
         if (simple = typeof nodeName !== "function" && !isComplexType(child)) {
           child = String(child);
+        } else if (typeof nodeName !== "function" && child.$flags$ === void 0) {
+          {
+            consoleError("Invalid vNode child");
+          }
+          continue;
         }
         if (simple && lastSimple) {
           vNodeChildren[vNodeChildren.length - 1].$text$ += child;
@@ -1521,13 +1662,14 @@ var scopeSelector = (selector, scopeSelectorText, hostSelector, slotSelector) =>
     }
   }).join(", ");
 };
+var isScopableAtRule = (selector) => selector.startsWith("@media") || selector.startsWith("@supports") || selector.startsWith("@page") || selector.startsWith("@document") || selector.startsWith("@layer") || selector.startsWith("@container");
 var scopeSelectors = (cssText, scopeSelectorText, hostSelector, slotSelector, commentOriginalSelector) => {
   return processRules(cssText, (rule) => {
     let selector = rule.selector;
     let content = rule.content;
     if (rule.selector[0] !== "@") {
       selector = scopeSelector(rule.selector, scopeSelectorText, hostSelector, slotSelector);
-    } else if (rule.selector.startsWith("@media") || rule.selector.startsWith("@supports") || rule.selector.startsWith("@page") || rule.selector.startsWith("@document")) {
+    } else if (isScopableAtRule(rule.selector)) {
       content = scopeSelectors(rule.content, scopeSelectorText, hostSelector, slotSelector);
     }
     const cssRule = {
@@ -1606,15 +1748,16 @@ var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
       rule.selector = placeholder + rule.selector;
       return rule;
     };
-    cssText = processRules(cssText, (rule) => {
+    const commentSelectors = (input) => processRules(input, (rule) => {
       if (rule.selector[0] !== "@") {
         return processCommentedSelector(rule);
-      } else if (rule.selector.startsWith("@media") || rule.selector.startsWith("@supports") || rule.selector.startsWith("@page") || rule.selector.startsWith("@document")) {
-        rule.content = processRules(rule.content, processCommentedSelector);
-        return rule;
+      }
+      if (isScopableAtRule(rule.selector)) {
+        rule.content = commentSelectors(rule.content);
       }
       return rule;
     });
+    cssText = commentSelectors(cssText);
   }
   const scoped = scopeCssText(cssText, scopeId2, hostScopeId, slotScopeId);
   cssText = [scoped.cssText, ...commentsWithHash].join("\n");
@@ -1629,6 +1772,8 @@ var scopeCss = (cssText, scopeId2, commentOriginalSelector) => {
   });
   cssText = expandPartSelectors(cssText);
   return cssText;
+};
+var setMode = (handler) => {
 };
 
 // src/utils/remote-value.ts
@@ -1802,7 +1947,12 @@ var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRen
       newClasses = [...new Set(newClasses)].filter((c) => c);
       classList.add(...newClasses);
     } else {
-      classList.remove(...oldClasses.filter((c) => c && !newClasses.includes(c)));
+      let removedClasses = oldClasses.filter((c) => c && !newClasses.includes(c));
+      if (initialRender && !(flags & 4 /* isHost */)) {
+        const ownClasses = getOwnHostClasses(elm);
+        removedClasses = removedClasses.filter((c) => !ownClasses.includes(c));
+      }
+      classList.remove(...removedClasses);
       classList.add(...newClasses.filter((c) => c && !oldClasses.includes(c)));
     }
   } else if (memberName === "style") {
@@ -1903,7 +2053,7 @@ var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRen
       }
     }
     if (newValue == null || newValue === false) {
-      if (newValue !== false || elm.getAttribute(memberName) === "") {
+      if (newValue !== false || elm.getAttribute(memberName) === "" || flags & 4 /* isHost */ && !isEnumeratedAttribute(memberName)) {
         if (xlink) {
           elm.removeAttributeNS(XLINK_NS, memberName);
         } else {
@@ -1920,7 +2070,21 @@ var setAccessor = (elm, memberName, oldValue, newValue, isSvg, flags, initialRen
     }
   }
 };
+var ENUMERATED_ATTRIBUTES = /* @__PURE__ */ new Set(["draggable", "contenteditable", "spellcheck"]);
+var isEnumeratedAttribute = (attrName) => ENUMERATED_ATTRIBUTES.has(attrName) || attrName.startsWith("aria-");
 var parseClassListRegex = /\s/;
+var getOwnHostClasses = (elm) => {
+  var _a2, _b, _c;
+  const hostRef = getHostRef(elm);
+  if (!hostRef || !(hostRef.$flags$ & 2 /* hasRendered */)) {
+    return [];
+  }
+  const ownClasses = parseClassList((_b = (_a2 = hostRef.$vnode$) == null ? void 0 : _a2.$attrs$) == null ? void 0 : _b.class);
+  {
+    ownClasses.push((_c = BUILD.hydratedSelectorName) != null ? _c : "hydrated");
+  }
+  return ownClasses;
+};
 var parseClassList = (value) => {
   if (typeof value === "object" && value && "baseVal" in value) {
     value = value.baseVal;
@@ -2201,7 +2365,7 @@ var updateChildren = (parentElm, oldCh, newVNode2, newCh, isInitialRender = fals
       if (idxInOld >= 0) {
         elmToMove = oldCh[idxInOld];
         if (elmToMove.$tag$ !== newStartVnode.$tag$) {
-          node = createElm(oldCh && oldCh[newStartIdx], newVNode2, idxInOld);
+          node = createElm(oldCh && oldCh[newStartIdx], newVNode2, newStartIdx);
         } else {
           patch(elmToMove, newStartVnode, isInitialRender);
           oldCh[idxInOld] = void 0;
@@ -2295,7 +2459,10 @@ var markSlotContentForRelocation = (elm) => {
       const slotName = childNode["s-sn"];
       for (j = hostContentNodes.length - 1; j >= 0; j--) {
         node = hostContentNodes[j];
-        if (!node["s-cn"] && !node["s-nr"] && node["s-hn"] !== childNode["s-hn"] && (!node["s-sh"] || node["s-sh"] !== childNode["s-hn"])) {
+        if (!node["s-cn"] && !node["s-nr"] && node["s-hn"] !== childNode["s-hn"] && // let an exact named-slot match override a stale default-slot claim. Skip this for
+        // `slotName === ''` itself - a matched default node's cached `s-sn` is `''` too, which
+        // would trivially "match" on every re-render and force pointless re-insertion.
+        (!node["s-sh"] || node["s-sh"] !== childNode["s-hn"] || slotName !== "" && getSlotName(node) === slotName)) {
           if (isNodeLocatedInSlot(node, slotName)) {
             let relocateNodeData = relocateNodes.find((r) => r.$nodeToRelocate$ === node);
             checkSlotFallbackVisibility = true;
@@ -2363,7 +2530,7 @@ var insertBefore = (parent, newNode, reference, isInitialLoad) => {
       return newNode;
     }
   }
-  if (parent.__insertBefore) {
+  if ((parent == null ? void 0 : parent.__insertBefore)) {
     return parent.__insertBefore(newNode, reference);
   } else {
     return parent == null ? void 0 : parent.insertBefore(newNode, reference);
@@ -2749,8 +2916,19 @@ var setValue = (ref, propName, newVal, cmpMeta) => {
     }
   }
 };
-
-// src/runtime/proxy-component.ts
+var replayPendingSetterValues = (hostRef, cmpMeta) => {
+  var _a2;
+  const instance = hostRef.$lazyInstance$;
+  if (!instance) return;
+  for (const [memberName, [memberFlags]] of Object.entries((_a2 = cmpMeta.$members$) != null ? _a2 : {})) {
+    if (memberFlags & 4096 /* Setter */ && hostRef.$instanceValues$.has(memberName)) {
+      const pendingValue = hostRef.$instanceValues$.get(memberName);
+      if (instance[memberName] !== pendingValue) {
+        instance[memberName] = pendingValue;
+      }
+    }
+  }
+};
 var proxyComponent = (Cstr, cmpMeta, flags) => {
   var _a2;
   const prototype = Cstr.prototype;
@@ -2769,9 +2947,8 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
                   return getValue(this, memberName);
                 }
                 const ref = getHostRef(this);
-                const instance = ref ? ref.$lazyInstance$ : prototype;
-                if (!instance) return;
-                return instance[memberName];
+                if (!ref) return prototype[memberName];
+                return ref.$lazyInstance$ ? ref.$lazyInstance$[memberName] : getValue(this, memberName);
               }
             },
             configurable: true,
@@ -2814,10 +2991,12 @@ var proxyComponent = (Cstr, cmpMeta, flags) => {
 
 // src/runtime/initialize-component.ts
 var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
+  var _a2;
   let Cstr;
   try {
     if ((hostRef.$flags$ & 32 /* hasInitializedComponent */) === 0) {
       hostRef.$flags$ |= 32 /* hasInitializedComponent */;
+      hostRef.$flags$ &= -1025 /* hasFailedLoad */;
       const bundleId = cmpMeta.$lazyBundleId$;
       if (bundleId) {
         const CstrImport = loadModule(cmpMeta);
@@ -2829,6 +3008,11 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
           Cstr = CstrImport;
         }
         if (!Cstr) {
+          hostRef.$flags$ &= -33 /* hasInitializedComponent */;
+          hostRef.$loadRetryCount$ = ((_a2 = hostRef.$loadRetryCount$) != null ? _a2 : 0) + 1;
+          if (hostRef.$loadRetryCount$ < MAX_LAZY_LOAD_RETRIES) {
+            hostRef.$flags$ |= 1024 /* hasFailedLoad */;
+          }
           throw new Error(`Constructor for "${cmpMeta.$tagName$}#${hostRef.$modeName$}" was not found`);
         }
         if (!Cstr.isProxied) {
@@ -2846,6 +3030,7 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
         }
         {
           hostRef.$flags$ &= -9 /* isConstructingInstance */;
+          replayPendingSetterValues(hostRef, cmpMeta);
         }
         endNewInstance();
         const needsDeferredCallback = cmpMeta.$flags$ & 4 /* hasSlotRelocation */;
@@ -2892,7 +3077,7 @@ var initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId) => {
       hostRef.$onRenderResolve$();
       hostRef.$onRenderResolve$ = void 0;
     }
-    if (hostRef.$onReadyResolve$) {
+    if (hostRef.$onReadyResolve$ && !(hostRef.$flags$ & 1024 /* hasFailedLoad */)) {
       hostRef.$onReadyResolve$(elm);
     }
   }
@@ -2947,6 +3132,8 @@ var connectedCallback = (elm) => {
     } else {
       if (hostRef == null ? void 0 : hostRef.$lazyInstance$) {
         fireConnectedCallback(hostRef.$lazyInstance$, elm);
+      } else if (hostRef.$flags$ & 1024 /* hasFailedLoad */) {
+        setTimeout(() => initializeComponent(elm, hostRef, cmpMeta), LAZY_LOAD_RETRY_INTERVAL_MS);
       } else if (hostRef == null ? void 0 : hostRef.$onReadyPromise$) {
         hostRef.$onReadyPromise$.then(() => fireConnectedCallback(hostRef.$lazyInstance$, elm));
       }
@@ -4836,7 +5023,7 @@ function forceUpdate2() {
 }
 
 // src/hydrate/platform/hydrate-app.ts
-function hydrateApp(win2, opts, results, afterHydrate, resolve) {
+function hydrateApp(win2, opts, results, afterHydrate, resolve, abortController) {
   const connectedElements = /* @__PURE__ */ new Set();
   const createdElements = /* @__PURE__ */ new Set();
   const waitingElements = /* @__PURE__ */ new Set();
@@ -4846,6 +5033,13 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
   setScopedSSR(opts);
   let tmrId;
   let ranCompleted = false;
+  const abortedPromise = new Promise((res) => {
+    if (abortController.signal.aborted) {
+      res();
+    } else {
+      abortController.signal.addEventListener("abort", () => res(), { once: true });
+    }
+  });
   function hydratedComplete() {
     globalThis.clearTimeout(tmrId);
     createdElements.clear();
@@ -4867,6 +5061,7 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
   }
   function hydratedError(err2) {
     renderCatchError(opts, results, err2);
+    abortController.abort();
     hydratedComplete();
   }
   function timeoutExceeded() {
@@ -4912,7 +5107,7 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
       if (isValidComponent(elm, opts) && results.hydratedCount < opts.maxHydrateCount) {
         if (!connectedElements.has(elm) && shouldHydrate(elm)) {
           connectedElements.add(elm);
-          return hydrateComponent.call(elm, win2, results, elm.nodeName, elm, waitingElements);
+          return hydrateComponent.call(elm, win2, results, elm.nodeName, elm, waitingElements, abortedPromise);
         }
       }
       return resolved2;
@@ -4935,13 +5130,16 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
     };
     tmrId = globalThis.setTimeout(timeoutExceeded, opts.timeout);
     plt.$resourcesUrl$ = new URL(opts.resourcesUrl || "./", win2.document.baseURI).href;
+    if (Array.isArray(opts.modes)) {
+      opts.modes.forEach((mode) => setMode());
+    }
     patchChild2(win2.document.body);
     waitLoop2().then(hydratedComplete).catch(hydratedError);
   } catch (e) {
     hydratedError(e);
   }
 }
-async function hydrateComponent(win2, results, tagName, elm, waitingElements) {
+async function hydrateComponent(win2, results, tagName, elm, waitingElements, aborted) {
   tagName = tagName.toLowerCase();
   const Cstr = loadModule(
     {
@@ -4956,17 +5154,19 @@ async function hydrateComponent(win2, results, tagName, elm, waitingElements) {
       }
       try {
         connectedCallback(elm);
-        await elm.componentOnReady();
-        results.hydratedCount++;
-        const ref = getHostRef(elm);
-        const modeName = !(ref == null ? void 0 : ref.$modeName$) ? "$" : ref == null ? void 0 : ref.$modeName$;
-        if (!results.components.some((c) => c.tag === tagName && c.mode === modeName)) {
-          results.components.push({
-            tag: tagName,
-            mode: modeName,
-            count: 0,
-            depth: -1
-          });
+        const wasAborted = await Promise.race([elm.componentOnReady().then(() => false), aborted.then(() => true)]);
+        if (!wasAborted) {
+          results.hydratedCount++;
+          const ref = getHostRef(elm);
+          const modeName = !(ref == null ? void 0 : ref.$modeName$) ? "$" : ref == null ? void 0 : ref.$modeName$;
+          if (!results.components.some((c) => c.tag === tagName && c.mode === modeName)) {
+            results.components.push({
+              tag: tagName,
+              mode: modeName,
+              count: 0,
+              depth: -1
+            });
+          }
         }
       } catch (e) {
         win2.console.error(e);
@@ -5297,7 +5497,7 @@ exports.hydrateApp = hydrateApp;
 
 
     /*hydrateAppClosure end*/
-    hydrateApp(window, $stencilHydrateOpts, $stencilHydrateResults, $stencilAfterHydrate, $stencilHydrateResolve);
+    hydrateApp(window, $stencilHydrateOpts, $stencilHydrateResults, $stencilAfterHydrate, $stencilHydrateResolve, $stencilAbortController);
   }
 
   hydrateAppClosure($stencilWindow);
@@ -5392,7 +5592,7 @@ var NAMESPACE = (
 );
 
 /*
- Stencil Hydrate Runner v4.43.4 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.45.2 | MIT Licensed | https://stenciljs.com
  */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -5502,6 +5702,10 @@ var require_brace_expansion = __commonJS({
     var escClose = "\0CLOSE" + Math.random() + "\0";
     var escComma = "\0COMMA" + Math.random() + "\0";
     var escPeriod = "\0PERIOD" + Math.random() + "\0";
+    var EXPANSION_MAX = 1e5;
+    var EXPANSION_MAX_LENGTH = 4e6;
+    var EXPANSION_MAX_DEPTH = 1e3;
+    var EXPANSION_MAX_REWRITES = 1e3;
     function numeric(str) {
       return parseInt(str, 10) == str ? parseInt(str, 10) : str.charCodeAt(0);
     }
@@ -5511,33 +5715,49 @@ var require_brace_expansion = __commonJS({
     function unescapeBraces(str) {
       return str.split(escSlash).join("\\").split(escOpen).join("{").split(escClose).join("}").split(escComma).join(",").split(escPeriod).join(".");
     }
-    function parseCommaParts(str) {
-      if (!str)
-        return [""];
-      var parts = [];
-      var m = balanced("{", "}", str);
-      if (!m)
-        return str.split(",");
-      var pre = m.pre;
-      var body = m.body;
-      var post = m.post;
-      var p = pre.split(",");
-      p[p.length - 1] += "{" + body + "}";
-      var postParts = parseCommaParts(post);
-      if (post.length) {
-        p[p.length - 1] += postParts.shift();
-        p.push.apply(p, postParts);
+    function pushAll(target, items) {
+      for (var i = 0; i < items.length; i++) {
+        target.push(items[i]);
       }
-      parts.push.apply(parts, p);
-      return parts;
     }
-    function expandTop(str) {
+    function parseCommaParts(str) {
+      var parts = [];
+      var carry = "";
+      for (; ; ) {
+        var m = balanced("{", "}", str);
+        if (!m) {
+          var tail = str.split(",");
+          tail[0] = carry + tail[0];
+          pushAll(parts, tail);
+          return parts;
+        }
+        var pre = m.pre;
+        var body = m.body;
+        var post = m.post;
+        var p = pre.split(",");
+        p[0] = carry + p[0];
+        p[p.length - 1] += "{" + body + "}";
+        if (!post.length) {
+          pushAll(parts, p);
+          return parts;
+        }
+        carry = p.pop();
+        pushAll(parts, p);
+        str = post;
+      }
+    }
+    function expandTop(str, options) {
       if (!str)
         return [];
+      options = options || {};
+      var max = options.max == null ? EXPANSION_MAX : options.max;
+      var maxLength = options.maxLength == null ? EXPANSION_MAX_LENGTH : options.maxLength;
+      var maxDepth = options.maxDepth == null ? EXPANSION_MAX_DEPTH : options.maxDepth;
+      var maxRewrites = options.maxRewrites == null ? EXPANSION_MAX_REWRITES : options.maxRewrites;
       if (str.substr(0, 2) === "{}") {
         str = "\\{\\}" + str.substr(2);
       }
-      return expand2(escapeBraces(str), true).map(unescapeBraces);
+      return expand2(escapeBraces(str), max, maxLength, maxDepth, 0, maxRewrites, true).map(unescapeBraces);
     }
     function embrace(str) {
       return "{" + str + "}";
@@ -5551,93 +5771,165 @@ var require_brace_expansion = __commonJS({
     function gte(i, y) {
       return i >= y;
     }
-    function expand2(str, isTop) {
-      var expansions = [];
-      var m = balanced("{", "}", str);
-      if (!m) return [str];
-      var pre = m.pre;
-      var post = m.post.length ? expand2(m.post, false) : [""];
-      if (/\$$/.test(m.pre)) {
-        for (var k = 0; k < post.length; k++) {
-          var expansion = pre + "{" + m.body + "}" + post[k];
-          expansions.push(expansion);
+    function combine(acc, pre, values, max, maxLength, dropEmpties) {
+      var out = [];
+      var length = 0;
+      for (var a = 0; a < acc.length; a++) {
+        for (var v = 0; v < values.length; v++) {
+          if (out.length >= max) return out;
+          var expansion = acc[a] + pre + values[v];
+          if (dropEmpties && !expansion) continue;
+          if (length + expansion.length > maxLength) return out;
+          out.push(expansion);
+          length += expansion.length;
         }
-      } else {
+      }
+      return out;
+    }
+    function expandSequence(body, isAlphaSequence, max, maxLength) {
+      var n = body.split(/\.\./);
+      var N = [];
+      if (n[0] === void 0 || n[1] === void 0) {
+        return N;
+      }
+      var x = numeric(n[0]);
+      var y = numeric(n[1]);
+      var width = Math.max(n[0].length, n[1].length);
+      var incr = n.length === 3 && n[2] !== void 0 ? Math.max(Math.abs(numeric(n[2])), 1) : 1;
+      var test = lte;
+      var reverse = y < x;
+      if (reverse) {
+        incr *= -1;
+        test = gte;
+      }
+      var pad = n.some(isPadded);
+      var length = 0;
+      for (var i = x; test(i, y) && N.length < max; i += incr) {
+        var c;
+        if (isAlphaSequence) {
+          c = String.fromCharCode(i);
+          if (c === "\\") {
+            c = "";
+          }
+        } else {
+          c = String(i);
+          if (pad) {
+            var need = width - c.length;
+            if (need > 0) {
+              var z = new Array(need + 1).join("0");
+              if (i < 0) {
+                c = "-" + z + c.slice(1);
+              } else {
+                c = z + c;
+              }
+            }
+          }
+        }
+        if (length + c.length > maxLength) break;
+        N.push(c);
+        length += c.length;
+      }
+      return N;
+    }
+    function expand2(str, max, maxLength, maxDepth, depth, maxRewrites, isTop) {
+      if (depth > maxDepth) {
+        return [str];
+      }
+      var acc = [""];
+      var rewrites = 0;
+      var dropEmpties = false;
+      var firstGroup = true;
+      for (; ; ) {
+        const m = balanced("{", "}", str);
+        if (!m) {
+          return combine(acc, str, [""], max, maxLength, dropEmpties);
+        }
+        const pre = m.pre;
+        if (/\$$/.test(pre)) {
+          acc = combine(
+            acc,
+            pre + "{" + m.body + "}",
+            [""],
+            max,
+            maxLength,
+            dropEmpties && !m.post.length
+          );
+          firstGroup = false;
+          if (!m.post.length) break;
+          str = m.post;
+          continue;
+        }
         var isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m.body);
         var isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m.body);
         var isSequence = isNumericSequence || isAlphaSequence;
         var isOptions = m.body.indexOf(",") >= 0;
         if (!isSequence && !isOptions) {
-          if (m.post.match(/,(?!,).*\}/)) {
+          if (rewrites < maxRewrites && m.post.match(/,(?!,).*\}/)) {
+            rewrites++;
             str = m.pre + "{" + m.body + escClose + m.post;
-            return expand2(str);
+            isTop = true;
+            continue;
           }
-          return [str];
+          return combine(
+            acc,
+            pre + "{" + m.body + "}" + m.post,
+            [""],
+            max,
+            maxLength,
+            dropEmpties
+          );
         }
-        var n;
+        if (firstGroup) {
+          dropEmpties = isTop && !isSequence;
+          firstGroup = false;
+        }
+        var values;
         if (isSequence) {
-          n = m.body.split(/\.\./);
+          values = expandSequence(m.body, isAlphaSequence, max, maxLength);
         } else {
-          n = parseCommaParts(m.body);
-          if (n.length === 1) {
-            n = expand2(n[0], false).map(embrace);
+          var n = parseCommaParts(m.body);
+          if (n.length === 1 && n[0] !== void 0) {
+            n = expand2(n[0], max, maxLength, maxDepth, depth + 1, maxRewrites, false).map(embrace);
             if (n.length === 1) {
-              return post.map(function(p) {
-                return m.pre + n[0] + p;
-              });
+              acc = combine(
+                acc,
+                pre + n[0],
+                [""],
+                max,
+                maxLength,
+                dropEmpties && !m.post.length
+              );
+              if (!m.post.length) break;
+              str = m.post;
+              continue;
             }
           }
-        }
-        var N;
-        if (isSequence) {
-          var x = numeric(n[0]);
-          var y = numeric(n[1]);
-          var width = Math.max(n[0].length, n[1].length);
-          var incr = n.length == 3 ? Math.abs(numeric(n[2])) : 1;
-          var test = lte;
-          var reverse = y < x;
-          if (reverse) {
-            incr *= -1;
-            test = gte;
+          var dropsEmpties = dropEmpties && !m.post.length && !pre;
+          for (var d = 0; dropsEmpties && d < acc.length; d++) {
+            if (acc[d]) {
+              dropsEmpties = false;
+            }
           }
-          var pad = n.some(isPadded);
-          N = [];
-          for (var i = x; test(i, y); i += incr) {
-            var c;
-            if (isAlphaSequence) {
-              c = String.fromCharCode(i);
-              if (c === "\\")
-                c = "";
-            } else {
-              c = String(i);
-              if (pad) {
-                var need = width - c.length;
-                if (need > 0) {
-                  var z = new Array(need + 1).join("0");
-                  if (i < 0)
-                    c = "-" + z + c.slice(1);
-                  else
-                    c = z + c;
-                }
+          values = [];
+          var valuesLength = 0;
+          outer: for (var j = 0; j < n.length; j++) {
+            var expanded = expand2(n[j], max, maxLength, maxDepth, depth + 1, maxRewrites, false);
+            for (var k = 0; k < expanded.length; k++) {
+              var v = expanded[k];
+              if (dropsEmpties && !v) continue;
+              if (values.length >= max || valuesLength + v.length > maxLength) {
+                break outer;
               }
+              values.push(v);
+              valuesLength += v.length;
             }
-            N.push(c);
-          }
-        } else {
-          N = [];
-          for (var j = 0; j < n.length; j++) {
-            N.push.apply(N, expand2(n[j], false));
           }
         }
-        for (var j = 0; j < N.length; j++) {
-          for (var k = 0; k < post.length; k++) {
-            var expansion = pre + N[j] + post[k];
-            if (!isTop || isSequence || expansion)
-              expansions.push(expansion);
-          }
-        }
+        acc = combine(acc, pre, values, max, maxLength, dropEmpties && !m.post.length);
+        if (!m.post.length) break;
+        str = m.post;
       }
-      return expansions;
+      return acc;
     }
   }
 });
@@ -16365,13 +16657,15 @@ var MockTokenList = class {
     token = String(token);
     return getItems(this.elm, this.attr).includes(token);
   }
-  toggle(token) {
+  toggle(token, force) {
     token = String(token);
-    if (this.contains(token) === true) {
-      this.remove(token);
-    } else {
+    const shouldAdd = force === void 0 ? !this.contains(token) : !!force;
+    if (shouldAdd) {
       this.add(token);
+    } else {
+      this.remove(token);
     }
+    return shouldAdd;
   }
   get length() {
     return getItems(this.elm, this.attr).length;
@@ -19539,11 +19833,14 @@ function resetWindow(win2) {
       } catch (e) {
       }
     }
-    win2.fetch = null;
-    win2.Headers = null;
-    win2.Request = null;
-    win2.Response = null;
-    win2.FetchError = null;
+    const windowDestroyed = () => {
+      throw new Error("MockWindow was already destroyed");
+    };
+    win2.fetch = windowDestroyed;
+    win2.Headers = windowDestroyed;
+    win2.Request = windowDestroyed;
+    win2.Response = windowDestroyed;
+    win2.FetchError = windowDestroyed;
   }
 }
 function resetWindowDimensions(win2) {
@@ -19942,9 +20239,6 @@ var _cssColonHostRe = new RegExp("(" + _polyfillHost + _parenSuffix, "gim");
 var _cssColonHostContextRe = new RegExp("(" + _polyfillHostContext + _parenSuffix, "gim");
 var _cssColonSlottedRe = new RegExp("(" + _polyfillSlotted + _parenSuffix, "gim");
 var _polyfillHostNoCombinator = _polyfillHost + "-no-combinator";
-
-// src/runtime/mode.ts
-var setMode = (handler) => modeResolutionChain.push(handler);
 
 // src/utils/local-value.ts
 var LocalValue = class _LocalValue {
@@ -22022,6 +22316,37 @@ var relocateMetaCharset = (doc) => {
 };
 
 // src/compiler/style/css-parser/parse-css.ts
+var splitSelectorList = (selectors) => {
+  const parts = [];
+  let depth = 0;
+  let quote = null;
+  let start = 0;
+  for (let i = 0; i < selectors.length; i++) {
+    const ch = selectors[i];
+    if (quote) {
+      if (ch === "\\") {
+        i++;
+      } else if (ch === quote) {
+        quote = null;
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+    } else if (ch === "\\") {
+      i++;
+    } else if (ch === "(") {
+      depth++;
+    } else if (ch === ")") {
+      depth = Math.max(0, depth - 1);
+    } else if (ch === "," && depth === 0) {
+      parts.push(selectors.slice(start, i));
+      start = i + 1;
+    }
+  }
+  parts.push(selectors.slice(start));
+  return parts.map((s) => s.trim());
+};
 var parseCss = (css, filePath) => {
   let lineno = 1;
   let column = 1;
@@ -22143,11 +22468,8 @@ var parseCss = (css, filePath) => {
   const selector = () => {
     const m = match2(/^([^{]+)/);
     if (!m) return null;
-    return trim(m[0]).replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*\/+/g, "").replace(/"(?:\\"|[^"])*"|'(?:\\'|[^'])*'/g, function(m2) {
-      return m2.replace(/,/g, "\u200C");
-    }).split(/\s*(?![^(]*\)),\s*/).map(function(s) {
-      return s.replace(/\u200C/g, ",");
-    });
+    const cleaned = trim(m[0]).replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*\/+/g, "");
+    return splitSelectorList(cleaned);
   };
   const declaration = () => {
     const pos = position();
@@ -23321,10 +23643,6 @@ async function render2(win2, opts, results) {
   try {
     await Promise.resolve(beforeHydrateFn(win2.document));
     return new Promise((resolve) => {
-      if (Array.isArray(opts.modes)) {
-        modeResolutionChain.length = 0;
-        opts.modes.forEach((mode) => setMode(mode));
-      }
       return hydrateFactory(win2, opts, results, afterHydrate, resolve);
     });
   } catch (e) {
